@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>IRIS Pro — Available Jobs</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --blue:#0B96D0;--cyan:#00ACE4;--green:#00C87A;
+  --page-bg:#070E14;--page-text:#E8F4FB;--page-muted:#7BAACC;
+  --phone-bg:#111111;--card:#1C1C1E;--card2:#2C2C2E;
+  --border:rgba(255,255,255,.08);--muted:#8E8E93;
+}
+body{font-family:'Outfit',sans-serif;background:var(--page-bg);color:var(--page-text);min-height:100vh;overflow-x:hidden}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(7,14,20,.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(11,150,208,.2);padding:0 32px;height:60px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.logo-mark{width:32px;height:32px;background:linear-gradient(135deg,#0B96D0,#00ACE4);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:#fff;letter-spacing:-0.5px}
+.logo-text{font-size:18px;font-weight:700;color:#E8F4FB;letter-spacing:1px}
+.nav-links{display:flex;align-items:center;gap:8px}
+.nav-dropdown{position:relative;display:inline-block}
+.nav-btn{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:8px;color:#E8F4FB;padding:6px 14px;font-size:13px;font-weight:500;font-family:'Outfit',sans-serif;cursor:pointer;display:flex;align-items:center;gap:6px;transition:all .2s}
+.nav-btn:hover{background:rgba(11,150,208,.15);border-color:rgba(11,150,208,.4)}
+.nav-btn .chevron{font-size:10px;opacity:.6}
+.dropdown-menu{display:none;position:absolute;top:calc(100% + 8px);right:0;background:rgba(12,20,28,.95);border:1px solid rgba(11,150,208,.2);border-radius:12px;padding:8px;min-width:200px;z-index:200;backdrop-filter:blur(20px)}
+.nav-dropdown:hover .dropdown-menu{display:block}
+.dropdown-section{font-size:10px;font-weight:700;color:#7BAACC;text-transform:uppercase;letter-spacing:1px;padding:6px 10px 4px}
+.dropdown-link{display:block;padding:7px 10px;border-radius:7px;color:#E8F4FB;text-decoration:none;font-size:13px;font-weight:500;transition:all .2s}
+.dropdown-link:hover{background:rgba(11,150,208,.15);color:#00ACE4}
+.dropdown-link.active-page{color:#00ACE4;background:rgba(11,150,208,.1)}
+.dropdown-divider{height:1px;background:rgba(255,255,255,.06);margin:4px 0}
+.nav-hub-link{color:#7BAACC;text-decoration:none;font-size:13px;font-weight:500;padding:6px 10px;border-radius:8px;transition:all .2s}
+.nav-hub-link:hover{color:#E8F4FB;background:rgba(255,255,255,.06)}
+
+/* PAGE HERO */
+.hero{padding:100px 40px 48px;text-align:center}
+.hero-breadcrumb{display:flex;align-items:center;justify-content:center;gap:8px;font-size:12px;color:var(--page-muted);margin-bottom:16px}
+.hero-breadcrumb a{color:var(--page-muted);text-decoration:none;transition:color .2s}
+.hero-breadcrumb a:hover{color:var(--blue)}
+.hero-breadcrumb span{opacity:.4}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(11,150,208,.12);border:1px solid rgba(11,150,208,.25);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:600;color:#00ACE4;margin-bottom:20px}
+.hero-title{font-size:clamp(28px,5vw,48px);font-weight:800;letter-spacing:-1px;margin-bottom:12px;background:linear-gradient(135deg,#E8F4FB 0%,#7BAACC 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-sub{font-size:16px;color:var(--page-muted);max-width:500px;margin:0 auto;line-height:1.6}
+
+/* PHONES SECTION */
+.phones-section{padding:0 40px 60px;display:flex;justify-content:center;gap:48px;flex-wrap:wrap;align-items:flex-start}
+.phone-column{display:flex;flex-direction:column;align-items:center;gap:20px}
+.phone-label{font-size:13px;font-weight:600;color:var(--page-muted);text-transform:uppercase;letter-spacing:1px;text-align:center}
+
+/* PHONE FRAME */
+.phone-frame{width:280px;border-radius:48px;background:#0a0a0a;border:2px solid rgba(255,255,255,.15);box-shadow:0 0 0 8px rgba(255,255,255,.03),0 40px 100px rgba(0,0,0,.8);padding:14px;flex-shrink:0}
+.phone-notch{width:100px;height:26px;background:#0a0a0a;border-radius:0 0 18px 18px;margin:0 auto 2px}
+.phone-screen{border-radius:36px;overflow:hidden;min-height:580px;display:flex;flex-direction:column;background:#111111;color:#fff}
+.status-bar{display:flex;justify-content:space-between;align-items:center;padding:8px 20px 4px;font-size:11px;font-weight:700;background:#111111;flex-shrink:0}
+.status-icons{display:flex;gap:4px;align-items:center}
+.tab-bar{display:flex;padding:8px 0 0;border-top:1px solid rgba(255,255,255,.1);background:#111111;margin-top:auto;flex-shrink:0}
+.tab-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:4px 0 8px;font-size:10px;font-weight:600;opacity:.4;color:#fff;cursor:pointer;transition:opacity .2s}
+.tab-item.active{opacity:1;color:#0B96D0}
+.tab-item svg{width:18px;height:18px}
+.home-indicator{height:20px;display:flex;align-items:center;justify-content:center;padding-bottom:4px;background:#111111;flex-shrink:0}
+.home-indicator::after{content:'';width:120px;height:4px;border-radius:2px;background:#fff;opacity:.2}
+
+/* SCREEN CONTENT */
+.screen-body{flex:1;overflow:hidden;display:flex;flex-direction:column}
+.screen-header{padding:16px 18px 10px;background:#111111;flex-shrink:0}
+.header-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.header-title{font-size:20px;font-weight:800;color:#fff}
+.online-badge{display:flex;align-items:center;gap:5px;background:rgba(0,200,122,.12);border:1px solid rgba(0,200,122,.3);border-radius:14px;padding:4px 10px;font-size:11px;font-weight:700;color:#00C87A}
+.online-dot{width:7px;height:7px;background:#00C87A;border-radius:50%}
+.location-chip{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:4px 10px;font-size:11px;color:#E8F4FB;font-weight:500}
+.filter-row{display:flex;gap:6px;padding:8px 18px 4px;overflow-x:auto;flex-shrink:0}
+.filter-row::-webkit-scrollbar{display:none}
+.filter-chip{border-radius:16px;padding:5px 12px;font-size:11px;font-weight:600;white-space:nowrap;border:1px solid rgba(255,255,255,.12);color:#8E8E93;background:transparent;flex-shrink:0}
+.filter-chip.selected{background:linear-gradient(135deg,#0B96D0,#00ACE4);color:#fff;border-color:transparent}
+.jobs-list{flex:1;overflow:hidden;padding:8px 12px;display:flex;flex-direction:column;gap:8px}
+
+/* JOB CARD */
+.job-card{background:#1C1C1E;border-radius:14px;padding:12px;border:1px solid rgba(255,255,255,.06)}
+.job-card.faded{opacity:.55}
+.job-card-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.job-type{font-size:13px;font-weight:700;color:#fff}
+.job-price{font-size:15px;font-weight:800;color:#fff}
+.job-customer-row{display:flex;align-items:center;gap:6px;margin-bottom:6px}
+.customer-avatar{width:26px;height:26px;background:linear-gradient(135deg,#0B96D0,#00ACE4);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;color:#fff;flex-shrink:0}
+.customer-name{font-size:11px;color:#8E8E93;font-weight:500}
+.job-rating{font-size:10px;color:#FFA500;font-weight:600}
+.job-meta{font-size:10px;color:#8E8E93;margin-bottom:5px;display:flex;align-items:center;gap:4px}
+.job-meta-row2{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.job-tag{display:inline-flex;align-items:center;gap:3px;border-radius:8px;padding:2px 7px;font-size:10px;font-weight:600}
+.tag-tools{background:rgba(255,255,255,.06);color:#8E8E93;border:1px solid rgba(255,255,255,.08)}
+.tag-earn{background:rgba(0,200,122,.1);color:#00C87A;border:1px solid rgba(0,200,122,.2)}
+.job-actions{display:flex;gap:6px}
+.btn-accept{flex:1;background:linear-gradient(135deg,#0B96D0,#00ACE4);border:none;border-radius:10px;color:#fff;font-size:11px;font-weight:700;padding:7px 0;font-family:'Outfit',sans-serif;cursor:pointer}
+.btn-decline{flex:1;background:transparent;border:1px solid rgba(255,255,255,.15);border-radius:10px;color:#8E8E93;font-size:11px;font-weight:600;padding:7px 0;font-family:'Outfit',sans-serif;cursor:pointer}
+.taken-pill{display:inline-flex;align-items:center;gap:4px;background:rgba(255,165,0,.15);border:1px solid rgba(255,165,0,.3);border-radius:10px;padding:3px 8px;font-size:10px;font-weight:700;color:#FFA500}
+
+/* DETAIL PHONE */
+.detail-header{display:flex;align-items:center;justify-content:space-between;padding:12px 16px 8px;background:#111111;flex-shrink:0}
+.back-btn{width:30px;height:30px;background:rgba(255,255,255,.08);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:14px;cursor:pointer}
+.detail-title{font-size:15px;font-weight:700;color:#fff}
+.share-btn{width:30px;height:30px;background:rgba(255,255,255,.08);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:12px;cursor:pointer}
+.map-area{height:155px;background:linear-gradient(180deg,#0D1A24 0%,#1A2A3A 100%);flex-shrink:0;position:relative;overflow:hidden}
+.map-road-h{position:absolute;height:6px;background:rgba(255,255,255,.12);border-radius:3px;left:0;right:0}
+.map-road-v{position:absolute;width:6px;background:rgba(255,255,255,.12);border-radius:3px;top:0;bottom:0}
+.map-pin-blue{position:absolute;width:16px;height:16px;background:#0B96D0;border-radius:50%;border:2px solid #fff;box-shadow:0 0 12px rgba(11,150,208,.7)}
+.map-route-info{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.7);backdrop-filter:blur(10px);border-radius:12px;padding:4px 12px;font-size:10px;font-weight:700;color:#fff;white-space:nowrap}
+.detail-scroll{flex:1;overflow:hidden;padding:10px 12px;display:flex;flex-direction:column;gap:8px}
+.detail-card{background:#1C1C1E;border-radius:14px;padding:12px;border:1px solid rgba(255,255,255,.06)}
+.detail-card-title{font-size:13px;font-weight:700;color:#fff;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between}
+.pill-pending{display:inline-flex;align-items:center;background:rgba(11,150,208,.15);border:1px solid rgba(11,150,208,.3);border-radius:8px;padding:2px 8px;font-size:9px;font-weight:700;color:#00ACE4}
+.detail-divider{height:1px;background:rgba(255,255,255,.06);margin:8px 0}
+.detail-row{display:flex;align-items:flex-start;gap:6px;margin-bottom:6px;font-size:10px}
+.detail-row-icon{flex-shrink:0;width:14px;text-align:center;font-size:11px}
+.detail-row-label{color:#8E8E93;flex-shrink:0;min-width:60px}
+.detail-row-val{color:#E8F4FB;font-weight:500;flex:1}
+.earnings-card{background:#1C1C1E;border-radius:14px;padding:12px;border:1px solid rgba(0,200,122,.15)}
+.earnings-row{display:flex;justify-content:space-between;align-items:center;font-size:11px;margin-bottom:4px}
+.earnings-row .label{color:#8E8E93}
+.earnings-row .amount{color:#E8F4FB;font-weight:600}
+.earnings-divider{height:1px;background:rgba(255,255,255,.06);margin:6px 0}
+.earnings-total{display:flex;justify-content:space-between;align-items:center}
+.earnings-total .label{font-size:12px;font-weight:700;color:#E8F4FB}
+.earnings-total .amount{font-size:16px;font-weight:800;color:#00C87A}
+.detail-btns{padding:8px 12px;display:flex;gap:8px;flex-shrink:0}
+.btn-accept-lg{flex:1;background:linear-gradient(135deg,#0B96D0,#00ACE4);border:none;border-radius:14px;color:#fff;font-size:12px;font-weight:700;padding:11px 0;font-family:'Outfit',sans-serif;cursor:pointer}
+.btn-decline-lg{flex:1;background:transparent;border:1.5px solid rgba(220,53,69,.4);border-radius:14px;color:#DC3545;font-size:12px;font-weight:600;padding:11px 0;font-family:'Outfit',sans-serif;cursor:pointer}
+
+/* ANNOTATIONS */
+.annotations{max-width:900px;margin:0 auto 60px;padding:0 40px;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+.annotation-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:18px}
+.annotation-card h4{font-size:12px;font-weight:700;color:#00ACE4;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px}
+.annotation-card p{font-size:12px;color:#7BAACC;line-height:1.7}
+.annotation-card code{background:rgba(11,150,208,.12);border:1px solid rgba(11,150,208,.2);border-radius:5px;padding:1px 6px;font-size:11px;color:#00ACE4;font-family:monospace}
+
+/* FOOTER */
+footer{border-top:1px solid rgba(255,255,255,.05);padding:32px 40px;text-align:center;color:#7BAACC;font-size:12px}
+footer span{color:#0B96D0;font-weight:600}
+
+@media(max-width:700px){
+  .phones-section{gap:32px;padding:0 20px 40px}
+  .hero{padding:90px 20px 32px}
+  .annotations{padding:0 20px}
+  nav{padding:0 16px}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="../index.html" class="nav-logo">
+    <div class="logo-mark">IR</div>
+    <span class="logo-text">IRIS</span>
+  </a>
+  <div class="nav-links">
+    <a href="../index.html" class="nav-hub-link">Design Hub</a>
+    <div class="nav-dropdown">
+      <button class="nav-btn">Customer App <span class="chevron">▾</span></button>
+      <div class="dropdown-menu">
+        <div class="dropdown-section">Customer App</div>
+        <a href="../customer/auth.html" class="dropdown-link">Auth / Onboarding</a>
+        <a href="../customer/home.html" class="dropdown-link">Home</a>
+        <a href="../customer/book.html" class="dropdown-link">Book a Service</a>
+        <a href="../customer/track.html" class="dropdown-link">Track Order</a>
+        <a href="../customer/history.html" class="dropdown-link">History</a>
+        <a href="../customer/profile.html" class="dropdown-link">Profile</a>
+      </div>
+    </div>
+    <div class="nav-dropdown">
+      <button class="nav-btn" style="border-color:rgba(11,150,208,.4);color:#00ACE4">Pro App <span class="chevron">▾</span></button>
+      <div class="dropdown-menu">
+        <div class="dropdown-section">Professional App</div>
+        <a href="jobs.html" class="dropdown-link active-page">Available Jobs</a>
+        <a href="active.html" class="dropdown-link">Active Job</a>
+        <a href="earnings.html" class="dropdown-link">Earnings</a>
+        <a href="profile.html" class="dropdown-link">Profile</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-breadcrumb">
+    <a href="../index.html">Design Hub</a>
+    <span>›</span>
+    <a href="jobs.html">Pro App</a>
+    <span>›</span>
+    <span style="color:#E8F4FB">Available Jobs</span>
+  </div>
+  <div class="hero-badge">
+    <svg width="10" height="10" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5" fill="#00C87A"/></svg>
+    Professional App · Screen 1 of 4
+  </div>
+  <h1 class="hero-title">Available Jobs</h1>
+  <p class="hero-sub">Job discovery feed with smart filters, earnings breakdown, and one-tap accept flow.</p>
+</section>
+
+<!-- PHONES -->
+<section class="phones-section">
+
+  <!-- Phone 1: Jobs List -->
+  <div class="phone-column">
+    <div class="phone-label">Jobs Feed</div>
+    <div class="phone-frame">
+      <div class="phone-notch"></div>
+      <div class="phone-screen">
+        <div class="status-bar">
+          <span>9:41</span>
+          <div class="status-icons">
+            <svg width="14" height="10" viewBox="0 0 14 10"><rect x="0" y="4" width="3" height="6" rx="1" fill="white"/><rect x="4" y="2.5" width="3" height="7.5" rx="1" fill="white"/><rect x="8" y="1" width="3" height="9" rx="1" fill="white"/><rect x="12" y="0" width="2" height="10" rx="1" fill="white" opacity=".3"/></svg>
+            <svg width="12" height="10" viewBox="0 0 12 10"><path d="M6 2C3.5 2 1.3 3.1 0 4.8L1.5 6.2C2.5 4.9 4.2 4 6 4s3.5.9 4.5 2.2L12 4.8C10.7 3.1 8.5 2 6 2z" fill="white" opacity=".6"/><path d="M6 5.5C4.7 5.5 3.5 6.1 2.8 7L4.3 8.5C4.8 7.9 5.4 7.5 6 7.5s1.2.4 1.7 1L9.2 7C8.5 6.1 7.3 5.5 6 5.5z" fill="white"/><circle cx="6" cy="9" r="1" fill="white"/></svg>
+            <svg width="22" height="10" viewBox="0 0 22 10"><rect x="0" y="1" width="18" height="8" rx="2" stroke="white" stroke-width="1.2" fill="none" opacity=".6"/><rect x="1.5" y="2.5" width="12" height="5" rx="1" fill="white"/><path d="M19.5 3.5v3a1.5 1.5 0 000-3z" fill="white" opacity=".4"/></svg>
+          </div>
+        </div>
+
+        <div class="screen-header">
+          <div class="header-row">
+            <span class="header-title">Available Jobs</span>
+            <div class="online-badge">
+              <div class="online-dot"></div>
+              Online
+            </div>
+          </div>
+          <div class="location-chip">📍 Tunis, TN</div>
+        </div>
+
+        <div class="filter-row">
+          <div class="filter-chip selected">All</div>
+          <div class="filter-chip">Nearby</div>
+          <div class="filter-chip">High Payout</div>
+          <div class="filter-chip">Quick Jobs</div>
+        </div>
+
+        <div class="jobs-list">
+          <!-- Card 1 -->
+          <div class="job-card">
+            <div class="job-card-top">
+              <span class="job-type">✨ Quick Wash</span>
+              <span class="job-price">25 DT</span>
+            </div>
+            <div class="job-customer-row">
+              <div class="customer-avatar">M.G</div>
+              <span class="customer-name">Customer</span>
+              <span class="job-rating" style="margin-left:auto">⭐ 4.8</span>
+            </div>
+            <div class="job-meta">📍 0.8 km away — 123 Habib Bourguiba, Tunis</div>
+            <div class="job-meta-row2">
+              <span class="job-tag tag-tools">🔧 No tools</span>
+              <span class="job-tag tag-earn">💰 18.75 DT</span>
+            </div>
+            <div style="font-size:9px;color:#8E8E93;margin-bottom:8px">🕐 Requested 2 min ago &nbsp;⚡ ~20 min job</div>
+            <div class="job-actions">
+              <button class="btn-accept">Accept</button>
+              <button class="btn-decline">Decline</button>
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="job-card">
+            <div class="job-card-top">
+              <span class="job-type">💎 Premium Wash</span>
+              <span class="job-price">75 DT</span>
+            </div>
+            <div class="job-customer-row">
+              <div class="customer-avatar" style="background:linear-gradient(135deg,#6c5ce7,#a29bfe)">K.B</div>
+              <span class="customer-name">Customer</span>
+              <span class="job-rating" style="margin-left:auto">⭐ 4.5</span>
+            </div>
+            <div class="job-meta">📍 1.4 km away</div>
+            <div class="job-meta-row2">
+              <span class="job-tag tag-tools" style="color:#00C87A;background:rgba(0,200,122,.08);border-color:rgba(0,200,122,.2)">🔧 Has tools</span>
+              <span class="job-tag tag-earn">💰 63.75 DT</span>
+            </div>
+            <div style="font-size:9px;color:#8E8E93;margin-bottom:8px">🕐 5 min ago &nbsp;⚡ ~90 min</div>
+            <div class="job-actions">
+              <button class="btn-accept">Accept</button>
+              <button class="btn-decline">Decline</button>
+            </div>
+          </div>
+
+          <!-- Card 3 faded -->
+          <div class="job-card faded">
+            <div class="job-card-top">
+              <span class="job-type">🧹 Full Clean</span>
+              <span class="job-price">45 DT</span>
+            </div>
+            <div class="job-meta" style="margin-bottom:6px">📍 2.1 km away</div>
+            <div class="taken-pill">⏳ Just taken</div>
+          </div>
+        </div>
+
+        <div class="tab-bar">
+          <div class="tab-item active">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+            Jobs
+          </div>
+          <div class="tab-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="8"/></svg>
+            Active
+          </div>
+          <div class="tab-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            Earnings
+          </div>
+          <div class="tab-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            Profile
+          </div>
+        </div>
+        <div class="home-indicator"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Phone 2: Job Detail -->
+  <div class="phone-column">
+    <div class="phone-label">Job Detail</div>
+    <div class="phone-frame">
+      <div class="phone-notch"></div>
+      <div class="phone-screen">
+        <div class="status-bar">
+          <span>9:41</span>
+          <div class="status-icons">
+            <svg width="14" height="10" viewBox="0 0 14 10"><rect x="0" y="4" width="3" height="6" rx="1" fill="white"/><rect x="4" y="2.5" width="3" height="7.5" rx="1" fill="white"/><rect x="8" y="1" width="3" height="9" rx="1" fill="white"/><rect x="12" y="0" width="2" height="10" rx="1" fill="white" opacity=".3"/></svg>
+            <svg width="22" height="10" viewBox="0 0 22 10"><rect x="0" y="1" width="18" height="8" rx="2" stroke="white" stroke-width="1.2" fill="none" opacity=".6"/><rect x="1.5" y="2.5" width="12" height="5" rx="1" fill="white"/><path d="M19.5 3.5v3a1.5 1.5 0 000-3z" fill="white" opacity=".4"/></svg>
+          </div>
+        </div>
+
+        <div class="detail-header">
+          <div class="back-btn">←</div>
+          <span class="detail-title">Job Details</span>
+          <div class="share-btn">⬆</div>
+        </div>
+
+        <!-- Map -->
+        <div class="map-area">
+          <div class="map-road-h" style="top:40%"></div>
+          <div class="map-road-h" style="top:65%"></div>
+          <div class="map-road-v" style="left:30%"></div>
+          <div class="map-road-v" style="left:60%"></div>
+          <div class="map-pin-blue" style="top:38%;left:58%;transform:translate(-50%,-50%)">
+            <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:8px">📍</div>
+          </div>
+          <div style="position:absolute;bottom:10px;left:12px;font-size:9px;color:rgba(255,255,255,.4)">© Map data</div>
+          <div class="map-route-info">🗺 Route: 0.8 km — ~4 min drive</div>
+        </div>
+
+        <div class="detail-scroll">
+          <!-- Job info card -->
+          <div class="detail-card">
+            <div class="detail-card-title">
+              ✨ Quick Wash
+              <span class="pill-pending">Pending</span>
+            </div>
+            <div class="detail-divider"></div>
+            <div class="detail-row">
+              <span class="detail-row-icon">👤</span>
+              <div style="display:flex;align-items:center;gap:6px;flex:1">
+                <div class="customer-avatar" style="width:22px;height:22px;font-size:8px">M.G</div>
+                <span style="color:#E8F4FB;font-size:11px;font-weight:600">Maamoun G.</span>
+                <span style="color:#FFA500;font-size:10px;margin-left:auto">⭐ 4.8</span>
+              </div>
+            </div>
+            <div class="detail-row">
+              <span class="detail-row-icon">📍</span>
+              <span class="detail-row-label">Address</span>
+              <span class="detail-row-val">123 Habib Bourguiba Ave, Tunis</span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-row-icon">🕐</span>
+              <span class="detail-row-label">Scheduled</span>
+              <span class="detail-row-val" style="color:#00ACE4">ASAP / Immediate</span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-row-icon">🚗</span>
+              <span class="detail-row-label">Car</span>
+              <span class="detail-row-val">Toyota Corolla — White</span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-row-icon">🔧</span>
+              <span class="detail-row-label">Tools</span>
+              <span class="detail-row-val" style="color:#FFA500">Not provided</span>
+            </div>
+            <div class="detail-row" style="margin-bottom:0">
+              <span class="detail-row-icon">⚡</span>
+              <span class="detail-row-label">Duration</span>
+              <span class="detail-row-val">~20 minutes</span>
+            </div>
+          </div>
+
+          <!-- Earnings breakdown -->
+          <div class="earnings-card">
+            <div style="font-size:11px;font-weight:700;color:#E8F4FB;margin-bottom:8px">💰 Earnings Breakdown</div>
+            <div class="earnings-row">
+              <span class="label">Service price</span>
+              <span class="amount">25.00 DT</span>
+            </div>
+            <div class="earnings-row">
+              <span class="label">Commission (25%)</span>
+              <span class="amount" style="color:#DC3545">−6.25 DT</span>
+            </div>
+            <div class="earnings-divider"></div>
+            <div class="earnings-total">
+              <span class="label">Your earnings</span>
+              <span class="amount">18.75 DT</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="detail-btns">
+          <button class="btn-accept-lg">Accept Job</button>
+          <button class="btn-decline-lg">Decline</button>
+        </div>
+
+        <div class="tab-bar">
+          <div class="tab-item active">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+            Jobs
+          </div>
+          <div class="tab-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="8"/></svg>
+            Active
+          </div>
+          <div class="tab-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            Earnings
+          </div>
+          <div class="tab-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            Profile
+          </div>
+        </div>
+        <div class="home-indicator"></div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- ANNOTATIONS -->
+<section class="annotations">
+  <div class="annotation-card">
+    <h4>Job Card Components</h4>
+    <p>Each card shows service type, price, customer rating, distance, tool availability, and net earnings. Cards use <code>#1C1C1E</code> background with <code>border-radius: 14px</code>. Taken jobs are shown at 55% opacity.</p>
+  </div>
+  <div class="annotation-card">
+    <h4>Earnings Formula</h4>
+    <p>Net earnings displayed in <code>#00C87A</code> green. Platform commission is 25% — deducted visually on the detail screen before the professional accepts. Full breakdown shown pre-commit.</p>
+  </div>
+  <div class="annotation-card">
+    <h4>Online Status Toggle</h4>
+    <p>Green badge <code>rgba(0,200,122,.12)</code> with pulsing dot. Toggle controls job visibility in the feed. Going offline hides the professional from the dispatch queue entirely.</p>
+  </div>
+  <div class="annotation-card">
+    <h4>Map Detail View</h4>
+    <p>Dark map style <code>#0D1A24 → #1A2A3A</code> gradient. Shows estimated drive distance and time before accepting. Customer pin uses IRIS blue <code>#0B96D0</code> with glow shadow.</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>IRIS Design System · Pro App · <span>Available Jobs</span> · Screen 1 of 4</p>
+  <p style="margin-top:6px;opacity:.5">© 2025 IRIS Platform. Internal design documentation.</p>
+</footer>
+
+</body>
+</html>

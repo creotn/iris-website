@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>IRIS Pro — Active Job</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --blue:#0B96D0;--cyan:#00ACE4;--green:#00C87A;
+  --page-bg:#070E14;--page-text:#E8F4FB;--page-muted:#7BAACC;
+  --phone-bg:#111111;--card:#1C1C1E;--card2:#2C2C2E;
+  --border:rgba(255,255,255,.08);--muted:#8E8E93;
+}
+body{font-family:'Outfit',sans-serif;background:var(--page-bg);color:var(--page-text);min-height:100vh;overflow-x:hidden}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(7,14,20,.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(11,150,208,.2);padding:0 32px;height:60px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.logo-mark{width:32px;height:32px;background:linear-gradient(135deg,#0B96D0,#00ACE4);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:#fff;letter-spacing:-0.5px}
+.logo-text{font-size:18px;font-weight:700;color:#E8F4FB;letter-spacing:1px}
+.nav-links{display:flex;align-items:center;gap:8px}
+.nav-dropdown{position:relative;display:inline-block}
+.nav-btn{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:8px;color:#E8F4FB;padding:6px 14px;font-size:13px;font-weight:500;font-family:'Outfit',sans-serif;cursor:pointer;display:flex;align-items:center;gap:6px;transition:all .2s}
+.nav-btn:hover{background:rgba(11,150,208,.15);border-color:rgba(11,150,208,.4)}
+.nav-btn .chevron{font-size:10px;opacity:.6}
+.dropdown-menu{display:none;position:absolute;top:calc(100% + 8px);right:0;background:rgba(12,20,28,.95);border:1px solid rgba(11,150,208,.2);border-radius:12px;padding:8px;min-width:200px;z-index:200;backdrop-filter:blur(20px)}
+.nav-dropdown:hover .dropdown-menu{display:block}
+.dropdown-section{font-size:10px;font-weight:700;color:#7BAACC;text-transform:uppercase;letter-spacing:1px;padding:6px 10px 4px}
+.dropdown-link{display:block;padding:7px 10px;border-radius:7px;color:#E8F4FB;text-decoration:none;font-size:13px;font-weight:500;transition:all .2s}
+.dropdown-link:hover{background:rgba(11,150,208,.15);color:#00ACE4}
+.dropdown-link.active-page{color:#00ACE4;background:rgba(11,150,208,.1)}
+.nav-hub-link{color:#7BAACC;text-decoration:none;font-size:13px;font-weight:500;padding:6px 10px;border-radius:8px;transition:all .2s}
+.nav-hub-link:hover{color:#E8F4FB;background:rgba(255,255,255,.06)}
+
+/* HERO */
+.hero{padding:100px 40px 48px;text-align:center}
+.hero-breadcrumb{display:flex;align-items:center;justify-content:center;gap:8px;font-size:12px;color:var(--page-muted);margin-bottom:16px}
+.hero-breadcrumb a{color:var(--page-muted);text-decoration:none;transition:color .2s}
+.hero-breadcrumb a:hover{color:var(--blue)}
+.hero-breadcrumb span{opacity:.4}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,165,0,.1);border:1px solid rgba(255,165,0,.25);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:600;color:#FFA500;margin-bottom:20px}
+.hero-title{font-size:clamp(28px,5vw,48px);font-weight:800;letter-spacing:-1px;margin-bottom:12px;background:linear-gradient(135deg,#E8F4FB 0%,#7BAACC 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-sub{font-size:16px;color:var(--page-muted);max-width:520px;margin:0 auto;line-height:1.6}
+
+/* PHONES SECTION */
+.phones-section{padding:0 40px 60px;display:flex;justify-content:center;gap:48px;flex-wrap:wrap;align-items:flex-start}
+.phone-column{display:flex;flex-direction:column;align-items:center;gap:20px}
+.phone-label{font-size:13px;font-weight:600;color:var(--page-muted);text-transform:uppercase;letter-spacing:1px;text-align:center}
+
+/* PHONE FRAME */
+.phone-frame{width:280px;border-radius:48px;background:#0a0a0a;border:2px solid rgba(255,255,255,.15);box-shadow:0 0 0 8px rgba(255,255,255,.03),0 40px 100px rgba(0,0,0,.8);padding:14px;flex-shrink:0}
+.phone-notch{width:100px;height:26px;background:#0a0a0a;border-radius:0 0 18px 18px;margin:0 auto 2px}
+.phone-screen{border-radius:36px;overflow:hidden;min-height:580px;display:flex;flex-direction:column;background:#111111;color:#fff}
+.status-bar{display:flex;justify-content:space-between;align-items:center;padding:8px 20px 4px;font-size:11px;font-weight:700;background:#111111;flex-shrink:0}
+.status-icons{display:flex;gap:4px;align-items:center}
+.tab-bar{display:flex;padding:8px 0 0;border-top:1px solid rgba(255,255,255,.1);background:#111111;margin-top:auto;flex-shrink:0}
+.tab-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:4px 0 8px;font-size:10px;font-weight:600;opacity:.4;color:#fff;cursor:pointer}
+.tab-item.active{opacity:1;color:#0B96D0}
+.tab-item svg{width:18px;height:18px}
+.home-indicator{height:20px;display:flex;align-items:center;justify-content:center;padding-bottom:4px;background:#111111;flex-shrink:0}
+.home-indicator::after{content:'';width:120px;height:4px;border-radius:2px;background:#fff;opacity:.2}
+
+/* SCREEN BODY */
+.screen-content{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.screen-header-centered{display:flex;align-items:center;justify-content:center;padding:12px 18px 10px;background:#111111;flex-shrink:0}
+.screen-header-centered h2{font-size:16px;font-weight:700;color:#fff}
+
+/* MAP */
+.map-area{height:185px;background:linear-gradient(180deg,#0D1A24 0%,#112233 100%);flex-shrink:0;position:relative;overflow:hidden}
+.road-h{position:absolute;height:5px;background:rgba(255,255,255,.1);border-radius:3px;left:0;right:0}
+.road-v{position:absolute;width:5px;background:rgba(255,255,255,.1);border-radius:3px;top:0;bottom:0}
+.road-h.bright{background:rgba(255,255,255,.18)}
+.road-v.bright{background:rgba(255,255,255,.18)}
+/* Route dashed line */
+.route-line{position:absolute;border-top:2px dashed rgba(11,150,208,.7);width:90px;transform-origin:left center}
+/* Pulsing pro dot */
+.pro-dot{position:absolute;width:14px;height:14px}
+.pro-dot-core{width:14px;height:14px;background:#0B96D0;border-radius:50%;border:2px solid #fff;position:relative;z-index:2;box-shadow:0 0 10px rgba(11,150,208,.8)}
+.pro-dot-ring{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:28px;height:28px;border:2px solid rgba(11,150,208,.4);border-radius:50%;animation:pulse 1.5s ease-out infinite}
+@keyframes pulse{0%{transform:translate(-50%,-50%) scale(.5);opacity:1}100%{transform:translate(-50%,-50%) scale(1.8);opacity:0}}
+/* Destination pin */
+.dest-pin{position:absolute;font-size:18px;filter:drop-shadow(0 2px 6px rgba(0,0,0,.5))}
+.map-badge{position:absolute;background:rgba(0,0,0,.75);backdrop-filter:blur(10px);border-radius:12px;padding:4px 10px;font-size:10px;font-weight:700;color:#fff;white-space:nowrap}
+
+/* PROGRESS BAR */
+.progress-section{padding:10px 14px;flex-shrink:0}
+.progress-steps{display:flex;align-items:center;gap:0;position:relative}
+.step{display:flex;flex-direction:column;align-items:center;flex:1;position:relative;z-index:1}
+.step-circle{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;border:2px solid rgba(255,255,255,.15);background:#2C2C2E;color:#8E8E93;flex-shrink:0}
+.step-circle.done{background:#00C87A;border-color:#00C87A;color:#fff}
+.step-circle.active{background:#0B96D0;border-color:#0B96D0;color:#fff;box-shadow:0 0 8px rgba(11,150,208,.5)}
+.step-label{font-size:8px;color:#8E8E93;margin-top:3px;white-space:nowrap}
+.step-label.active{color:#0B96D0;font-weight:700}
+.step-label.done{color:#00C87A}
+.step-connector{flex:1;height:2px;background:rgba(255,255,255,.1);margin-top:-18px;z-index:0;margin-bottom:16px}
+.step-connector.done{background:#00C87A}
+.step-connector.active{background:linear-gradient(90deg,#00C87A,#0B96D0)}
+
+/* CARDS */
+.card{background:#1C1C1E;border-radius:16px;padding:12px;border:1px solid rgba(255,255,255,.06)}
+.card-section{padding:8px 12px;flex-shrink:0}
+.card-section + .card-section{padding-top:0}
+
+/* CUSTOMER CARD */
+.cust-row{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.cust-avatar{width:40px;height:40px;background:linear-gradient(135deg,#0B96D0,#00ACE4);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#fff;flex-shrink:0}
+.cust-name{font-size:13px;font-weight:700;color:#fff}
+.cust-rating{font-size:11px;color:#FFA500;margin-top:1px}
+.cust-info-row{display:flex;align-items:flex-start;gap:6px;margin-bottom:5px;font-size:10px}
+.cust-info-icon{width:14px;text-align:center;flex-shrink:0;font-size:11px}
+.cust-info-label{color:#8E8E93;min-width:48px;flex-shrink:0}
+.cust-info-val{color:#E8F4FB;font-weight:500}
+.action-chips{display:flex;gap:8px;margin-top:8px}
+.action-chip{flex:1;display:flex;align-items:center;justify-content:center;gap:5px;background:#2C2C2E;border-radius:10px;padding:7px 0;font-size:11px;font-weight:600;color:#E8F4FB;cursor:pointer}
+.status-btn{margin:8px 12px;flex-shrink:0}
+.btn-primary{width:100%;background:linear-gradient(135deg,#0B96D0,#00ACE4);border:none;border-radius:16px;color:#fff;font-size:13px;font-weight:700;padding:13px 0;font-family:'Outfit',sans-serif;cursor:pointer}
+.btn-green{width:100%;background:linear-gradient(135deg,#00C87A,#00AC6A);border:none;border-radius:16px;color:#fff;font-size:13px;font-weight:700;padding:13px 0;font-family:'Outfit',sans-serif;cursor:pointer}
+
+/* IN PROGRESS SCREEN */
+.timer-badge{font-size:18px;font-weight:800;color:#0B96D0;font-variant-numeric:tabular-nums;letter-spacing:1px}
+.checklist-card{background:#1C1C1E;border-radius:14px;padding:12px;border:1px solid rgba(255,255,255,.06)}
+.checklist-title{font-size:12px;font-weight:700;color:#E8F4FB;margin-bottom:8px}
+.checklist-item{display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.04)}
+.checklist-item:last-child{border-bottom:none}
+.check-box{width:18px;height:18px;border-radius:5px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:10px}
+.check-box.checked{background:#00C87A;color:#fff}
+.check-box.unchecked{background:transparent;border:1.5px solid rgba(255,255,255,.2)}
+.check-label{font-size:11px;font-weight:500}
+.check-label.checked{color:#00C87A}
+.check-label.unchecked{color:#8E8E93}
+
+/* CAR DIAGRAM */
+.car-reminder{background:#1C1C1E;border-radius:14px;padding:10px 12px;border:1px solid rgba(255,255,255,.06);display:flex;align-items:center;gap:10px}
+.car-svg-wrap{width:60px;height:36px;flex-shrink:0}
+.car-mini-info{flex:1}
+.car-mini-name{font-size:11px;font-weight:700;color:#E8F4FB}
+.car-mini-sub{font-size:10px;color:#8E8E93;margin-top:1px}
+
+/* ANNOTATIONS */
+.annotations{max-width:900px;margin:0 auto 60px;padding:0 40px;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+.annotation-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:18px}
+.annotation-card h4{font-size:12px;font-weight:700;color:#FFA500;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px}
+.annotation-card p{font-size:12px;color:#7BAACC;line-height:1.7}
+.annotation-card code{background:rgba(255,165,0,.1);border:1px solid rgba(255,165,0,.2);border-radius:5px;padding:1px 6px;font-size:11px;color:#FFA500;font-family:monospace}
+
+footer{border-top:1px solid rgba(255,255,255,.05);padding:32px 40px;text-align:center;color:#7BAACC;font-size:12px}
+footer span{color:#FFA500;font-weight:600}
+
+@media(max-width:700px){
+  .phones-section{gap:32px;padding:0 20px 40px}
+  .hero{padding:90px 20px 32px}
+  .annotations{padding:0 20px}
+  nav{padding:0 16px}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="../index.html" class="nav-logo">
+    <div class="logo-mark">IR</div>
+    <span class="logo-text">IRIS</span>
+  </a>
+  <div class="nav-links">
+    <a href="../index.html" class="nav-hub-link">Design Hub</a>
+    <div class="nav-dropdown">
+      <button class="nav-btn">Customer App <span class="chevron">▾</span></button>
+      <div class="dropdown-menu">
+        <div class="dropdown-section">Customer App</div>
+        <a href="../customer/auth.html" class="dropdown-link">Auth / Onboarding</a>
+        <a href="../customer/home.html" class="dropdown-link">Home</a>
+        <a href="../customer/book.html" class="dropdown-link">Book a Service</a>
+        <a href="../customer/track.html" class="dropdown-link">Track Order</a>
+        <a href="../customer/history.html" class="dropdown-link">History</a>
+        <a href="../customer/profile.html" class="dropdown-link">Profile</a>
+      </div>
+    </div>
+    <div class="nav-dropdown">
+      <button class="nav-btn" style="border-color:rgba(255,165,0,.4);color:#FFA500">Pro App <span class="chevron">▾</span></button>
+      <div class="dropdown-menu">
+        <div class="dropdown-section">Professional App</div>
+        <a href="jobs.html" class="dropdown-link">Available Jobs</a>
+        <a href="active.html" class="dropdown-link active-page">Active Job</a>
+        <a href="earnings.html" class="dropdown-link">Earnings</a>
+        <a href="profile.html" class="dropdown-link">Profile</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-breadcrumb">
+    <a href="../index.html">Design Hub</a>
+    <span>›</span>
+    <a href="jobs.html">Pro App</a>
+    <span>›</span>
+    <span style="color:#E8F4FB">Active Job</span>
+  </div>
+  <div class="hero-badge">
+    <svg width="10" height="10" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5" fill="#FFA500"/></svg>
+    Professional App · Screen 2 of 4
+  </div>
+  <h1 class="hero-title">Active Job</h1>
+  <p class="hero-sub">Real-time navigation, job status progress, and in-progress wash checklist for the professional.</p>
+</section>
+
+<!-- PHONES -->
+<section class="phones-section">
+
+  <!-- Phone 1: En Route -->
+  <div class="phone-column">
+    <div class="phone-label">En Route</div>
+    <div class="phone-frame">
+      <div class="phone-notch"></div>
+      <div class="phone-screen">
+        <div class="status-bar">
+          <span>9:41</span>
+          <div class="status-icons">
+            <svg width="14" height="10" viewBox="0 0 14 10"><rect x="0" y="4" width="3" height="6" rx="1" fill="white"/><rect x="4" y="2.5" width="3" height="7.5" rx="1" fill="white"/><rect x="8" y="1" width="3" height="9" rx="1" fill="white"/><rect x="12" y="0" width="2" height="10" rx="1" fill="white" opacity=".3"/></svg>
+            <svg width="22" height="10" viewBox="0 0 22 10"><rect x="0" y="1" width="18" height="8" rx="2" stroke="white" stroke-width="1.2" fill="none" opacity=".6"/><rect x="1.5" y="2.5" width="12" height="5" rx="1" fill="white"/><path d="M19.5 3.5v3a1.5 1.5 0 000-3z" fill="white" opacity=".4"/></svg>
+          </div>
+        </div>
+
+        <div class="screen-header-centered">
+          <h2>Active Job</h2>
+        </div>
+
+        <!-- Map -->
+        <div class="map-area">
+          <div class="road-h" style="top:32%"></div>
+          <div class="road-h bright" style="top:55%"></div>
+          <div class="road-h" style="top:75%"></div>
+          <div class="road-v" style="left:25%"></div>
+          <div class="road-v bright" style="left:50%"></div>
+          <div class="road-v" style="left:72%"></div>
+          <!-- Route dashed -->
+          <div style="position:absolute;top:52%;left:28%;width:75px;height:2px;border-top:2px dashed rgba(11,150,208,.8);transform:rotate(-15deg)"></div>
+          <!-- Pro dot (car icon) -->
+          <div class="pro-dot" style="top:calc(55% - 7px);left:calc(28% - 7px)">
+            <div class="pro-dot-ring"></div>
+            <div class="pro-dot-core" style="display:flex;align-items:center;justify-content:center;font-size:7px">🚗</div>
+          </div>
+          <!-- Destination pin -->
+          <div class="dest-pin" style="top:calc(45% - 18px);left:calc(72% - 9px)">📍</div>
+          <!-- ETA badge -->
+          <div class="map-badge" style="top:10px;left:50%;transform:translateX(-50%)">🧭 1.2 km · ~5 min</div>
+          <div style="position:absolute;bottom:8px;right:10px;background:rgba(0,0,0,.6);border-radius:6px;padding:3px 7px;font-size:9px;color:rgba(255,255,255,.4)">© Map</div>
+        </div>
+
+        <!-- Progress Steps -->
+        <div class="progress-section">
+          <div class="progress-steps">
+            <div class="step">
+              <div class="step-circle active">🚗</div>
+              <div class="step-label active">En Route</div>
+            </div>
+            <div class="step-connector active"></div>
+            <div class="step">
+              <div class="step-circle">2</div>
+              <div class="step-label">Arrived</div>
+            </div>
+            <div class="step-connector"></div>
+            <div class="step">
+              <div class="step-circle">3</div>
+              <div class="step-label">In Progress</div>
+            </div>
+            <div class="step-connector"></div>
+            <div class="step">
+              <div class="step-circle">✓</div>
+              <div class="step-label">Complete</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Customer Card -->
+        <div class="card-section">
+          <div class="card">
+            <div class="cust-row">
+              <div class="cust-avatar">M.G</div>
+              <div>
+                <div class="cust-name">Maamoun G.</div>
+                <div class="cust-rating">⭐ 4.8</div>
+              </div>
+            </div>
+            <div class="cust-info-row">
+              <span class="cust-info-icon">📞</span>
+              <span class="cust-info-label">Phone</span>
+              <span class="cust-info-val">+216 ••• ••• 123</span>
+            </div>
+            <div class="cust-info-row">
+              <span class="cust-info-icon">📍</span>
+              <span class="cust-info-label">Address</span>
+              <span class="cust-info-val">123 Habib Bourguiba, Tunis</span>
+            </div>
+            <div class="cust-info-row" style="margin-bottom:0">
+              <span class="cust-info-icon">✨</span>
+              <span class="cust-info-label">Service</span>
+              <span class="cust-info-val">Quick Wash · Corolla (White)</span>
+            </div>
+            <div class="action-chips">
+              <div class="action-chip">📞 Call</div>
+              <div class="action-chip">💬 Message</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="status-btn">
+          <button class="btn-primary">I've Arrived</button>
+        </div>
+
+        <div class="tab-bar">
+          <div class="tab-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+            Jobs
+          </div>
+          <div class="tab-item active">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="8"/></svg>
+            Active
+          </div>
+          <div class="tab-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            Earnings
+          </div>
+          <div class="tab-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            Profile
+          </div>
+        </div>
+        <div class="home-indicator"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Phone 2: In Progress -->
+  <div class="phone-column">
+    <div class="phone-label">In Progress</div>
+    <div class="phone-frame">
+      <div class="phone-notch"></div>
+      <div class="phone-screen">
+        <div class="status-bar">
+          <span>9:41</span>
+          <div class="status-icons">
+            <svg width="14" height="10" viewBox="0 0 14 10"><rect x="0" y="4" width="3" height="6" rx="1" fill="white"/><rect x="4" y="2.5" width="3" height="7.5" rx="1" fill="white"/><rect x="8" y="1" width="3" height="9" rx="1" fill="white"/><rect x="12" y="0" width="2" height="10" rx="1" fill="white" opacity=".3"/></svg>
+            <svg width="22" height="10" viewBox="0 0 22 10"><rect x="0" y="1" width="18" height="8" rx="2" stroke="white" stroke-width="1.2" fill="none" opacity=".6"/><rect x="1.5" y="2.5" width="14" height="5" rx="1" fill="white"/><path d="M19.5 3.5v3a1.5 1.5 0 000-3z" fill="white" opacity=".4"/></svg>
+          </div>
+        </div>
+
+        <!-- Header with timer -->
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 18px 10px;background:#111111;flex-shrink:0">
+          <h2 style="font-size:16px;font-weight:700;color:#fff">In Progress</h2>
+          <div class="timer-badge">00:12:34</div>
+        </div>
+
+        <!-- Progress Steps -->
+        <div class="progress-section">
+          <div class="progress-steps">
+            <div class="step">
+              <div class="step-circle done">✓</div>
+              <div class="step-label done">En Route</div>
+            </div>
+            <div class="step-connector done"></div>
+            <div class="step">
+              <div class="step-circle done">✓</div>
+              <div class="step-label done">Arrived</div>
+            </div>
+            <div class="step-connector active"></div>
+            <div class="step">
+              <div class="step-circle active">🔧</div>
+              <div class="step-label active">In Progress</div>
+            </div>
+            <div class="step-connector"></div>
+            <div class="step">
+              <div class="step-circle">○</div>
+              <div class="step-label">Complete</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Wash Checklist -->
+        <div class="card-section">
+          <div class="checklist-card">
+            <div class="checklist-title">🧹 Wash Checklist</div>
+            <div class="checklist-item">
+              <div class="check-box checked">✓</div>
+              <span class="check-label checked">Pre-rinse</span>
+            </div>
+            <div class="checklist-item">
+              <div class="check-box checked">✓</div>
+              <span class="check-label checked">Soap application</span>
+            </div>
+            <div class="checklist-item">
+              <div class="check-box unchecked"></div>
+              <span class="check-label unchecked">Rinse &amp; dry</span>
+            </div>
+            <div class="checklist-item">
+              <div class="check-box unchecked"></div>
+              <span class="check-label unchecked">Final inspection</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Customer & Car reminder -->
+        <div class="card-section" style="padding-top:8px">
+          <div class="car-reminder">
+            <!-- Simple car SVG -->
+            <div class="car-svg-wrap">
+              <svg viewBox="0 0 60 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="2" y="18" width="56" height="14" rx="4" fill="#2C2C2E" stroke="rgba(255,255,255,.15)" stroke-width="1"/>
+                <path d="M8 18 L14 8 L46 8 L52 18Z" fill="#2C2C2E" stroke="rgba(255,255,255,.15)" stroke-width="1"/>
+                <rect x="15" y="9" width="12" height="8" rx="1" fill="rgba(11,150,208,.3)"/>
+                <rect x="33" y="9" width="12" height="8" rx="1" fill="rgba(11,150,208,.3)"/>
+                <circle cx="13" cy="32" r="5" fill="#1C1C1E" stroke="rgba(255,255,255,.3)" stroke-width="1.5"/>
+                <circle cx="13" cy="32" r="2.5" fill="#2C2C2E"/>
+                <circle cx="47" cy="32" r="5" fill="#1C1C1E" stroke="rgba(255,255,255,.3)" stroke-width="1.5"/>
+                <circle cx="47" cy="32" r="2.5" fill="#2C2C2E"/>
+                <rect x="24" y="18" width="12" height="1.5" rx=".75" fill="rgba(11,150,208,.5)"/>
+              </svg>
+            </div>
+            <div class="car-mini-info">
+              <div class="car-mini-name">Toyota Corolla</div>
+              <div class="car-mini-sub">White · Maamoun G.</div>
+              <div style="margin-top:4px;display:flex;align-items:center;gap:4px">
+                <span style="width:8px;height:8px;background:#E8E8E8;border-radius:50%;display:inline-block;border:1px solid rgba(255,255,255,.2)"></span>
+                <span style="font-size:9px;color:#8E8E93">White</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="status-btn" style="padding:8px 12px">
+          <button class="btn-green">Mark as Complete</button>
+        </div>
+
+        <div class="tab-bar">
+          <div class="tab-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+            Jobs
+          </div>
+          <div class="tab-item active">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="8"/></svg>
+            Active
+          </div>
+          <div class="tab-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            Earnings
+          </div>
+          <div class="tab-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            Profile
+          </div>
+        </div>
+        <div class="home-indicator"></div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- ANNOTATIONS -->
+<section class="annotations">
+  <div class="annotation-card">
+    <h4>4-Step Progress Tracker</h4>
+    <p>Horizontal stepper uses <code>#00C87A</code> for completed steps, <code>#0B96D0</code> for the active step, and muted gray for upcoming. Connector lines mirror the step state.</p>
+  </div>
+  <div class="annotation-card">
+    <h4>Live Timer</h4>
+    <p>Once the professional marks "Arrived" and starts the job, a timer begins counting up in <code>#0B96D0</code> blue. Monospaced digits use <code>font-variant-numeric: tabular-nums</code>.</p>
+  </div>
+  <div class="annotation-card">
+    <h4>Wash Checklist</h4>
+    <p>Interactive checklist lets the professional track each wash phase. Checked items turn <code>#00C87A</code> green. Helps ensure quality control and serves as a completion confirmation.</p>
+  </div>
+  <div class="annotation-card">
+    <h4>Action Chips</h4>
+    <p>Call and Message chips on the customer card use <code>#2C2C2E</code> background. Tapping "Call" triggers a native phone call. "Message" opens an in-app chat thread.</p>
+  </div>
+</section>
+
+<footer>
+  <p>IRIS Design System · Pro App · <span>Active Job</span> · Screen 2 of 4</p>
+  <p style="margin-top:6px;opacity:.5">© 2025 IRIS Platform. Internal design documentation.</p>
+</footer>
+
+</body>
+</html>

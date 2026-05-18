@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IRIS — Booking History · Customer App</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --blue: #0B96D0;
+    --cyan: #00ACE4;
+    --page-bg: #070E14;
+    --page-text: #E8F4FB;
+    --screen-bg: #F5F7FA;
+    --card-bg: #FFFFFF;
+    --text: #1A1A2E;
+    --muted: #6B7A90;
+    --border: #E8EEF4;
+  }
+
+  body {
+    font-family: 'Outfit', sans-serif;
+    background: var(--page-bg);
+    color: var(--page-text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ─── NAV ─────────────────────────────────────────────── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(7,14,20,.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255,255,255,.06);
+    padding: 0 40px;
+    height: 64px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  .nav-logo-square {
+    width: 32px; height: 32px; border-radius: 8px;
+    background: linear-gradient(135deg, #0B96D0, #00ACE4);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; font-weight: 800; color: white;
+  }
+  .nav-logo-text { font-size: 18px; font-weight: 700; color: #E8F4FB; letter-spacing: .5px; }
+  .nav-links { display: flex; align-items: center; gap: 8px; }
+  .nav-link {
+    color: rgba(232,244,251,.65); text-decoration: none; font-size: 14px; font-weight: 500;
+    padding: 6px 14px; border-radius: 8px; transition: all .2s;
+  }
+  .nav-link:hover { color: #E8F4FB; background: rgba(255,255,255,.06); }
+  .nav-dropdown { position: relative; }
+  .nav-dropdown-btn {
+    background: none; border: none; cursor: pointer;
+    color: rgba(232,244,251,.65); font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 500;
+    padding: 6px 14px; border-radius: 8px; display: flex; align-items: center; gap: 5px; transition: all .2s;
+  }
+  .nav-dropdown-btn:hover { color: #E8F4FB; background: rgba(255,255,255,.06); }
+  .nav-dropdown-btn svg { transition: transform .2s; }
+  .nav-dropdown:hover .nav-dropdown-btn svg { transform: rotate(180deg); }
+  .dropdown-menu {
+    position: absolute; top: calc(100% + 8px); left: 0;
+    background: rgba(7,14,20,.96); border: 1px solid rgba(255,255,255,.08);
+    border-radius: 12px; padding: 6px; min-width: 180px;
+    backdrop-filter: blur(20px);
+    opacity: 0; visibility: hidden; transform: translateY(-4px); transition: all .2s;
+  }
+  .nav-dropdown:hover .dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+  .dropdown-item {
+    display: block; padding: 8px 14px; border-radius: 8px;
+    color: rgba(232,244,251,.75); text-decoration: none; font-size: 13px; font-weight: 500;
+    transition: all .15s;
+  }
+  .dropdown-item:hover { color: #E8F4FB; background: rgba(11,150,208,.15); }
+  .dropdown-item.active { color: #0B96D0; }
+
+  /* ─── HERO ────────────────────────────────────────────── */
+  .hero {
+    padding: 120px 40px 60px; text-align: center; position: relative;
+  }
+  .hero::before {
+    content: ''; position: absolute; top: 80px; left: 50%; transform: translateX(-50%);
+    width: 600px; height: 300px;
+    background: radial-gradient(ellipse, rgba(11,150,208,.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-label {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(11,150,208,.1); border: 1px solid rgba(11,150,208,.2);
+    border-radius: 20px; padding: 5px 14px; font-size: 12px; font-weight: 600;
+    color: #00ACE4; letter-spacing: .5px; text-transform: uppercase; margin-bottom: 20px;
+  }
+  .hero h1 {
+    font-size: clamp(32px, 5vw, 52px); font-weight: 800; line-height: 1.1; margin-bottom: 16px;
+    background: linear-gradient(135deg, #E8F4FB 0%, #0B96D0 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  }
+  .hero p { font-size: 17px; color: rgba(232,244,251,.55); max-width: 520px; margin: 0 auto; line-height: 1.7; }
+
+  /* ─── PHONES SECTION ──────────────────────────────────── */
+  .phones-section {
+    display: flex; justify-content: center; align-items: flex-start;
+    gap: 32px; padding: 20px 40px 60px; flex-wrap: wrap;
+  }
+  .phone-col { display: flex; flex-direction: column; align-items: center; gap: 20px; }
+
+  /* ─── PHONE FRAME ─────────────────────────────────────── */
+  .phone-frame {
+    width: 280px; border-radius: 48px; background: #0a0a0a;
+    border: 2px solid rgba(255,255,255,.12);
+    box-shadow:
+      0 0 0 8px rgba(255,255,255,.03),
+      0 40px 100px rgba(0,0,0,.7),
+      0 0 60px rgba(11,150,208,.08);
+    padding: 14px; flex-shrink: 0;
+  }
+  .phone-notch {
+    width: 100px; height: 26px; background: #0a0a0a;
+    border-radius: 0 0 18px 18px; margin: 0 auto;
+  }
+  .phone-screen {
+    border-radius: 36px; overflow: hidden; background: #F5F7FA;
+    min-height: 580px; display: flex; flex-direction: column;
+  }
+  .status-bar {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 8px 20px 4px; font-size: 11px; font-weight: 700; color: #1A1A2E;
+  }
+  .tab-bar {
+    display: flex; padding: 8px 0 0; border-top: 1px solid #E8EEF4;
+    background: white; margin-top: auto;
+  }
+  .tab-item {
+    flex: 1; display: flex; flex-direction: column; align-items: center;
+    gap: 3px; padding: 4px 0 8px; font-size: 10px; font-weight: 600;
+    opacity: .45; color: #1A1A2E;
+  }
+  .tab-item.active { opacity: 1; color: #0B96D0; }
+  .home-indicator {
+    height: 20px; display: flex; align-items: center; justify-content: center;
+    padding-bottom: 4px; background: white; color: #1A1A2E;
+  }
+  .home-indicator::after {
+    content: ''; width: 120px; height: 4px; border-radius: 2px;
+    background: currentColor; opacity: .25;
+  }
+
+  /* ─── SCREEN CONTENT ──────────────────────────────────── */
+  .screen-header {
+    background: white; padding: 14px 16px 10px;
+    box-shadow: 0 1px 6px rgba(0,0,0,.05);
+  }
+  .screen-title { font-size: 18px; font-weight: 800; color: #1A1A2E; margin-bottom: 10px; }
+  .filter-row { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; padding-bottom: 2px; }
+  .filter-row::-webkit-scrollbar { display: none; }
+  .filter-chip {
+    flex-shrink: 0; padding: 5px 12px; border-radius: 20px;
+    border: 1.5px solid #E8EEF4; background: white;
+    font-size: 10px; font-weight: 600; color: #6B7A90;
+  }
+  .filter-chip.selected { background: #0B96D0; border-color: #0B96D0; color: white; }
+
+  .screen-scroll { flex: 1; overflow-y: auto; padding: 12px 12px 4px; scrollbar-width: none; }
+  .screen-scroll::-webkit-scrollbar { display: none; }
+
+  /* BOOKING CARD */
+  .booking-card {
+    background: white; border-radius: 14px; padding: 12px;
+    margin-bottom: 10px; position: relative;
+    box-shadow: 0 2px 8px rgba(0,0,0,.05);
+    border-left: 3px solid transparent;
+  }
+  .booking-card.upcoming { border-left-color: #0B96D0; }
+  .booking-card.completed { border-left-color: #22C55E; }
+  .booking-card.cancelled { border-left-color: #D1D5DB; }
+
+  .card-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
+  .card-service { font-size: 12px; font-weight: 700; color: #1A1A2E; }
+  .status-pill {
+    font-size: 9px; font-weight: 700; border-radius: 20px; padding: 2px 8px;
+  }
+  .pill-upcoming { background: rgba(11,150,208,.1); color: #0B96D0; }
+  .pill-completed { background: rgba(34,197,94,.1); color: #16A34A; }
+  .pill-cancelled { background: #F3F4F6; color: #9CA3AF; }
+
+  .card-pro { display: flex; align-items: center; gap: 5px; font-size: 10px; color: #6B7A90; margin-bottom: 5px; }
+  .card-pro-name { font-weight: 600; color: #1A1A2E; }
+  .card-stars { color: #F59E0B; font-size: 9px; }
+  .card-meta { font-size: 10px; color: #6B7A90; margin-bottom: 3px; display: flex; align-items: center; gap: 4px; }
+  .card-price { font-size: 13px; font-weight: 700; color: #1A1A2E; margin-top: 5px; }
+  .card-actions { display: flex; gap: 6px; margin-top: 8px; }
+  .card-btn {
+    flex: 1; border: 1.5px solid #0B96D0; border-radius: 20px; background: white;
+    color: #0B96D0; font-size: 10px; font-weight: 700; font-family: 'Outfit', sans-serif;
+    padding: 5px 8px; cursor: default;
+  }
+  .card-btn.outline-muted { border-color: #E8EEF4; color: #6B7A90; }
+
+  /* PHONE 2 — RATING MODAL */
+  .blurred-bg {
+    flex: 1; position: relative; overflow: hidden;
+    background: #F5F7FA;
+  }
+  .blurred-list {
+    filter: blur(3px); opacity: .5;
+    padding: 12px;
+  }
+  .modal-overlay {
+    position: absolute; inset: 0;
+    background: rgba(26,26,46,.4);
+    display: flex; align-items: flex-end;
+  }
+  .modal-card {
+    background: white; border-radius: 22px 22px 0 0;
+    width: 100%; padding: 16px 16px 10px;
+    animation: slideUp .3s ease;
+  }
+  @keyframes slideUp {
+    from { transform: translateY(40px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+  .modal-handle {
+    width: 40px; height: 4px; background: #E8EEF4;
+    border-radius: 2px; margin: 0 auto 14px;
+  }
+  .modal-title { font-size: 15px; font-weight: 800; color: #1A1A2E; text-align: center; margin-bottom: 12px; }
+  .modal-pro-row {
+    display: flex; align-items: center; gap: 10px; margin-bottom: 14px;
+  }
+  .modal-avatar {
+    width: 38px; height: 38px; border-radius: 50%;
+    background: linear-gradient(135deg, #0B96D0, #00ACE4);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 800; color: white;
+  }
+  .modal-pro-name { font-size: 12px; font-weight: 700; color: #1A1A2E; }
+  .modal-pro-service { font-size: 10px; color: #6B7A90; }
+  .stars-row { display: flex; justify-content: center; gap: 6px; margin-bottom: 12px; }
+  .star { font-size: 24px; color: #F59E0B; }
+  .comment-box {
+    width: 100%; border: 1.5px solid #E8EEF4; border-radius: 12px;
+    padding: 10px 12px; font-family: 'Outfit', sans-serif; font-size: 11px;
+    color: #1A1A2E; resize: none; background: #F5F7FA; outline: none;
+    margin-bottom: 12px;
+  }
+  .submit-btn {
+    width: 100%; background: linear-gradient(135deg, #0B96D0, #00ACE4);
+    color: white; border: none; border-radius: 26px; height: 44px;
+    font-size: 13px; font-weight: 700; font-family: 'Outfit', sans-serif; cursor: default;
+  }
+
+  /* ─── ANNOTATIONS ─────────────────────────────────────── */
+  .annotations {
+    max-width: 900px; margin: 0 auto 80px; padding: 0 40px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+  }
+  .annotation-card {
+    background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.06);
+    border-radius: 14px; padding: 18px 20px;
+  }
+  .annotation-tag {
+    display: inline-block; background: rgba(11,150,208,.12); color: #00ACE4;
+    border-radius: 6px; padding: 3px 9px; font-size: 11px; font-weight: 700;
+    letter-spacing: .3px; margin-bottom: 10px;
+  }
+  .annotation-item { font-size: 12px; color: rgba(232,244,251,.5); line-height: 1.7; }
+  .annotation-item strong { color: rgba(232,244,251,.85); font-weight: 600; }
+
+  footer {
+    border-top: 1px solid rgba(255,255,255,.06); padding: 30px 40px; text-align: center;
+    font-size: 13px; color: rgba(232,244,251,.3);
+  }
+
+  @media (max-width: 680px) {
+    .phones-section { flex-direction: column; align-items: center; }
+    .annotations { grid-template-columns: 1fr; }
+    nav { padding: 0 20px; }
+    .hero { padding: 100px 20px 40px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="../index.html">
+    <div class="nav-logo-square">I</div>
+    <span class="nav-logo-text">IRIS</span>
+  </a>
+  <div class="nav-links">
+    <a class="nav-link" href="../index.html">Design Hub</a>
+    <div class="nav-dropdown">
+      <button class="nav-dropdown-btn">
+        Customer App
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="dropdown-menu">
+        <a class="dropdown-item" href="auth.html">Auth</a>
+        <a class="dropdown-item" href="home.html">Home</a>
+        <a class="dropdown-item" href="book.html">Book a Wash</a>
+        <a class="dropdown-item" href="track.html">Tracking</a>
+        <a class="dropdown-item active" href="history.html">History</a>
+        <a class="dropdown-item" href="profile.html">Profile</a>
+      </div>
+    </div>
+    <div class="nav-dropdown">
+      <button class="nav-dropdown-btn">
+        Pro App
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="dropdown-menu">
+        <a class="dropdown-item" href="../professional/jobs.html">Jobs</a>
+        <a class="dropdown-item" href="../professional/active.html">Active Job</a>
+        <a class="dropdown-item" href="../professional/earnings.html">Earnings</a>
+        <a class="dropdown-item" href="../professional/profile.html">Profile</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-label">
+    <svg width="10" height="10" viewBox="0 0 10 10"><circle cx="5" cy="5" r="4" fill="#00ACE4"/></svg>
+    Customer App · Screen 5 of 6
+  </div>
+  <h1>Booking History</h1>
+  <p>Full booking history with filter tabs, booking cards by status, and the rating experience after a completed wash.</p>
+</section>
+
+<!-- PHONES -->
+<section class="phones-section">
+
+  <!-- PHONE 1: HISTORY LIST -->
+  <div class="phone-col">
+    <div class="phone-frame">
+      <div class="phone-notch"></div>
+      <div class="phone-screen">
+        <div class="status-bar">
+          <span>9:41</span>
+          <div style="display:flex;gap:4px;align-items:center">
+            <svg width="12" height="10" viewBox="0 0 12 10" fill="#1A1A2E"><rect x="0" y="6" width="2" height="4" rx="1"/><rect x="3" y="4" width="2" height="6" rx="1"/><rect x="6" y="2" width="2" height="8" rx="1"/><rect x="9" y="0" width="2" height="10" rx="1"/></svg>
+            <svg width="14" height="10" viewBox="0 0 14 10" fill="none" stroke="#1A1A2E" stroke-width="1.2"><path d="M1 3.5C3.5 1 10.5 1 13 3.5M3.5 6C5 4.5 9 4.5 10.5 6M6 8.5h2" stroke-linecap="round"/></svg>
+            <svg width="22" height="10" viewBox="0 0 22 10" fill="#1A1A2E"><rect x="0" y="1" width="19" height="8" rx="2.5" stroke="#1A1A2E" stroke-width="1.2" fill="none"/><rect x="1.5" y="2.5" width="13" height="5" rx="1.5"/><path d="M20 3.5v3a1.5 1.5 0 000-3z"/></svg>
+          </div>
+        </div>
+
+        <!-- Header with filter -->
+        <div class="screen-header">
+          <div class="screen-title">My Bookings</div>
+          <div class="filter-row">
+            <div class="filter-chip selected">All</div>
+            <div class="filter-chip">Completed</div>
+            <div class="filter-chip">Cancelled</div>
+            <div class="filter-chip">Upcoming</div>
+          </div>
+        </div>
+
+        <!-- Booking List -->
+        <div class="screen-scroll">
+          <!-- Card 1: Upcoming -->
+          <div class="booking-card upcoming">
+            <div class="card-top">
+              <span class="card-service">✨ Quick Wash</span>
+              <span class="status-pill pill-upcoming">Upcoming</span>
+            </div>
+            <div class="card-pro">
+              <span class="card-pro-name">Ahmed B.</span>
+              <span class="card-stars">★★★★★</span>
+              <span style="font-size:9px;">4.9</span>
+            </div>
+            <div class="card-meta">📅 Tomorrow, 10:00 AM</div>
+            <div class="card-meta">📍 123 Habib Bourguiba, Tunis</div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px;">
+              <span class="card-price">27 DT</span>
+              <button class="card-btn" style="flex:none;padding:5px 14px;">Track</button>
+            </div>
+          </div>
+
+          <!-- Card 2: Completed -->
+          <div class="booking-card completed">
+            <div class="card-top">
+              <span class="card-service">💎 Premium Wash</span>
+              <span class="status-pill pill-completed">Completed ✓</span>
+            </div>
+            <div class="card-pro">
+              <span class="card-pro-name">Khalil M.</span>
+              <span class="card-stars">★★★★★</span>
+              <span style="font-size:9px;">4.7</span>
+            </div>
+            <div class="card-meta">📅 May 15, 2026</div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px;">
+              <span class="card-price">77 DT</span>
+            </div>
+            <div class="card-actions">
+              <button class="card-btn">Book Again</button>
+              <button class="card-btn outline-muted">⭐ Rate</button>
+            </div>
+          </div>
+
+          <!-- Card 3: Cancelled -->
+          <div class="booking-card cancelled">
+            <div class="card-top">
+              <span class="card-service">🧹 Full Clean</span>
+              <span class="status-pill pill-cancelled">Cancelled</span>
+            </div>
+            <div class="card-meta">📅 May 10, 2026</div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px;">
+              <span style="font-size:12px;color:#6B7A90;">—</span>
+            </div>
+            <div class="card-actions">
+              <button class="card-btn">Book Again</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab Bar -->
+        <div class="tab-bar">
+          <div class="tab-item">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 9L9 3l6 6M4.5 7.5V15h3v-3h3v3h3V7.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Home
+          </div>
+          <div class="tab-item">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4" width="12" height="11" rx="2"/><path d="M6 4V3M12 4V3M3 8h12" stroke-linecap="round"/></svg>
+            Book
+          </div>
+          <div class="tab-item">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="9" cy="9" r="6"/><path d="M9 6v3l2 2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Track
+          </div>
+          <div class="tab-item active">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 5h12M3 9h8M3 13h6" stroke-linecap="round"/></svg>
+            History
+          </div>
+          <div class="tab-item">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="9" cy="6" r="3"/><path d="M3 15c0-3.314 2.686-5 6-5s6 1.686 6 5" stroke-linecap="round"/></svg>
+            Profile
+          </div>
+        </div>
+        <div class="home-indicator"></div>
+      </div>
+    </div>
+    <div style="font-size:13px;color:rgba(232,244,251,.4);font-weight:600;text-align:center;">History List — All Statuses</div>
+  </div>
+
+  <!-- PHONE 2: RATING MODAL -->
+  <div class="phone-col">
+    <div class="phone-frame">
+      <div class="phone-notch"></div>
+      <div class="phone-screen" style="position:relative;">
+        <div class="status-bar">
+          <span>9:41</span>
+          <div style="display:flex;gap:4px;align-items:center">
+            <svg width="12" height="10" viewBox="0 0 12 10" fill="#1A1A2E"><rect x="0" y="6" width="2" height="4" rx="1"/><rect x="3" y="4" width="2" height="6" rx="1"/><rect x="6" y="2" width="2" height="8" rx="1"/><rect x="9" y="0" width="2" height="10" rx="1"/></svg>
+            <svg width="14" height="10" viewBox="0 0 14 10" fill="none" stroke="#1A1A2E" stroke-width="1.2"><path d="M1 3.5C3.5 1 10.5 1 13 3.5M3.5 6C5 4.5 9 4.5 10.5 6M6 8.5h2" stroke-linecap="round"/></svg>
+            <svg width="22" height="10" viewBox="0 0 22 10" fill="#1A1A2E"><rect x="0" y="1" width="19" height="8" rx="2.5" stroke="#1A1A2E" stroke-width="1.2" fill="none"/><rect x="1.5" y="2.5" width="13" height="5" rx="1.5"/><path d="M20 3.5v3a1.5 1.5 0 000-3z"/></svg>
+          </div>
+        </div>
+
+        <!-- Blurred background content -->
+        <div class="blurred-bg">
+          <div class="blurred-list">
+            <div class="screen-header" style="margin:-12px -12px 12px;padding:10px 12px;">
+              <div class="screen-title" style="font-size:14px;margin-bottom:8px;">My Bookings</div>
+              <div class="filter-row">
+                <div class="filter-chip selected" style="font-size:9px;padding:3px 10px;">All</div>
+                <div class="filter-chip" style="font-size:9px;padding:3px 10px;">Completed</div>
+                <div class="filter-chip" style="font-size:9px;padding:3px 10px;">Upcoming</div>
+              </div>
+            </div>
+            <div class="booking-card completed" style="margin-bottom:8px;">
+              <div class="card-top"><span class="card-service" style="font-size:11px;">💎 Premium Wash</span><span class="status-pill pill-completed">Completed ✓</span></div>
+              <div class="card-meta" style="font-size:9px;">📅 May 15, 2026</div>
+              <div style="font-size:11px;font-weight:700;color:#1A1A2E;margin-top:4px;">77 DT</div>
+            </div>
+            <div class="booking-card upcoming" style="margin-bottom:8px;">
+              <div class="card-top"><span class="card-service" style="font-size:11px;">✨ Quick Wash</span><span class="status-pill pill-upcoming">Upcoming</span></div>
+              <div class="card-meta" style="font-size:9px;">📅 Tomorrow, 10:00 AM</div>
+            </div>
+          </div>
+
+          <!-- Modal Overlay -->
+          <div class="modal-overlay">
+            <div class="modal-card">
+              <div class="modal-handle"></div>
+              <div class="modal-title">Rate Your Experience</div>
+
+              <div class="modal-pro-row">
+                <div class="modal-avatar">AB</div>
+                <div>
+                  <div class="modal-pro-name">Ahmed B.</div>
+                  <div class="modal-pro-service">Quick Wash</div>
+                </div>
+              </div>
+
+              <div class="stars-row">
+                <span class="star">★</span>
+                <span class="star">★</span>
+                <span class="star">★</span>
+                <span class="star">★</span>
+                <span class="star">★</span>
+              </div>
+
+              <textarea class="comment-box" rows="3" readonly>Great service, very professional!</textarea>
+
+              <button class="submit-btn">Submit Rating</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab Bar -->
+        <div class="tab-bar">
+          <div class="tab-item">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 9L9 3l6 6M4.5 7.5V15h3v-3h3V7.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Home
+          </div>
+          <div class="tab-item">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4" width="12" height="11" rx="2"/><path d="M6 4V3M12 4V3M3 8h12" stroke-linecap="round"/></svg>
+            Book
+          </div>
+          <div class="tab-item">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="9" cy="9" r="6"/><path d="M9 6v3l2 2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Track
+          </div>
+          <div class="tab-item active">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 5h12M3 9h8M3 13h6" stroke-linecap="round"/></svg>
+            History
+          </div>
+          <div class="tab-item">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="9" cy="6" r="3"/><path d="M3 15c0-3.314 2.686-5 6-5s6 1.686 6 5" stroke-linecap="round"/></svg>
+            Profile
+          </div>
+        </div>
+        <div class="home-indicator"></div>
+      </div>
+    </div>
+    <div style="font-size:13px;color:rgba(232,244,251,.4);font-weight:600;text-align:center;">Rating Modal — Bottom Sheet</div>
+  </div>
+
+</section>
+
+<!-- ANNOTATIONS -->
+<section class="annotations">
+  <div class="annotation-card">
+    <div class="annotation-tag">Booking Card</div>
+    <div class="annotation-item"><strong>Border-left accent:</strong> 3px solid — blue (upcoming), green #22C55E (completed), gray #D1D5DB (cancelled)</div>
+    <div class="annotation-item"><strong>Border-radius:</strong> 14px, shadow: 0 2px 8px rgba(0,0,0,.05)</div>
+    <div class="annotation-item"><strong>Padding:</strong> 12px on all sides</div>
+  </div>
+  <div class="annotation-card">
+    <div class="annotation-tag">Status Pills</div>
+    <div class="annotation-item"><strong>Upcoming:</strong> bg rgba(11,150,208,.1), color #0B96D0</div>
+    <div class="annotation-item"><strong>Completed:</strong> bg rgba(34,197,94,.1), color #16A34A</div>
+    <div class="annotation-item"><strong>Cancelled:</strong> bg #F3F4F6, color #9CA3AF</div>
+    <div class="annotation-item"><strong>Size:</strong> 9px, font-weight 700, border-radius 20px, padding 2px 8px</div>
+  </div>
+  <div class="annotation-card">
+    <div class="annotation-tag">Rating Modal</div>
+    <div class="annotation-item"><strong>Handle bar:</strong> 40px wide, 4px tall, bg: #E8EEF4, border-radius 2px</div>
+    <div class="annotation-item"><strong>Overlay bg:</strong> rgba(26,26,46,.4) over blurred list</div>
+    <div class="annotation-item"><strong>Stars:</strong> font-size 24px, color #F59E0B (amber), all 5 filled</div>
+    <div class="annotation-item"><strong>Textarea:</strong> bg #F5F7FA, border 1.5px solid #E8EEF4, border-radius 12px</div>
+  </div>
+  <div class="annotation-card">
+    <div class="annotation-tag">Filter Chips</div>
+    <div class="annotation-item"><strong>Default:</strong> border 1.5px solid #E8EEF4, bg white, color #6B7A90</div>
+    <div class="annotation-item"><strong>Selected:</strong> bg #0B96D0, border-color #0B96D0, color white</div>
+    <div class="annotation-item"><strong>Row:</strong> overflow-x scroll, scrollbar hidden, flex with gap 6px</div>
+  </div>
+</section>
+
+<footer>
+  IRIS Design Showcase &mdash; Customer App &mdash; Booking History &mdash; &copy; 2026 IRIS
+</footer>
+
+</body>
+</html>

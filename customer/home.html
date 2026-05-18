@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IRIS — Customer Home Screen</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --blue: #0B96D0; --cyan: #00ACE4; --green: #00C87A;
+      --page-bg: #070E14; --page-text: #E8F4FB; --page-muted: #7BAACC;
+      --nav-bg: rgba(7,14,20,.85);
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Outfit', sans-serif; background: var(--page-bg); color: var(--page-text); min-height: 100vh; overflow-x: hidden; }
+
+    /* ── NAV ── */
+    .site-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: var(--nav-bg); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid rgba(255,255,255,.07); }
+    .nav-inner { max-width: 1280px; margin: 0 auto; padding: 0 24px; height: 64px; display: flex; align-items: center; gap: 40px; }
+    .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--page-text); font-weight: 800; font-size: 20px; letter-spacing: -.5px; flex-shrink: 0; }
+    .logo-mark { width: 34px; height: 34px; border-radius: 10px; background: linear-gradient(135deg, var(--blue), var(--cyan)); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 900; color: #fff; letter-spacing: -.5px; }
+    .nav-links { display: flex; gap: 8px; margin-left: auto; align-items: center; }
+    .nav-group { position: relative; }
+    .nav-group-label { display: block; padding: 8px 14px; border-radius: 8px; font-size: 13px; font-weight: 600; color: var(--page-muted); cursor: pointer; transition: color .2s, background .2s; white-space: nowrap; }
+    .nav-group:hover .nav-group-label { color: var(--page-text); background: rgba(255,255,255,.06); }
+    .nav-dropdown { display: none; position: absolute; top: calc(100% + 6px); left: 0; background: #0e1a24; border: 1px solid rgba(255,255,255,.1); border-radius: 12px; padding: 6px; min-width: 140px; box-shadow: 0 16px 48px rgba(0,0,0,.6); }
+    .nav-group:hover .nav-dropdown { display: block; }
+    .nav-dropdown a { display: block; padding: 8px 12px; border-radius: 8px; font-size: 13px; font-weight: 500; color: var(--page-muted); text-decoration: none; transition: color .2s, background .2s; white-space: nowrap; }
+    .nav-dropdown a:hover { color: var(--page-text); background: rgba(255,255,255,.07); }
+    .nav-dropdown a.current { color: var(--cyan); }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 8px; margin-left: auto; }
+    .hamburger span { display: block; width: 22px; height: 2px; background: var(--page-text); border-radius: 2px; }
+    .mobile-menu { display: none; position: fixed; inset: 64px 0 0 0; background: #070E14; padding: 24px; z-index: 99; overflow-y: auto; }
+    .mobile-menu.open { display: block; }
+    .mobile-group-label { font-size: 11px; font-weight: 700; color: var(--blue); letter-spacing: 1px; text-transform: uppercase; margin: 20px 0 8px; }
+    .mobile-menu a { display: block; padding: 10px 0; font-size: 15px; font-weight: 500; color: var(--page-muted); text-decoration: none; border-bottom: 1px solid rgba(255,255,255,.05); }
+    .mobile-menu a:hover { color: var(--page-text); }
+    @media (max-width: 768px) { .nav-links { display: none; } .hamburger { display: flex; } }
+
+    /* ── PAGE ── */
+    .page { padding-top: 64px; }
+
+    /* ── HERO ── */
+    .hero { padding: 56px 24px 40px; position: relative; overflow: hidden; }
+    .hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 600px 300px at 50% 0%, rgba(11,150,208,.14) 0%, transparent 70%); pointer-events: none; }
+    .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--page-muted); margin-bottom: 20px; }
+    .breadcrumb a { color: var(--page-muted); text-decoration: none; transition: color .2s; }
+    .breadcrumb a:hover { color: var(--page-text); }
+    .breadcrumb-sep { opacity: .4; }
+    .breadcrumb-current { color: var(--cyan); font-weight: 600; }
+    .hero-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 40px; max-width: 1280px; margin: 0 auto; flex-wrap: wrap; }
+    .hero-text { flex: 1; min-width: 280px; }
+    .hero-eyebrow { display: inline-flex; align-items: center; gap: 8px; padding: 6px 16px; border-radius: 100px; background: rgba(11,150,208,.1); border: 1px solid rgba(11,150,208,.25); font-size: 11px; font-weight: 700; color: var(--cyan); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 18px; }
+    .hero h1 { font-size: clamp(28px, 4vw, 48px); font-weight: 900; letter-spacing: -1.5px; line-height: 1.1; margin-bottom: 14px; background: linear-gradient(135deg, #fff 30%, var(--cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .hero p { font-size: 16px; color: var(--page-muted); line-height: 1.7; max-width: 460px; }
+    .hero-meta { display: flex; gap: 24px; margin-top: 24px; flex-wrap: wrap; }
+    .hero-meta-item { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--page-muted); }
+    .hero-meta-dot { width: 8px; height: 8px; border-radius: 50%; }
+
+    /* ── MAIN LAYOUT ── */
+    .main-outer { max-width: 1280px; margin: 0 auto; padding: 0 24px 64px; }
+    .main-layout { display: flex; gap: 40px; align-items: flex-start; }
+    .phone-col { display: flex; flex-direction: column; align-items: center; gap: 20px; flex-shrink: 0; }
+
+    /* ── PHONE FRAME ── */
+    .phone-frame { width: 280px; border-radius: 48px; background: #0a0a0a; border: 2px solid rgba(255,255,255,.12); box-shadow: 0 0 0 8px rgba(255,255,255,.03), 0 40px 100px rgba(0,0,0,.7); padding: 14px; position: relative; }
+    .phone-screen { border-radius: 36px; overflow: hidden; background: #F5F7FA; min-height: 580px; display: flex; flex-direction: column; }
+    .phone-notch { width: 100px; height: 26px; background: #0a0a0a; border-radius: 0 0 18px 18px; margin: 0 auto 0; position: relative; z-index: 2; }
+    .status-bar { display: flex; justify-content: space-between; align-items: center; padding: 6px 20px 4px; font-size: 11px; font-weight: 700; flex-shrink: 0; }
+    .home-indicator { height: 20px; display: flex; align-items: center; justify-content: center; padding-bottom: 4px; flex-shrink: 0; }
+    .home-indicator::after { content: ''; width: 120px; height: 4px; border-radius: 2px; background: currentColor; opacity: .25; }
+    .tab-bar { display: flex; padding: 8px 0 0; border-top: 1px solid #E8EEF4; background: #fff; flex-shrink: 0; }
+    .tab-item { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 4px 0 8px; font-size: 9px; font-weight: 700; opacity: .4; cursor: pointer; font-family: 'Outfit', sans-serif; color: #1A1A2E; }
+    .tab-item.active { opacity: 1; color: #0B96D0; }
+    .tab-dot { width: 4px; height: 4px; border-radius: 50%; background: #0B96D0; margin-top: -2px; }
+
+    /* ── APP HEADER ── */
+    .app-header {
+      background: linear-gradient(135deg, #0B96D0 0%, #00ACE4 100%);
+      padding: 12px 18px 18px; position: relative; overflow: hidden; flex-shrink: 0;
+    }
+    .header-bg-shape {
+      position: absolute; border-radius: 50%;
+      background: rgba(255,255,255,.08);
+    }
+    .header-top-row { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; position: relative; z-index: 1; }
+    .header-greeting-col { display: flex; flex-direction: column; gap: 3px; }
+    .header-greeting { font-family: 'Outfit', sans-serif; font-size: 17px; font-weight: 700; color: #fff; line-height: 1.2; }
+    .header-subtitle { font-family: 'Outfit', sans-serif; font-size: 12px; font-weight: 400; color: rgba(255,255,255,.8); }
+    .header-avatar { width: 38px; height: 38px; border-radius: 50%; background: rgba(255,255,255,.25); border: 2px solid rgba(255,255,255,.5); display: flex; align-items: center; justify-content: center; overflow: hidden; font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 800; color: #fff; flex-shrink: 0; }
+    .location-chip {
+      display: inline-flex; align-items: center; gap: 5px;
+      background: rgba(255,255,255,.2); border: 1px solid rgba(255,255,255,.35);
+      border-radius: 20px; padding: 5px 12px;
+      font-family: 'Outfit', sans-serif; font-size: 11px; font-weight: 600; color: #fff;
+      position: relative; z-index: 1; backdrop-filter: blur(8px);
+    }
+
+    /* ── SCROLL CONTENT ── */
+    .screen-scroll { flex: 1; overflow-y: auto; background: #F5F7FA; padding: 14px; display: flex; flex-direction: column; gap: 12px; }
+    .screen-scroll::-webkit-scrollbar { display: none; }
+
+    /* ── QUICK BOOKING CARD ── */
+    .booking-card {
+      background: #fff; border-radius: 20px;
+      padding: 14px;
+      box-shadow: 0 4px 20px rgba(0,0,0,.06);
+    }
+    .card-title { font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 700; color: #1A1A2E; margin-bottom: 10px; }
+    .service-chips { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
+    .service-chip {
+      display: flex; align-items: center; gap: 4px;
+      padding: 5px 10px; border-radius: 20px;
+      background: #F5F7FA; border: 1.5px solid #E8EEF4;
+      font-family: 'Outfit', sans-serif; font-size: 10px; font-weight: 600; color: #1A1A2E;
+      cursor: pointer; transition: all .2s; white-space: nowrap;
+    }
+    .service-chip.selected { background: rgba(11,150,208,.08); border-color: rgba(11,150,208,.3); color: #0B96D0; }
+    .book-btn {
+      height: 44px; border-radius: 22px;
+      background: linear-gradient(135deg, #0B96D0, #00ACE4);
+      border: none; color: #fff;
+      font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 700;
+      cursor: pointer; width: 100%;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      box-shadow: 0 6px 18px rgba(11,150,208,.3);
+    }
+
+    /* ── NEARBY PROS ── */
+    .section-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+    .section-label { font-family: 'Outfit', sans-serif; font-size: 13px; font-weight: 700; color: #1A1A2E; display: flex; align-items: center; gap: 6px; }
+    .online-dot { width: 7px; height: 7px; border-radius: 50%; background: #00C87A; box-shadow: 0 0 0 2px rgba(0,200,122,.25); display: inline-block; }
+    .view-all { font-family: 'Outfit', sans-serif; font-size: 11px; font-weight: 700; color: #0B96D0; cursor: pointer; }
+    .pros-row { display: flex; gap: 8px; }
+    .pro-card {
+      flex: 1; background: #fff; border-radius: 14px;
+      padding: 12px 10px; text-align: center;
+      box-shadow: 0 2px 10px rgba(0,0,0,.05);
+      border: 1px solid #E8EEF4;
+      display: flex; flex-direction: column; align-items: center; gap: 5px;
+    }
+    .pro-avatar { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Outfit', sans-serif; font-size: 15px; font-weight: 800; color: #fff; margin-bottom: 4px; }
+    .pro-name { font-family: 'Outfit', sans-serif; font-size: 12px; font-weight: 700; color: #1A1A2E; }
+    .pro-rating { font-family: 'Outfit', sans-serif; font-size: 11px; color: #6B7A90; display: flex; align-items: center; gap: 3px; }
+    .pro-dist { font-family: 'Outfit', sans-serif; font-size: 11px; color: #6B7A90; }
+    .available-badge { background: rgba(0,200,122,.12); color: #00C87A; font-family: 'Outfit', sans-serif; font-size: 9px; font-weight: 700; padding: 2px 8px; border-radius: 10px; }
+
+    /* ── RECENT BOOKINGS ── */
+    .booking-item {
+      background: #fff; border-radius: 14px; padding: 12px;
+      display: flex; align-items: center; gap: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,.04);
+      border: 1px solid #E8EEF4;
+    }
+    .booking-icon { width: 38px; height: 38px; border-radius: 10px; background: rgba(11,150,208,.08); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .booking-info { flex: 1; display: flex; flex-direction: column; gap: 3px; }
+    .booking-title { font-family: 'Outfit', sans-serif; font-size: 12px; font-weight: 700; color: #1A1A2E; }
+    .booking-sub { font-family: 'Outfit', sans-serif; font-size: 10px; color: #6B7A90; }
+    .booking-right { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
+    .completed-tag { background: rgba(0,200,122,.1); color: #00C87A; font-family: 'Outfit', sans-serif; font-size: 9px; font-weight: 700; padding: 2px 8px; border-radius: 10px; display: flex; align-items: center; gap: 3px; }
+    .booking-date { font-family: 'Outfit', sans-serif; font-size: 10px; color: #B0BCC9; }
+
+    /* ── RIGHT SIDE PANEL ── */
+    .right-panel { flex: 1; min-width: 0; }
+    .annotation-panel-sticky { position: sticky; top: 88px; display: flex; flex-direction: column; gap: 16px; }
+    .anno-card { background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.08); border-radius: 16px; padding: 20px; }
+    .anno-title { font-size: 11px; font-weight: 700; color: var(--cyan); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 14px; }
+    .anno-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,.05); font-size: 12px; }
+    .anno-row:last-child { border-bottom: none; padding-bottom: 0; }
+    .anno-key { color: var(--page-muted); font-weight: 500; }
+    .anno-val { color: var(--page-text); font-weight: 600; font-family: monospace; font-size: 11px; }
+    .anno-note { font-size: 13px; color: var(--page-muted); line-height: 1.6; padding: 4px 0; border-bottom: 1px solid rgba(255,255,255,.05); }
+    .anno-note:last-child { border-bottom: none; padding-bottom: 0; }
+    .anno-note strong { color: var(--page-text); font-weight: 600; }
+
+    /* Sections breakdown */
+    .section-map { display: flex; flex-direction: column; gap: 0; }
+    .section-map-item { display: flex; align-items: stretch; gap: 12px; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,.05); }
+    .section-map-item:last-child { border-bottom: none; }
+    .section-map-line { width: 3px; border-radius: 2px; flex-shrink: 0; align-self: stretch; }
+    .section-map-info { display: flex; flex-direction: column; gap: 2px; }
+    .section-map-name { font-size: 13px; font-weight: 600; color: var(--page-text); }
+    .section-map-desc { font-size: 11px; color: var(--page-muted); }
+
+    @media (max-width: 1100px) { .right-panel { display: none; } }
+
+    /* ── SPECS SECTION ── */
+    .specs-outer { max-width: 1280px; margin: 0 auto; padding: 0 24px 80px; }
+    .spec-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; }
+    .spec-card { background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.07); border-radius: 16px; padding: 20px; }
+    .spec-card-title { font-size: 11px; font-weight: 700; color: var(--cyan); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 14px; }
+    .spec-row { display: flex; justify-content: space-between; font-size: 13px; padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,.05); }
+    .spec-row:last-child { border-bottom: none; }
+    .spec-key { color: var(--page-muted); }
+    .spec-val { color: var(--page-text); font-weight: 600; font-family: monospace; font-size: 12px; }
+
+    /* ── NEXT/PREV NAV ── */
+    .screen-nav { max-width: 1280px; margin: 0 auto; padding: 0 24px 48px; display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+    .screen-nav-btn { display: flex; align-items: center; gap: 12px; padding: 14px 20px; border-radius: 14px; background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08); text-decoration: none; color: var(--page-text); transition: all .2s; }
+    .screen-nav-btn:hover { background: rgba(11,150,208,.08); border-color: rgba(11,150,208,.25); }
+    .screen-nav-btn-dir { font-size: 11px; font-weight: 600; color: var(--page-muted); text-transform: uppercase; letter-spacing: 1px; }
+    .screen-nav-btn-name { font-size: 15px; font-weight: 700; }
+
+    footer { border-top: 1px solid rgba(255,255,255,.06); padding: 32px 24px; text-align: center; color: var(--page-muted); font-size: 13px; }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(255,255,255,.1); border-radius: 3px; }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="../index.html" class="logo">
+      <div class="logo-mark">IR</div>
+      <span>IRIS</span>
+    </a>
+    <div class="nav-links">
+      <div class="nav-group">
+        <span class="nav-group-label">Customer App ▾</span>
+        <div class="nav-dropdown">
+          <a href="auth.html">Auth</a>
+          <a href="home.html" class="current">Home</a>
+          <a href="book.html">Book</a>
+          <a href="track.html">Track</a>
+          <a href="history.html">History</a>
+          <a href="profile.html">Profile</a>
+        </div>
+      </div>
+      <div class="nav-group">
+        <span class="nav-group-label">Pro App ▾</span>
+        <div class="nav-dropdown">
+          <a href="../professional/jobs.html">Jobs</a>
+          <a href="../professional/active.html">Active Job</a>
+          <a href="../professional/earnings.html">Earnings</a>
+          <a href="../professional/profile.html">Profile</a>
+        </div>
+      </div>
+    </div>
+    <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <div class="mobile-group-label">Customer App</div>
+  <a href="auth.html">Auth</a>
+  <a href="home.html">Home</a>
+  <a href="book.html">Book</a>
+  <a href="track.html">Track</a>
+  <a href="history.html">History</a>
+  <a href="profile.html">Profile</a>
+  <div class="mobile-group-label">Pro App</div>
+  <a href="../professional/jobs.html">Jobs</a>
+  <a href="../professional/active.html">Active Job</a>
+  <a href="../professional/earnings.html">Earnings</a>
+  <a href="../professional/profile.html">Profile</a>
+</div>
+
+<div class="page">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-row">
+      <div class="hero-text">
+        <div class="breadcrumb">
+          <a href="../index.html">Design Hub</a>
+          <span class="breadcrumb-sep">›</span>
+          <span style="color:var(--page-muted)">Customer App</span>
+          <span class="breadcrumb-sep">›</span>
+          <span class="breadcrumb-current">Home</span>
+        </div>
+        <div class="hero-eyebrow">
+          <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><circle cx="5" cy="5" r="5" fill="#00ACE4" opacity=".3"/><circle cx="5" cy="5" r="2.5" fill="#00ACE4"/></svg>
+          Customer App
+        </div>
+        <h1>Home Screen</h1>
+        <p>The main dashboard of the customer app. Quick booking, nearby professionals, recent bookings, and a map preview — all above the fold.</p>
+        <div class="hero-meta">
+          <div class="hero-meta-item"><div class="hero-meta-dot" style="background:#00ACE4"></div><span>1 screen</span></div>
+          <div class="hero-meta-item"><div class="hero-meta-dot" style="background:#00C87A"></div><span>Light theme</span></div>
+          <div class="hero-meta-item"><div class="hero-meta-dot" style="background:#7BAACC"></div><span>Home tab</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAIN CONTENT -->
+  <div class="main-outer">
+    <div class="main-layout">
+
+      <!-- ── PHONE ── -->
+      <div class="phone-col">
+        <div class="phone-frame">
+          <div class="phone-notch"></div>
+          <div class="phone-screen">
+
+            <!-- Status bar (blue bg) -->
+            <div class="status-bar" style="background:linear-gradient(135deg,#0B96D0,#00ACE4);color:#fff;position:relative;z-index:1">
+              <span>9:41</span>
+              <span style="display:flex;gap:4px;align-items:center">
+                <svg width="14" height="10" viewBox="0 0 14 10" fill="white"><rect x="0" y="4" width="2" height="6" rx="1" opacity=".4"/><rect x="3" y="2.5" width="2" height="7.5" rx="1" opacity=".6"/><rect x="6" y="1" width="2" height="9" rx="1" opacity=".8"/><rect x="9" y="0" width="2" height="10" rx="1"/><path d="M12 3.5 L14 1.5 M12 1.5 L14 3.5" stroke="white" stroke-width="1.2" stroke-linecap="round"/></svg>
+                <svg width="12" height="10" viewBox="0 0 12 10" fill="none"><path d="M6 2.5 C4.2 2.5 2.6 3.2 1.4 4.4 L0 3 C1.6 1.4 3.7.5 6 .5 C8.3.5 10.4 1.4 12 3L10.6 4.4C9.4 3.2 7.8 2.5 6 2.5Z" fill="white" opacity=".4"/><path d="M6 5C5 5 4.1 5.4 3.5 6L2.1 4.6C3.1 3.6 4.5 3 6 3C7.5 3 8.9 3.6 9.9 4.6L8.5 6C7.9 5.4 7 5 6 5Z" fill="white" opacity=".7"/><circle cx="6" cy="8.5" r="1.5" fill="white"/></svg>
+                <svg width="22" height="11" viewBox="0 0 22 11" fill="none"><rect x=".5" y=".5" width="18" height="10" rx="2.5" stroke="white" stroke-opacity=".35"/><rect x="1.5" y="1.5" width="14" height="8" rx="1.5" fill="white" opacity=".8"/><path d="M20 3.5 C21.1 4 21.1 7 20 7.5" stroke="white" stroke-width="1" stroke-linecap="round"/></svg>
+              </span>
+            </div>
+
+            <!-- App header with gradient -->
+            <div class="app-header">
+              <div class="header-bg-shape" style="width:180px;height:180px;top:-80px;right:-60px;opacity:.5"></div>
+              <div class="header-bg-shape" style="width:120px;height:120px;bottom:-50px;left:-40px;opacity:.35"></div>
+
+              <div class="header-top-row">
+                <div class="header-greeting-col">
+                  <div class="header-greeting">Good morning, Maamoun 👋</div>
+                  <div class="header-subtitle">Ready for a fresh car?</div>
+                </div>
+                <div class="header-avatar">M</div>
+              </div>
+
+              <div class="location-chip">
+                <svg width="10" height="12" viewBox="0 0 10 12" fill="none">
+                  <path d="M5 0C2.8 0 1 1.8 1 4C1 7 5 12 5 12C5 12 9 7 9 4C9 1.8 7.2 0 5 0ZM5 5.5C4.2 5.5 3.5 4.8 3.5 4C3.5 3.2 4.2 2.5 5 2.5C5.8 2.5 6.5 3.2 6.5 4C6.5 4.8 5.8 5.5 5 5.5Z" fill="white"/>
+                </svg>
+                Tunis, Tunisia
+              </div>
+            </div>
+
+            <!-- Scrollable content -->
+            <div class="screen-scroll">
+
+              <!-- Quick Booking Card -->
+              <div class="booking-card">
+                <div class="card-title">Book a Wash</div>
+                <div class="service-chips">
+                  <div class="service-chip selected">✨ Quick Wash</div>
+                  <div class="service-chip">🧹 Full Clean</div>
+                  <div class="service-chip">💎 Premium</div>
+                  <div class="service-chip">🪣 Interior</div>
+                </div>
+                <button class="book-btn">
+                  Book Now
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M7 2l5 5-5 5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
+              </div>
+
+              <!-- Nearby Professionals -->
+              <div>
+                <div class="section-row">
+                  <div class="section-label">
+                    <span class="online-dot"></span>
+                    3 pros nearby
+                  </div>
+                  <div class="view-all">View All →</div>
+                </div>
+                <div class="pros-row">
+                  <div class="pro-card">
+                    <div class="pro-avatar" style="background:linear-gradient(135deg,#0B96D0,#00ACE4)">A</div>
+                    <div class="pro-name">Ahmed B.</div>
+                    <div class="pro-rating">
+                      <svg width="9" height="9" viewBox="0 0 10 10" fill="#F59E0B"><path d="M5 .5l1.2 2.6 2.8.4-2 2 .5 2.8L5 7l-2.5 1.3.5-2.8-2-2 2.8-.4z"/></svg>
+                      4.9
+                    </div>
+                    <div class="pro-dist">0.8 km</div>
+                    <div class="available-badge">Available</div>
+                  </div>
+                  <div class="pro-card">
+                    <div class="pro-avatar" style="background:linear-gradient(135deg,#00ACE4,#0091C4)">K</div>
+                    <div class="pro-name">Khalil M.</div>
+                    <div class="pro-rating">
+                      <svg width="9" height="9" viewBox="0 0 10 10" fill="#F59E0B"><path d="M5 .5l1.2 2.6 2.8.4-2 2 .5 2.8L5 7l-2.5 1.3.5-2.8-2-2 2.8-.4z"/></svg>
+                      4.7
+                    </div>
+                    <div class="pro-dist">1.2 km</div>
+                    <div class="available-badge">Available</div>
+                  </div>
+                  <div class="pro-card">
+                    <div class="pro-avatar" style="background:linear-gradient(135deg,#0B96D0,#0075A8)">S</div>
+                    <div class="pro-name">Sami R.</div>
+                    <div class="pro-rating">
+                      <svg width="9" height="9" viewBox="0 0 10 10" fill="#F59E0B"><path d="M5 .5l1.2 2.6 2.8.4-2 2 .5 2.8L5 7l-2.5 1.3.5-2.8-2-2 2.8-.4z"/></svg>
+                      4.8
+                    </div>
+                    <div class="pro-dist">1.9 km</div>
+                    <div class="available-badge">Available</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Recent Bookings -->
+              <div>
+                <div class="section-row">
+                  <div class="section-label">Recent</div>
+                  <div class="view-all">View All →</div>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:8px">
+                  <div class="booking-item">
+                    <div class="booking-icon">
+                      <svg width="20" height="16" viewBox="0 0 24 18" fill="none">
+                        <path d="M3 14v2a1 1 0 001 1h2a1 1 0 001-1v-1h10v1a1 1 0 001 1h2a1 1 0 001-1v-2" stroke="#0B96D0" stroke-width="1.5" stroke-linecap="round"/>
+                        <path d="M4 14H20L18 7H6L4 14Z" stroke="#0B96D0" stroke-width="1.5" stroke-linejoin="round"/>
+                        <path d="M6 7L7 3H17L18 7" stroke="#0B96D0" stroke-width="1.5" stroke-linecap="round"/>
+                        <circle cx="7.5" cy="12" r="1.5" fill="#0B96D0" opacity=".4"/>
+                        <circle cx="16.5" cy="12" r="1.5" fill="#0B96D0" opacity=".4"/>
+                      </svg>
+                    </div>
+                    <div class="booking-info">
+                      <div class="booking-title">Full Wash — Toyota Corolla</div>
+                      <div class="booking-sub">Ahmed B. · 45 min</div>
+                    </div>
+                    <div class="booking-right">
+                      <div class="completed-tag">
+                        <svg width="8" height="8" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5 4-4" stroke="#00C87A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        Done
+                      </div>
+                      <div class="booking-date">Yesterday</div>
+                    </div>
+                  </div>
+
+                  <div class="booking-item">
+                    <div class="booking-icon">
+                      <svg width="20" height="16" viewBox="0 0 24 18" fill="none">
+                        <path d="M3 14v2a1 1 0 001 1h2a1 1 0 001-1v-1h10v1a1 1 0 001 1h2a1 1 0 001-1v-2" stroke="#6B7A90" stroke-width="1.5" stroke-linecap="round"/>
+                        <path d="M4 14H20L18 7H6L4 14Z" stroke="#6B7A90" stroke-width="1.5" stroke-linejoin="round"/>
+                        <path d="M6 7L7 3H17L18 7" stroke="#6B7A90" stroke-width="1.5" stroke-linecap="round"/>
+                      </svg>
+                    </div>
+                    <div class="booking-info">
+                      <div class="booking-title">Quick Wash — BMW 320d</div>
+                      <div class="booking-sub">Khalil M. · 20 min</div>
+                    </div>
+                    <div class="booking-right">
+                      <div class="completed-tag">
+                        <svg width="8" height="8" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5 4-4" stroke="#00C87A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        Done
+                      </div>
+                      <div class="booking-date">Mon</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div><!-- /screen-scroll -->
+
+            <!-- Bottom Tab Bar -->
+            <div class="tab-bar">
+              <div class="tab-item active">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                  <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" stroke="#0B96D0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M9 22V12h6v10" stroke="#0B96D0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Home
+                <div class="tab-dot"></div>
+              </div>
+              <div class="tab-item">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                  <rect x="3" y="4" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1.8"/>
+                  <path d="M16 2v4M8 2v4M3 10h18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                </svg>
+                Book
+              </div>
+              <div class="tab-item">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                  <path d="M12 2C8.1 2 5 5.1 5 9c0 5.2 7 13 7 13s7-7.8 7-13c0-3.9-3.1-7-7-7z" stroke="currentColor" stroke-width="1.8"/>
+                  <circle cx="12" cy="9" r="2.5" stroke="currentColor" stroke-width="1.8"/>
+                </svg>
+                Track
+              </div>
+              <div class="tab-item">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                  <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M14 2v6h6M16 13H8M16 17H8M10 9H8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                </svg>
+                History
+              </div>
+              <div class="tab-item">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                  <circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.8"/>
+                  <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                </svg>
+                Profile
+              </div>
+            </div>
+
+            <div class="home-indicator" style="background:#fff;color:#1A1A2E"></div>
+          </div>
+        </div>
+
+        <div style="font-size:14px;font-weight:700;color:var(--page-text);text-align:center">Home</div>
+        <div style="font-size:12px;color:var(--page-muted);text-align:center;margin-top:-14px">Customer dashboard</div>
+      </div>
+
+      <!-- ── RIGHT ANNOTATION PANEL ── -->
+      <div class="right-panel">
+        <div class="annotation-panel-sticky">
+
+          <div class="anno-card">
+            <div class="anno-title">Screen Sections</div>
+            <div class="section-map">
+              <div class="section-map-item">
+                <div class="section-map-line" style="background:linear-gradient(#0B96D0,#00ACE4)"></div>
+                <div class="section-map-info"><div class="section-map-name">App Header</div><div class="section-map-desc">Gradient · greeting · location chip</div></div>
+              </div>
+              <div class="section-map-item">
+                <div class="section-map-line" style="background:#fff"></div>
+                <div class="section-map-info"><div class="section-map-name">Quick Booking Card</div><div class="section-map-desc">Service chips · CTA button</div></div>
+              </div>
+              <div class="section-map-item">
+                <div class="section-map-line" style="background:#00C87A"></div>
+                <div class="section-map-info"><div class="section-map-name">Nearby Professionals</div><div class="section-map-desc">3 cards · live online dot</div></div>
+              </div>
+              <div class="section-map-item">
+                <div class="section-map-line" style="background:#0B96D0;opacity:.4"></div>
+                <div class="section-map-info"><div class="section-map-name">Recent Bookings</div><div class="section-map-desc">History cards · status badge</div></div>
+              </div>
+              <div class="section-map-item">
+                <div class="section-map-line" style="background:#6B7A90;opacity:.5"></div>
+                <div class="section-map-info"><div class="section-map-name">Bottom Tab Bar</div><div class="section-map-desc">5 tabs · blue active state</div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="anno-card">
+            <div class="anno-title">Component Specs</div>
+            <div class="anno-row"><div class="anno-key">Card radius</div><div class="anno-val">20px</div></div>
+            <div class="anno-row"><div class="anno-key">Tab bar height</div><div class="anno-val">64px</div></div>
+            <div class="anno-row"><div class="anno-key">Pro avatar size</div><div class="anno-val">40×40px</div></div>
+            <div class="anno-row"><div class="anno-key">Booking icon</div><div class="anno-val">38×38px r:10px</div></div>
+            <div class="anno-row"><div class="anno-key">Service chip h</div><div class="anno-val">30px r:20px</div></div>
+            <div class="anno-row"><div class="anno-key">Book button h</div><div class="anno-val">44px r:22px</div></div>
+            <div class="anno-row"><div class="anno-key">Header height</div><div class="anno-val">~110px</div></div>
+            <div class="anno-row"><div class="anno-key">Screen padding</div><div class="anno-val">14px</div></div>
+          </div>
+
+          <div class="anno-card">
+            <div class="anno-title">Notes</div>
+            <div class="anno-note"><strong>Map view</strong> is available on the Book screen — tap "Book Now" to navigate there.</div>
+            <div class="anno-note"><strong>Nearby pros</strong> are sorted by distance. The green dot pulses in the real app via Reanimated.</div>
+            <div class="anno-note"><strong>Quick Wash</strong> chip is pre-selected to reduce friction for first-time users.</div>
+            <div class="anno-note"><strong>RTL layout</strong> — in Arabic mode the greeting, chips, and cards all mirror horizontally.</div>
+          </div>
+
+          <div class="anno-card">
+            <div class="anno-title">Tab Bar Icons</div>
+            <div class="anno-row"><div class="anno-key">Home</div><div class="anno-val">house fill</div></div>
+            <div class="anno-row"><div class="anno-key">Book</div><div class="anno-val">calendar</div></div>
+            <div class="anno-row"><div class="anno-key">Track</div><div class="anno-val">pin / map</div></div>
+            <div class="anno-row"><div class="anno-key">History</div><div class="anno-val">document</div></div>
+            <div class="anno-row"><div class="anno-key">Profile</div><div class="anno-val">person</div></div>
+            <div class="anno-row"><div class="anno-key">Active color</div><div class="anno-val">#0B96D0</div></div>
+            <div class="anno-row"><div class="anno-key">Inactive opacity</div><div class="anno-val">0.4</div></div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SPEC CARDS -->
+  <div class="specs-outer">
+    <div class="spec-grid">
+      <div class="spec-card">
+        <div class="spec-card-title">App Header</div>
+        <div class="spec-row"><div class="spec-key">Background</div><div class="spec-val">gradient 135deg</div></div>
+        <div class="spec-row"><div class="spec-key">Gradient start</div><div class="spec-val">#0B96D0</div></div>
+        <div class="spec-row"><div class="spec-key">Gradient end</div><div class="spec-val">#00ACE4</div></div>
+        <div class="spec-row"><div class="spec-key">Padding</div><div class="spec-val">12px 18px 18px</div></div>
+        <div class="spec-row"><div class="spec-key">Avatar size</div><div class="spec-val">38×38px</div></div>
+        <div class="spec-row"><div class="spec-key">Greeting font</div><div class="spec-val">Outfit 700 17px</div></div>
+        <div class="spec-row"><div class="spec-key">Location chip r</div><div class="spec-val">20px</div></div>
+      </div>
+      <div class="spec-card">
+        <div class="spec-card-title">Quick Booking Card</div>
+        <div class="spec-row"><div class="spec-key">Background</div><div class="spec-val">#FFFFFF</div></div>
+        <div class="spec-row"><div class="spec-key">Border radius</div><div class="spec-val">20px</div></div>
+        <div class="spec-row"><div class="spec-key">Shadow</div><div class="spec-val">0 4px 20px</div></div>
+        <div class="spec-row"><div class="spec-key">Service chip h</div><div class="spec-val">30px</div></div>
+        <div class="spec-row"><div class="spec-key">Selected chip bg</div><div class="spec-val">blue 8% opacity</div></div>
+        <div class="spec-row"><div class="spec-key">CTA height</div><div class="spec-val">44px</div></div>
+        <div class="spec-row"><div class="spec-key">CTA radius</div><div class="spec-val">22px</div></div>
+      </div>
+      <div class="spec-card">
+        <div class="spec-card-title">Pro Card</div>
+        <div class="spec-row"><div class="spec-key">Background</div><div class="spec-val">#FFFFFF</div></div>
+        <div class="spec-row"><div class="spec-key">Border radius</div><div class="spec-val">14px</div></div>
+        <div class="spec-row"><div class="spec-key">Border</div><div class="spec-val">1px #E8EEF4</div></div>
+        <div class="spec-row"><div class="spec-key">Avatar size</div><div class="spec-val">40×40px</div></div>
+        <div class="spec-row"><div class="spec-key">Avatar radius</div><div class="spec-val">50%</div></div>
+        <div class="spec-row"><div class="spec-key">Name font</div><div class="spec-val">Outfit 700 12px</div></div>
+        <div class="spec-row"><div class="spec-key">Badge bg</div><div class="spec-val">green 12% opacity</div></div>
+      </div>
+      <div class="spec-card">
+        <div class="spec-card-title">Bottom Tab Bar</div>
+        <div class="spec-row"><div class="spec-key">Background</div><div class="spec-val">#FFFFFF</div></div>
+        <div class="spec-row"><div class="spec-key">Height</div><div class="spec-val">64px</div></div>
+        <div class="spec-row"><div class="spec-key">Border top</div><div class="spec-val">1px #E8EEF4</div></div>
+        <div class="spec-row"><div class="spec-key">Icon size</div><div class="spec-val">20×20px</div></div>
+        <div class="spec-row"><div class="spec-key">Label font</div><div class="spec-val">Outfit 700 9px</div></div>
+        <div class="spec-row"><div class="spec-key">Active color</div><div class="spec-val">#0B96D0</div></div>
+        <div class="spec-row"><div class="spec-key">Inactive opacity</div><div class="spec-val">0.40</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PREV / NEXT NAV -->
+  <div class="screen-nav">
+    <a href="auth.html" class="screen-nav-btn">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <div>
+        <div class="screen-nav-btn-dir">Previous</div>
+        <div class="screen-nav-btn-name">Auth Screens</div>
+      </div>
+    </a>
+    <a href="book.html" class="screen-nav-btn">
+      <div style="text-align:right">
+        <div class="screen-nav-btn-dir">Next</div>
+        <div class="screen-nav-btn-name">Book Screen</div>
+      </div>
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+  </div>
+
+</div><!-- /page -->
+
+<footer>© 2026 IRIS — Car Wash On-Demand Platform</footer>
+
+<script>
+  function toggleMenu() {
+    document.getElementById('mobileMenu').classList.toggle('open');
+  }
+</script>
+</body>
+</html>
