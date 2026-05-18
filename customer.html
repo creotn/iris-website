@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IRIS — Customer App Design</title>
+  <link rel="stylesheet" href="assets/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Cairo:wght@400;500;600;700;800;900&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    .page-hero {
+      padding: 140px 0 60px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .page-hero .glow-orb {
+      width: 400px; height: 400px;
+      top: -100px; left: 50%;
+      transform: translateX(-50%);
+      opacity: 0.1;
+    }
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      margin-bottom: 24px;
+      transition: color var(--transition-fast);
+    }
+    .back-link:hover { color: var(--text-primary); }
+
+    .screens-section {
+      padding: var(--space-3xl) 0;
+    }
+    .screen-pair {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+      margin-bottom: 120px;
+    }
+    .screen-pair:nth-child(even) .screen-info { order: 2; }
+    .screen-pair:nth-child(even) .screen-visual { order: 1; }
+    .screen-info .label { margin-bottom: 12px; display: block; }
+    .screen-info .heading-3 { margin-bottom: 12px; }
+    .screen-info .body-md { margin-bottom: 20px; }
+    .screen-detail-list {
+      list-style: none;
+    }
+    .screen-detail-list li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 0;
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+    }
+    .screen-detail-list .dot {
+      width: 6px; height: 6px;
+      background: var(--accent);
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .screen-visual {
+      display: flex;
+      justify-content: center;
+    }
+
+    @media (max-width: 1024px) {
+      .screen-pair {
+        grid-template-columns: 1fr;
+        gap: 40px;
+        text-align: center;
+      }
+      .screen-pair:nth-child(even) .screen-info { order: 1; }
+      .screen-pair:nth-child(even) .screen-visual { order: 2; }
+      .screen-visual { justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="nav">
+  <div class="container nav-inner">
+    <a href="index.html">
+      <svg class="logo-svg" viewBox="0 0 100 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <text x="0" y="26" fill="var(--logo-fill)" font-family="Inter, sans-serif" font-weight="900" font-size="28">IRIS</text>
+      </svg>
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html" data-en="Home" data-ar="الرئيسية">Home</a></li>
+      <li><a href="customer.html" style="color:var(--accent);" data-en="Customer App" data-ar="تطبيق العميل">Customer App</a></li>
+      <li><a href="pro.html" data-en="Pro App" data-ar="تطبيق المحترف">Pro App</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      </button>
+      <div class="lang-toggle" id="langToggle">
+        <button data-lang="en">EN</button>
+        <button class="active" data-lang="ar">عربي</button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- Page Hero -->
+<section class="page-hero">
+  <div class="grid-bg"></div>
+  <div class="glow-orb glow-orb-blue"></div>
+  <div class="container" style="position:relative;z-index:2;">
+    <a href="index.html" class="back-link" data-en="&#x2190; Back to Home" data-ar="&#x2192; العودة إلى الرئيسية">&#x2190; Back to Home</a>
+    <span class="badge badge-accent" style="margin-bottom:16px;" data-en="Customer App" data-ar="تطبيق العميل">Customer App</span>
+    <h1 class="heading-2" data-en="Customer App — Full Design" data-ar="تطبيق العميل — التصميم الكامل">Customer App — Full Design</h1>
+    <p class="body-lg" style="max-width:560px;margin:12px auto 0;" data-en="Every screen of the IRIS customer experience, from sign-in to profile management." data-ar="كل شاشة من تجربة عميل IRIS، من تسجيل الدخول إلى إدارة الملف الشخصي.">Every screen of the IRIS customer experience, from sign-in to profile management.</p>
+  </div>
+</section>
+
+<!-- Screens -->
+<section class="screens-section">
+  <div class="container">
+
+    <!-- 1. Sign In / Auth -->
+    <div class="screen-pair animate-in">
+      <div class="screen-info">
+        <span class="label" data-en="01 — Authentication" data-ar="01 — التوثيق">01 — Authentication</span>
+        <h3 class="heading-3" data-en="Sign In" data-ar="تسجيل الدخول">Sign In</h3>
+        <p class="body-md" data-en="Phone-based OTP authentication. Clean, fast, and secure — no passwords needed." data-ar="توثيق برقم الهاتف عبر OTP. نظيف وسريع وآمن — بدون كلمات مرور.">Phone-based OTP authentication. Clean, fast, and secure — no passwords needed.</p>
+        <ul class="screen-detail-list">
+          <li><span class="dot"></span><span data-en="Phone number input with country code" data-ar="إدخال رقم الهاتف مع رمز البلد">Phone number input with country code</span></li>
+          <li><span class="dot"></span><span data-en="OTP verification with auto-fill" data-ar="التحقق من OTP مع التعبئة التلقائية">OTP verification with auto-fill</span></li>
+          <li><span class="dot"></span><span data-en="Biometric login for returning users" data-ar="تسجيل دخول بيومتري للمستخدمين العائدين">Biometric login for returning users</span></li>
+          <li><span class="dot"></span><span data-en="Social login options (Google, Apple)" data-ar="خيارات تسجيل دخول اجتماعي (Google, Apple)">Social login options (Google, Apple)</span></li>
+        </ul>
+      </div>
+      <div class="screen-visual">
+        <div class="phone-mockup">
+          <div class="phone-screen">
+            <div class="phone-status-bar"><span>9:41</span><span>●●● ▐█▌</span></div>
+            <div class="screen-content" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:calc(100% - 40px);padding-bottom:40px;">
+              <!-- Logo area -->
+              <div style="margin-bottom:36px;text-align:center;">
+                <div style="font-size:32px;font-weight:900;letter-spacing:-1px;margin-bottom:4px;">IRIS</div>
+                <div style="font-size:9px;color:var(--text-muted);letter-spacing:0.15em;text-transform:uppercase;" data-en="Mobile Car Wash" data-ar="غسيل سيارات متنقل">Mobile Car Wash</div>
+              </div>
+              <!-- Phone input -->
+              <div style="width:100%;">
+                <div style="font-size:11px;font-weight:600;color:var(--text-muted);margin-bottom:8px;" data-en="PHONE NUMBER" data-ar="رقم الهاتف">PHONE NUMBER</div>
+                <div style="display:flex;gap:8px;margin-bottom:16px;">
+                  <div style="background:var(--bg-input);border:1px solid var(--border);border-radius:10px;padding:12px;font-size:13px;width:70px;text-align:center;color:var(--text-secondary);">+966</div>
+                  <div style="flex:1;background:var(--bg-input);border:1px solid var(--border);border-radius:10px;padding:12px;font-size:13px;color:var(--text-muted);">XX XXX XXX</div>
+                </div>
+                <div class="screen-btn" data-en="Send OTP Code" data-ar="إرسال رمز OTP">Send OTP Code</div>
+                <div style="text-align:center;margin-top:20px;">
+                  <div style="font-size:10px;color:var(--text-muted);margin-bottom:16px;" data-en="or continue with" data-ar="أو تابع عبر">or continue with</div>
+                  <div style="display:flex;gap:12px;justify-content:center;">
+                    <div style="width:48px;height:48px;background:var(--bg-input);border:1px solid var(--border);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:18px;">G</div>
+                    <div style="width:48px;height:48px;background:var(--bg-input);border:1px solid var(--border);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:18px;">&#x2318;</div>
+                  </div>
+                </div>
+              </div>
+              <div style="margin-top:24px;font-size:10px;color:var(--text-muted);text-align:center;" data-en="By continuing, you agree to our Terms & Privacy Policy" data-ar="بالمتابعة، أنت توافق على الشروط وسياسة الخصوصية">By continuing, you agree to our Terms & Privacy Policy</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. Home / Dashboard -->
+    <div class="screen-pair animate-in">
+      <div class="screen-info">
+        <span class="label" data-en="02 — Home" data-ar="02 — الرئيسية">02 — Home</span>
+        <h3 class="heading-3" data-en="Dashboard" data-ar="لوحة التحكم">Dashboard</h3>
+        <p class="body-md" data-en="The main hub. Browse services, see promotions, and quickly rebook previous washes." data-ar="المركز الرئيسي. تصفح الخدمات، شاهد العروض، وأعد حجز الغسلات السابقة بسرعة.">The main hub. Browse services, see promotions, and quickly rebook previous washes.</p>
+        <ul class="screen-detail-list">
+          <li><span class="dot"></span><span data-en="Personalized greeting and quick actions" data-ar="تحية شخصية وإجراءات سريعة">Personalized greeting and quick actions</span></li>
+          <li><span class="dot"></span><span data-en="Service categories with pricing" data-ar="فئات الخدمة مع الأسعار">Service categories with pricing</span></li>
+          <li><span class="dot"></span><span data-en="Promotional banners and offers" data-ar="لافتات ترويجية وعروض">Promotional banners and offers</span></li>
+          <li><span class="dot"></span><span data-en="Recent bookings for quick rebooking" data-ar="الحجوزات الأخيرة لإعادة الحجز السريع">Recent bookings for quick rebooking</span></li>
+        </ul>
+      </div>
+      <div class="screen-visual">
+        <div class="phone-mockup">
+          <div class="phone-screen">
+            <div class="phone-status-bar"><span>9:41</span><span>●●● ▐█▌</span></div>
+            <div class="screen-content">
+              <div class="screen-greeting" data-en="Good morning," data-ar="صباح الخير،">Good morning,</div>
+              <div class="screen-title" data-en="Ahmed &#x1f44b;" data-ar="أحمد &#x1f44b;">Ahmed &#x1f44b;</div>
+              <div class="screen-search">
+                <span class="screen-search-icon">&#x1f50d;</span>
+                <span class="screen-search-text" data-en="Search services..." data-ar="ابحث عن الخدمات...">Search services...</span>
+              </div>
+              <!-- Promo banner -->
+              <div class="screen-card" style="background:linear-gradient(135deg, rgba(0,102,255,0.2), rgba(123,47,255,0.1));border-color:var(--border-accent);margin-bottom:14px;">
+                <div style="font-size:9px;font-weight:700;color:var(--accent);letter-spacing:0.1em;" data-en="LIMITED OFFER" data-ar="عرض محدود">LIMITED OFFER</div>
+                <div style="font-size:14px;font-weight:700;margin:4px 0;" data-en="20% Off Your First Wash" data-ar="خصم 20% على غسلتك الأولى">20% Off Your First Wash</div>
+                <div style="font-size:10px;color:var(--text-muted);" data-en="Use code: IRIS20" data-ar="استخدم الرمز: IRIS20">Use code: IRIS20</div>
+              </div>
+              <!-- Service chips -->
+              <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;">
+                <span class="screen-chip" data-en="Express" data-ar="سريع">Express</span>
+                <span class="screen-chip" data-en="Premium" data-ar="متميز">Premium</span>
+                <span class="screen-chip" data-en="Full Detail" data-ar="شامل">Full Detail</span>
+                <span class="screen-chip" data-en="Interior" data-ar="داخلي">Interior</span>
+              </div>
+              <!-- Service card -->
+              <div class="screen-card" style="margin-bottom:8px;">
+                <div style="display:flex;justify-content:space-between;align-items:center;">
+                  <div>
+                    <div style="font-size:12px;font-weight:600;" data-en="Premium Wash" data-ar="غسيل متميز">Premium Wash</div>
+                    <div style="font-size:10px;color:var(--text-muted);" data-en="Exterior + Interior · 45 min" data-ar="خارجي + داخلي · 45 دقيقة">Exterior + Interior · 45 min</div>
+                  </div>
+                  <span style="font-size:15px;font-weight:700;color:var(--accent);">35 <span style="font-size:9px;color:var(--text-muted);">SAR</span></span>
+                </div>
+              </div>
+              <div class="screen-card">
+                <div style="display:flex;justify-content:space-between;align-items:center;">
+                  <div>
+                    <div style="font-size:12px;font-weight:600;" data-en="Express Wash" data-ar="غسيل سريع">Express Wash</div>
+                    <div style="font-size:10px;color:var(--text-muted);" data-en="Exterior only · 20 min" data-ar="خارجي فقط · 20 دقيقة">Exterior only · 20 min</div>
+                  </div>
+                  <span style="font-size:15px;font-weight:700;color:var(--accent);">15 <span style="font-size:9px;color:var(--text-muted);">SAR</span></span>
+                </div>
+              </div>
+              <!-- Recent -->
+              <div style="font-size:11px;font-weight:600;color:var(--text-muted);margin:14px 0 8px;" data-en="RECENT" data-ar="الأخيرة">RECENT</div>
+              <div class="screen-list-item" style="padding:8px 0;">
+                <div class="screen-avatar">P</div>
+                <div style="flex:1;">
+                  <div style="font-size:12px;font-weight:600;" data-en="Premium Wash" data-ar="غسيل متميز">Premium Wash</div>
+                  <div style="font-size:10px;color:var(--text-muted);">May 15 · 35 SAR</div>
+                </div>
+                <div class="screen-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+              </div>
+            </div>
+            <!-- Bottom nav -->
+            <div class="phone-nav">
+              <div class="phone-nav-item active">
+                <div class="phone-nav-icon">&#x1f3e0;</div>
+                <span data-en="Home" data-ar="الرئيسية">Home</span>
+              </div>
+              <div class="phone-nav-item">
+                <div class="phone-nav-icon">&#x1f4c5;</div>
+                <span data-en="Book" data-ar="احجز">Book</span>
+              </div>
+              <div class="phone-nav-item">
+                <div class="phone-nav-icon">&#x1f4cd;</div>
+                <span data-en="Track" data-ar="تتبع">Track</span>
+              </div>
+              <div class="phone-nav-item">
+                <div class="phone-nav-icon">&#x1f4cb;</div>
+                <span data-en="History" data-ar="السجل">History</span>
+              </div>
+              <div class="phone-nav-item">
+                <div class="phone-nav-icon">&#x1f464;</div>
+                <span data-en="Profile" data-ar="الملف">Profile</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. Book / Schedule -->
+    <div class="screen-pair animate-in">
+      <div class="screen-info">
+        <span class="label" data-en="03 — Book" data-ar="03 — الحجز">03 — Book</span>
+        <h3 class="heading-3" data-en="Schedule a Wash" data-ar="جدولة غسلة">Schedule a Wash</h3>
+        <p class="body-md" data-en="Pick your location, choose a time slot, select your vehicle, and confirm. Simple 3-step flow." data-ar="حدد موقعك، اختر وقتًا، حدد سيارتك، وأكّد. خطوات بسيطة.">Pick your location, choose a time slot, select your vehicle, and confirm. Simple 3-step flow.</p>
+        <ul class="screen-detail-list">
+          <li><span class="dot"></span><span data-en="Interactive map for location selection" data-ar="خريطة تفاعلية لاختيار الموقع">Interactive map for location selection</span></li>
+          <li><span class="dot"></span><span data-en="Date & time picker with availability" data-ar="اختيار التاريخ والوقت مع التوفر">Date & time picker with availability</span></li>
+          <li><span class="dot"></span><span data-en="Vehicle selection and management" data-ar="اختيار وإدارة المركبات">Vehicle selection and management</span></li>
+          <li><span class="dot"></span><span data-en="Order summary with pricing breakdown" data-ar="ملخص الطلب مع تفاصيل الأسعار">Order summary with pricing breakdown</span></li>
+        </ul>
+      </div>
+      <div class="screen-visual">
+        <div class="phone-mockup">
+          <div class="phone-screen">
+            <div class="phone-status-bar"><span>9:41</span><span>●●● ▐█▌</span></div>
+            <div class="screen-content">
+              <div class="screen-title" style="font-size:15px;margin-bottom:14px;" data-en="Schedule Wash" data-ar="جدولة الغسلة">Schedule Wash</div>
+              <!-- Map -->
+              <div class="screen-map" style="height:120px;">
+                <div class="screen-map-grid"></div>
+                <div class="screen-map-pin" style="top:50%;left:50%;"></div>
+              </div>
+              <div class="screen-card" style="padding:10px 14px;margin-bottom:12px;">
+                <div style="display:flex;align-items:center;gap:8px;">
+                  <span style="color:var(--accent);font-size:14px;">&#x1f4cd;</span>
+                  <div>
+                    <div style="font-size:11px;font-weight:600;" data-en="Al Olaya, Riyadh" data-ar="العليا، الرياض">Al Olaya, Riyadh</div>
+                    <div style="font-size:9px;color:var(--text-muted);" data-en="King Fahd Road, 12214" data-ar="طريق الملك فهد، 12214">King Fahd Road, 12214</div>
+                  </div>
+                </div>
+              </div>
+              <!-- Date -->
+              <div style="font-size:11px;font-weight:600;color:var(--text-muted);margin-bottom:8px;" data-en="SELECT DATE" data-ar="اختر التاريخ">SELECT DATE</div>
+              <div style="display:flex;gap:6px;margin-bottom:14px;overflow-x:auto;">
+                <div style="min-width:48px;text-align:center;padding:8px 6px;border-radius:10px;background:var(--bg-input);border:1px solid var(--border);">
+                  <div style="font-size:8px;color:var(--text-muted);">MON</div>
+                  <div style="font-size:14px;font-weight:700;">19</div>
+                </div>
+                <div style="min-width:48px;text-align:center;padding:8px 6px;border-radius:10px;background:var(--accent);color:white;">
+                  <div style="font-size:8px;opacity:0.8;">TUE</div>
+                  <div style="font-size:14px;font-weight:700;">20</div>
+                </div>
+                <div style="min-width:48px;text-align:center;padding:8px 6px;border-radius:10px;background:var(--bg-input);border:1px solid var(--border);">
+                  <div style="font-size:8px;color:var(--text-muted);">WED</div>
+                  <div style="font-size:14px;font-weight:700;">21</div>
+                </div>
+                <div style="min-width:48px;text-align:center;padding:8px 6px;border-radius:10px;background:var(--bg-input);border:1px solid var(--border);">
+                  <div style="font-size:8px;color:var(--text-muted);">THU</div>
+                  <div style="font-size:14px;font-weight:700;">22</div>
+                </div>
+              </div>
+              <!-- Time -->
+              <div style="font-size:11px;font-weight:600;color:var(--text-muted);margin-bottom:8px;" data-en="SELECT TIME" data-ar="اختر الوقت">SELECT TIME</div>
+              <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;">
+                <span class="screen-chip" style="border-color:var(--border);">09:00</span>
+                <span class="screen-chip" style="background:var(--accent);color:white;border-color:var(--accent);">10:30</span>
+                <span class="screen-chip" style="border-color:var(--border);">12:00</span>
+                <span class="screen-chip" style="border-color:var(--border);">14:00</span>
+                <span class="screen-chip" style="border-color:var(--border);">16:00</span>
+              </div>
+              <!-- Vehicle -->
+              <div style="font-size:11px;font-weight:600;color:var(--text-muted);margin-bottom:8px;" data-en="YOUR VEHICLE" data-ar="سيارتك">YOUR VEHICLE</div>
+              <div class="screen-card" style="border-color:var(--border-accent);padding:10px 14px;">
+                <div style="display:flex;align-items:center;gap:10px;">
+                  <div style="font-size:20px;">&#x1f697;</div>
+                  <div>
+                    <div style="font-size:12px;font-weight:600;">Toyota Corolla</div>
+                    <div style="font-size:9px;color:var(--text-muted);">RUH 4521</div>
+                  </div>
+                </div>
+              </div>
+              <div class="screen-btn" data-en="Confirm Booking — 35 SAR" data-ar="تأكيد الحجز — 35 دينار">Confirm Booking — 35 SAR</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. Track / Live Map -->
+    <div class="screen-pair animate-in">
+      <div class="screen-info">
+        <span class="label" data-en="04 — Track" data-ar="04 — التتبع">04 — Track</span>
+        <h3 class="heading-3" data-en="Live Tracking" data-ar="التتبع المباشر">Live Tracking</h3>
+        <p class="body-md" data-en="Real-time map showing your pro's location, ETA, and wash progress. Stay informed without a single call." data-ar="خريطة مباشرة تعرض موقع المحترف ووقت الوصول وتقدم الغسيل. ابقَ على اطلاع بدون اتصال.">Real-time map showing your pro's location, ETA, and wash progress. Stay informed without a single call.</p>
+        <ul class="screen-detail-list">
+          <li><span class="dot"></span><span data-en="Live GPS tracking on interactive map" data-ar="تتبع GPS مباشر على خريطة تفاعلية">Live GPS tracking on interactive map</span></li>
+          <li><span class="dot"></span><span data-en="ETA countdown and status updates" data-ar="العد التنازلي لوقت الوصول وتحديثات الحالة">ETA countdown and status updates</span></li>
+          <li><span class="dot"></span><span data-en="In-app messaging with your pro" data-ar="مراسلة داخل التطبيق مع المحترف">In-app messaging with your pro</span></li>
+          <li><span class="dot"></span><span data-en="Step-by-step wash progress tracker" data-ar="متتبع تقدم الغسيل خطوة بخطوة">Step-by-step wash progress tracker</span></li>
+        </ul>
+      </div>
+      <div class="screen-visual">
+        <div class="phone-mockup">
+          <div class="phone-screen">
+            <div class="phone-status-bar"><span>9:41</span><span>●●● ▐█▌</span></div>
+            <div class="screen-content">
+              <!-- Large map -->
+              <div class="screen-map" style="height:200px;margin:-16px -16px 14px;width:calc(100% + 32px);border-radius:0;">
+                <div class="screen-map-grid"></div>
+                <div class="screen-map-pin" style="top:35%;left:60%;"></div>
+                <div class="screen-map-pin" style="top:65%;left:40%;background:var(--success);box-shadow:0 0 10px rgba(0,200,83,0.5);"></div>
+                <div class="screen-map-route" style="top:35%;left:40%;width:80px;height:60px;border-radius:20px;transform:rotate(15deg);"></div>
+              </div>
+              <!-- ETA Card -->
+              <div class="screen-card" style="border-color:var(--border-accent);margin-bottom:12px;">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+                  <div>
+                    <div style="font-size:9px;font-weight:600;color:var(--accent);letter-spacing:0.05em;" data-en="ARRIVING IN" data-ar="يصل خلال">ARRIVING IN</div>
+                    <div style="font-size:22px;font-weight:800;color:var(--text-primary);">8 <span style="font-size:12px;font-weight:500;color:var(--text-muted);" data-en="min" data-ar="دقيقة">min</span></div>
+                  </div>
+                  <div class="screen-avatar" style="width:40px;height:40px;">K</div>
+                </div>
+                <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--text-muted);margin-bottom:4px;">
+                  <span data-en="Karim M. · 4.9 &#9733;" data-ar="كريم م. · 4.9 &#9733;">Karim M. · 4.9 &#9733;</span>
+                  <span data-en="Premium Wash" data-ar="غسيل متميز">Premium Wash</span>
+                </div>
+                <div class="screen-progress"><div class="screen-progress-fill" style="width:65%;"></div></div>
+              </div>
+              <!-- Progress Steps -->
+              <div style="font-size:11px;font-weight:600;color:var(--text-muted);margin-bottom:10px;" data-en="WASH PROGRESS" data-ar="تقدم الغسيل">WASH PROGRESS</div>
+              <div style="display:flex;flex-direction:column;gap:0;">
+                <div style="display:flex;align-items:center;gap:10px;padding:8px 0;">
+                  <div style="width:22px;height:22px;border-radius:50%;background:var(--success);display:flex;align-items:center;justify-content:center;font-size:10px;color:white;">&#x2713;</div>
+                  <span style="font-size:11px;color:var(--text-secondary);" data-en="Booking confirmed" data-ar="تم تأكيد الحجز">Booking confirmed</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:10px;padding:8px 0;">
+                  <div style="width:22px;height:22px;border-radius:50%;background:var(--success);display:flex;align-items:center;justify-content:center;font-size:10px;color:white;">&#x2713;</div>
+                  <span style="font-size:11px;color:var(--text-secondary);" data-en="Pro assigned" data-ar="تم تعيين المحترف">Pro assigned</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:10px;padding:8px 0;">
+                  <div style="width:22px;height:22px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-size:10px;color:white;animation:pulse-glow 2s infinite;">&#x2022;</div>
+                  <span style="font-size:11px;font-weight:600;color:var(--accent);" data-en="On the way" data-ar="في الطريق">On the way</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:10px;padding:8px 0;">
+                  <div style="width:22px;height:22px;border-radius:50%;background:var(--bg-input);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--text-muted);">4</div>
+                  <span style="font-size:11px;color:var(--text-muted);" data-en="Washing in progress" data-ar="الغسيل قيد التنفيذ">Washing in progress</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:10px;padding:8px 0;">
+                  <div style="width:22px;height:22px;border-radius:50%;background:var(--bg-input);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--text-muted);">5</div>
+                  <span style="font-size:11px;color:var(--text-muted);" data-en="Completed" data-ar="مكتمل">Completed</span>
+                </div>
+              </div>
+              <!-- Action buttons -->
+              <div style="display:flex;gap:8px;margin-top:10px;">
+                <div class="screen-btn" style="flex:1;padding:10px;font-size:11px;background:var(--bg-input);color:var(--text-secondary);" data-en="&#x1f4ac; Message" data-ar="&#x1f4ac; رسالة">&#x1f4ac; Message</div>
+                <div class="screen-btn" style="flex:1;padding:10px;font-size:11px;" data-en="&#x1f4de; Call" data-ar="&#x1f4de; اتصال">&#x1f4de; Call</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. History / Past Washes -->
+    <div class="screen-pair animate-in">
+      <div class="screen-info">
+        <span class="label" data-en="05 — History" data-ar="05 — السجل">05 — History</span>
+        <h3 class="heading-3" data-en="Past Washes" data-ar="الغسلات السابقة">Past Washes</h3>
+        <p class="body-md" data-en="Complete record of all your bookings with details, ratings, and the ability to rebook instantly." data-ar="سجل كامل لجميع حجوزاتك مع التفاصيل والتقييمات وإمكانية إعادة الحجز فورًا.">Complete record of all your bookings with details, ratings, and the ability to rebook instantly.</p>
+        <ul class="screen-detail-list">
+          <li><span class="dot"></span><span data-en="Chronological list of all washes" data-ar="قائمة زمنية لجميع الغسلات">Chronological list of all washes</span></li>
+          <li><span class="dot"></span><span data-en="Detailed view with service breakdown" data-ar="عرض مفصل مع تقسيم الخدمة">Detailed view with service breakdown</span></li>
+          <li><span class="dot"></span><span data-en="Rating and feedback for each wash" data-ar="تقييم وملاحظات لكل غسلة">Rating and feedback for each wash</span></li>
+          <li><span class="dot"></span><span data-en="One-tap rebook same service" data-ar="إعادة حجز نفس الخدمة بنقرة واحدة">One-tap rebook same service</span></li>
+        </ul>
+      </div>
+      <div class="screen-visual">
+        <div class="phone-mockup">
+          <div class="phone-screen">
+            <div class="phone-status-bar"><span>9:41</span><span>●●● ▐█▌</span></div>
+            <div class="screen-content">
+              <div class="screen-title" style="font-size:15px;margin-bottom:4px;" data-en="Wash History" data-ar="سجل الغسيل">Wash History</div>
+              <div style="font-size:10px;color:var(--text-muted);margin-bottom:14px;" data-en="12 total washes" data-ar="12 غسلة إجمالية">12 total washes</div>
+              <!-- Stats row -->
+              <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px;">
+                <div class="screen-card" style="padding:10px;text-align:center;">
+                  <div style="font-size:16px;font-weight:800;color:var(--accent);">12</div>
+                  <div style="font-size:8px;color:var(--text-muted);" data-en="Washes" data-ar="غسلات">Washes</div>
+                </div>
+                <div class="screen-card" style="padding:10px;text-align:center;">
+                  <div style="font-size:16px;font-weight:800;color:var(--success);">420</div>
+                  <div style="font-size:8px;color:var(--text-muted);" data-en="SAR Spent" data-ar="ريال منفق">SAR Spent</div>
+                </div>
+                <div class="screen-card" style="padding:10px;text-align:center;">
+                  <div style="font-size:16px;font-weight:800;color:var(--warning);">4.8</div>
+                  <div style="font-size:8px;color:var(--text-muted);" data-en="Avg Rating" data-ar="متوسط التقييم">Avg Rating</div>
+                </div>
+              </div>
+              <!-- Filter chips -->
+              <div style="display:flex;gap:6px;margin-bottom:14px;">
+                <span class="screen-chip" style="background:var(--accent);color:white;border-color:var(--accent);" data-en="All" data-ar="الكل">All</span>
+                <span class="screen-chip" data-en="Express" data-ar="سريع">Express</span>
+                <span class="screen-chip" data-en="Premium" data-ar="متميز">Premium</span>
+                <span class="screen-chip" data-en="Detail" data-ar="شامل">Detail</span>
+              </div>
+              <!-- History items -->
+              <div class="screen-card" style="margin-bottom:8px;">
+                <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+                  <div>
+                    <div style="font-size:12px;font-weight:600;" data-en="Premium Wash" data-ar="غسيل متميز">Premium Wash</div>
+                    <div style="font-size:10px;color:var(--text-muted);">May 15, 2026 · 10:30</div>
+                    <div class="screen-stars" style="margin-top:4px;">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                  </div>
+                  <div style="text-align:right;">
+                    <div style="font-size:13px;font-weight:700;color:var(--accent);">35 SAR</div>
+                    <div style="font-size:8px;padding:3px 8px;background:rgba(0,200,83,0.1);color:var(--success);border-radius:20px;margin-top:4px;" data-en="Completed" data-ar="مكتمل">Completed</div>
+                  </div>
+                </div>
+              </div>
+              <div class="screen-card" style="margin-bottom:8px;">
+                <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+                  <div>
+                    <div style="font-size:12px;font-weight:600;" data-en="Express Wash" data-ar="غسيل سريع">Express Wash</div>
+                    <div style="font-size:10px;color:var(--text-muted);">May 10, 2026 · 14:00</div>
+                    <div class="screen-stars" style="margin-top:4px;">&#9733;&#9733;&#9733;&#9733;&#9734;</div>
+                  </div>
+                  <div style="text-align:right;">
+                    <div style="font-size:13px;font-weight:700;color:var(--accent);">15 SAR</div>
+                    <div style="font-size:8px;padding:3px 8px;background:rgba(0,200,83,0.1);color:var(--success);border-radius:20px;margin-top:4px;" data-en="Completed" data-ar="مكتمل">Completed</div>
+                  </div>
+                </div>
+              </div>
+              <div class="screen-card">
+                <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+                  <div>
+                    <div style="font-size:12px;font-weight:600;" data-en="Full Detail" data-ar="تنظيف شامل">Full Detail</div>
+                    <div style="font-size:10px;color:var(--text-muted);">May 3, 2026 · 09:00</div>
+                    <div class="screen-stars" style="margin-top:4px;">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                  </div>
+                  <div style="text-align:right;">
+                    <div style="font-size:13px;font-weight:700;color:var(--accent);">65 SAR</div>
+                    <div style="font-size:8px;padding:3px 8px;background:rgba(0,200,83,0.1);color:var(--success);border-radius:20px;margin-top:4px;" data-en="Completed" data-ar="مكتمل">Completed</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="phone-nav">
+              <div class="phone-nav-item"><div class="phone-nav-icon">&#x1f3e0;</div><span data-en="Home" data-ar="الرئيسية">Home</span></div>
+              <div class="phone-nav-item"><div class="phone-nav-icon">&#x1f4c5;</div><span data-en="Book" data-ar="احجز">Book</span></div>
+              <div class="phone-nav-item"><div class="phone-nav-icon">&#x1f4cd;</div><span data-en="Track" data-ar="تتبع">Track</span></div>
+              <div class="phone-nav-item active"><div class="phone-nav-icon">&#x1f4cb;</div><span data-en="History" data-ar="السجل">History</span></div>
+              <div class="phone-nav-item"><div class="phone-nav-icon">&#x1f464;</div><span data-en="Profile" data-ar="الملف">Profile</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6. Profile / Account -->
+    <div class="screen-pair animate-in">
+      <div class="screen-info">
+        <span class="label" data-en="06 — Profile" data-ar="06 — الملف الشخصي">06 — Profile</span>
+        <h3 class="heading-3" data-en="Account" data-ar="الحساب">Account</h3>
+        <p class="body-md" data-en="Manage personal details, vehicles, payment methods, and app preferences all in one place." data-ar="أدِر بياناتك الشخصية ومركباتك وطرق الدفع وتفضيلات التطبيق في مكان واحد.">Manage personal details, vehicles, payment methods, and app preferences all in one place.</p>
+        <ul class="screen-detail-list">
+          <li><span class="dot"></span><span data-en="Edit profile information and photo" data-ar="تعديل معلومات الملف الشخصي والصورة">Edit profile information and photo</span></li>
+          <li><span class="dot"></span><span data-en="Manage saved vehicles" data-ar="إدارة المركبات المحفوظة">Manage saved vehicles</span></li>
+          <li><span class="dot"></span><span data-en="Payment methods and billing" data-ar="طرق الدفع والفوترة">Payment methods and billing</span></li>
+          <li><span class="dot"></span><span data-en="Notification and language settings" data-ar="إعدادات الإشعارات واللغة">Notification and language settings</span></li>
+        </ul>
+      </div>
+      <div class="screen-visual">
+        <div class="phone-mockup">
+          <div class="phone-screen">
+            <div class="phone-status-bar"><span>9:41</span><span>●●● ▐█▌</span></div>
+            <div class="screen-content">
+              <!-- Profile header -->
+              <div style="text-align:center;padding:10px 0 20px;">
+                <div class="screen-avatar" style="width:56px;height:56px;margin:0 auto 10px;font-size:22px;">A</div>
+                <div style="font-size:15px;font-weight:700;" data-en="Ahmed Ben Ali" data-ar="أحمد بن علي">Ahmed Ben Ali</div>
+                <div style="font-size:11px;color:var(--text-muted);">+966 XX XXX XXX</div>
+                <div style="font-size:11px;color:var(--text-muted);">ahmed@email.com</div>
+              </div>
+              <!-- Stats -->
+              <div style="display:flex;justify-content:space-around;padding:12px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);margin-bottom:16px;">
+                <div style="text-align:center;">
+                  <div style="font-size:16px;font-weight:800;color:var(--accent);">12</div>
+                  <div style="font-size:8px;color:var(--text-muted);" data-en="Washes" data-ar="غسلات">Washes</div>
+                </div>
+                <div style="text-align:center;">
+                  <div style="font-size:16px;font-weight:800;color:var(--warning);">4.8</div>
+                  <div style="font-size:8px;color:var(--text-muted);" data-en="Avg Rating" data-ar="متوسط التقييم">Avg Rating</div>
+                </div>
+                <div style="text-align:center;">
+                  <div style="font-size:16px;font-weight:800;color:var(--success);">2</div>
+                  <div style="font-size:8px;color:var(--text-muted);" data-en="Vehicles" data-ar="مركبات">Vehicles</div>
+                </div>
+              </div>
+              <!-- Menu items -->
+              <div class="screen-list-item" style="padding:10px 0;">
+                <span style="font-size:16px;">&#x1f697;</span>
+                <span style="flex:1;font-size:12px;font-weight:500;" data-en="My Vehicles" data-ar="سياراتي">My Vehicles</span>
+                <span style="color:var(--text-muted);font-size:12px;">&#x203A;</span>
+              </div>
+              <div class="screen-list-item" style="padding:10px 0;">
+                <span style="font-size:16px;">&#x1f4b3;</span>
+                <span style="flex:1;font-size:12px;font-weight:500;" data-en="Payment Methods" data-ar="طرق الدفع">Payment Methods</span>
+                <span style="color:var(--text-muted);font-size:12px;">&#x203A;</span>
+              </div>
+              <div class="screen-list-item" style="padding:10px 0;">
+                <span style="font-size:16px;">&#x1f514;</span>
+                <span style="flex:1;font-size:12px;font-weight:500;" data-en="Notifications" data-ar="الإشعارات">Notifications</span>
+                <div class="screen-toggle on"></div>
+              </div>
+              <div class="screen-list-item" style="padding:10px 0;">
+                <span style="font-size:16px;">&#x1f310;</span>
+                <span style="flex:1;font-size:12px;font-weight:500;" data-en="Language" data-ar="اللغة">Language</span>
+                <span style="font-size:11px;color:var(--accent);">English</span>
+              </div>
+              <div class="screen-list-item" style="padding:10px 0;">
+                <span style="font-size:16px;">&#x2753;</span>
+                <span style="flex:1;font-size:12px;font-weight:500;" data-en="Help & Support" data-ar="المساعدة والدعم">Help & Support</span>
+                <span style="color:var(--text-muted);font-size:12px;">&#x203A;</span>
+              </div>
+              <div class="screen-list-item" style="padding:10px 0;border-bottom:none;">
+                <span style="font-size:16px;">&#x1f6aa;</span>
+                <span style="flex:1;font-size:12px;font-weight:500;color:var(--error);" data-en="Log Out" data-ar="تسجيل الخروج">Log Out</span>
+              </div>
+            </div>
+            <div class="phone-nav">
+              <div class="phone-nav-item"><div class="phone-nav-icon">&#x1f3e0;</div><span data-en="Home" data-ar="الرئيسية">Home</span></div>
+              <div class="phone-nav-item"><div class="phone-nav-icon">&#x1f4c5;</div><span data-en="Book" data-ar="احجز">Book</span></div>
+              <div class="phone-nav-item"><div class="phone-nav-icon">&#x1f4cd;</div><span data-en="Track" data-ar="تتبع">Track</span></div>
+              <div class="phone-nav-item"><div class="phone-nav-icon">&#x1f4cb;</div><span data-en="History" data-ar="السجل">History</span></div>
+              <div class="phone-nav-item active"><div class="phone-nav-icon">&#x1f464;</div><span data-en="Profile" data-ar="الملف">Profile</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-bottom">
+      <span>&copy; 2026 IRIS Mobile Car Wash</span>
+      <div style="display:flex;gap:24px;align-items:center;">
+        <a href="index.html" data-en="Home" data-ar="الرئيسية">Home</a>
+        <a href="customer.html" style="color:var(--accent);" data-en="Customer App" data-ar="تطبيق العميل">Customer App</a>
+        <a href="pro.html" data-en="Pro App" data-ar="تطبيق المحترف">Pro App</a>
+        <span style="color:var(--text-muted);">|</span>
+        <span data-en="Built by reup.sa &#x1f1f8;&#x1f1e6;" data-ar="بُني بواسطة reup.sa &#x1f1f8;&#x1f1e6;">Built by reup.sa &#x1f1f8;&#x1f1e6;</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Language toggle
+const langToggle = document.getElementById('langToggle');
+let currentLang = 'ar';
+
+// Initialize Arabic text on load
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('[data-ar]').forEach(el => {
+    el.textContent = el.getAttribute('data-ar');
+  });
+  document.querySelectorAll('[data-ar-placeholder]').forEach(el => {
+    el.placeholder = el.getAttribute('data-ar-placeholder');
+  });
+});
+
+langToggle.addEventListener('click', (e) => {
+  if (e.target.tagName !== 'BUTTON') return;
+  const lang = e.target.dataset.lang;
+  if (lang === currentLang) return;
+  currentLang = lang;
+  langToggle.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+  e.target.classList.add('active');
+  const html = document.documentElement;
+  if (lang === 'en') {
+    html.lang = 'en'; html.dir = 'ltr'; document.body.classList.add('ltr');
+  } else {
+    html.lang = 'ar'; html.dir = 'rtl'; document.body.classList.remove('ltr');
+  }
+  document.querySelectorAll('[data-' + lang + ']').forEach(el => {
+    el.textContent = el.getAttribute('data-' + lang);
+  });
+  document.querySelectorAll('[data-' + lang + '-placeholder]').forEach(el => {
+    el.placeholder = el.getAttribute('data-' + lang + '-placeholder');
+  });
+});
+
+// Theme toggle
+const themeToggle = document.getElementById('themeToggle');
+themeToggle.addEventListener('click', () => {
+  document.body.classList.toggle('light');
+  localStorage.setItem('iris-theme', document.body.classList.contains('light') ? 'light' : 'dark');
+});
+if (localStorage.getItem('iris-theme') === 'light') {
+  document.body.classList.add('light');
+}
+
+// Scroll animations
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) entry.target.style.animationPlayState = 'running';
+  });
+}, { threshold: 0.1 });
+document.querySelectorAll('.animate-in').forEach(el => {
+  el.style.animationPlayState = 'paused';
+  observer.observe(el);
+});
+</script>
+</body>
+</html>

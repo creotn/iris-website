@@ -1,958 +1,785 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>IRIS Design System</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IRIS Mobile Car Wash — Coming Soon</title>
+  <link rel="stylesheet" href="assets/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Cairo:wght@400;500;600;700;800;900&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --blue: #0B96D0;
-      --cyan: #00ACE4;
-      --green: #00C87A;
-      --page-bg: #070E14;
-      --page-text: #E8F4FB;
-      --page-muted: #7BAACC;
-      --nav-bg: rgba(7,14,20,.85);
-    }
-
-    html { scroll-behavior: smooth; }
-
-    body {
-      font-family: 'Outfit', sans-serif;
-      background: var(--page-bg);
-      color: var(--page-text);
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
-
-    /* ── NAV ── */
-    .site-nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      background: var(--nav-bg);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border-bottom: 1px solid rgba(255,255,255,.07);
-    }
-    .nav-inner {
-      max-width: 1280px; margin: 0 auto;
-      padding: 0 24px;
-      height: 64px;
-      display: flex; align-items: center; gap: 40px;
-    }
-    .logo {
-      display: flex; align-items: center; gap: 10px;
-      text-decoration: none; color: var(--page-text);
-      font-weight: 800; font-size: 20px; letter-spacing: -.5px;
-      flex-shrink: 0;
-    }
-    .logo-mark {
-      width: 34px; height: 34px; border-radius: 10px;
-      background: linear-gradient(135deg, var(--blue), var(--cyan));
-      display: flex; align-items: center; justify-content: center;
-      font-size: 13px; font-weight: 900; color: #fff; letter-spacing: -.5px;
-    }
-    .nav-links { display: flex; gap: 8px; margin-left: auto; align-items: center; }
-    .nav-group { position: relative; }
-    .nav-group-label {
-      display: block; padding: 8px 14px; border-radius: 8px;
-      font-size: 13px; font-weight: 600; color: var(--page-muted);
-      cursor: pointer; transition: color .2s, background .2s;
-      white-space: nowrap;
-    }
-    .nav-group:hover .nav-group-label { color: var(--page-text); background: rgba(255,255,255,.06); }
-    .nav-dropdown {
-      display: none; position: absolute; top: calc(100% + 6px); left: 0;
-      background: #0e1a24; border: 1px solid rgba(255,255,255,.1); border-radius: 12px;
-      padding: 6px; min-width: 140px;
-      box-shadow: 0 16px 48px rgba(0,0,0,.6);
-    }
-    .nav-group:hover .nav-dropdown { display: block; }
-    .nav-dropdown a {
-      display: block; padding: 8px 12px; border-radius: 8px;
-      font-size: 13px; font-weight: 500; color: var(--page-muted);
-      text-decoration: none; transition: color .2s, background .2s;
-      white-space: nowrap;
-    }
-    .nav-dropdown a:hover { color: var(--page-text); background: rgba(255,255,255,.07); }
-    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 8px; margin-left: auto; }
-    .hamburger span { display: block; width: 22px; height: 2px; background: var(--page-text); border-radius: 2px; transition: .3s; }
-    .mobile-menu {
-      display: none; position: fixed; inset: 64px 0 0 0; background: #070E14;
-      padding: 24px; z-index: 99; overflow-y: auto;
-    }
-    .mobile-menu.open { display: block; }
-    .mobile-group-label { font-size: 11px; font-weight: 700; color: var(--blue); letter-spacing: 1px; text-transform: uppercase; margin: 20px 0 8px; }
-    .mobile-menu a { display: block; padding: 10px 0; font-size: 15px; font-weight: 500; color: var(--page-muted); text-decoration: none; border-bottom: 1px solid rgba(255,255,255,.05); }
-    .mobile-menu a:hover { color: var(--page-text); }
-
-    @media (max-width: 768px) {
-      .nav-links { display: none; }
-      .hamburger { display: flex; }
-    }
-
-    /* ── PAGE ── */
-    .page { padding-top: 64px; }
-
-    /* ── HERO ── */
+    /* === HERO === */
     .hero {
-      padding: 80px 24px 60px;
-      text-align: center;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
       position: relative;
       overflow: hidden;
+      padding-top: 80px;
     }
-    .hero::before {
-      content: '';
-      position: absolute; inset: 0;
-      background: radial-gradient(ellipse 800px 400px at 50% 0%, rgba(11,150,208,.18) 0%, transparent 70%);
-      pointer-events: none;
+    .hero .glow-orb-1 {
+      width: 500px; height: 500px;
+      top: -100px; right: -100px;
+      opacity: 0.15;
     }
-    .hero-eyebrow {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 6px 16px; border-radius: 100px;
-      background: rgba(11,150,208,.12); border: 1px solid rgba(11,150,208,.3);
-      font-size: 12px; font-weight: 700; color: var(--cyan); letter-spacing: 1.5px;
-      text-transform: uppercase; margin-bottom: 24px;
+    .hero .glow-orb-2 {
+      width: 400px; height: 400px;
+      bottom: -50px; left: -100px;
+      opacity: 0.1;
     }
-    .hero h1 {
-      font-size: clamp(40px, 6vw, 72px); font-weight: 900;
-      line-height: 1.05; letter-spacing: -2px;
-      background: linear-gradient(135deg, #fff 30%, var(--cyan));
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      background-clip: text;
-      margin-bottom: 20px;
+    .hero-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+      position: relative;
+      z-index: 2;
     }
-    .hero p {
-      font-size: 18px; font-weight: 400; color: var(--page-muted);
-      max-width: 520px; margin: 0 auto 48px; line-height: 1.7;
+    .hero-content { max-width: 560px; }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 24px;
+    }
+    .hero-badge .dot {
+      width: 8px; height: 8px;
+      background: var(--success);
+      border-radius: 50%;
+      animation: pulse-glow 2s infinite;
+      box-shadow: 0 0 10px rgba(0,200,83,0.4);
+    }
+    .hero-title { margin-bottom: 20px; }
+    .hero-desc {
+      font-size: 1.15rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      margin-bottom: 36px;
+    }
+    .hero-actions {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 48px;
+    }
+    .hero-stats {
+      display: flex;
+      gap: 40px;
+    }
+    .hero-stat-value {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--accent);
+    }
+    .hero-stat-label {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+    .hero-visual {
+      display: flex;
+      justify-content: center;
+      position: relative;
+    }
+    .hero-phones {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+    .hero-phones .phone-mockup:nth-child(2) {
+      margin-top: 40px;
     }
 
-    /* ── APP CARDS ── */
-    .app-cards {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
-      max-width: 1000px; margin: 0 auto 80px; padding: 0 24px;
-    }
-    @media (max-width: 700px) { .app-cards { grid-template-columns: 1fr; } }
-
-    .app-card {
-      border-radius: 24px; padding: 32px; position: relative; overflow: hidden;
-      text-decoration: none; display: block;
-      transition: transform .3s, box-shadow .3s;
-    }
-    .app-card:hover { transform: translateY(-4px); }
-    .app-card-customer {
-      background: linear-gradient(135deg, #0a1f30 0%, #0d2a40 60%, #0b2035 100%);
-      border: 1px solid rgba(11,150,208,.25);
-      box-shadow: 0 0 0 1px rgba(11,150,208,.08), 0 24px 64px rgba(11,150,208,.12);
-    }
-    .app-card-customer:hover { box-shadow: 0 0 0 1px rgba(11,150,208,.2), 0 32px 80px rgba(11,150,208,.2); }
-    .app-card-pro {
-      background: linear-gradient(135deg, #151515 0%, #1a1a1a 60%, #111 100%);
-      border: 1px solid rgba(255,255,255,.1);
-      box-shadow: 0 24px 64px rgba(0,0,0,.5);
-    }
-    .app-card-pro:hover { box-shadow: 0 32px 80px rgba(0,200,122,.08), 0 0 0 1px rgba(0,200,122,.15); }
-    .app-card-badge {
-      display: inline-block; padding: 4px 12px; border-radius: 100px;
-      font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+    /* === FEATURES === */
+    .feature-icon {
+      width: 52px; height: 52px;
+      background: var(--accent-subtle);
+      border: 1px solid var(--border-accent);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
       margin-bottom: 16px;
     }
-    .badge-customer { background: rgba(11,150,208,.2); color: var(--cyan); }
-    .badge-pro { background: rgba(0,200,122,.15); color: var(--green); }
-    .app-card h2 { font-size: 26px; font-weight: 800; color: #fff; margin-bottom: 8px; }
-    .app-card p { font-size: 14px; color: rgba(255,255,255,.45); margin-bottom: 28px; line-height: 1.6; }
-    .mini-screens {
-      display: flex; gap: 10px; flex-wrap: wrap;
+    .feature-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 8px;
     }
-    .mini-phone {
-      width: 54px; height: 96px; border-radius: 12px;
-      background: #0a0a0a; border: 1.5px solid rgba(255,255,255,.12);
-      overflow: hidden; display: flex; flex-direction: column;
-      box-shadow: 0 8px 24px rgba(0,0,0,.5);
-      flex-shrink: 0;
-    }
-    .mini-screen-inner { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
-
-    /* Mini customer screens */
-    .mini-auth .mini-screen-inner { background: #fff; }
-    .mini-auth-header { height: 28px; background: linear-gradient(135deg, #0B96D0, #00ACE4); display: flex; align-items: flex-end; justify-content: center; padding-bottom: 4px; }
-    .mini-auth-header span { font-size: 4px; font-weight: 800; color: #fff; font-family: 'Outfit', sans-serif; }
-    .mini-auth-body { padding: 3px; display: flex; flex-direction: column; gap: 3px; flex: 1; }
-    .mini-field { height: 7px; background: #f0f4f8; border-radius: 2px; border: .5px solid #e0e8f0; }
-    .mini-btn { height: 8px; background: linear-gradient(135deg, #0B96D0, #00ACE4); border-radius: 4px; margin-top: 2px; }
-
-    .mini-home .mini-screen-inner { background: #F5F7FA; }
-    .mini-home-header { height: 24px; background: linear-gradient(135deg, #0B96D0, #00ACE4); }
-    .mini-home-card { margin: 3px; height: 18px; background: #fff; border-radius: 4px; }
-    .mini-home-row { display: flex; gap: 2px; margin: 3px; }
-    .mini-home-dot { width: 18px; height: 24px; background: #fff; border-radius: 4px; flex: 1; }
-
-    .mini-book .mini-screen-inner { background: #F5F7FA; }
-    .mini-book-header { height: 20px; background: linear-gradient(135deg, #0B96D0, #00ACE4); }
-    .mini-book-chips { display: flex; gap: 2px; padding: 3px; flex-wrap: wrap; }
-    .mini-chip { height: 8px; background: #fff; border-radius: 4px; flex: 1; border: .5px solid #e0e8f0; }
-    .mini-book-body { padding: 3px; display: flex; flex-direction: column; gap: 2px; }
-    .mini-book-line { height: 5px; background: #e8eef4; border-radius: 2px; }
-
-    .mini-track .mini-screen-inner { background: #e8f4f8; }
-    .mini-map-area { flex: 1; background: linear-gradient(160deg, #c8e6f4 0%, #a8d8ed 100%); position: relative; }
-    .mini-map-pin { position: absolute; top: 30%; left: 50%; transform: translate(-50%,-50%); width: 6px; height: 6px; background: var(--blue); border-radius: 50%; }
-    .mini-track-panel { height: 20px; background: #fff; padding: 3px; }
-    .mini-track-line { height: 4px; background: #e8eef4; border-radius: 2px; margin-bottom: 2px; }
-
-    .mini-history .mini-screen-inner { background: #F5F7FA; }
-    .mini-hist-header { height: 16px; background: linear-gradient(135deg, #0B96D0, #00ACE4); }
-    .mini-hist-card { margin: 3px; height: 14px; background: #fff; border-radius: 3px; display: flex; align-items: center; padding: 0 4px; gap: 2px; }
-    .mini-hist-dot { width: 8px; height: 8px; background: #e8eef4; border-radius: 50%; flex-shrink: 0; }
-    .mini-hist-lines { flex: 1; display: flex; flex-direction: column; gap: 2px; }
-    .mini-hist-line { height: 3px; background: #e8eef4; border-radius: 2px; }
-
-    .mini-profile .mini-screen-inner { background: #F5F7FA; }
-    .mini-prof-header { height: 28px; background: linear-gradient(135deg, #0B96D0, #00ACE4); display: flex; align-items: flex-end; justify-content: center; padding-bottom: 4px; }
-    .mini-avatar { width: 14px; height: 14px; border-radius: 50%; background: rgba(255,255,255,.5); border: 1.5px solid #fff; }
-    .mini-prof-body { padding: 3px; display: flex; flex-direction: column; gap: 2px; }
-    .mini-prof-row { height: 7px; background: #fff; border-radius: 2px; }
-
-    /* Mini pro screens */
-    .mini-jobs .mini-screen-inner { background: #111; }
-    .mini-jobs-header { height: 16px; background: #1c1c1e; }
-    .mini-job-card { margin: 3px; height: 18px; background: #1c1c1e; border-radius: 3px; display: flex; align-items: center; padding: 0 4px; gap: 3px; }
-    .mini-job-avatar { width: 10px; height: 10px; border-radius: 50%; background: rgba(0,200,122,.3); flex-shrink: 0; }
-    .mini-job-info { flex: 1; display: flex; flex-direction: column; gap: 2px; }
-    .mini-job-line { height: 3px; background: #2c2c2e; border-radius: 2px; }
-    .mini-job-badge { height: 6px; width: 16px; background: rgba(0,200,122,.25); border-radius: 2px; }
-
-    .mini-active .mini-screen-inner { background: #111; }
-    .mini-active-header { height: 20px; background: #1c1c1e; display: flex; align-items: center; justify-content: center; }
-    .mini-active-step { display: flex; justify-content: center; gap: 2px; padding: 4px; }
-    .mini-step-dot { width: 8px; height: 4px; border-radius: 2px; background: #2c2c2e; }
-    .mini-step-dot.active { background: var(--green); }
-    .mini-active-card { margin: 3px; height: 20px; background: #1c1c1e; border-radius: 3px; }
-    .mini-active-btn { margin: 3px; height: 8px; background: rgba(0,200,122,.25); border-radius: 4px; }
-
-    .mini-earnings .mini-screen-inner { background: #111; }
-    .mini-earn-header { height: 20px; background: #1c1c1e; }
-    .mini-chart-area { height: 28px; padding: 3px; display: flex; align-items: flex-end; gap: 2px; }
-    .mini-bar { flex: 1; border-radius: 2px 2px 0 0; }
-    .mini-earn-info { margin: 3px; height: 10px; background: #1c1c1e; border-radius: 3px; }
-
-    .mini-pro-profile .mini-screen-inner { background: #111; }
-    .mini-pp-header { height: 28px; background: #1c1c1e; display: flex; align-items: flex-end; justify-content: center; padding-bottom: 4px; }
-    .mini-pp-avatar { width: 14px; height: 14px; border-radius: 50%; background: rgba(0,200,122,.3); border: 1.5px solid rgba(0,200,122,.5); }
-    .mini-pp-body { padding: 3px; display: flex; flex-direction: column; gap: 2px; }
-    .mini-pp-row { height: 6px; background: #1c1c1e; border-radius: 2px; }
-
-    /* ── SCREEN GRID ── */
-    .section { max-width: 1280px; margin: 0 auto; padding: 0 24px 80px; }
-    .section-header {
-      display: flex; align-items: center; gap: 16px; margin-bottom: 32px;
-    }
-    .section-title {
-      font-size: 28px; font-weight: 800; letter-spacing: -.5px;
-    }
-    .section-badge {
-      padding: 4px 12px; border-radius: 100px;
-      font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
-    }
-    .badge-blue { background: rgba(11,150,208,.15); color: var(--cyan); }
-    .badge-green { background: rgba(0,200,122,.12); color: var(--green); }
-    .section-divider {
-      width: 100%; height: 1px; background: rgba(255,255,255,.06); margin-bottom: 48px;
+    .feature-desc {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.6;
     }
 
-    .screen-grid {
-      display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px;
-    }
-    .screen-card {
-      background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.07);
-      border-radius: 20px; padding: 20px; text-decoration: none; color: inherit;
-      display: flex; flex-direction: column; align-items: center; gap: 16px;
-      transition: transform .25s, border-color .25s, background .25s, box-shadow .25s;
-      overflow: hidden; position: relative;
-    }
-    .screen-card:hover {
-      transform: translateY(-4px);
-      border-color: rgba(11,150,208,.3);
-      background: rgba(11,150,208,.05);
-      box-shadow: 0 12px 40px rgba(11,150,208,.1);
-    }
-    .screen-card.pro-card:hover {
-      border-color: rgba(0,200,122,.25);
-      background: rgba(0,200,122,.04);
-      box-shadow: 0 12px 40px rgba(0,200,122,.08);
-    }
-    .screen-card-phone {
-      width: 100px;
-      background: #0a0a0a;
-      border: 1.5px solid rgba(255,255,255,.12);
-      border-radius: 20px;
-      padding: 6px;
-      box-shadow: 0 8px 32px rgba(0,0,0,.6);
+    /* === HOW IT WORKS === */
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 32px;
       position: relative;
     }
-    .screen-card-phone-notch {
-      width: 36px; height: 8px;
-      background: #0a0a0a;
-      border-radius: 0 0 6px 6px;
-      margin: 0 auto 2px;
-      position: relative; z-index: 2;
+    .steps-grid::before {
+      content: '';
+      position: absolute;
+      top: 32px;
+      left: 15%;
+      right: 15%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      opacity: 0.3;
     }
-    .screen-card-inner {
-      border-radius: 14px;
-      overflow: hidden;
-      min-height: 180px;
-      display: flex; flex-direction: column;
+    .step {
+      text-align: center;
+      position: relative;
     }
-    .screen-card-label {
-      font-size: 13px; font-weight: 600; color: var(--page-text); text-align: center;
+    .step-number {
+      width: 64px; height: 64px;
+      background: var(--bg-card);
+      border: 2px solid var(--border-accent);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--accent);
+      margin: 0 auto 16px;
+      position: relative;
+      z-index: 2;
     }
-    .screen-card-sublabel {
-      font-size: 11px; font-weight: 400; color: var(--page-muted); text-align: center;
-      margin-top: -10px;
+    .step-title {
+      font-weight: 600;
+      margin-bottom: 6px;
     }
-    .screen-card-arrow {
-      position: absolute; top: 16px; right: 16px;
-      width: 24px; height: 24px; border-radius: 50%;
-      background: rgba(255,255,255,.06);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 12px; color: var(--page-muted);
-      transition: background .2s, color .2s;
-    }
-    .screen-card:hover .screen-card-arrow { background: rgba(11,150,208,.2); color: var(--cyan); }
-    .screen-card.pro-card:hover .screen-card-arrow { background: rgba(0,200,122,.15); color: var(--green); }
-
-    /* Larger thumbnail screens inside cards */
-    /* AUTH card thumb */
-    .thumb-auth { background: #fff; }
-    .thumb-auth-bar { height: 10px; background: linear-gradient(135deg, #0B96D0, #00ACE4); }
-    .thumb-auth-body { padding: 5px; display: flex; flex-direction: column; gap: 4px; }
-    .thumb-auth-logo { height: 20px; background: linear-gradient(135deg, #0B96D0, #00ACE4); border-radius: 4px; margin-bottom: 4px; display: flex; align-items: center; justify-content: center; }
-    .thumb-auth-logo span { font-size: 5px; font-weight: 900; color: #fff; font-family: 'Outfit', sans-serif; }
-    .thumb-field { height: 11px; background: #f0f4f8; border-radius: 3px; border: .5px solid #e0e8f0; }
-    .thumb-btn { height: 12px; background: linear-gradient(135deg, #0B96D0, #00ACE4); border-radius: 6px; margin-top: 2px; }
-    .thumb-link { height: 5px; background: #e8f0fa; border-radius: 2px; margin: 0 auto; width: 60%; }
-
-    /* HOME card thumb */
-    .thumb-home { background: #F5F7FA; }
-    .thumb-home-header { height: 35px; background: linear-gradient(135deg, #0B96D0, #00ACE4); padding: 5px; display: flex; flex-direction: column; justify-content: space-between; }
-    .thumb-home-greeting { height: 6px; background: rgba(255,255,255,.6); border-radius: 2px; width: 70%; }
-    .thumb-home-sub { height: 4px; background: rgba(255,255,255,.35); border-radius: 2px; width: 50%; }
-    .thumb-home-body { padding: 5px; display: flex; flex-direction: column; gap: 4px; }
-    .thumb-card { background: #fff; border-radius: 5px; padding: 5px; }
-    .thumb-card-title { height: 5px; background: #1A1A2E; border-radius: 2px; width: 50%; margin-bottom: 4px; opacity: .8; }
-    .thumb-chips { display: flex; gap: 2px; }
-    .thumb-chip { flex: 1; height: 8px; background: #e8f4fb; border-radius: 3px; }
-    .thumb-book-btn { height: 9px; background: linear-gradient(135deg, #0B96D0, #00ACE4); border-radius: 4px; margin-top: 3px; }
-    .thumb-pro-row { display: flex; gap: 3px; margin-top: 4px; }
-    .thumb-pro-card { flex: 1; height: 30px; background: #fff; border-radius: 4px; }
-
-    /* BOOK card thumb */
-    .thumb-book { background: #F5F7FA; }
-    .thumb-book-header { height: 20px; background: linear-gradient(135deg, #0B96D0, #00ACE4); display: flex; align-items: center; padding: 0 6px; }
-    .thumb-book-title { height: 5px; background: rgba(255,255,255,.7); border-radius: 2px; width: 60%; }
-    .thumb-service-list { padding: 4px; display: flex; flex-direction: column; gap: 3px; }
-    .thumb-service-item { height: 18px; background: #fff; border-radius: 4px; display: flex; align-items: center; padding: 0 4px; gap: 3px; }
-    .thumb-service-icon { width: 10px; height: 10px; border-radius: 50%; background: rgba(11,150,208,.2); flex-shrink: 0; }
-    .thumb-service-text { flex: 1; height: 4px; background: #e0e8f4; border-radius: 2px; }
-    .thumb-service-price { height: 4px; width: 12px; background: #c8dff0; border-radius: 2px; }
-
-    /* TRACK card thumb */
-    .thumb-track { background: #e8f4f8; }
-    .thumb-map { flex: 1; background: linear-gradient(160deg, #c8e6f4, #a8d8ed); min-height: 80px; position: relative; display: flex; align-items: center; justify-content: center; }
-    .thumb-map-roads { position: absolute; inset: 0; overflow: hidden; }
-    .thumb-road { position: absolute; background: rgba(255,255,255,.4); }
-    .thumb-road-h { height: 2px; left: 0; right: 0; }
-    .thumb-road-v { width: 2px; top: 0; bottom: 0; }
-    .thumb-pin-wrap { position: relative; z-index: 2; }
-    .thumb-pin { width: 10px; height: 10px; background: var(--blue); border-radius: 50%; border: 1.5px solid #fff; box-shadow: 0 0 0 3px rgba(11,150,208,.3); }
-    .thumb-track-panel { height: 40px; background: #fff; padding: 4px; display: flex; flex-direction: column; gap: 2px; }
-    .thumb-track-line { height: 4px; background: #e8eef4; border-radius: 2px; }
-
-    /* HISTORY card thumb */
-    .thumb-history { background: #F5F7FA; }
-    .thumb-hist-header { height: 20px; background: linear-gradient(135deg, #0B96D0, #00ACE4); display: flex; align-items: center; padding: 0 6px; }
-    .thumb-hist-title { height: 5px; background: rgba(255,255,255,.7); border-radius: 2px; width: 50%; }
-    .thumb-hist-list { padding: 4px; display: flex; flex-direction: column; gap: 3px; }
-    .thumb-hist-item { height: 18px; background: #fff; border-radius: 4px; display: flex; align-items: center; padding: 0 4px; gap: 3px; }
-    .thumb-hist-icon { width: 10px; height: 10px; border-radius: 50%; background: #e8f4fb; flex-shrink: 0; }
-    .thumb-hist-info { flex: 1; display: flex; flex-direction: column; gap: 2px; }
-    .thumb-hist-line { height: 3px; background: #e0e8f4; border-radius: 2px; }
-    .thumb-hist-status { height: 6px; width: 18px; background: rgba(0,200,122,.25); border-radius: 2px; }
-
-    /* PROFILE card thumb */
-    .thumb-profile { background: #F5F7FA; }
-    .thumb-prof-header { height: 40px; background: linear-gradient(135deg, #0B96D0, #00ACE4); display: flex; flex-direction: column; align-items: center; justify-content: flex-end; padding-bottom: 8px; gap: 3px; }
-    .thumb-prof-avatar { width: 20px; height: 20px; border-radius: 50%; background: rgba(255,255,255,.4); border: 2px solid #fff; }
-    .thumb-prof-name { height: 4px; background: rgba(255,255,255,.7); border-radius: 2px; width: 40%; }
-    .thumb-prof-body { padding: 4px; display: flex; flex-direction: column; gap: 2px; }
-    .thumb-prof-row { height: 14px; background: #fff; border-radius: 3px; }
-
-    /* PRO JOBS thumb */
-    .thumb-jobs { background: #111; }
-    .thumb-jobs-header { height: 20px; background: #1c1c1e; display: flex; align-items: center; padding: 0 6px; }
-    .thumb-jobs-title { height: 5px; background: rgba(255,255,255,.4); border-radius: 2px; width: 50%; }
-    .thumb-jobs-list { padding: 4px; display: flex; flex-direction: column; gap: 3px; }
-    .thumb-job-item { height: 22px; background: #1c1c1e; border-radius: 4px; display: flex; align-items: center; padding: 0 4px; gap: 3px; }
-    .thumb-job-avatar { width: 14px; height: 14px; border-radius: 50%; background: rgba(0,200,122,.25); flex-shrink: 0; }
-    .thumb-job-info { flex: 1; display: flex; flex-direction: column; gap: 2px; }
-    .thumb-job-line { height: 3px; background: #2c2c2e; border-radius: 2px; }
-    .thumb-job-badge { height: 6px; width: 20px; background: rgba(0,200,122,.3); border-radius: 2px; }
-
-    /* PRO ACTIVE thumb */
-    .thumb-active { background: #111; }
-    .thumb-active-header { height: 20px; background: #1c1c1e; display: flex; align-items: center; justify-content: center; gap: 3px; }
-    .thumb-active-dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(0,200,122,.4); }
-    .thumb-active-text { height: 4px; background: rgba(255,255,255,.3); border-radius: 2px; width: 40%; }
-    .thumb-active-body { padding: 4px; display: flex; flex-direction: column; gap: 3px; }
-    .thumb-active-card { height: 28px; background: #1c1c1e; border-radius: 4px; padding: 4px; display: flex; align-items: center; gap: 3px; }
-    .thumb-active-icon { width: 16px; height: 16px; border-radius: 50%; background: rgba(0,200,122,.2); flex-shrink: 0; }
-    .thumb-active-lines { flex: 1; display: flex; flex-direction: column; gap: 2px; }
-    .thumb-active-line { height: 3px; background: #2c2c2e; border-radius: 2px; }
-    .thumb-active-btn { height: 10px; background: rgba(0,200,122,.25); border-radius: 5px; }
-
-    /* PRO EARNINGS thumb */
-    .thumb-earnings { background: #111; }
-    .thumb-earn-header { height: 20px; background: #1c1c1e; display: flex; align-items: center; padding: 0 6px; }
-    .thumb-earn-title { height: 5px; background: rgba(255,255,255,.4); border-radius: 2px; width: 55%; }
-    .thumb-earn-amount { margin: 4px; height: 20px; background: #1c1c1e; border-radius: 4px; display: flex; align-items: center; justify-content: center; }
-    .thumb-earn-num { height: 8px; background: rgba(0,200,122,.4); border-radius: 3px; width: 40%; }
-    .thumb-chart { padding: 4px; display: flex; align-items: flex-end; gap: 2px; height: 40px; }
-    .thumb-bar { flex: 1; border-radius: 2px 2px 0 0; }
-
-    /* PRO PROFILE thumb */
-    .thumb-pro-profile { background: #111; }
-    .thumb-pp-header { height: 40px; background: #1c1c1e; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; padding-bottom: 6px; gap: 3px; }
-    .thumb-pp-avatar { width: 20px; height: 20px; border-radius: 50%; background: rgba(0,200,122,.3); border: 2px solid rgba(0,200,122,.5); }
-    .thumb-pp-name { height: 4px; background: rgba(255,255,255,.4); border-radius: 2px; width: 40%; }
-    .thumb-pp-body { padding: 4px; display: flex; flex-direction: column; gap: 2px; }
-    .thumb-pp-row { height: 14px; background: #1c1c1e; border-radius: 3px; }
-
-    /* ── DESIGN TOKENS SECTION ── */
-    .tokens-section {
-      max-width: 1280px; margin: 0 auto; padding: 0 24px 80px;
-    }
-    .tokens-grid {
-      display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px;
-    }
-    .token-card {
-      background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.07);
-      border-radius: 20px; padding: 24px;
-    }
-    .token-card-title {
-      font-size: 13px; font-weight: 700; color: var(--page-muted);
-      text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px;
+    .step-desc {
+      font-size: 0.85rem;
+      color: var(--text-muted);
     }
 
-    /* Colors */
-    .color-grid { display: flex; flex-direction: column; gap: 10px; }
-    .color-row { display: flex; align-items: center; gap: 12px; }
-    .color-swatch { width: 40px; height: 40px; border-radius: 10px; flex-shrink: 0; }
-    .color-info { display: flex; flex-direction: column; gap: 2px; }
-    .color-name { font-size: 13px; font-weight: 600; color: var(--page-text); }
-    .color-hex { font-size: 11px; font-weight: 400; color: var(--page-muted); font-family: monospace; }
-
-    /* Typography */
-    .type-list { display: flex; flex-direction: column; gap: 12px; }
-    .type-row { display: flex; align-items: baseline; justify-content: space-between; padding-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,.05); }
-    .type-row:last-child { border-bottom: none; padding-bottom: 0; }
-    .type-sample { font-family: 'Outfit', sans-serif; color: var(--page-text); }
-    .type-spec { font-size: 10px; color: var(--page-muted); font-family: monospace; }
-
-    /* Components */
-    .comp-list { display: flex; flex-direction: column; gap: 16px; }
-    .comp-item { display: flex; flex-direction: column; gap: 8px; }
-    .comp-label { font-size: 11px; font-weight: 600; color: var(--page-muted); text-transform: uppercase; letter-spacing: .8px; }
-
-    .demo-btn {
-      display: inline-flex; align-items: center; justify-content: center;
-      height: 48px; padding: 0 28px; border-radius: 30px;
-      background: linear-gradient(135deg, #0B96D0, #00ACE4);
-      color: #fff; font-family: 'Outfit', sans-serif; font-size: 15px; font-weight: 700;
-      border: none; cursor: pointer; width: 100%;
+    /* === APP SHOWCASE === */
+    .app-showcase {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
     }
-    .demo-btn-outline {
-      background: transparent;
-      border: 1.5px solid rgba(11,150,208,.4);
-      color: var(--cyan);
+    .app-showcase.reverse { direction: ltr; }
+    .app-showcase.reverse .app-showcase-content { order: 2; }
+    .app-showcase.reverse .app-showcase-visual { order: 1; }
+    .app-feature-list {
+      list-style: none;
+      margin-top: 24px;
     }
-    .demo-input {
-      height: 52px; padding: 0 16px; border-radius: 12px;
-      background: rgba(255,255,255,.04); border: 1.5px solid rgba(255,255,255,.1);
-      color: var(--page-text); font-family: 'Outfit', sans-serif; font-size: 14px;
-      width: 100%; outline: none; transition: border-color .2s;
+    .app-feature-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
     }
-    .demo-input::placeholder { color: rgba(255,255,255,.25); }
-    .demo-input:focus { border-color: var(--blue); }
-    .demo-card {
-      background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08);
-      border-radius: 16px; padding: 16px;
-      display: flex; align-items: center; gap: 12px;
+    .app-feature-list li:last-child { border-bottom: none; }
+    .app-feature-check {
+      width: 20px; height: 20px;
+      background: rgba(0, 200, 83, 0.15);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--success);
+      font-size: 11px;
+      flex-shrink: 0;
+      margin-top: 2px;
     }
-    .demo-card-icon { width: 40px; height: 40px; border-radius: 12px; background: rgba(11,150,208,.15); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-    .demo-card-body { display: flex; flex-direction: column; gap: 4px; }
-    .demo-card-title { font-size: 14px; font-weight: 600; color: var(--page-text); }
-    .demo-card-sub { font-size: 12px; color: var(--page-muted); }
-    .badges-row { display: flex; flex-wrap: wrap; gap: 8px; }
-    .demo-badge { padding: 4px 12px; border-radius: 100px; font-size: 12px; font-weight: 600; }
-    .badge-available { background: rgba(0,200,122,.15); color: var(--green); }
-    .badge-pending { background: rgba(255,193,7,.12); color: #FFC107; }
-    .badge-completed { background: rgba(11,150,208,.15); color: var(--cyan); }
-
-    /* ── TWO-COL SCREENS ── */
-    .two-col-screens {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 48px; margin-bottom: 48px;
-    }
-    @media (max-width: 900px) { .two-col-screens { grid-template-columns: 1fr; } }
-
-    /* ── FOOTER ── */
-    footer {
-      border-top: 1px solid rgba(255,255,255,.06);
-      padding: 32px 24px; text-align: center;
-      color: var(--page-muted); font-size: 13px; font-weight: 400;
+    .app-feature-text {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
     }
 
-    /* Scrollbar */
-    ::-webkit-scrollbar { width: 6px; }
-    ::-webkit-scrollbar-track { background: transparent; }
-    ::-webkit-scrollbar-thumb { background: rgba(255,255,255,.1); border-radius: 3px; }
+    /* === LOGO SVG === */
+    .logo-svg { height: 32px; width: auto; }
+    .logo-svg-hero { height: 48px; }
+    .logo-svg-footer { height: 28px; }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .hero-inner { grid-template-columns: 1fr; text-align: center; }
+      .hero-content { max-width: 100%; margin: 0 auto; }
+      .hero-actions { justify-content: center; }
+      .hero-stats { justify-content: center; }
+      .hero-visual { margin-top: 40px; }
+      .app-showcase { grid-template-columns: 1fr; text-align: center; }
+      .app-showcase.reverse .app-showcase-content { order: 1; }
+      .app-showcase.reverse .app-showcase-visual { order: 2; }
+      .app-showcase-visual { display: flex; justify-content: center; }
+      .steps-grid { grid-template-columns: repeat(2, 1fr); }
+      .steps-grid::before { display: none; }
+    }
+    @media (max-width: 768px) {
+      .hero-phones { flex-direction: column; align-items: center; }
+      .hero-phones .phone-mockup:nth-child(2) { margin-top: 0; }
+      .hero-stats { flex-direction: column; gap: 16px; }
+    }
+    @media (max-width: 480px) {
+      .steps-grid { grid-template-columns: 1fr; }
+    }
+
+    /* Page transition */
+    .page-loader {
+      position: fixed;
+      inset: 0;
+      background: var(--bg-primary);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.5s ease;
+    }
+    .page-loader.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+    .page-loader svg {
+      width: 80px;
+      animation: pulse-glow 1.5s infinite;
+    }
   </style>
 </head>
 <body>
 
-<!-- NAV -->
-<nav class="site-nav">
-  <div class="nav-inner">
-    <a href="index.html" class="logo">
-      <div class="logo-mark">IR</div>
-      <span>IRIS</span>
-    </a>
-    <div class="nav-links">
-      <div class="nav-group">
-        <span class="nav-group-label">Customer App ▾</span>
-        <div class="nav-dropdown">
-          <a href="customer/auth.html">Auth</a>
-          <a href="customer/home.html">Home</a>
-          <a href="customer/book.html">Book</a>
-          <a href="customer/track.html">Track</a>
-          <a href="customer/history.html">History</a>
-          <a href="customer/profile.html">Profile</a>
-        </div>
+<!-- Page Loader -->
+<div class="page-loader" id="pageLoader">
+  <svg viewBox="0 0 120 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <text x="50%" y="50%" dominant-baseline="central" text-anchor="middle" fill="var(--logo-fill)" font-family="Inter, sans-serif" font-weight="900" font-size="32">IRIS</text>
+  </svg>
+</div>
+
+<!-- Navigation -->
+<nav class="nav" id="mainNav">
+  <div class="container nav-inner">
+    <svg class="logo-svg" viewBox="0 0 100 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <text x="0" y="26" fill="var(--logo-fill)" font-family="Inter, sans-serif" font-weight="900" font-size="28">IRIS</text>
+    </svg>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#features" data-en="Features" data-ar="المميزات">Features</a></li>
+      <li><a href="#how-it-works" data-en="How It Works" data-ar="كيف يعمل">How It Works</a></li>
+      <li><a href="#apps" data-en="Apps" data-ar="التطبيقات">Apps</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      </button>
+      <div class="lang-toggle" id="langToggle">
+        <button data-lang="en">EN</button>
+        <button class="active" data-lang="ar">عربي</button>
       </div>
-      <div class="nav-group">
-        <span class="nav-group-label">Pro App ▾</span>
-        <div class="nav-dropdown">
-          <a href="professional/jobs.html">Jobs</a>
-          <a href="professional/active.html">Active Job</a>
-          <a href="professional/earnings.html">Earnings</a>
-          <a href="professional/profile.html">Profile</a>
-        </div>
-      </div>
-    </div>
-    <div class="hamburger" id="hamburger" onclick="toggleMenu()">
-      <span></span><span></span><span></span>
     </div>
   </div>
 </nav>
-<div class="mobile-menu" id="mobileMenu">
-  <div class="mobile-group-label">Customer App</div>
-  <a href="customer/auth.html">Auth</a>
-  <a href="customer/home.html">Home</a>
-  <a href="customer/book.html">Book</a>
-  <a href="customer/track.html">Track</a>
-  <a href="customer/history.html">History</a>
-  <a href="customer/profile.html">Profile</a>
-  <div class="mobile-group-label">Pro App</div>
-  <a href="professional/jobs.html">Jobs</a>
-  <a href="professional/active.html">Active Job</a>
-  <a href="professional/earnings.html">Earnings</a>
-  <a href="professional/profile.html">Profile</a>
-</div>
 
-<div class="page">
-
-  <!-- HERO -->
-  <section class="hero">
-    <div class="hero-eyebrow">
-      <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="6" fill="#00ACE4" opacity=".3"/><circle cx="6" cy="6" r="3" fill="#00ACE4"/></svg>
-      Design System
-    </div>
-    <h1>IRIS Design System</h1>
-    <p>High-fidelity screens for the IRIS car-wash platform — Customer &amp; Professional apps built with Expo Router &amp; React Native.</p>
-
-    <!-- App Overview Cards -->
-    <div class="app-cards">
-      <a href="customer/auth.html" class="app-card app-card-customer">
-        <div class="app-card-badge badge-customer">Customer App</div>
-        <h2>Customer App</h2>
-        <p>Light theme. Arabic-first RTL. Book a wash, track your pro in real-time, manage your history.</p>
-        <div class="mini-screens">
-          <!-- Auth -->
-          <div class="mini-phone"><div class="mini-screen-inner mini-auth"><div class="mini-auth-header"><span>IRIS</span></div><div class="mini-auth-body"><div class="mini-field"></div><div class="mini-field"></div><div class="mini-btn"></div></div></div></div>
-          <!-- Home -->
-          <div class="mini-phone"><div class="mini-screen-inner mini-home"><div class="mini-home-header"></div><div class="mini-home-card"></div><div class="mini-home-row"><div class="mini-home-dot"></div><div class="mini-home-dot"></div></div></div></div>
-          <!-- Book -->
-          <div class="mini-phone"><div class="mini-screen-inner mini-book"><div class="mini-book-header"></div><div class="mini-book-chips"><div class="mini-chip"></div><div class="mini-chip"></div></div><div class="mini-book-body"><div class="mini-book-line"></div><div class="mini-book-line"></div><div class="mini-book-line"></div></div></div></div>
-          <!-- Track -->
-          <div class="mini-phone"><div class="mini-screen-inner mini-track"><div class="mini-map-area"><div class="mini-map-pin"></div></div><div class="mini-track-panel"><div class="mini-track-line"></div><div class="mini-track-line"></div></div></div></div>
-          <!-- History -->
-          <div class="mini-phone"><div class="mini-screen-inner mini-history"><div class="mini-hist-header"></div><div class="mini-hist-card"><div class="mini-hist-dot"></div><div class="mini-hist-lines"><div class="mini-hist-line"></div><div class="mini-hist-line" style="width:70%"></div></div></div><div class="mini-hist-card"><div class="mini-hist-dot"></div><div class="mini-hist-lines"><div class="mini-hist-line"></div><div class="mini-hist-line" style="width:50%"></div></div></div></div></div>
-          <!-- Profile -->
-          <div class="mini-phone"><div class="mini-screen-inner mini-profile"><div class="mini-prof-header"><div class="mini-avatar"></div></div><div class="mini-prof-body"><div class="mini-prof-row"></div><div class="mini-prof-row"></div><div class="mini-prof-row"></div></div></div></div>
+<!-- ====== HERO ====== -->
+<section class="hero" id="hero">
+  <div class="grid-bg"></div>
+  <div class="glow-orb glow-orb-blue glow-orb-1"></div>
+  <div class="glow-orb glow-orb-purple glow-orb-2"></div>
+  <div class="container hero-inner">
+    <div class="hero-content animate-in">
+      <div class="hero-badge badge badge-accent">
+        <span class="dot"></span>
+        <span data-en="Coming Soon — 2026" data-ar="قريبًا — 2026">Coming Soon — 2026</span>
+      </div>
+      <h1 class="heading-1 hero-title">
+        <span data-en="Premium Car Wash," data-ar="غسيل سيارات فاخر،">Premium Car Wash,</span><br>
+        <span class="gradient-text" data-en="Delivered to You" data-ar="يصل إليك">Delivered to You</span>
+      </h1>
+      <p class="hero-desc" data-en="Book a professional car wash in seconds. Our certified pros come to your location with everything needed for a spotless clean." data-ar="احجز غسيل سيارة احترافي في ثوانٍ. محترفونا المعتمدون يأتون إلى موقعك مع كل ما يلزم لنظافة متألقة.">
+        Book a professional car wash in seconds. Our certified pros come to your location with everything needed for a spotless clean.
+      </p>
+      <div class="hero-actions">
+        <a href="#apps" class="btn btn-primary btn-lg" data-en="Explore the Apps" data-ar="استكشف التطبيقات">Explore the Apps</a>
+        <a href="#features" class="btn btn-secondary btn-lg" data-en="Learn More" data-ar="اعرف المزيد">Learn More</a>
+      </div>
+      <div class="hero-stats">
+        <div>
+          <div class="hero-stat-value">3</div>
+          <div class="hero-stat-label" data-en="Service Tiers" data-ar="مستويات الخدمة">Service Tiers</div>
         </div>
-      </a>
-
-      <a href="professional/jobs.html" class="app-card app-card-pro">
-        <div class="app-card-badge badge-pro">Pro App</div>
-        <h2>Professional App</h2>
-        <p>Dark theme. Green accents. Accept jobs, navigate to customers, track earnings and performance.</p>
-        <div class="mini-screens">
-          <!-- Jobs -->
-          <div class="mini-phone"><div class="mini-screen-inner mini-jobs"><div class="mini-jobs-header"></div><div class="mini-job-card"><div class="mini-job-avatar"></div><div class="mini-job-info"><div class="mini-job-line"></div><div class="mini-job-line" style="width:60%"></div></div><div class="mini-job-badge"></div></div><div class="mini-job-card"><div class="mini-job-avatar"></div><div class="mini-job-info"><div class="mini-job-line"></div><div class="mini-job-line" style="width:70%"></div></div><div class="mini-job-badge"></div></div></div></div>
-          <!-- Active -->
-          <div class="mini-phone"><div class="mini-screen-inner mini-active"><div class="mini-active-header"></div><div class="mini-active-step"><div class="mini-step-dot active"></div><div class="mini-step-dot active"></div><div class="mini-step-dot"></div><div class="mini-step-dot"></div></div><div class="mini-active-card"></div><div class="mini-active-btn"></div></div></div>
-          <!-- Earnings -->
-          <div class="mini-phone"><div class="mini-screen-inner mini-earnings"><div class="mini-earn-header"></div><div class="mini-chart-area"><div class="mini-bar" style="height:40%;background:rgba(0,200,122,.3)"></div><div class="mini-bar" style="height:70%;background:rgba(0,200,122,.5)"></div><div class="mini-bar" style="height:55%;background:rgba(0,200,122,.35)"></div><div class="mini-bar" style="height:90%;background:#00C87A"></div><div class="mini-bar" style="height:65%;background:rgba(0,200,122,.45)"></div></div><div class="mini-earn-info"></div></div></div>
-          <!-- Pro Profile -->
-          <div class="mini-phone"><div class="mini-screen-inner mini-pro-profile"><div class="mini-pp-header"><div class="mini-pp-avatar"></div></div><div class="mini-pp-body"><div class="mini-pp-row"></div><div class="mini-pp-row"></div><div class="mini-pp-row"></div></div></div></div>
+        <div>
+          <div class="hero-stat-value">15<span style="font-size:1.2rem">min</span></div>
+          <div class="hero-stat-label" data-en="Average ETA" data-ar="متوسط وقت الوصول">Average ETA</div>
         </div>
-      </a>
-    </div>
-  </section>
-
-  <!-- CUSTOMER SCREENS -->
-  <div class="section">
-    <div class="two-col-screens">
-      <!-- Left: Customer -->
-      <div>
-        <div class="section-header">
-          <h2 class="section-title">Customer App</h2>
-          <span class="section-badge badge-blue">6 screens</span>
-        </div>
-        <div class="screen-grid">
-
-          <a href="customer/auth.html" class="screen-card">
-            <div class="screen-card-arrow">→</div>
-            <div class="screen-card-phone">
-              <div class="screen-card-phone-notch"></div>
-              <div class="screen-card-inner thumb-auth">
-                <div class="thumb-auth-bar"></div>
-                <div class="thumb-auth-body">
-                  <div class="thumb-auth-logo"><span>IRIS</span></div>
-                  <div class="thumb-field"></div>
-                  <div class="thumb-field"></div>
-                  <div class="thumb-btn"></div>
-                  <div style="display:flex;justify-content:center;margin-top:4px"><div class="thumb-link"></div></div>
-                </div>
-              </div>
-            </div>
-            <div class="screen-card-label">Auth</div>
-            <div class="screen-card-sublabel">Login · Register · OTP</div>
-          </a>
-
-          <a href="customer/home.html" class="screen-card">
-            <div class="screen-card-arrow">→</div>
-            <div class="screen-card-phone">
-              <div class="screen-card-phone-notch"></div>
-              <div class="screen-card-inner thumb-home">
-                <div class="thumb-home-header">
-                  <div class="thumb-home-greeting"></div>
-                  <div class="thumb-home-sub"></div>
-                </div>
-                <div class="thumb-home-body">
-                  <div class="thumb-card">
-                    <div class="thumb-card-title"></div>
-                    <div class="thumb-chips"><div class="thumb-chip"></div><div class="thumb-chip"></div><div class="thumb-chip"></div></div>
-                    <div class="thumb-book-btn"></div>
-                  </div>
-                  <div class="thumb-pro-row"><div class="thumb-pro-card"></div><div class="thumb-pro-card"></div></div>
-                </div>
-              </div>
-            </div>
-            <div class="screen-card-label">Home</div>
-            <div class="screen-card-sublabel">Dashboard · Nearby pros</div>
-          </a>
-
-          <a href="customer/book.html" class="screen-card">
-            <div class="screen-card-arrow">→</div>
-            <div class="screen-card-phone">
-              <div class="screen-card-phone-notch"></div>
-              <div class="screen-card-inner thumb-book">
-                <div class="thumb-book-header"><div class="thumb-book-title"></div></div>
-                <div class="thumb-service-list">
-                  <div class="thumb-service-item"><div class="thumb-service-icon"></div><div class="thumb-service-text"></div><div class="thumb-service-price"></div></div>
-                  <div class="thumb-service-item"><div class="thumb-service-icon"></div><div class="thumb-service-text"></div><div class="thumb-service-price"></div></div>
-                  <div class="thumb-service-item"><div class="thumb-service-icon"></div><div class="thumb-service-text"></div><div class="thumb-service-price"></div></div>
-                  <div class="thumb-service-item"><div class="thumb-service-icon"></div><div class="thumb-service-text"></div><div class="thumb-service-price"></div></div>
-                </div>
-              </div>
-            </div>
-            <div class="screen-card-label">Book</div>
-            <div class="screen-card-sublabel">Service selection · Schedule</div>
-          </a>
-
-          <a href="customer/track.html" class="screen-card">
-            <div class="screen-card-arrow">→</div>
-            <div class="screen-card-phone">
-              <div class="screen-card-phone-notch"></div>
-              <div class="screen-card-inner thumb-track" style="min-height:180px">
-                <div class="thumb-map" style="flex:1">
-                  <div class="thumb-map-roads">
-                    <div class="thumb-road thumb-road-h" style="top:40%"></div>
-                    <div class="thumb-road thumb-road-h" style="top:70%"></div>
-                    <div class="thumb-road thumb-road-v" style="left:35%"></div>
-                    <div class="thumb-road thumb-road-v" style="left:65%"></div>
-                  </div>
-                  <div class="thumb-pin-wrap"><div class="thumb-pin"></div></div>
-                </div>
-                <div class="thumb-track-panel"><div class="thumb-track-line"></div><div class="thumb-track-line" style="width:60%"></div></div>
-              </div>
-            </div>
-            <div class="screen-card-label">Track</div>
-            <div class="screen-card-sublabel">Live map · ETA</div>
-          </a>
-
-          <a href="customer/history.html" class="screen-card">
-            <div class="screen-card-arrow">→</div>
-            <div class="screen-card-phone">
-              <div class="screen-card-phone-notch"></div>
-              <div class="screen-card-inner thumb-history">
-                <div class="thumb-hist-header"><div class="thumb-hist-title"></div></div>
-                <div class="thumb-hist-list">
-                  <div class="thumb-hist-item"><div class="thumb-hist-icon"></div><div class="thumb-hist-info"><div class="thumb-hist-line"></div><div class="thumb-hist-line" style="width:60%"></div></div><div class="thumb-hist-status"></div></div>
-                  <div class="thumb-hist-item"><div class="thumb-hist-icon"></div><div class="thumb-hist-info"><div class="thumb-hist-line"></div><div class="thumb-hist-line" style="width:75%"></div></div><div class="thumb-hist-status"></div></div>
-                  <div class="thumb-hist-item"><div class="thumb-hist-icon"></div><div class="thumb-hist-info"><div class="thumb-hist-line"></div><div class="thumb-hist-line" style="width:50%"></div></div><div class="thumb-hist-status"></div></div>
-                </div>
-              </div>
-            </div>
-            <div class="screen-card-label">History</div>
-            <div class="screen-card-sublabel">Past bookings · Receipts</div>
-          </a>
-
-          <a href="customer/profile.html" class="screen-card">
-            <div class="screen-card-arrow">→</div>
-            <div class="screen-card-phone">
-              <div class="screen-card-phone-notch"></div>
-              <div class="screen-card-inner thumb-profile">
-                <div class="thumb-prof-header"><div class="thumb-prof-avatar"></div><div class="thumb-prof-name"></div></div>
-                <div class="thumb-prof-body">
-                  <div class="thumb-prof-row"></div>
-                  <div class="thumb-prof-row"></div>
-                  <div class="thumb-prof-row"></div>
-                  <div class="thumb-prof-row"></div>
-                </div>
-              </div>
-            </div>
-            <div class="screen-card-label">Profile</div>
-            <div class="screen-card-sublabel">Account · Settings · Cars</div>
-          </a>
-
+        <div>
+          <div class="hero-stat-value">24/7</div>
+          <div class="hero-stat-label" data-en="Availability" data-ar="متاح دائمًا">Availability</div>
         </div>
       </div>
-
-      <!-- Right: Professional -->
-      <div>
-        <div class="section-header">
-          <h2 class="section-title">Pro App</h2>
-          <span class="section-badge badge-green">4 screens</span>
+    </div>
+    <div class="hero-visual animate-in animate-delay-2">
+      <div class="hero-phones">
+        <!-- Customer App Phone -->
+        <div class="phone-mockup" style="animation: float 4s ease-in-out infinite;">
+          <div class="phone-screen" id="heroPhone1">
+            <div class="phone-status-bar"><span>9:41</span><span>●●● ▐█▌</span></div>
+            <div class="screen-content">
+              <div class="screen-greeting" data-en="Good morning," data-ar="صباح الخير،">Good morning,</div>
+              <div class="screen-title" data-en="Ahmed &#x1f44b;" data-ar="أحمد &#x1f44b;">Ahmed &#x1f44b;</div>
+              <div class="screen-search">
+                <span class="screen-search-icon">&#x1f50d;</span>
+                <span class="screen-search-text" data-en="Search services..." data-ar="ابحث عن الخدمات...">Search services...</span>
+              </div>
+              <div style="display:flex;gap:8px;margin-bottom:14px;">
+                <span class="screen-chip" data-en="Express Wash" data-ar="غسيل سريع">Express Wash</span>
+                <span class="screen-chip" data-en="Full Detail" data-ar="تنظيف شامل">Full Detail</span>
+                <span class="screen-chip" data-en="Interior" data-ar="داخلي">Interior</span>
+              </div>
+              <div class="screen-card" style="background:linear-gradient(135deg, rgba(0,102,255,0.15) 0%, var(--bg-card) 100%);border-color:var(--border-accent);">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+                  <span style="font-size:12px;font-weight:700;color:var(--accent);" data-en="PREMIUM WASH" data-ar="غسيل متميز">PREMIUM WASH</span>
+                  <span class="badge badge-success" style="font-size:9px;" data-en="Popular" data-ar="الأكثر طلبًا">Popular</span>
+                </div>
+                <div style="font-size:14px;font-weight:600;margin-bottom:4px;" data-en="Full Exterior + Interior" data-ar="خارجي + داخلي كامل">Full Exterior + Interior</div>
+                <div style="font-size:11px;color:var(--text-muted);" data-en="Hand wash, vacuum, dashboard, tires" data-ar="غسيل يدوي، شفط، تابلو، إطارات">Hand wash, vacuum, dashboard, tires</div>
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;">
+                  <span style="font-size:18px;font-weight:800;color:var(--accent);">35 <span style="font-size:11px;font-weight:500;color:var(--text-muted);">SAR</span></span>
+                  <div class="screen-btn" style="width:auto;padding:8px 20px;margin:0;font-size:11px;" data-en="Book Now" data-ar="احجز الآن">Book Now</div>
+                </div>
+              </div>
+              <div class="screen-card">
+                <div style="font-size:11px;font-weight:600;color:var(--text-muted);margin-bottom:8px;" data-en="RECENT" data-ar="الأخيرة">RECENT</div>
+                <div class="screen-list-item" style="padding:8px 0;">
+                  <div class="screen-avatar">A</div>
+                  <div style="flex:1;">
+                    <div style="font-size:12px;font-weight:600;" data-en="Express Wash" data-ar="غسيل سريع">Express Wash</div>
+                    <div style="font-size:10px;color:var(--text-muted);" data-en="Yesterday, 14:30" data-ar="أمس، 14:30">Yesterday, 14:30</div>
+                  </div>
+                  <div class="screen-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="screen-grid">
-
-          <a href="professional/jobs.html" class="screen-card pro-card">
-            <div class="screen-card-arrow">→</div>
-            <div class="screen-card-phone">
-              <div class="screen-card-phone-notch"></div>
-              <div class="screen-card-inner thumb-jobs">
-                <div class="thumb-jobs-header"><div class="thumb-jobs-title"></div></div>
-                <div class="thumb-jobs-list">
-                  <div class="thumb-job-item"><div class="thumb-job-avatar"></div><div class="thumb-job-info"><div class="thumb-job-line"></div><div class="thumb-job-line" style="width:60%"></div></div><div class="thumb-job-badge"></div></div>
-                  <div class="thumb-job-item"><div class="thumb-job-avatar"></div><div class="thumb-job-info"><div class="thumb-job-line"></div><div class="thumb-job-line" style="width:75%"></div></div><div class="thumb-job-badge"></div></div>
-                  <div class="thumb-job-item"><div class="thumb-job-avatar"></div><div class="thumb-job-info"><div class="thumb-job-line"></div><div class="thumb-job-line" style="width:50%"></div></div><div class="thumb-job-badge"></div></div>
+        <!-- Pro App Phone -->
+        <div class="phone-mockup" style="animation: float 4s ease-in-out infinite 1s;">
+          <div class="phone-screen" id="heroPhone2">
+            <div class="phone-status-bar"><span>9:41</span><span>●●● ▐█▌</span></div>
+            <div class="screen-content">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+                <div>
+                  <div class="screen-greeting" data-en="Pro Dashboard" data-ar="لوحة المحترف">Pro Dashboard</div>
+                  <div class="screen-title" style="margin-bottom:0;" data-en="Karim M." data-ar="كريم م.">Karim M.</div>
+                </div>
+                <div class="screen-avatar" style="background:linear-gradient(135deg, var(--success), #00953A);">K</div>
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px;">
+                <div class="screen-card" style="padding:10px;text-align:center;">
+                  <div class="screen-stat-value" style="font-size:16px;">12</div>
+                  <div class="screen-stat-label" data-en="Today" data-ar="اليوم">Today</div>
+                </div>
+                <div class="screen-card" style="padding:10px;text-align:center;">
+                  <div class="screen-stat-value" style="font-size:16px;color:var(--success);">280</div>
+                  <div class="screen-stat-label" data-en="SAR Earned" data-ar="ريال مكتسب">SAR Earned</div>
+                </div>
+                <div class="screen-card" style="padding:10px;text-align:center;">
+                  <div class="screen-stat-value" style="font-size:16px;color:var(--warning);">4.9</div>
+                  <div class="screen-stat-label" data-en="Rating" data-ar="التقييم">Rating</div>
                 </div>
               </div>
-            </div>
-            <div class="screen-card-label">Jobs</div>
-            <div class="screen-card-sublabel">Available · Nearby · Accept</div>
-          </a>
-
-          <a href="professional/active.html" class="screen-card pro-card">
-            <div class="screen-card-arrow">→</div>
-            <div class="screen-card-phone">
-              <div class="screen-card-phone-notch"></div>
-              <div class="screen-card-inner thumb-active">
-                <div class="thumb-active-header"><div class="thumb-active-dot"></div><div class="thumb-active-text"></div></div>
-                <div class="thumb-active-body">
-                  <div class="thumb-active-card"><div class="thumb-active-icon"></div><div class="thumb-active-lines"><div class="thumb-active-line"></div><div class="thumb-active-line" style="width:60%"></div></div></div>
-                  <div class="thumb-active-card"><div class="thumb-active-icon"></div><div class="thumb-active-lines"><div class="thumb-active-line"></div><div class="thumb-active-line" style="width:70%"></div></div></div>
-                  <div class="thumb-active-btn"></div>
+              <div class="screen-card screen-card-accent">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+                  <span style="font-size:11px;font-weight:700;color:var(--accent);" data-en="NEW JOB" data-ar="طلب جديد">NEW JOB</span>
+                  <span class="badge badge-warning" style="font-size:8px;padding:3px 8px;" data-en="2 min ago" data-ar="منذ 2 دقيقة">2 min ago</span>
+                </div>
+                <div style="font-size:13px;font-weight:600;margin-bottom:3px;" data-en="Premium Wash — Sedan" data-ar="غسيل متميز — سيدان">Premium Wash — Sedan</div>
+                <div style="font-size:10px;color:var(--text-muted);margin-bottom:8px;" data-en="Riyadh, Al Olaya — 1.2 km away" data-ar="الرياض، العليا — 1.2 كم">Riyadh, Al Olaya — 1.2 km away</div>
+                <div style="display:flex;gap:8px;">
+                  <div class="screen-btn" style="flex:1;padding:8px;font-size:11px;margin:0;" data-en="Accept" data-ar="قبول">Accept</div>
+                  <div class="screen-btn" style="flex:1;padding:8px;font-size:11px;margin:0;background:rgba(255,255,255,0.06);color:var(--text-secondary);" data-en="Decline" data-ar="رفض">Decline</div>
                 </div>
               </div>
-            </div>
-            <div class="screen-card-label">Active Job</div>
-            <div class="screen-card-sublabel">Steps · Navigation · Complete</div>
-          </a>
-
-          <a href="professional/earnings.html" class="screen-card pro-card">
-            <div class="screen-card-arrow">→</div>
-            <div class="screen-card-phone">
-              <div class="screen-card-phone-notch"></div>
-              <div class="screen-card-inner thumb-earnings">
-                <div class="thumb-earn-header"><div class="thumb-earn-title"></div></div>
-                <div class="thumb-earn-amount"><div class="thumb-earn-num"></div></div>
-                <div class="thumb-chart">
-                  <div class="thumb-bar" style="height:45%;background:rgba(0,200,122,.3)"></div>
-                  <div class="thumb-bar" style="height:70%;background:rgba(0,200,122,.5)"></div>
-                  <div class="thumb-bar" style="height:55%;background:rgba(0,200,122,.35)"></div>
-                  <div class="thumb-bar" style="height:95%;background:#00C87A"></div>
-                  <div class="thumb-bar" style="height:65%;background:rgba(0,200,122,.45)"></div>
-                  <div class="thumb-bar" style="height:80%;background:rgba(0,200,122,.6)"></div>
-                  <div class="thumb-bar" style="height:50%;background:rgba(0,200,122,.35)"></div>
-                </div>
+              <div style="font-size:11px;font-weight:600;color:var(--text-muted);margin:14px 0 8px;" data-en="WEEKLY EARNINGS" data-ar="الأرباح الأسبوعية">WEEKLY EARNINGS</div>
+              <div class="screen-chart">
+                <div class="screen-chart-bar" style="height:35%;"></div>
+                <div class="screen-chart-bar" style="height:55%;"></div>
+                <div class="screen-chart-bar" style="height:45%;"></div>
+                <div class="screen-chart-bar" style="height:70%;"></div>
+                <div class="screen-chart-bar active" style="height:85%;"></div>
+                <div class="screen-chart-bar" style="height:60%;"></div>
+                <div class="screen-chart-bar" style="height:40%;"></div>
+              </div>
+              <div class="screen-chart-label">
+                <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
               </div>
             </div>
-            <div class="screen-card-label">Earnings</div>
-            <div class="screen-card-sublabel">Revenue · Chart · Payouts</div>
-          </a>
-
-          <a href="professional/profile.html" class="screen-card pro-card">
-            <div class="screen-card-arrow">→</div>
-            <div class="screen-card-phone">
-              <div class="screen-card-phone-notch"></div>
-              <div class="screen-card-inner thumb-pro-profile">
-                <div class="thumb-pp-header"><div class="thumb-pp-avatar"></div><div class="thumb-pp-name"></div></div>
-                <div class="thumb-pp-body">
-                  <div class="thumb-pp-row"></div>
-                  <div class="thumb-pp-row"></div>
-                  <div class="thumb-pp-row"></div>
-                  <div class="thumb-pp-row"></div>
-                </div>
-              </div>
-            </div>
-            <div class="screen-card-label">Profile</div>
-            <div class="screen-card-sublabel">Account · Rating · Documents</div>
-          </a>
-
+          </div>
         </div>
       </div>
     </div>
   </div>
+</section>
 
-  <!-- DESIGN TOKENS -->
-  <div class="tokens-section">
-    <div class="section-header" style="max-width:none;margin-bottom:32px">
-      <h2 class="section-title">Design Tokens</h2>
-      <span class="section-badge badge-blue">Colors · Type · Components</span>
+<!-- ====== FEATURES ====== -->
+<section class="section" id="features">
+  <div class="container">
+    <div class="section-header animate-in">
+      <span class="label" data-en="Why IRIS" data-ar="لماذا IRIS">Why IRIS</span>
+      <h2 class="heading-2" data-en="Everything you need for a perfect wash" data-ar="كل ما تحتاجه لغسيل مثالي">Everything you need for a perfect wash</h2>
+      <p class="body-lg" data-en="A premium mobile car wash experience, built with the latest technology." data-ar="تجربة غسيل سيارات متنقلة فاخرة، مبنية بأحدث التقنيات.">A premium mobile car wash experience, built with the latest technology.</p>
     </div>
-    <div class="section-divider"></div>
-    <div class="tokens-grid">
-
-      <!-- Colors -->
-      <div class="token-card">
-        <div class="token-card-title">Brand Colors</div>
-        <div class="color-grid">
-          <div class="color-row"><div class="color-swatch" style="background:#0B96D0"></div><div class="color-info"><div class="color-name">Blue</div><div class="color-hex">#0B96D0</div></div></div>
-          <div class="color-row"><div class="color-swatch" style="background:#00ACE4"></div><div class="color-info"><div class="color-name">Cyan</div><div class="color-hex">#00ACE4</div></div></div>
-          <div class="color-row"><div class="color-swatch" style="background:#00C87A"></div><div class="color-info"><div class="color-name">Green (Pro)</div><div class="color-hex">#00C87A</div></div></div>
-          <div class="color-row"><div class="color-swatch" style="background:linear-gradient(135deg,#0B96D0,#00ACE4);border-radius:10px"></div><div class="color-info"><div class="color-name">Primary Gradient</div><div class="color-hex">135deg → #0B96D0 #00ACE4</div></div></div>
-        </div>
+    <div class="grid-3">
+      <div class="card card-glow animate-in animate-delay-1">
+        <div class="feature-icon">&#x1f4f1;</div>
+        <div class="feature-title" data-en="Book in Seconds" data-ar="احجز في ثوانٍ">Book in Seconds</div>
+        <div class="feature-desc" data-en="Select your service, pick a time slot, and confirm. Your pro is on the way." data-ar="اختر خدمتك، حدد الوقت، وأكد. المحترف في الطريق.">Select your service, pick a time slot, and confirm. Your pro is on the way.</div>
       </div>
-
-      <!-- Customer App Colors -->
-      <div class="token-card">
-        <div class="token-card-title">Customer App — Light</div>
-        <div class="color-grid">
-          <div class="color-row"><div class="color-swatch" style="background:#F5F7FA;border:1px solid rgba(255,255,255,.1)"></div><div class="color-info"><div class="color-name">Background</div><div class="color-hex">#F5F7FA</div></div></div>
-          <div class="color-row"><div class="color-swatch" style="background:#FFFFFF;border:1px solid rgba(255,255,255,.15)"></div><div class="color-info"><div class="color-name">Card</div><div class="color-hex">#FFFFFF</div></div></div>
-          <div class="color-row"><div class="color-swatch" style="background:#1A1A2E"></div><div class="color-info"><div class="color-name">Text</div><div class="color-hex">#1A1A2E</div></div></div>
-          <div class="color-row"><div class="color-swatch" style="background:#6B7A90"></div><div class="color-info"><div class="color-name">Muted</div><div class="color-hex">#6B7A90</div></div></div>
-          <div class="color-row"><div class="color-swatch" style="background:#E8EEF4"></div><div class="color-info"><div class="color-name">Border</div><div class="color-hex">#E8EEF4</div></div></div>
-        </div>
+      <div class="card card-glow animate-in animate-delay-2">
+        <div class="feature-icon">&#x1f4cd;</div>
+        <div class="feature-title" data-en="Live Tracking" data-ar="تتبع مباشر">Live Tracking</div>
+        <div class="feature-desc" data-en="Watch your pro's arrival on a real-time map. Know exactly when they'll arrive." data-ar="شاهد وصول المحترف على خريطة مباشرة. اعرف بالضبط متى سيصل.">Watch your pro's arrival on a real-time map. Know exactly when they'll arrive.</div>
       </div>
-
-      <!-- Pro App Colors -->
-      <div class="token-card">
-        <div class="token-card-title">Pro App — Dark</div>
-        <div class="color-grid">
-          <div class="color-row"><div class="color-swatch" style="background:#111111"></div><div class="color-info"><div class="color-name">Background</div><div class="color-hex">#111111</div></div></div>
-          <div class="color-row"><div class="color-swatch" style="background:#1C1C1E"></div><div class="color-info"><div class="color-name">Card</div><div class="color-hex">#1C1C1E</div></div></div>
-          <div class="color-row"><div class="color-swatch" style="background:#2C2C2E"></div><div class="color-info"><div class="color-name">Secondary BG</div><div class="color-hex">#2C2C2E</div></div></div>
-          <div class="color-row"><div class="color-swatch" style="background:#8E8E93"></div><div class="color-info"><div class="color-name">Muted</div><div class="color-hex">#8E8E93</div></div></div>
-        </div>
+      <div class="card card-glow animate-in animate-delay-3">
+        <div class="feature-icon">&#x2b50;</div>
+        <div class="feature-title" data-en="Certified Pros" data-ar="محترفون معتمدون">Certified Pros</div>
+        <div class="feature-desc" data-en="Every washer is vetted, trained, and rated. Only the best join IRIS." data-ar="كل غاسل مُدقّق، مُدرّب، ومُقيّم. فقط الأفضل ينضمون إلى IRIS.">Every washer is vetted, trained, and rated. Only the best join IRIS.</div>
       </div>
-
-      <!-- Typography -->
-      <div class="token-card">
-        <div class="token-card-title">Typography — Outfit</div>
-        <div class="type-list">
-          <div class="type-row"><div class="type-sample" style="font-size:28px;font-weight:900;letter-spacing:-1px;">Display</div><div class="type-spec">28px / 900</div></div>
-          <div class="type-row"><div class="type-sample" style="font-size:22px;font-weight:800;">Heading</div><div class="type-spec">22px / 800</div></div>
-          <div class="type-row"><div class="type-sample" style="font-size:17px;font-weight:700;">Title</div><div class="type-spec">17px / 700</div></div>
-          <div class="type-row"><div class="type-sample" style="font-size:15px;font-weight:600;">Label</div><div class="type-spec">15px / 600</div></div>
-          <div class="type-row"><div class="type-sample" style="font-size:14px;font-weight:400;color:var(--page-muted)">Body</div><div class="type-spec">14px / 400</div></div>
-          <div class="type-row"><div class="type-sample" style="font-size:12px;font-weight:500;color:var(--page-muted)">Caption</div><div class="type-spec">12px / 500</div></div>
-        </div>
+      <div class="card card-glow animate-in animate-delay-1">
+        <div class="feature-icon">&#x1f4b3;</div>
+        <div class="feature-title" data-en="Cashless Payments" data-ar="دفع بدون نقد">Cashless Payments</div>
+        <div class="feature-desc" data-en="Pay securely in-app. View pricing upfront with no hidden fees." data-ar="ادفع بأمان في التطبيق. شاهد الأسعار مقدمًا بدون رسوم خفية.">Pay securely in-app. View pricing upfront with no hidden fees.</div>
       </div>
-
-      <!-- Buttons & Inputs -->
-      <div class="token-card">
-        <div class="token-card-title">Buttons &amp; Inputs</div>
-        <div class="comp-list">
-          <div class="comp-item">
-            <div class="comp-label">Primary Button · h:56px · r:30px</div>
-            <button class="demo-btn">Book a Wash</button>
-          </div>
-          <div class="comp-item">
-            <div class="comp-label">Outline Button</div>
-            <button class="demo-btn demo-btn-outline">View Details</button>
-          </div>
-          <div class="comp-item">
-            <div class="comp-label">Input · h:52px · r:12px</div>
-            <input class="demo-input" placeholder="Phone number" />
-          </div>
-        </div>
+      <div class="card card-glow animate-in animate-delay-2">
+        <div class="feature-icon">&#x1f4ca;</div>
+        <div class="feature-title" data-en="Pro Earnings Dashboard" data-ar="لوحة أرباح المحترف">Pro Earnings Dashboard</div>
+        <div class="feature-desc" data-en="Pros track daily earnings, job history, and performance insights in real time." data-ar="يتتبع المحترفون أرباحهم اليومية وسجل العمل وتحليلات الأداء في الوقت الحقيقي.">Pros track daily earnings, job history, and performance insights in real time.</div>
       </div>
-
-      <!-- Cards & Badges -->
-      <div class="token-card">
-        <div class="token-card-title">Cards &amp; Badges</div>
-        <div class="comp-list">
-          <div class="comp-item">
-            <div class="comp-label">Card · r:16px</div>
-            <div class="demo-card">
-              <div class="demo-card-icon">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M7 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0M17 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0M5 17H3v-4l2-5h11l2 5v4h-2M9 17h6M3 13h18" stroke="#0B96D0" stroke-width="1.5" stroke-linecap="round"/></svg>
-              </div>
-              <div class="demo-card-body">
-                <div class="demo-card-title">Toyota Corolla</div>
-                <div class="demo-card-sub">Full Wash · 45 min</div>
-              </div>
-            </div>
-          </div>
-          <div class="comp-item">
-            <div class="comp-label">Status Badges</div>
-            <div class="badges-row">
-              <span class="demo-badge badge-available">Available</span>
-              <span class="demo-badge badge-pending">Pending</span>
-              <span class="demo-badge badge-completed">Completed</span>
-            </div>
-          </div>
-        </div>
+      <div class="card card-glow animate-in animate-delay-3">
+        <div class="feature-icon">&#x1f6e1;&#xfe0f;</div>
+        <div class="feature-title" data-en="Eco-Friendly" data-ar="صديق للبيئة">Eco-Friendly</div>
+        <div class="feature-desc" data-en="Water-saving techniques and biodegradable products. Clean car, clean conscience." data-ar="تقنيات توفير المياه ومنتجات قابلة للتحلل. سيارة نظيفة، ضمير نظيف.">Water-saving techniques and biodegradable products. Clean car, clean conscience.</div>
       </div>
-
     </div>
   </div>
+</section>
 
-</div>
+<!-- ====== HOW IT WORKS ====== -->
+<section class="section" id="how-it-works" style="background:var(--bg-secondary);">
+  <div class="container">
+    <div class="section-header animate-in">
+      <span class="label" data-en="How It Works" data-ar="كيف يعمل">How It Works</span>
+      <h2 class="heading-2" data-en="Sparkling clean in 4 simple steps" data-ar="نظافة لامعة في 4 خطوات بسيطة">Sparkling clean in 4 simple steps</h2>
+    </div>
+    <div class="steps-grid">
+      <div class="step animate-in animate-delay-1">
+        <div class="step-number">1</div>
+        <div class="step-title" data-en="Choose Service" data-ar="اختر الخدمة">Choose Service</div>
+        <div class="step-desc" data-en="Pick from Express, Premium, or Full Detail packages" data-ar="اختر من باقات السريع، المتميز، أو التنظيف الشامل">Pick from Express, Premium, or Full Detail packages</div>
+      </div>
+      <div class="step animate-in animate-delay-2">
+        <div class="step-number">2</div>
+        <div class="step-title" data-en="Set Location" data-ar="حدد الموقع">Set Location</div>
+        <div class="step-desc" data-en="Drop a pin or use GPS for your exact location" data-ar="ضع علامة أو استخدم GPS لموقعك الدقيق">Drop a pin or use GPS for your exact location</div>
+      </div>
+      <div class="step animate-in animate-delay-3">
+        <div class="step-number">3</div>
+        <div class="step-title" data-en="Track Pro" data-ar="تتبع المحترف">Track Pro</div>
+        <div class="step-desc" data-en="Watch your assigned pro arrive on the live map" data-ar="شاهد المحترف المعين يصل عبر الخريطة المباشرة">Watch your assigned pro arrive on the live map</div>
+      </div>
+      <div class="step animate-in animate-delay-4">
+        <div class="step-number">4</div>
+        <div class="step-title" data-en="Enjoy & Rate" data-ar="استمتع وقيّم">Enjoy & Rate</div>
+        <div class="step-desc" data-en="Get a spotless car and rate your experience" data-ar="احصل على سيارة نظيفة وقيّم تجربتك">Get a spotless car and rate your experience</div>
+      </div>
+    </div>
+  </div>
+</section>
 
-<footer>© 2026 IRIS — Car Wash On-Demand Platform</footer>
+<!-- ====== APP SHOWCASE — CUSTOMER ====== -->
+<section class="section" id="apps">
+  <div class="container">
+    <div class="section-header animate-in">
+      <span class="label" data-en="App Design" data-ar="تصميم التطبيق">App Design</span>
+      <h2 class="heading-2" data-en="Two apps, one mission" data-ar="تطبيقان، مهمة واحدة">Two apps, one mission</h2>
+      <p class="body-lg" data-en="Explore the full design for both the Customer and Pro applications." data-ar="استكشف التصميم الكامل لتطبيقي العميل والمحترف.">Explore the full design for both the Customer and Pro applications.</p>
+    </div>
+
+    <!-- Customer App -->
+    <div class="app-showcase animate-in" style="margin-bottom:100px;">
+      <div class="app-showcase-content">
+        <span class="badge badge-accent" data-en="Customer App" data-ar="تطبيق العميل">Customer App</span>
+        <h3 class="heading-3" style="margin:16px 0 12px;" data-en="Book, Track, and Manage Your Washes" data-ar="احجز، تتبع، وأدِر غسلاتك">Book, Track, and Manage Your Washes</h3>
+        <p class="body-md" data-en="A seamless experience from booking to rating. Every interaction designed for speed and clarity." data-ar="تجربة سلسة من الحجز إلى التقييم. كل تفاعل مصمم للسرعة والوضوح.">A seamless experience from booking to rating. Every interaction designed for speed and clarity.</p>
+        <ul class="app-feature-list">
+          <li>
+            <span class="app-feature-check">&#x2713;</span>
+            <span class="app-feature-text" data-en="Quick booking with smart service recommendations" data-ar="حجز سريع مع توصيات ذكية للخدمات">Quick booking with smart service recommendations</span>
+          </li>
+          <li>
+            <span class="app-feature-check">&#x2713;</span>
+            <span class="app-feature-text" data-en="Real-time GPS tracking of your washer" data-ar="تتبع GPS مباشر للغاسل">Real-time GPS tracking of your washer</span>
+          </li>
+          <li>
+            <span class="app-feature-check">&#x2713;</span>
+            <span class="app-feature-text" data-en="Complete wash history with ratings and photos" data-ar="سجل غسيل كامل مع التقييمات والصور">Complete wash history with ratings and photos</span>
+          </li>
+          <li>
+            <span class="app-feature-check">&#x2713;</span>
+            <span class="app-feature-text" data-en="Secure in-app payments and invoicing" data-ar="مدفوعات آمنة وفوترة داخل التطبيق">Secure in-app payments and invoicing</span>
+          </li>
+        </ul>
+        <a href="customer.html" class="btn btn-primary" style="margin-top:24px;" data-en="View All Customer Screens" data-ar="عرض جميع شاشات العميل">View All Customer Screens</a>
+      </div>
+      <div class="app-showcase-visual">
+        <div class="phone-mockup" style="animation: float 5s ease-in-out infinite;">
+          <div class="phone-screen">
+            <div class="phone-status-bar"><span>9:41</span><span>●●● ▐█▌</span></div>
+            <div class="screen-content">
+              <div class="screen-title" style="font-size:15px;margin-bottom:14px;" data-en="Book a Wash" data-ar="احجز غسلة">Book a Wash</div>
+              <div class="screen-map">
+                <div class="screen-map-grid"></div>
+                <div class="screen-map-pin" style="top:45%;left:55%;"></div>
+              </div>
+              <div style="font-size:11px;font-weight:600;color:var(--text-muted);margin-bottom:8px;" data-en="SELECT SERVICE" data-ar="اختر الخدمة">SELECT SERVICE</div>
+              <div class="screen-card" style="border-color:var(--border-accent);margin-bottom:8px;">
+                <div style="display:flex;justify-content:space-between;align-items:center;">
+                  <div>
+                    <div style="font-size:12px;font-weight:600;" data-en="Express Wash" data-ar="غسيل سريع">Express Wash</div>
+                    <div style="font-size:10px;color:var(--text-muted);" data-en="Exterior only · 20 min" data-ar="خارجي فقط · 20 دقيقة">Exterior only · 20 min</div>
+                  </div>
+                  <span style="font-size:15px;font-weight:700;color:var(--accent);">15 <span style="font-size:9px;color:var(--text-muted);">SAR</span></span>
+                </div>
+              </div>
+              <div class="screen-card" style="margin-bottom:8px;">
+                <div style="display:flex;justify-content:space-between;align-items:center;">
+                  <div>
+                    <div style="font-size:12px;font-weight:600;" data-en="Premium Wash" data-ar="غسيل متميز">Premium Wash</div>
+                    <div style="font-size:10px;color:var(--text-muted);" data-en="Ext + Interior · 45 min" data-ar="خارجي + داخلي · 45 دقيقة">Ext + Interior · 45 min</div>
+                  </div>
+                  <span style="font-size:15px;font-weight:700;color:var(--accent);">35 <span style="font-size:9px;color:var(--text-muted);">SAR</span></span>
+                </div>
+              </div>
+              <div class="screen-card">
+                <div style="display:flex;justify-content:space-between;align-items:center;">
+                  <div>
+                    <div style="font-size:12px;font-weight:600;" data-en="Full Detail" data-ar="تنظيف شامل">Full Detail</div>
+                    <div style="font-size:10px;color:var(--text-muted);" data-en="Complete · 90 min" data-ar="كامل · 90 دقيقة">Complete · 90 min</div>
+                  </div>
+                  <span style="font-size:15px;font-weight:700;color:var(--accent);">65 <span style="font-size:9px;color:var(--text-muted);">SAR</span></span>
+                </div>
+              </div>
+              <div class="screen-btn" data-en="Continue" data-ar="متابعة">Continue</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pro App -->
+    <div class="app-showcase reverse animate-in">
+      <div class="app-showcase-content">
+        <span class="badge badge-success" data-en="Pro App" data-ar="تطبيق المحترف">Pro App</span>
+        <h3 class="heading-3" style="margin:16px 0 12px;" data-en="Manage Jobs, Maximize Earnings" data-ar="أدِر الطلبات، عظّم الأرباح">Manage Jobs, Maximize Earnings</h3>
+        <p class="body-md" data-en="Built for professionals. Accept jobs, navigate to customers, track your income, and grow your rating." data-ar="مصمم للمحترفين. اقبل الطلبات، انتقل إلى العملاء، تتبع دخلك، وارفع تقييمك.">Built for professionals. Accept jobs, navigate to customers, track your income, and grow your rating.</p>
+        <ul class="app-feature-list">
+          <li>
+            <span class="app-feature-check">&#x2713;</span>
+            <span class="app-feature-text" data-en="Smart job feed with distance and earnings preview" data-ar="خلاصة طلبات ذكية مع عرض المسافة والأرباح">Smart job feed with distance and earnings preview</span>
+          </li>
+          <li>
+            <span class="app-feature-check">&#x2713;</span>
+            <span class="app-feature-text" data-en="Step-by-step active job workflow" data-ar="سير عمل مرحلي للطلبات النشطة">Step-by-step active job workflow</span>
+          </li>
+          <li>
+            <span class="app-feature-check">&#x2713;</span>
+            <span class="app-feature-text" data-en="Detailed earnings analytics and payout history" data-ar="تحليلات أرباح مفصلة وسجل المدفوعات">Detailed earnings analytics and payout history</span>
+          </li>
+          <li>
+            <span class="app-feature-check">&#x2713;</span>
+            <span class="app-feature-text" data-en="Professional profile with certifications" data-ar="ملف محترف مع الشهادات">Professional profile with certifications</span>
+          </li>
+        </ul>
+        <a href="pro.html" class="btn btn-primary" style="margin-top:24px;" data-en="View All Pro Screens" data-ar="عرض جميع شاشات المحترف">View All Pro Screens</a>
+      </div>
+      <div class="app-showcase-visual">
+        <div class="phone-mockup" style="animation: float 5s ease-in-out infinite 0.5s;">
+          <div class="phone-screen">
+            <div class="phone-status-bar"><span>9:41</span><span>●●● ▐█▌</span></div>
+            <div class="screen-content">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+                <div class="screen-title" style="margin-bottom:0;font-size:15px;" data-en="My Earnings" data-ar="أرباحي">My Earnings</div>
+                <span class="screen-chip" data-en="This Week" data-ar="هذا الأسبوع">This Week</span>
+              </div>
+              <div class="screen-card" style="text-align:center;padding:20px;">
+                <div style="font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.05em;" data-en="Total Earnings" data-ar="إجمالي الأرباح">Total Earnings</div>
+                <div style="font-size:32px;font-weight:800;color:var(--accent);margin:4px 0;">1,450</div>
+                <div style="font-size:11px;color:var(--text-muted);" data-en="SAR this week" data-ar="ريال هذا الأسبوع">SAR this week</div>
+                <div style="display:flex;align-items:center;justify-content:center;gap:4px;margin-top:6px;">
+                  <span style="color:var(--success);font-size:11px;">&#x25B2; 12%</span>
+                  <span style="font-size:10px;color:var(--text-muted);" data-en="vs last week" data-ar="مقارنة بالأسبوع الماضي">vs last week</span>
+                </div>
+              </div>
+              <div class="screen-chart" style="height:70px;">
+                <div class="screen-chart-bar" style="height:40%;"></div>
+                <div class="screen-chart-bar" style="height:60%;"></div>
+                <div class="screen-chart-bar" style="height:50%;"></div>
+                <div class="screen-chart-bar" style="height:75%;"></div>
+                <div class="screen-chart-bar active" style="height:90%;"></div>
+                <div class="screen-chart-bar" style="height:65%;"></div>
+                <div class="screen-chart-bar" style="height:45%;"></div>
+              </div>
+              <div class="screen-chart-label">
+                <span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span>
+              </div>
+              <div style="font-size:11px;font-weight:600;color:var(--text-muted);margin:14px 0 8px;" data-en="RECENT PAYOUTS" data-ar="المدفوعات الأخيرة">RECENT PAYOUTS</div>
+              <div class="screen-list-item" style="padding:8px 0;">
+                <div style="width:32px;height:32px;background:rgba(0,200,83,0.1);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--success);font-size:14px;">&#x2713;</div>
+                <div style="flex:1;">
+                  <div style="font-size:11px;font-weight:600;" data-en="Weekly Payout" data-ar="دفعة أسبوعية">Weekly Payout</div>
+                  <div style="font-size:9px;color:var(--text-muted);">May 12, 2026</div>
+                </div>
+                <span style="font-size:13px;font-weight:700;color:var(--success);">+1,280 SAR</span>
+              </div>
+              <div class="screen-list-item" style="padding:8px 0;">
+                <div style="width:32px;height:32px;background:rgba(0,200,83,0.1);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--success);font-size:14px;">&#x2713;</div>
+                <div style="flex:1;">
+                  <div style="font-size:11px;font-weight:600;" data-en="Weekly Payout" data-ar="دفعة أسبوعية">Weekly Payout</div>
+                  <div style="font-size:9px;color:var(--text-muted);">May 5, 2026</div>
+                </div>
+                <span style="font-size:13px;font-weight:700;color:var(--success);">+1,150 SAR</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== FOOTER ====== -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <svg class="logo-svg-footer" viewBox="0 0 100 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <text x="0" y="26" fill="var(--logo-fill)" font-family="Inter, sans-serif" font-weight="900" font-size="28">IRIS</text>
+        </svg>
+        <p data-en="Premium mobile car wash service. Professional cleaning delivered to your doorstep." data-ar="خدمة غسيل سيارات متنقلة فاخرة. تنظيف احترافي يُقدّم إلى بابك.">Premium mobile car wash service. Professional cleaning delivered to your doorstep.</p>
+      </div>
+      <div>
+        <div class="footer-heading" data-en="Product" data-ar="المنتج">Product</div>
+        <ul class="footer-links">
+          <li><a href="#features" data-en="Features" data-ar="المميزات">Features</a></li>
+          <li><a href="#how-it-works" data-en="How It Works" data-ar="كيف يعمل">How It Works</a></li>
+          <li><a href="customer.html" data-en="Customer App" data-ar="تطبيق العميل">Customer App</a></li>
+          <li><a href="pro.html" data-en="Pro App" data-ar="تطبيق المحترف">Pro App</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-heading" data-en="Company" data-ar="الشركة">Company</div>
+        <ul class="footer-links">
+          <li><a href="#" data-en="About" data-ar="حولنا">About</a></li>
+          <li><a href="#" data-en="Careers" data-ar="وظائف">Careers</a></li>
+          <li><a href="#" data-en="Press" data-ar="الصحافة">Press</a></li>
+          <li><a href="#" data-en="Contact" data-ar="اتصل بنا">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-heading" data-en="Legal" data-ar="قانوني">Legal</div>
+        <ul class="footer-links">
+          <li><a href="#" data-en="Privacy Policy" data-ar="سياسة الخصوصية">Privacy Policy</a></li>
+          <li><a href="#" data-en="Terms of Service" data-ar="شروط الخدمة">Terms of Service</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 IRIS Mobile Car Wash. <span data-en="All rights reserved." data-ar="جميع الحقوق محفوظة.">All rights reserved.</span></span>
+      <span data-en="Built by reup.sa &#x1f1f8;&#x1f1e6;" data-ar="بُني بواسطة reup.sa &#x1f1f8;&#x1f1e6;">Built by reup.sa &#x1f1f8;&#x1f1e6;</span>
+    </div>
+  </div>
+</footer>
 
 <script>
-  function toggleMenu() {
-    document.getElementById('mobileMenu').classList.toggle('open');
+// Page loader
+window.addEventListener('load', () => {
+  setTimeout(() => document.getElementById('pageLoader').classList.add('hidden'), 600);
+});
+
+// Language toggle
+const langToggle = document.getElementById('langToggle');
+let currentLang = 'ar';
+
+// Initialize Arabic text on load
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('[data-ar]').forEach(el => {
+    el.textContent = el.getAttribute('data-ar');
+  });
+  document.querySelectorAll('[data-ar-placeholder]').forEach(el => {
+    el.placeholder = el.getAttribute('data-ar-placeholder');
+  });
+});
+
+langToggle.addEventListener('click', (e) => {
+  if (e.target.tagName !== 'BUTTON') return;
+  const lang = e.target.dataset.lang;
+  if (lang === currentLang) return;
+  currentLang = lang;
+
+  // Toggle active button
+  langToggle.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+  e.target.classList.add('active');
+
+  // Set document direction
+  const html = document.documentElement;
+  if (lang === 'en') {
+    html.lang = 'en';
+    html.dir = 'ltr';
+    document.body.classList.add('ltr');
+  } else {
+    html.lang = 'ar';
+    html.dir = 'rtl';
+    document.body.classList.remove('ltr');
   }
+
+  // Swap text content
+  document.querySelectorAll('[data-' + lang + ']').forEach(el => {
+    el.textContent = el.getAttribute('data-' + lang);
+  });
+
+  // Swap placeholders
+  document.querySelectorAll('[data-' + lang + '-placeholder]').forEach(el => {
+    el.placeholder = el.getAttribute('data-' + lang + '-placeholder');
+  });
+});
+
+// Scroll animations
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.style.animationPlayState = 'running';
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.animate-in').forEach(el => {
+  el.style.animationPlayState = 'paused';
+  observer.observe(el);
+});
+
+// Theme toggle
+const themeToggle = document.getElementById('themeToggle');
+themeToggle.addEventListener('click', () => {
+  document.body.classList.toggle('light');
+  localStorage.setItem('iris-theme', document.body.classList.contains('light') ? 'light' : 'dark');
+});
+
+// Restore saved theme
+if (localStorage.getItem('iris-theme') === 'light') {
+  document.body.classList.add('light');
+}
+
+// Navbar scroll effect
+window.addEventListener('scroll', () => {
+  const nav = document.getElementById('mainNav');
+  nav.style.background = window.scrollY > 50 ? 'var(--nav-bg-scroll)' : 'var(--nav-bg)';
+});
 </script>
 </body>
 </html>
