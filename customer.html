@@ -134,6 +134,707 @@
   </div>
 </section>
 
+<!-- Interactive Demo -->
+<section class="interactive-demo">
+  <div class="container">
+    <div class="demo-header">
+      <h2 data-en="Try the App" data-ar="جرّب التطبيق">جرّب التطبيق</h2>
+      <p data-en="Navigate through every screen of the IRIS customer experience" data-ar="تنقّل بين جميع شاشات تجربة عميل IRIS">تنقّل بين جميع شاشات تجربة عميل IRIS</p>
+    </div>
+
+    <!-- Tab Selector -->
+    <div class="demo-tabs" id="custDemoTabs">
+      <button class="demo-tab" data-screen="screen-cust-auth" data-tab-idx="-1" data-en="Auth" data-ar="دخول">دخول</button>
+      <button class="demo-tab active" data-screen="screen-cust-home" data-tab-idx="0" data-en="Home" data-ar="الرئيسية">الرئيسية</button>
+      <button class="demo-tab" data-screen="screen-cust-book" data-tab-idx="1" data-en="Book" data-ar="الحجز">الحجز</button>
+      <button class="demo-tab" data-screen="screen-cust-track" data-tab-idx="-1" data-en="Track" data-ar="التتبع">التتبع</button>
+      <button class="demo-tab" data-screen="screen-cust-history" data-tab-idx="2" data-en="History" data-ar="السجل">السجل</button>
+      <button class="demo-tab" data-screen="screen-cust-profile" data-tab-idx="3" data-en="Profile" data-ar="الملف">الملف</button>
+    </div>
+
+    <!-- Phone Frame -->
+    <div class="iphone-frame">
+      <div class="iphone-island"></div>
+
+      <!-- Status Bar -->
+      <div class="iphone-status">
+        <span>9:41</span>
+        <div class="iphone-status-icons">
+          <svg viewBox="0 0 16 16"><path d="M1 12l3-8h1l3 8M2.5 8h4" stroke="currentColor" fill="none" stroke-width="1.2"/></svg>
+          <svg viewBox="0 0 16 16"><path d="M1 10c3-6 11-6 14 0" stroke="currentColor" fill="none" stroke-width="1.2"/><path d="M4 11c2-3 6-3 8 0" stroke="currentColor" fill="none" stroke-width="1.2"/><circle cx="8" cy="12" r="1" fill="currentColor"/></svg>
+          <svg viewBox="0 0 20 12"><rect x="0" y="1" width="17" height="10" rx="2" stroke="currentColor" fill="none" stroke-width="1.2"/><rect x="2" y="3" width="12" height="6" rx="1" fill="currentColor"/><path d="M18 4.5v3a1.5 1.5 0 000-3z" fill="currentColor"/></svg>
+        </div>
+      </div>
+
+      <!-- Screen Content Area -->
+      <div class="iphone-body">
+
+        <!-- Screen 1: Auth -->
+        <div class="app-screen" id="screen-cust-auth">
+          <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100%;padding:40px 20px 30px;">
+            <!-- Logo -->
+            <div style="margin-bottom:40px;text-align:center;">
+              <div style="font-size:2.2rem;font-weight:900;letter-spacing:-1px;color:var(--text-primary);font-family:'Inter',sans-serif;">IRIS</div>
+              <div style="font-size:0.7rem;color:var(--text-muted);letter-spacing:0.15em;margin-top:4px;" data-en="Mobile Car Wash" data-ar="غسيل سيارات متنقل">غسيل سيارات متنقل</div>
+            </div>
+            <!-- Phone Input -->
+            <div style="width:100%;max-width:280px;">
+              <div style="font-size:0.62rem;font-weight:700;color:var(--text-muted);letter-spacing:0.1em;margin-bottom:8px;" data-en="PHONE NUMBER" data-ar="رقم الهاتف">رقم الهاتف</div>
+              <div style="display:flex;gap:8px;margin-bottom:18px;direction:ltr;">
+                <div style="background:var(--bg-secondary);border:1px solid var(--border-primary);border-radius:12px;padding:13px 10px;font-size:0.82rem;width:68px;text-align:center;color:var(--text-secondary);font-weight:600;">+966</div>
+                <div style="flex:1;background:var(--bg-secondary);border:1px solid var(--border-primary);border-radius:12px;padding:13px 14px;font-size:0.82rem;color:var(--text-muted);">5X XXX XXXX</div>
+              </div>
+              <button class="app-btn" style="width:100%;margin:0 0 20px;" data-en="Send OTP Code" data-ar="إرسال رمز التحقق">إرسال رمز التحقق</button>
+              <!-- Social Divider -->
+              <div style="display:flex;align-items:center;gap:14px;margin-bottom:20px;">
+                <div style="flex:1;height:1px;background:var(--border-primary);"></div>
+                <span style="font-size:0.7rem;color:var(--text-muted);" data-en="or" data-ar="أو">أو</span>
+                <div style="flex:1;height:1px;background:var(--border-primary);"></div>
+              </div>
+              <!-- Social Buttons -->
+              <div style="display:flex;gap:12px;justify-content:center;">
+                <div style="width:52px;height:52px;background:var(--bg-secondary);border:1px solid var(--border-primary);border-radius:14px;display:flex;align-items:center;justify-content:center;cursor:pointer;">
+                  <svg viewBox="0 0 24 24" width="20" height="20"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+                </div>
+                <div style="width:52px;height:52px;background:var(--bg-secondary);border:1px solid var(--border-primary);border-radius:14px;display:flex;align-items:center;justify-content:center;cursor:pointer;">
+                  <svg viewBox="0 0 24 24" width="20" height="20" fill="var(--text-primary)"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg>
+                </div>
+              </div>
+            </div>
+            <!-- Terms -->
+            <div style="margin-top:30px;font-size:0.58rem;color:var(--text-muted);text-align:center;line-height:1.6;max-width:240px;" data-en="By continuing, you agree to our Terms of Service and Privacy Policy" data-ar="بالمتابعة، أنت توافق على شروط الخدمة وسياسة الخصوصية">بالمتابعة، أنت توافق على شروط الخدمة وسياسة الخصوصية</div>
+          </div>
+        </div>
+
+        <!-- Screen 2: Home -->
+        <div class="app-screen active" id="screen-cust-home">
+          <!-- Header -->
+          <div style="padding:10px 18px 0;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+              <div>
+                <div style="font-size:0.72rem;color:var(--text-muted);" data-en="Good morning" data-ar="مرحباً 👋">مرحباً 👋</div>
+                <div style="font-size:1.05rem;font-weight:800;color:var(--text-primary);" data-en="Ahmed" data-ar="أحمد">أحمد</div>
+              </div>
+              <div class="app-icon-btn">
+                <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"/></svg>
+                <div class="app-badge">3</div>
+              </div>
+            </div>
+          </div>
+          <!-- Search -->
+          <div style="margin:10px 14px 12px;background:var(--bg-secondary);border:1px solid var(--border-primary);border-radius:12px;padding:11px 14px;display:flex;align-items:center;gap:8px;">
+            <svg viewBox="0 0 24 24" width="14" height="14" stroke="var(--text-muted)" fill="none" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <span style="font-size:0.72rem;color:var(--text-muted);" data-en="Search services..." data-ar="ابحث عن الخدمات...">ابحث عن الخدمات...</span>
+          </div>
+          <!-- Promo Banner -->
+          <div class="app-card" style="background:linear-gradient(135deg, rgba(0,102,255,0.15), rgba(123,47,255,0.1));border-color:var(--border-accent);">
+            <div style="font-size:0.58rem;font-weight:700;color:var(--accent);letter-spacing:0.1em;margin-bottom:4px;" data-en="LIMITED OFFER" data-ar="عرض محدود">عرض محدود</div>
+            <div style="font-size:0.95rem;font-weight:800;color:var(--text-primary);margin-bottom:2px;" data-en="20% off first wash" data-ar="خصم 20% على أول غسلة">خصم 20% على أول غسلة</div>
+            <div style="font-size:0.65rem;color:var(--text-muted);" data-en="Use code: IRIS20" data-ar="استخدم الرمز: IRIS20">استخدم الرمز: IRIS20</div>
+          </div>
+          <!-- Service Chips -->
+          <div style="display:flex;gap:6px;margin:0 14px 12px;flex-wrap:wrap;">
+            <span class="app-chip active" data-en="Exterior" data-ar="غسيل خارجي">غسيل خارجي</span>
+            <span class="app-chip" data-en="Full Wash" data-ar="غسيل كامل">غسيل كامل</span>
+            <span class="app-chip" data-en="Polish" data-ar="تلميع">تلميع</span>
+            <span class="app-chip" data-en="Interior" data-ar="تنظيف داخلي">تنظيف داخلي</span>
+          </div>
+          <!-- Quick Service Card -->
+          <div class="app-card">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;">
+              <div>
+                <div style="font-size:0.82rem;font-weight:700;color:var(--text-primary);" data-en="Express Wash" data-ar="الغسيل السريع">الغسيل السريع</div>
+                <div style="font-size:0.65rem;color:var(--text-muted);margin-top:2px;" data-en="Exterior only · 20 min" data-ar="خارجي فقط · 20 دقيقة">خارجي فقط · 20 دقيقة</div>
+              </div>
+              <div style="text-align:left;">
+                <div style="font-size:1rem;font-weight:800;color:var(--accent);font-family:'Inter',sans-serif;">59 <span style="font-size:0.6rem;color:var(--text-muted);font-weight:500;">SAR</span></div>
+                <div style="font-size:0.58rem;color:var(--text-muted);margin-top:1px;">&#9733; 4.8</div>
+              </div>
+            </div>
+            <button class="app-btn" style="width:100%;margin:0;" data-en="Book Now" data-ar="احجز الآن">احجز الآن</button>
+          </div>
+          <!-- Most Requested -->
+          <div style="padding:0 14px;">
+            <div style="font-size:0.68rem;font-weight:700;color:var(--text-muted);letter-spacing:0.08em;margin-bottom:8px;" data-en="MOST REQUESTED" data-ar="الأكثر طلباً">الأكثر طلباً</div>
+          </div>
+          <div style="display:flex;gap:8px;margin:0 14px 14px;">
+            <div style="flex:1;background:var(--bg-card);border:1px solid var(--border-primary);border-radius:12px;padding:12px;">
+              <div style="font-size:0.72rem;font-weight:700;color:var(--text-primary);" data-en="Full Wash" data-ar="غسيل كامل">غسيل كامل</div>
+              <div style="font-size:0.6rem;color:var(--text-muted);margin-top:2px;" data-en="Interior + Exterior" data-ar="داخلي + خارجي">داخلي + خارجي</div>
+              <div style="font-size:0.82rem;font-weight:800;color:var(--accent);margin-top:6px;font-family:'Inter',sans-serif;">89 <span style="font-size:0.55rem;color:var(--text-muted);font-weight:500;">SAR</span></div>
+            </div>
+            <div style="flex:1;background:var(--bg-card);border:1px solid var(--border-primary);border-radius:12px;padding:12px;">
+              <div style="font-size:0.72rem;font-weight:700;color:var(--text-primary);" data-en="Polish" data-ar="تلميع">تلميع</div>
+              <div style="font-size:0.6rem;color:var(--text-muted);margin-top:2px;" data-en="Shine & Protect" data-ar="لمعان وحماية">لمعان وحماية</div>
+              <div style="font-size:0.82rem;font-weight:800;color:var(--accent);margin-top:6px;font-family:'Inter',sans-serif;">129 <span style="font-size:0.55rem;color:var(--text-muted);font-weight:500;">SAR</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Screen 3: Book -->
+        <div class="app-screen" id="screen-cust-book">
+          <div class="app-header-bar">
+            <h3 data-en="Book a Wash" data-ar="احجز غسلة">احجز غسلة</h3>
+          </div>
+          <!-- Map -->
+          <div class="app-map app-map-dark">
+            <div class="app-map-roads"></div>
+            <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);">
+              <svg viewBox="0 0 24 24" width="28" height="28" fill="var(--accent)" stroke="none"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>
+            </div>
+          </div>
+          <!-- Location Card -->
+          <div class="app-card" style="display:flex;align-items:center;gap:10px;">
+            <svg viewBox="0 0 24 24" width="18" height="18" stroke="var(--accent)" fill="none" stroke-width="2" stroke-linecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            <div>
+              <div style="font-size:0.78rem;font-weight:700;color:var(--text-primary);" data-en="Al Olaya, Riyadh" data-ar="العليا، الرياض">العليا، الرياض</div>
+              <div style="font-size:0.62rem;color:var(--text-muted);" data-en="King Fahd Road, 12214" data-ar="طريق الملك فهد، 12214">طريق الملك فهد، 12214</div>
+            </div>
+          </div>
+          <!-- Date Picker -->
+          <div style="padding:0 14px;margin-bottom:10px;">
+            <div style="font-size:0.62rem;font-weight:700;color:var(--text-muted);letter-spacing:0.1em;margin-bottom:8px;" data-en="SELECT DATE" data-ar="اختر التاريخ">اختر التاريخ</div>
+            <div style="display:flex;gap:8px;">
+              <div class="app-chip active" data-en="Today" data-ar="اليوم">اليوم</div>
+              <div class="app-chip" data-en="Tomorrow" data-ar="غداً">غداً</div>
+              <div class="app-chip" data-en="Wed 21" data-ar="الأربعاء 21">الأربعاء 21</div>
+            </div>
+          </div>
+          <!-- Time Slots -->
+          <div style="padding:0 14px;margin-bottom:10px;">
+            <div style="font-size:0.62rem;font-weight:700;color:var(--text-muted);letter-spacing:0.1em;margin-bottom:8px;" data-en="SELECT TIME" data-ar="اختر الوقت">اختر الوقت</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
+              <div class="app-chip" style="text-align:center;justify-content:center;">09:00</div>
+              <div class="app-chip active" style="text-align:center;justify-content:center;">10:30</div>
+              <div class="app-chip" style="text-align:center;justify-content:center;">14:00</div>
+              <div class="app-chip" style="text-align:center;justify-content:center;">16:00</div>
+            </div>
+          </div>
+          <!-- Vehicle Type -->
+          <div style="padding:0 14px;margin-bottom:10px;">
+            <div style="font-size:0.62rem;font-weight:700;color:var(--text-muted);letter-spacing:0.1em;margin-bottom:8px;" data-en="VEHICLE TYPE" data-ar="نوع المركبة">نوع المركبة</div>
+            <div style="display:flex;gap:6px;">
+              <span class="app-chip active" data-en="Sedan" data-ar="سيدان">سيدان</span>
+              <span class="app-chip" data-en="SUV" data-ar="SUV">SUV</span>
+              <span class="app-chip" data-en="Pickup" data-ar="بيك أب">بيك أب</span>
+            </div>
+          </div>
+          <!-- Package Card -->
+          <div class="app-card" style="border-color:var(--border-accent);background:linear-gradient(135deg, rgba(0,102,255,0.08), rgba(123,47,255,0.04));">
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+              <div>
+                <div style="font-size:0.58rem;font-weight:700;color:var(--accent);letter-spacing:0.08em;" data-en="RECOMMENDED" data-ar="موصى به">موصى به</div>
+                <div style="font-size:0.82rem;font-weight:700;color:var(--text-primary);margin-top:2px;" data-en="Premium Package" data-ar="الباقة المميزة">الباقة المميزة</div>
+              </div>
+              <div style="font-size:1.05rem;font-weight:800;color:var(--accent);font-family:'Inter',sans-serif;">149 <span style="font-size:0.6rem;color:var(--text-muted);font-weight:500;">SAR</span></div>
+            </div>
+          </div>
+          <!-- CTA -->
+          <button class="app-btn" data-en="Confirm Booking" data-ar="تأكيد الحجز">تأكيد الحجز</button>
+        </div>
+
+        <!-- Screen 4: Track -->
+        <div class="app-screen" id="screen-cust-track">
+          <div class="app-header-bar">
+            <h3 data-en="Track Wash" data-ar="تتبع الغسلة">تتبع الغسلة</h3>
+          </div>
+          <!-- Large Map -->
+          <div class="app-map app-map-dark" style="height:200px;">
+            <div class="app-map-roads"></div>
+            <div style="position:absolute;top:35%;left:55%;transform:translate(-50%,-50%);">
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="var(--accent)" stroke="none"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>
+            </div>
+            <div style="position:absolute;top:60%;left:40%;transform:translate(-50%,-50%);width:32px;height:32px;background:var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 0 12px rgba(0,102,255,0.4);">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M5 17H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2v1M15 15l5-5m0 0l-5-5m5 5H9"/></svg>
+            </div>
+          </div>
+          <!-- ETA Card -->
+          <div class="app-card" style="border-color:var(--border-accent);">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+              <div>
+                <div style="font-size:0.58rem;font-weight:700;color:var(--accent);letter-spacing:0.08em;" data-en="ESTIMATED ARRIVAL" data-ar="الوقت المتوقع">الوقت المتوقع</div>
+                <div style="font-size:1.5rem;font-weight:900;color:var(--text-primary);font-family:'Inter',sans-serif;margin-top:2px;">12 <span style="font-size:0.72rem;font-weight:500;color:var(--text-muted);" data-en="min" data-ar="دقيقة">دقيقة</span></div>
+              </div>
+              <div class="app-avatar" style="width:44px;height:44px;font-size:1rem;">A</div>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;font-size:0.68rem;">
+              <div style="color:var(--text-secondary);">
+                <span style="font-weight:600;" data-en="Ahmed" data-ar="أحمد">أحمد</span> · <span style="color:var(--accent);">&#9733; 4.9</span>
+              </div>
+              <div style="color:var(--text-muted);" data-en="White Toyota Hilux" data-ar="تويوتا هايلوكس أبيض">تويوتا هايلوكس أبيض</div>
+            </div>
+          </div>
+          <!-- Progress Steps -->
+          <div class="app-steps">
+            <div class="app-step">
+              <div class="app-step-dot done">
+                <svg viewBox="0 0 12 12" width="10" height="10"><polyline points="2,6 5,9 10,3" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              <div class="app-step-line" style="background:var(--accent);"></div>
+              <div class="app-step-text">
+                <div class="step-title" data-en="Accepted" data-ar="تم القبول">تم القبول</div>
+                <div class="step-sub" data-en="9:41 AM" data-ar="9:41 ص">9:41 ص</div>
+              </div>
+            </div>
+            <div class="app-step">
+              <div class="app-step-dot current">
+                <svg viewBox="0 0 12 12" width="10" height="10"><circle cx="6" cy="6" r="3" fill="#fff"/></svg>
+              </div>
+              <div class="app-step-line"></div>
+              <div class="app-step-text">
+                <div class="step-title" style="color:var(--accent);" data-en="On the way" data-ar="في الطريق">في الطريق</div>
+                <div class="step-sub" data-en="12 min away" data-ar="على بعد 12 دقيقة">على بعد 12 دقيقة</div>
+              </div>
+            </div>
+            <div class="app-step">
+              <div class="app-step-dot pending">3</div>
+              <div class="app-step-line"></div>
+              <div class="app-step-text">
+                <div class="step-title" style="color:var(--text-muted);" data-en="Arrived" data-ar="وصل">وصل</div>
+              </div>
+            </div>
+            <div class="app-step">
+              <div class="app-step-dot pending">4</div>
+              <div class="app-step-text">
+                <div class="step-title" style="color:var(--text-muted);" data-en="Washing" data-ar="جاري الغسيل">جاري الغسيل</div>
+              </div>
+            </div>
+          </div>
+          <!-- Action Buttons -->
+          <div style="display:flex;gap:8px;margin:12px 14px;">
+            <button style="flex:1;padding:12px;border-radius:12px;background:var(--bg-secondary);border:1px solid var(--border-primary);color:var(--text-secondary);font-size:0.75rem;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;font-family:inherit;">
+              <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+              <span data-en="Call" data-ar="اتصال">اتصال</span>
+            </button>
+            <button style="flex:1;padding:12px;border-radius:12px;background:var(--accent);border:none;color:#fff;font-size:0.75rem;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;font-family:inherit;">
+              <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+              <span data-en="Message" data-ar="رسالة">رسالة</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Screen 5: History -->
+        <div class="app-screen" id="screen-cust-history">
+          <div class="app-header-bar">
+            <h3 data-en="Wash History" data-ar="سجل الغسلات">سجل الغسلات</h3>
+          </div>
+          <!-- Stats Row -->
+          <div class="app-stats">
+            <div class="app-stat">
+              <span class="app-stat-num">12</span>
+              <span class="app-stat-label" data-en="Washes" data-ar="غسلات">غسلات</span>
+            </div>
+            <div class="app-stat">
+              <span class="app-stat-num" style="color:var(--text-primary);">420</span>
+              <span class="app-stat-label" data-en="SAR Spent" data-ar="ريال منفق">ريال منفق</span>
+            </div>
+            <div class="app-stat">
+              <span class="app-stat-num" style="color:#F5A623;">4.8</span>
+              <span class="app-stat-label" data-en="Avg Rating" data-ar="متوسط التقييم">متوسط التقييم</span>
+            </div>
+          </div>
+          <!-- Filter Chips -->
+          <div style="display:flex;gap:6px;margin:0 14px 14px;flex-wrap:wrap;">
+            <span class="app-chip active" data-en="All" data-ar="الكل">الكل</span>
+            <span class="app-chip" data-en="Completed" data-ar="مكتمل">مكتمل</span>
+            <span class="app-chip" data-en="Cancelled" data-ar="ملغي">ملغي</span>
+          </div>
+          <!-- History Card 1 -->
+          <div class="app-card">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+              <div>
+                <div style="font-size:0.78rem;font-weight:700;color:var(--text-primary);" data-en="Premium Wash" data-ar="غسيل متميز">غسيل متميز</div>
+                <div style="font-size:0.62rem;color:var(--text-muted);margin-top:2px;">May 15, 2026 · 10:30</div>
+                <div style="font-size:0.62rem;color:var(--text-muted);margin-top:1px;" data-en="Toyota Corolla · Sedan" data-ar="تويوتا كورولا · سيدان">تويوتا كورولا · سيدان</div>
+              </div>
+              <div style="text-align:left;">
+                <div style="font-size:0.88rem;font-weight:800;color:var(--accent);font-family:'Inter',sans-serif;">89 SAR</div>
+                <div style="font-size:0.55rem;padding:3px 8px;background:rgba(0,200,83,0.1);color:#00c853;border-radius:20px;margin-top:4px;text-align:center;font-weight:600;" data-en="Completed" data-ar="مكتمل">مكتمل</div>
+              </div>
+            </div>
+          </div>
+          <!-- History Card 2 -->
+          <div class="app-card">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+              <div>
+                <div style="font-size:0.78rem;font-weight:700;color:var(--text-primary);" data-en="Express Wash" data-ar="غسيل سريع">غسيل سريع</div>
+                <div style="font-size:0.62rem;color:var(--text-muted);margin-top:2px;">May 10, 2026 · 14:00</div>
+                <div style="font-size:0.62rem;color:var(--text-muted);margin-top:1px;" data-en="Toyota Corolla · Sedan" data-ar="تويوتا كورولا · سيدان">تويوتا كورولا · سيدان</div>
+              </div>
+              <div style="text-align:left;">
+                <div style="font-size:0.88rem;font-weight:800;color:var(--accent);font-family:'Inter',sans-serif;">59 SAR</div>
+                <div style="font-size:0.55rem;padding:3px 8px;background:rgba(0,200,83,0.1);color:#00c853;border-radius:20px;margin-top:4px;text-align:center;font-weight:600;" data-en="Completed" data-ar="مكتمل">مكتمل</div>
+              </div>
+            </div>
+          </div>
+          <!-- History Card 3 -->
+          <div class="app-card">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+              <div>
+                <div style="font-size:0.78rem;font-weight:700;color:var(--text-primary);" data-en="Full Detail" data-ar="تنظيف شامل">تنظيف شامل</div>
+                <div style="font-size:0.62rem;color:var(--text-muted);margin-top:2px;">May 3, 2026 · 09:00</div>
+                <div style="font-size:0.62rem;color:var(--text-muted);margin-top:1px;" data-en="GMC Yukon · SUV" data-ar="جي ام سي يوكن · SUV">جي ام سي يوكن · SUV</div>
+              </div>
+              <div style="text-align:left;">
+                <div style="font-size:0.88rem;font-weight:800;color:var(--accent);font-family:'Inter',sans-serif;">149 SAR</div>
+                <div style="font-size:0.55rem;padding:3px 8px;background:rgba(255,82,82,0.1);color:#FF5252;border-radius:20px;margin-top:4px;text-align:center;font-weight:600;" data-en="Cancelled" data-ar="ملغي">ملغي</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Screen 6: Profile -->
+        <div class="app-screen" id="screen-cust-profile">
+          <!-- Profile Hero -->
+          <div style="background:linear-gradient(135deg, rgba(0,102,255,0.2), rgba(123,47,255,0.15));padding:20px 18px 24px;text-align:center;">
+            <div class="app-avatar" style="margin:0 auto 10px;width:62px;height:62px;font-size:1.5rem;">م</div>
+            <div style="font-size:1rem;font-weight:800;color:var(--text-primary);" data-en="Maamoun" data-ar="مأمون">مأمون</div>
+            <div style="font-size:0.65rem;color:var(--text-muted);margin-top:2px;">maamoun@email.com</div>
+          </div>
+          <!-- Stats Card -->
+          <div class="app-stats" style="margin-top:-12px;position:relative;z-index:2;">
+            <div class="app-stat">
+              <span class="app-stat-num">24</span>
+              <span class="app-stat-label" data-en="Orders" data-ar="طلبات">طلبات</span>
+            </div>
+            <div class="app-stat">
+              <span class="app-stat-num" style="color:#FF5252;">5</span>
+              <span class="app-stat-label" data-en="Favorites" data-ar="مفضلة">مفضلة</span>
+            </div>
+            <div class="app-stat">
+              <span class="app-stat-num" style="color:#00c853;">820</span>
+              <span class="app-stat-label" data-en="Points" data-ar="نقاط">نقاط</span>
+            </div>
+          </div>
+          <!-- Menu Card -->
+          <div class="app-menu">
+            <div class="app-menu-row" onclick="goCustomerScreen('screen-cust-vehicles',-1)">
+              <div class="app-menu-icon" style="background:rgba(0,102,255,0.1);">
+                <svg viewBox="0 0 24 24" stroke="var(--accent)"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+              </div>
+              <div class="app-menu-text">
+                <div class="app-menu-title" data-en="My Vehicles" data-ar="سياراتي">سياراتي</div>
+                <div class="app-menu-sub" data-en="2 vehicles saved" data-ar="سيارتان محفوظتان">سيارتان محفوظتان</div>
+              </div>
+              <div class="app-menu-chevron"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+            </div>
+            <div class="app-menu-row" onclick="goCustomerScreen('screen-cust-addresses',-1)">
+              <div class="app-menu-icon" style="background:rgba(0,200,83,0.1);">
+                <svg viewBox="0 0 24 24" stroke="#00c853"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              </div>
+              <div class="app-menu-text">
+                <div class="app-menu-title" data-en="Addresses" data-ar="العناوين">العناوين</div>
+                <div class="app-menu-sub" data-en="Home, Work" data-ar="المنزل، العمل">المنزل، العمل</div>
+              </div>
+              <div class="app-menu-chevron"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+            </div>
+            <div class="app-menu-row" onclick="goCustomerScreen('screen-cust-payment',-1)">
+              <div class="app-menu-icon" style="background:rgba(245,166,35,0.1);">
+                <svg viewBox="0 0 24 24" stroke="#F5A623"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+              </div>
+              <div class="app-menu-text">
+                <div class="app-menu-title" data-en="Payment Methods" data-ar="طرق الدفع">طرق الدفع</div>
+                <div class="app-menu-sub" data-en="Visa **** 4521" data-ar="فيزا **** 4521">فيزا **** 4521</div>
+              </div>
+              <div class="app-menu-chevron"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+            </div>
+            <div class="app-menu-row" onclick="goCustomerScreen('screen-cust-notifications',-1)">
+              <div class="app-menu-icon" style="background:rgba(156,39,176,0.1);">
+                <svg viewBox="0 0 24 24" stroke="#9C27B0"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"/></svg>
+              </div>
+              <div class="app-menu-text">
+                <div class="app-menu-title" data-en="Notifications" data-ar="الإشعارات">الإشعارات</div>
+              </div>
+              <div class="app-menu-chevron"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+            </div>
+            <div class="app-menu-row" onclick="goCustomerScreen('screen-cust-language',-1)">
+              <div class="app-menu-icon" style="background:rgba(33,150,243,0.1);">
+                <svg viewBox="0 0 24 24" stroke="#2196F3"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+              </div>
+              <div class="app-menu-text">
+                <div class="app-menu-title" data-en="Language" data-ar="اللغة">اللغة</div>
+                <div class="app-menu-sub" data-en="English" data-ar="العربية">العربية</div>
+              </div>
+              <div class="app-menu-chevron"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+            </div>
+            <div class="app-menu-row" onclick="toggleAppTheme(this)" style="cursor:pointer;">
+              <div class="app-menu-icon" style="background:rgba(255,193,7,0.1);">
+                <svg viewBox="0 0 24 24" stroke="#FFC107"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+              </div>
+              <div class="app-menu-text">
+                <div class="app-menu-title" data-en="Appearance" data-ar="المظهر">المظهر</div>
+                <div class="app-menu-sub app-theme-label" data-en-dark="Dark" data-en-light="Light" data-ar-dark="داكن" data-ar-light="فاتح">داكن</div>
+              </div>
+              <div class="app-theme-switch">
+                <div class="app-theme-knob"></div>
+              </div>
+            </div>
+            <div class="app-menu-row" onclick="goCustomerScreen('screen-cust-support',-1)">
+              <div class="app-menu-icon" style="background:rgba(96,125,139,0.1);">
+                <svg viewBox="0 0 24 24" stroke="#607D8B"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+              </div>
+              <div class="app-menu-text">
+                <div class="app-menu-title" data-en="Support" data-ar="الدعم">الدعم</div>
+              </div>
+              <div class="app-menu-chevron"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+            </div>
+          </div>
+          <!-- Logout -->
+          <div style="margin:0 14px 20px;">
+            <button style="width:100%;padding:13px;border-radius:14px;background:rgba(255,82,82,0.08);border:1px solid rgba(255,82,82,0.2);color:#FF5252;font-size:0.78rem;font-weight:700;cursor:pointer;font-family:inherit;" data-en="Log Out" data-ar="تسجيل الخروج">تسجيل الخروج</button>
+          </div>
+        </div>
+
+        <!-- ═══ SUB-SCREENS ═══ -->
+
+        <!-- My Vehicles -->
+        <div class="app-screen" id="screen-cust-vehicles">
+          <div class="app-header-bar">
+            <button class="app-icon-btn" onclick="goCustomerScreen('screen-cust-profile',3)"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
+            <h3 data-en="My Vehicles" data-ar="سياراتي">سياراتي</h3>
+            <div style="width:36px;"></div>
+          </div>
+          <!-- Vehicle 1 -->
+          <div class="app-card" style="display:flex;gap:12px;align-items:center;">
+            <div style="width:48px;height:48px;border-radius:12px;background:rgba(0,102,255,0.1);display:flex;align-items:center;justify-content:center;">
+              <svg viewBox="0 0 24 24" width="22" height="22" stroke="var(--accent)" fill="none" stroke-width="1.5"><rect x="1" y="6" width="22" height="12" rx="3"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="18" r="2"/><path d="M6 6V4a1 1 0 011-1h4l2 3"/></svg>
+            </div>
+            <div style="flex:1;">
+              <div style="font-size:0.82rem;font-weight:700;color:var(--text-primary);" data-en="Toyota Camry 2023" data-ar="تويوتا كامري 2023">تويوتا كامري 2023</div>
+              <div style="font-size:0.65rem;color:var(--text-muted);" data-en="White · Sedan · ABC-1234" data-ar="أبيض · سيدان · ABC-1234">أبيض · سيدان · ABC-1234</div>
+            </div>
+            <div style="padding:3px 8px;border-radius:8px;background:rgba(0,200,83,0.1);font-size:0.6rem;font-weight:700;color:#00c853;" data-en="Default" data-ar="الافتراضية">الافتراضية</div>
+          </div>
+          <!-- Vehicle 2 -->
+          <div class="app-card" style="display:flex;gap:12px;align-items:center;">
+            <div style="width:48px;height:48px;border-radius:12px;background:rgba(123,47,255,0.1);display:flex;align-items:center;justify-content:center;">
+              <svg viewBox="0 0 24 24" width="22" height="22" stroke="#7B2FFF" fill="none" stroke-width="1.5"><rect x="1" y="6" width="22" height="12" rx="3"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="18" r="2"/><path d="M6 6V4a1 1 0 011-1h4l2 3"/></svg>
+            </div>
+            <div style="flex:1;">
+              <div style="font-size:0.82rem;font-weight:700;color:var(--text-primary);" data-en="Hyundai Tucson 2024" data-ar="هيونداي توسان 2024">هيونداي توسان 2024</div>
+              <div style="font-size:0.65rem;color:var(--text-muted);" data-en="Black · SUV · XYZ-5678" data-ar="أسود · SUV · XYZ-5678">أسود · SUV · XYZ-5678</div>
+            </div>
+          </div>
+          <!-- Add vehicle button -->
+          <div style="margin:6px 14px;">
+            <button class="app-btn" style="background:transparent;color:var(--accent);border:1.5px dashed var(--accent);box-shadow:none;" data-en="+ Add Vehicle" data-ar="+ إضافة سيارة">+ إضافة سيارة</button>
+          </div>
+        </div>
+
+        <!-- Addresses -->
+        <div class="app-screen" id="screen-cust-addresses">
+          <div class="app-header-bar">
+            <button class="app-icon-btn" onclick="goCustomerScreen('screen-cust-profile',3)"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
+            <h3 data-en="Addresses" data-ar="العناوين">العناوين</h3>
+            <div style="width:36px;"></div>
+          </div>
+          <div class="app-card" style="display:flex;gap:12px;align-items:flex-start;">
+            <div style="width:40px;height:40px;border-radius:10px;background:rgba(0,200,83,0.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+              <svg viewBox="0 0 24 24" width="18" height="18" stroke="#00c853" fill="none" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            </div>
+            <div style="flex:1;">
+              <div style="font-size:0.82rem;font-weight:700;color:var(--text-primary);" data-en="Home" data-ar="المنزل">المنزل</div>
+              <div style="font-size:0.65rem;color:var(--text-muted);line-height:1.4;" data-en="Al Olaya, King Fahd Road, Riyadh" data-ar="العليا، طريق الملك فهد، الرياض">العليا، طريق الملك فهد، الرياض</div>
+            </div>
+            <div style="padding:3px 8px;border-radius:8px;background:rgba(0,200,83,0.1);font-size:0.6rem;font-weight:700;color:#00c853;" data-en="Default" data-ar="الافتراضي">الافتراضي</div>
+          </div>
+          <div class="app-card" style="display:flex;gap:12px;align-items:flex-start;">
+            <div style="width:40px;height:40px;border-radius:10px;background:rgba(0,102,255,0.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+              <svg viewBox="0 0 24 24" width="18" height="18" stroke="var(--accent)" fill="none" stroke-width="1.5"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 7V5a4 4 0 00-8 0v2"/></svg>
+            </div>
+            <div style="flex:1;">
+              <div style="font-size:0.82rem;font-weight:700;color:var(--text-primary);" data-en="Work" data-ar="العمل">العمل</div>
+              <div style="font-size:0.65rem;color:var(--text-muted);line-height:1.4;" data-en="Al Malqa, Prince Turki St, Riyadh" data-ar="الملقا، شارع الأمير تركي، الرياض">الملقا، شارع الأمير تركي، الرياض</div>
+            </div>
+          </div>
+          <div style="margin:6px 14px;">
+            <button class="app-btn" style="background:transparent;color:var(--accent);border:1.5px dashed var(--accent);box-shadow:none;" data-en="+ Add Address" data-ar="+ إضافة عنوان">+ إضافة عنوان</button>
+          </div>
+        </div>
+
+        <!-- Payment Methods -->
+        <div class="app-screen" id="screen-cust-payment">
+          <div class="app-header-bar">
+            <button class="app-icon-btn" onclick="goCustomerScreen('screen-cust-profile',3)"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
+            <h3 data-en="Payment" data-ar="طرق الدفع">طرق الدفع</h3>
+            <div style="width:36px;"></div>
+          </div>
+          <div class="app-card">
+            <div style="display:flex;gap:12px;align-items:center;margin-bottom:12px;">
+              <div style="width:48px;height:32px;border-radius:6px;background:linear-gradient(135deg,#1a1f71,#2566af);display:flex;align-items:center;justify-content:center;">
+                <span style="font-size:0.55rem;font-weight:800;color:white;letter-spacing:0.05em;">VISA</span>
+              </div>
+              <div style="flex:1;">
+                <div style="font-size:0.8rem;font-weight:700;color:var(--text-primary);">Visa **** 4521</div>
+                <div style="font-size:0.62rem;color:var(--text-muted);" data-en="Expires 08/27" data-ar="تنتهي 08/27">تنتهي 08/27</div>
+              </div>
+              <div style="padding:3px 8px;border-radius:8px;background:rgba(0,200,83,0.1);font-size:0.6rem;font-weight:700;color:#00c853;" data-en="Default" data-ar="الافتراضية">الافتراضية</div>
+            </div>
+            <div style="height:1px;background:var(--border-primary);margin:0 -14px;"></div>
+            <div style="display:flex;gap:12px;align-items:center;margin-top:12px;">
+              <div style="width:48px;height:32px;border-radius:6px;background:linear-gradient(135deg,#eb001b,#f79e1b);display:flex;align-items:center;justify-content:center;">
+                <span style="font-size:0.5rem;font-weight:800;color:white;">MC</span>
+              </div>
+              <div style="flex:1;">
+                <div style="font-size:0.8rem;font-weight:700;color:var(--text-primary);">Mastercard **** 8903</div>
+                <div style="font-size:0.62rem;color:var(--text-muted);" data-en="Expires 03/26" data-ar="تنتهي 03/26">تنتهي 03/26</div>
+              </div>
+            </div>
+          </div>
+          <div class="app-card" style="display:flex;gap:10px;align-items:center;background:rgba(0,102,255,0.04);">
+            <svg viewBox="0 0 24 24" width="18" height="18" stroke="var(--accent)" fill="none" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <span style="font-size:0.68rem;color:var(--text-secondary);" data-en="Payments are secured with 256-bit encryption" data-ar="المدفوعات مؤمّنة بتشفير 256-بت">المدفوعات مؤمّنة بتشفير 256-بت</span>
+          </div>
+          <div style="margin:6px 14px;">
+            <button class="app-btn" style="background:transparent;color:var(--accent);border:1.5px dashed var(--accent);box-shadow:none;" data-en="+ Add Payment Method" data-ar="+ إضافة طريقة دفع">+ إضافة طريقة دفع</button>
+          </div>
+        </div>
+
+        <!-- Notifications -->
+        <div class="app-screen" id="screen-cust-notifications">
+          <div class="app-header-bar">
+            <button class="app-icon-btn" onclick="goCustomerScreen('screen-cust-profile',3)"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
+            <h3 data-en="Notifications" data-ar="الإشعارات">الإشعارات</h3>
+            <div style="width:36px;"></div>
+          </div>
+          <div class="app-card">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+              <div>
+                <div style="font-size:0.8rem;font-weight:700;color:var(--text-primary);" data-en="Push Notifications" data-ar="إشعارات الهاتف">إشعارات الهاتف</div>
+                <div style="font-size:0.62rem;color:var(--text-muted);" data-en="Booking updates & offers" data-ar="تحديثات الحجز والعروض">تحديثات الحجز والعروض</div>
+              </div>
+              <div style="width:40px;height:22px;border-radius:11px;background:var(--accent);position:relative;"><div style="width:18px;height:18px;border-radius:50%;background:#fff;position:absolute;top:2px;right:2px;box-shadow:0 1px 3px rgba(0,0,0,0.2);"></div></div>
+            </div>
+            <div style="height:1px;background:var(--border-primary);margin:0 -14px;"></div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-top:14px;margin-bottom:14px;">
+              <div>
+                <div style="font-size:0.8rem;font-weight:700;color:var(--text-primary);" data-en="SMS Notifications" data-ar="إشعارات الرسائل">إشعارات الرسائل</div>
+                <div style="font-size:0.62rem;color:var(--text-muted);" data-en="OTP & confirmations" data-ar="رموز التحقق والتأكيدات">رموز التحقق والتأكيدات</div>
+              </div>
+              <div style="width:40px;height:22px;border-radius:11px;background:var(--accent);position:relative;"><div style="width:18px;height:18px;border-radius:50%;background:#fff;position:absolute;top:2px;right:2px;box-shadow:0 1px 3px rgba(0,0,0,0.2);"></div></div>
+            </div>
+            <div style="height:1px;background:var(--border-primary);margin:0 -14px;"></div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-top:14px;">
+              <div>
+                <div style="font-size:0.8rem;font-weight:700;color:var(--text-primary);" data-en="Promotions" data-ar="العروض الترويجية">العروض الترويجية</div>
+                <div style="font-size:0.62rem;color:var(--text-muted);" data-en="Deals & discounts" data-ar="خصومات وتخفيضات">خصومات وتخفيضات</div>
+              </div>
+              <div style="width:40px;height:22px;border-radius:11px;background:var(--bg-tertiary);position:relative;"><div style="width:18px;height:18px;border-radius:50%;background:#fff;position:absolute;top:2px;left:2px;box-shadow:0 1px 3px rgba(0,0,0,0.2);"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Language -->
+        <div class="app-screen" id="screen-cust-language">
+          <div class="app-header-bar">
+            <button class="app-icon-btn" onclick="goCustomerScreen('screen-cust-profile',3)"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
+            <h3 data-en="Language" data-ar="اللغة">اللغة</h3>
+            <div style="width:36px;"></div>
+          </div>
+          <div class="app-card" style="display:flex;align-items:center;gap:12px;border:1.5px solid var(--accent);">
+            <div style="font-size:1.2rem;">🇸🇦</div>
+            <div style="flex:1;">
+              <div style="font-size:0.82rem;font-weight:700;color:var(--text-primary);">العربية</div>
+              <div style="font-size:0.62rem;color:var(--text-muted);">Arabic</div>
+            </div>
+            <svg viewBox="0 0 24 24" width="18" height="18" stroke="var(--accent)" fill="none" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <div class="app-card" style="display:flex;align-items:center;gap:12px;">
+            <div style="font-size:1.2rem;">🇬🇧</div>
+            <div style="flex:1;">
+              <div style="font-size:0.82rem;font-weight:700;color:var(--text-primary);">English</div>
+              <div style="font-size:0.62rem;color:var(--text-muted);">الإنجليزية</div>
+            </div>
+          </div>
+          <div class="app-card" style="display:flex;align-items:center;gap:12px;">
+            <div style="font-size:1.2rem;">🇫🇷</div>
+            <div style="flex:1;">
+              <div style="font-size:0.82rem;font-weight:700;color:var(--text-primary);">Français</div>
+              <div style="font-size:0.62rem;color:var(--text-muted);">الفرنسية</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Support -->
+        <div class="app-screen" id="screen-cust-support">
+          <div class="app-header-bar">
+            <button class="app-icon-btn" onclick="goCustomerScreen('screen-cust-profile',3)"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
+            <h3 data-en="Support" data-ar="الدعم">الدعم</h3>
+            <div style="width:36px;"></div>
+          </div>
+          <div class="app-menu">
+            <div class="app-menu-row">
+              <div class="app-menu-icon" style="background:rgba(0,102,255,0.1);">
+                <svg viewBox="0 0 24 24" stroke="var(--accent)"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+              </div>
+              <div class="app-menu-text">
+                <div class="app-menu-title" data-en="Live Chat" data-ar="محادثة مباشرة">محادثة مباشرة</div>
+                <div class="app-menu-sub" data-en="Available 24/7" data-ar="متاح 24/7">متاح 24/7</div>
+              </div>
+              <div style="padding:3px 8px;border-radius:8px;background:rgba(0,200,83,0.1);font-size:0.58rem;font-weight:700;color:#00c853;" data-en="Online" data-ar="متصل">متصل</div>
+            </div>
+            <div class="app-menu-row">
+              <div class="app-menu-icon" style="background:rgba(0,200,83,0.1);">
+                <svg viewBox="0 0 24 24" stroke="#00c853"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+              </div>
+              <div class="app-menu-text">
+                <div class="app-menu-title" data-en="Call Us" data-ar="اتصل بنا">اتصل بنا</div>
+                <div class="app-menu-sub">+966 11 XXX XXXX</div>
+              </div>
+            </div>
+            <div class="app-menu-row">
+              <div class="app-menu-icon" style="background:rgba(245,166,35,0.1);">
+                <svg viewBox="0 0 24 24" stroke="#F5A623"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+              </div>
+              <div class="app-menu-text">
+                <div class="app-menu-title" data-en="FAQ" data-ar="الأسئلة الشائعة">الأسئلة الشائعة</div>
+              </div>
+              <div class="app-menu-chevron"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+            </div>
+            <div class="app-menu-row">
+              <div class="app-menu-icon" style="background:rgba(156,39,176,0.1);">
+                <svg viewBox="0 0 24 24" stroke="#9C27B0"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22 6 12 13 2 6"/></svg>
+              </div>
+              <div class="app-menu-text">
+                <div class="app-menu-title" data-en="Email" data-ar="البريد الإلكتروني">البريد الإلكتروني</div>
+                <div class="app-menu-sub">support@iris.sa</div>
+              </div>
+            </div>
+          </div>
+          <div style="padding:14px;text-align:center;">
+            <div style="font-size:0.62rem;color:var(--text-muted);" data-en="IRIS v1.0.0" data-ar="IRIS الإصدار 1.0.0">IRIS الإصدار 1.0.0</div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Bottom Tab Bar -->
+      <div class="iphone-tab-bar" id="custTabBar">
+        <button class="tab-item active" data-screen="screen-cust-home" data-tab-idx="0">
+          <div class="tab-dot"></div>
+          <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          <span data-en="Home" data-ar="الرئيسية">الرئيسية</span>
+        </button>
+        <button class="tab-item" data-screen="screen-cust-book" data-tab-idx="1">
+          <div class="tab-dot"></div>
+          <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          <span data-en="Book" data-ar="احجز">احجز</span>
+        </button>
+        <button class="tab-item" data-screen="screen-cust-history" data-tab-idx="2">
+          <div class="tab-dot"></div>
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <span data-en="History" data-ar="السجل">السجل</span>
+        </button>
+        <button class="tab-item" data-screen="screen-cust-profile" data-tab-idx="3">
+          <div class="tab-dot"></div>
+          <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <span data-en="Profile" data-ar="الملف">الملف</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- Screens -->
 <section class="screens-section">
   <div class="container">
@@ -690,6 +1391,105 @@ const observer = new IntersectionObserver((entries) => {
 document.querySelectorAll('.animate-in').forEach(el => {
   el.style.animationPlayState = 'paused';
   observer.observe(el);
+});
+
+// ── App-Scoped Theme Toggle (phone only) ──
+function toggleAppTheme(el) {
+  const frame = el.closest('.iphone-frame');
+  if (!frame) return;
+  frame.classList.toggle('app-light');
+  // Update label text
+  const isLight = frame.classList.contains('app-light');
+  frame.querySelectorAll('.app-theme-label').forEach(lbl => {
+    const lang = document.body.classList.contains('ltr') ? 'en' : 'ar';
+    lbl.textContent = lbl.getAttribute('data-' + lang + '-' + (isLight ? 'light' : 'dark'));
+  });
+}
+
+// ── Customer Interactive Demo ──
+const CUST_SCREENS = [
+  'screen-cust-auth',
+  'screen-cust-home',
+  'screen-cust-book',
+  'screen-cust-track',
+  'screen-cust-history',
+  'screen-cust-profile',
+  'screen-cust-vehicles',
+  'screen-cust-addresses',
+  'screen-cust-payment',
+  'screen-cust-notifications',
+  'screen-cust-language',
+  'screen-cust-support'
+];
+
+// Map screen names to bottom-nav tab indices (-1 = not in bottom nav)
+const CUST_SCREEN_TAB = {
+  'screen-cust-auth': -1,
+  'screen-cust-home': 0,
+  'screen-cust-book': 1,
+  'screen-cust-track': -1,
+  'screen-cust-history': 2,
+  'screen-cust-profile': 3
+};
+
+function goCustomerScreen(name, tabIdx) {
+  // Toggle screens
+  CUST_SCREENS.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.classList.toggle('active', id === name);
+  });
+
+  // Sync top demo-tab buttons
+  document.querySelectorAll('#custDemoTabs .demo-tab').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.screen === name);
+  });
+
+  // Sync bottom nav items
+  const bottomTabs = document.querySelectorAll('#custTabBar .tab-item');
+  bottomTabs.forEach((btn, i) => {
+    btn.classList.toggle('active', i === tabIdx);
+  });
+
+  // Scroll content to top
+  const body = document.querySelector('.iphone-body');
+  if (body) body.scrollTop = 0;
+
+  // Update status bar text color (light on profile gradient, dark on others)
+  const statusBar = document.querySelector('.iphone-status');
+  if (statusBar) {
+    if (name === 'screen-cust-profile') {
+      statusBar.style.color = '#fff';
+    } else {
+      statusBar.style.color = '';
+    }
+  }
+}
+
+// Wire up demo-tab clicks
+document.querySelectorAll('#custDemoTabs .demo-tab').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const screen = btn.dataset.screen;
+    const tabIdx = parseInt(btn.dataset.tabIdx, 10);
+    goCustomerScreen(screen, tabIdx);
+  });
+});
+
+// Wire up bottom tab-bar clicks
+document.querySelectorAll('#custTabBar .tab-item').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const screen = btn.dataset.screen;
+    const tabIdx = parseInt(btn.dataset.tabIdx, 10);
+    goCustomerScreen(screen, tabIdx);
+  });
+});
+
+// Chip toggle interactions (within interactive demo only)
+document.querySelectorAll('.interactive-demo .app-chip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    const siblings = chip.parentElement.querySelectorAll('.app-chip');
+    siblings.forEach(s => s.classList.remove('active'));
+    chip.classList.add('active');
+  });
 });
 </script>
 </body>

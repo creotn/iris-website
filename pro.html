@@ -125,6 +125,641 @@
   </div>
 </section>
 
+<!-- Interactive Demo -->
+<section class="interactive-demo">
+  <div class="container">
+    <div class="demo-header">
+      <h2 data-en="Try the App" data-ar="جرّب التطبيق">جرّب التطبيق</h2>
+      <p data-en="Navigate through every screen of the IRIS pro experience" data-ar="تنقّل بين جميع شاشات تجربة محترف IRIS">تنقّل بين جميع شاشات تجربة محترف IRIS</p>
+    </div>
+
+    <!-- Tab Selector -->
+    <div class="demo-tabs" id="proDemoTabs">
+      <button class="demo-tab active" data-screen="screen-pro-jobs" data-tab-idx="0" data-en="Jobs" data-ar="الطلبات">الطلبات</button>
+      <button class="demo-tab" data-screen="screen-pro-active" data-tab-idx="1" data-en="Active" data-ar="نشط">نشط</button>
+      <button class="demo-tab" data-screen="screen-pro-earnings" data-tab-idx="2" data-en="Earnings" data-ar="الأرباح">الأرباح</button>
+      <button class="demo-tab" data-screen="screen-pro-profile" data-tab-idx="3" data-en="Profile" data-ar="الملف">الملف</button>
+    </div>
+
+    <!-- Phone Frame -->
+    <div class="iphone-frame">
+      <div class="iphone-island"></div>
+
+      <!-- Status Bar -->
+      <div class="iphone-status">
+        <span>9:41</span>
+        <div class="iphone-status-icons">
+          <svg viewBox="0 0 16 16"><path d="M1 12l3-8h1l3 8M2.5 8h4" stroke="currentColor" fill="none" stroke-width="1.2"/></svg>
+          <svg viewBox="0 0 16 16"><path d="M1 10c3-6 11-6 14 0" stroke="currentColor" fill="none" stroke-width="1.2"/><path d="M4 11c2-3 6-3 8 0" stroke="currentColor" fill="none" stroke-width="1.2"/><circle cx="8" cy="12" r="1" fill="currentColor"/></svg>
+          <svg viewBox="0 0 20 12"><rect x="0" y="1" width="17" height="10" rx="2" stroke="currentColor" fill="none" stroke-width="1.2"/><rect x="2" y="3" width="12" height="6" rx="1" fill="currentColor"/><path d="M18 4.5v3a1.5 1.5 0 000-3z" fill="currentColor"/></svg>
+        </div>
+      </div>
+
+      <!-- Screen Content Area -->
+      <div class="iphone-body">
+
+        <!-- Screen 1: Jobs Feed -->
+        <div class="app-screen active" id="screen-pro-jobs">
+          <div style="padding:10px 18px 0;">
+            <!-- Header -->
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+              <h3 style="font-size:1.1rem;font-weight:700;color:var(--text-primary);margin:0;" data-en="Available Jobs" data-ar="الطلبات المتاحة">الطلبات المتاحة</h3>
+              <div style="width:32px;height:32px;background:var(--bg-secondary);border:1px solid var(--border);border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;">
+                <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+              </div>
+            </div>
+            <!-- Stats strip -->
+            <div class="app-card" style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;margin-bottom:14px;">
+              <span style="font-size:0.75rem;color:var(--text-secondary);" data-en="Available: 8 jobs" data-ar="متاح: 8 طلبات">متاح: 8 طلبات</span>
+              <div style="display:flex;align-items:center;gap:8px;">
+                <span style="font-size:0.65rem;font-weight:600;color:var(--success);" data-en="Online" data-ar="متصل">متصل</span>
+                <div style="width:36px;height:20px;background:var(--success);border-radius:10px;position:relative;cursor:pointer;">
+                  <div style="width:16px;height:16px;background:white;border-radius:50%;position:absolute;top:2px;left:18px;transition:left 0.2s;"></div>
+                </div>
+              </div>
+            </div>
+            <!-- Job Card 1 -->
+            <div class="app-card" style="padding:14px;margin-bottom:10px;border:1px solid var(--border-accent);">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+                <div style="display:flex;align-items:center;gap:6px;">
+                  <svg viewBox="0 0 24 24" width="14" height="14" stroke="var(--accent)" fill="none" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                  <span style="font-size:0.8rem;font-weight:600;color:var(--text-primary);" data-en="Al Olaya" data-ar="العليا">العليا</span>
+                </div>
+                <span style="font-size:0.65rem;color:var(--text-muted);" data-en="1.2 km" data-ar="1.2 كم">1.2 كم</span>
+              </div>
+              <div style="font-size:0.7rem;color:var(--text-secondary);margin-bottom:4px;" data-en="Full Wash" data-ar="غسيل كامل">غسيل كامل</div>
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+                <span style="font-size:0.65rem;color:var(--text-muted);" data-en="Toyota Camry — Sedan" data-ar="تويوتا كامري — سيدان">تويوتا كامري — سيدان</span>
+                <span style="font-size:0.95rem;font-weight:800;color:var(--success);">35 SAR</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center;">
+                <span style="font-size:0.6rem;color:var(--text-muted);" data-en="3 minutes ago" data-ar="منذ 3 دقائق">منذ 3 دقائق</span>
+                <button class="app-btn" style="padding:6px 20px;font-size:0.7rem;margin:0;min-width:auto;" data-en="Accept" data-ar="قبول">قبول</button>
+              </div>
+            </div>
+            <!-- Job Card 2 -->
+            <div class="app-card" style="padding:14px;margin-bottom:10px;">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+                <div style="display:flex;align-items:center;gap:6px;">
+                  <svg viewBox="0 0 24 24" width="14" height="14" stroke="var(--accent)" fill="none" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                  <span style="font-size:0.8rem;font-weight:600;color:var(--text-primary);" data-en="Al Malqa" data-ar="الملقا">الملقا</span>
+                </div>
+                <span style="font-size:0.65rem;color:var(--text-muted);" data-en="2.5 km" data-ar="2.5 كم">2.5 كم</span>
+              </div>
+              <div style="font-size:0.7rem;color:var(--text-secondary);margin-bottom:4px;" data-en="Exterior Wash" data-ar="غسيل خارجي">غسيل خارجي</div>
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+                <span style="font-size:0.65rem;color:var(--text-muted);" data-en="VW Golf — Hatchback" data-ar="فولكس جولف — هاتشباك">فولكس جولف — هاتشباك</span>
+                <span style="font-size:0.95rem;font-weight:800;color:var(--success);">15 SAR</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center;">
+                <span style="font-size:0.6rem;color:var(--text-muted);" data-en="7 minutes ago" data-ar="منذ 7 دقائق">منذ 7 دقائق</span>
+                <button class="app-btn" style="padding:6px 20px;font-size:0.7rem;margin:0;min-width:auto;" data-en="Accept" data-ar="قبول">قبول</button>
+              </div>
+            </div>
+            <!-- Job Card 3 -->
+            <div class="app-card" style="padding:14px;margin-bottom:10px;">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+                <div style="display:flex;align-items:center;gap:6px;">
+                  <svg viewBox="0 0 24 24" width="14" height="14" stroke="var(--accent)" fill="none" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                  <span style="font-size:0.8rem;font-weight:600;color:var(--text-primary);" data-en="Al Nakheel" data-ar="النخيل">النخيل</span>
+                </div>
+                <span style="font-size:0.65rem;color:var(--text-muted);" data-en="3.8 km" data-ar="3.8 كم">3.8 كم</span>
+              </div>
+              <div style="font-size:0.7rem;color:var(--text-secondary);margin-bottom:4px;" data-en="Polishing" data-ar="تلميع">تلميع</div>
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+                <span style="font-size:0.65rem;color:var(--text-muted);" data-en="BMW X3 — SUV" data-ar="بي ام دبليو X3 — SUV">بي ام دبليو X3 — SUV</span>
+                <span style="font-size:0.95rem;font-weight:800;color:var(--success);">65 SAR</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center;">
+                <span style="font-size:0.6rem;color:var(--text-muted);" data-en="12 minutes ago" data-ar="منذ 12 دقيقة">منذ 12 دقيقة</span>
+                <button class="app-btn" style="padding:6px 20px;font-size:0.7rem;margin:0;min-width:auto;" data-en="Accept" data-ar="قبول">قبول</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Screen 2: Active Job -->
+        <div class="app-screen" id="screen-pro-active">
+          <div style="padding:10px 18px 0;">
+            <!-- Header -->
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+              <h3 style="font-size:1.1rem;font-weight:700;color:var(--text-primary);margin:0;" data-en="Current Job" data-ar="المهمة الحالية">المهمة الحالية</h3>
+              <span style="font-size:0.6rem;font-weight:600;padding:3px 10px;background:var(--accent-subtle);color:var(--accent);border-radius:var(--radius-full);" data-en="In Progress" data-ar="قيد التنفيذ">قيد التنفيذ</span>
+            </div>
+            <!-- Timer -->
+            <div style="text-align:center;padding:14px 0 18px;">
+              <div style="font-size:2.4rem;font-weight:800;color:var(--accent);font-family:var(--font-mono);letter-spacing:2px;">00:32:15</div>
+              <div style="font-size:0.65rem;color:var(--text-muted);margin-top:4px;" data-en="Premium Wash — Est. 45 min" data-ar="غسيل متميز — تقدير 45 دقيقة">غسيل متميز — تقدير 45 دقيقة</div>
+            </div>
+            <!-- Customer info card -->
+            <div class="app-card" style="padding:12px 14px;margin-bottom:14px;">
+              <div style="display:flex;align-items:center;gap:10px;">
+                <div class="app-avatar" style="width:38px;height:38px;font-size:0.85rem;">أ</div>
+                <div style="flex:1;">
+                  <div style="font-size:0.8rem;font-weight:600;color:var(--text-primary);" data-en="Ahmed Ben Ali" data-ar="أحمد بن علي">أحمد بن علي</div>
+                  <div style="font-size:0.65rem;color:var(--text-muted);" data-en="Toyota Camry — Silver" data-ar="تويوتا كامري — فضي">تويوتا كامري — فضي</div>
+                  <div style="font-size:0.6rem;color:var(--text-muted);" data-en="Al Olaya, Riyadh" data-ar="العليا، الرياض">العليا، الرياض</div>
+                </div>
+              </div>
+            </div>
+            <!-- Map placeholder -->
+            <div class="app-map" style="height:90px;margin-bottom:14px;position:relative;">
+              <div class="app-map-dark">
+                <div class="app-map-roads"></div>
+              </div>
+              <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:2;display:flex;align-items:center;gap:6px;">
+                <svg viewBox="0 0 24 24" width="16" height="16" stroke="var(--accent)" fill="none" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                <span style="font-size:0.6rem;font-weight:600;color:var(--accent);" data-en="Route active" data-ar="المسار نشط">المسار نشط</span>
+              </div>
+            </div>
+            <!-- Progress steps -->
+            <div class="app-steps" style="margin-bottom:16px;">
+              <div class="app-step">
+                <div class="app-step-dot done">
+                  <svg viewBox="0 0 24 24" width="12" height="12" stroke="white" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <div class="app-step-line" style="background:var(--success);"></div>
+                <div class="app-step-text">
+                  <span class="step-title" data-en="Accepted" data-ar="تم القبول">تم القبول</span>
+                </div>
+              </div>
+              <div class="app-step">
+                <div class="app-step-dot done">
+                  <svg viewBox="0 0 24 24" width="12" height="12" stroke="white" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <div class="app-step-line" style="background:var(--success);"></div>
+                <div class="app-step-text">
+                  <span class="step-title" data-en="On the way" data-ar="في الطريق">في الطريق</span>
+                </div>
+              </div>
+              <div class="app-step">
+                <div class="app-step-dot done">
+                  <svg viewBox="0 0 24 24" width="12" height="12" stroke="white" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <div class="app-step-line" style="background:var(--accent);"></div>
+                <div class="app-step-text">
+                  <span class="step-title" data-en="Arrived" data-ar="وصلت">وصلت</span>
+                </div>
+              </div>
+              <div class="app-step">
+                <div class="app-step-dot current"></div>
+                <div class="app-step-text">
+                  <span class="step-title" style="color:var(--accent);" data-en="Washing" data-ar="جاري الغسيل">جاري الغسيل</span>
+                </div>
+              </div>
+            </div>
+            <!-- Action buttons -->
+            <button class="app-btn" style="width:100%;margin:0 0 8px;" data-en="Complete Wash" data-ar="إنهاء الغسلة">إنهاء الغسلة</button>
+            <button style="width:100%;padding:10px;font-size:0.75rem;font-weight:600;background:var(--bg-secondary);color:var(--text-secondary);border:1px solid var(--border);border-radius:var(--radius-md);cursor:pointer;text-align:center;" data-en="Call Customer" data-ar="اتصال">اتصال</button>
+          </div>
+        </div>
+
+        <!-- Screen 3: Earnings -->
+        <div class="app-screen" id="screen-pro-earnings">
+          <div style="padding:10px 18px 0;">
+            <!-- Header -->
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+              <h3 style="font-size:1.1rem;font-weight:700;color:var(--text-primary);margin:0;" data-en="Earnings" data-ar="الأرباح">الأرباح</h3>
+            </div>
+            <!-- Period selector chips -->
+            <div style="display:flex;gap:8px;margin-bottom:16px;">
+              <div class="app-chip" data-en="Today" data-ar="اليوم">اليوم</div>
+              <div class="app-chip active" data-en="This Week" data-ar="هذا الأسبوع">هذا الأسبوع</div>
+              <div class="app-chip" data-en="This Month" data-ar="هذا الشهر">هذا الشهر</div>
+            </div>
+            <!-- Big earnings number -->
+            <div class="app-card" style="text-align:center;padding:20px 14px;margin-bottom:16px;border:1px solid var(--border-accent);">
+              <div style="font-size:2rem;font-weight:800;color:var(--accent);">٢,٤٥٠</div>
+              <div style="font-size:0.75rem;color:var(--text-muted);margin-top:2px;">SAR</div>
+              <div style="display:flex;align-items:center;justify-content:center;gap:4px;margin-top:6px;">
+                <span style="color:var(--success);font-size:0.7rem;font-weight:600;">&#x25B2; 18%</span>
+                <span style="font-size:0.6rem;color:var(--text-muted);" data-en="vs last week" data-ar="مقارنة بالأسبوع الماضي">مقارنة بالأسبوع الماضي</span>
+              </div>
+            </div>
+            <!-- Bar chart -->
+            <div class="app-chart-bars" style="margin-bottom:4px;">
+              <div class="app-bar-col">
+                <div class="app-bar" style="height:30%;"></div>
+                <span class="app-bar-label" data-en="Sat" data-ar="س">س</span>
+              </div>
+              <div class="app-bar-col">
+                <div class="app-bar" style="height:50%;"></div>
+                <span class="app-bar-label" data-en="Sun" data-ar="ح">ح</span>
+              </div>
+              <div class="app-bar-col">
+                <div class="app-bar" style="height:65%;"></div>
+                <span class="app-bar-label" data-en="Mon" data-ar="ن">ن</span>
+              </div>
+              <div class="app-bar-col">
+                <div class="app-bar" style="height:45%;"></div>
+                <span class="app-bar-label" data-en="Tue" data-ar="ث">ث</span>
+              </div>
+              <div class="app-bar-col">
+                <div class="app-bar" style="height:80%;"></div>
+                <span class="app-bar-label" data-en="Wed" data-ar="ر">ر</span>
+              </div>
+              <div class="app-bar-col">
+                <div class="app-bar" style="height:90%;background:var(--accent);"></div>
+                <span class="app-bar-label" data-en="Thu" data-ar="خ">خ</span>
+              </div>
+              <div class="app-bar-col">
+                <div class="app-bar" style="height:40%;"></div>
+                <span class="app-bar-label" data-en="Fri" data-ar="ج">ج</span>
+              </div>
+            </div>
+            <!-- Stats row -->
+            <div class="app-stats" style="margin:14px 0;">
+              <div class="app-stat">
+                <span class="app-stat-num">28</span>
+                <span class="app-stat-label" data-en="Jobs" data-ar="مهمة">مهمة</span>
+              </div>
+              <div class="app-stat">
+                <span class="app-stat-num">38h</span>
+                <span class="app-stat-label" data-en="Hours" data-ar="ساعة">ساعة</span>
+              </div>
+              <div class="app-stat">
+                <span class="app-stat-num">87</span>
+                <span class="app-stat-label" data-en="Avg/Job" data-ar="متوسط">متوسط</span>
+              </div>
+            </div>
+            <!-- Recent transactions -->
+            <div style="font-size:0.65rem;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px;" data-en="Recent Transactions" data-ar="المعاملات الأخيرة">المعاملات الأخيرة</div>
+            <div class="app-card" style="padding:10px 14px;margin-bottom:8px;">
+              <div style="display:flex;justify-content:space-between;align-items:center;">
+                <div>
+                  <div style="font-size:0.75rem;font-weight:600;color:var(--text-primary);" data-en="Full Wash" data-ar="غسيل كامل">غسيل كامل</div>
+                  <div style="font-size:0.6rem;color:var(--text-muted);" data-en="Today, 2:30 PM" data-ar="اليوم، 2:30 م">اليوم، 2:30 م</div>
+                </div>
+                <span style="font-size:0.85rem;font-weight:700;color:var(--success);">+35 SAR</span>
+              </div>
+            </div>
+            <div class="app-card" style="padding:10px 14px;margin-bottom:8px;">
+              <div style="display:flex;justify-content:space-between;align-items:center;">
+                <div>
+                  <div style="font-size:0.75rem;font-weight:600;color:var(--text-primary);" data-en="Polishing" data-ar="تلميع">تلميع</div>
+                  <div style="font-size:0.6rem;color:var(--text-muted);" data-en="Today, 11:15 AM" data-ar="اليوم، 11:15 ص">اليوم، 11:15 ص</div>
+                </div>
+                <span style="font-size:0.85rem;font-weight:700;color:var(--success);">+65 SAR</span>
+              </div>
+            </div>
+            <div class="app-card" style="padding:10px 14px;margin-bottom:8px;">
+              <div style="display:flex;justify-content:space-between;align-items:center;">
+                <div>
+                  <div style="font-size:0.75rem;font-weight:600;color:var(--text-primary);" data-en="Exterior Wash" data-ar="غسيل خارجي">غسيل خارجي</div>
+                  <div style="font-size:0.6rem;color:var(--text-muted);" data-en="Yesterday, 4:00 PM" data-ar="أمس، 4:00 م">أمس، 4:00 م</div>
+                </div>
+                <span style="font-size:0.85rem;font-weight:700;color:var(--success);">+15 SAR</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Screen 4: Profile -->
+        <div class="app-screen" id="screen-pro-profile">
+          <!-- Profile hero with gradient -->
+          <div style="background:linear-gradient(135deg, var(--success), #00953A);padding:30px 18px 20px;text-align:center;">
+            <div class="app-avatar" style="width:56px;height:56px;font-size:1.3rem;margin:0 auto 10px;background:rgba(255,255,255,0.2);color:white;border:2px solid rgba(255,255,255,0.4);">أ</div>
+            <div style="font-size:1rem;font-weight:700;color:white;" data-en="Ahmed Al-Mutairi" data-ar="أحمد المطيري">أحمد المطيري</div>
+            <div style="font-size:0.75rem;color:rgba(255,255,255,0.8);margin-top:2px;">4.9 &#x2B50;</div>
+            <div style="display:inline-block;margin-top:8px;padding:4px 12px;background:rgba(255,255,255,0.2);border-radius:var(--radius-full);font-size:0.6rem;font-weight:600;color:white;" data-en="Certified Washer" data-ar="غاسل معتمد">غاسل معتمد</div>
+          </div>
+          <div style="padding:14px 18px 0;">
+            <!-- Stats card -->
+            <div class="app-stats" style="margin-bottom:16px;">
+              <div class="app-stat">
+                <span class="app-stat-num">234</span>
+                <span class="app-stat-label" data-en="Total Jobs" data-ar="إجمالي المهام">إجمالي المهام</span>
+              </div>
+              <div class="app-stat">
+                <span class="app-stat-num">4.9</span>
+                <span class="app-stat-label" data-en="Rating" data-ar="التقييم">التقييم</span>
+              </div>
+              <div class="app-stat">
+                <span class="app-stat-num">8.2K</span>
+                <span class="app-stat-label" data-en="Earnings" data-ar="الأرباح">الأرباح</span>
+              </div>
+            </div>
+            <!-- Menu card -->
+            <div class="app-menu">
+              <div class="app-menu-row" onclick="goProScreen('screen-pro-vehicle',-1)">
+                <div class="app-menu-icon" style="background:rgba(0,102,255,0.1);">
+                  <svg viewBox="0 0 24 24" width="18" height="18" stroke="var(--accent)" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13" rx="2"/><polygon points="16 8 22 4 22 16 16 12"/></svg>
+                </div>
+                <div class="app-menu-text">
+                  <span class="app-menu-title" data-en="Vehicle Info" data-ar="معلومات المركبة">معلومات المركبة</span>
+                </div>
+                <div class="app-menu-chevron"><svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></div>
+              </div>
+              <div class="app-menu-row" onclick="goProScreen('screen-pro-documents',-1)">
+                <div class="app-menu-icon" style="background:rgba(245,166,35,0.1);">
+                  <svg viewBox="0 0 24 24" width="18" height="18" stroke="#F5A623" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                </div>
+                <div class="app-menu-text">
+                  <span class="app-menu-title" data-en="Documents" data-ar="المستندات">المستندات</span>
+                </div>
+                <div class="app-menu-chevron"><svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></div>
+              </div>
+              <div class="app-menu-row" onclick="goProScreen('screen-pro-bank',-1)">
+                <div class="app-menu-icon" style="background:rgba(0,200,83,0.1);">
+                  <svg viewBox="0 0 24 24" width="18" height="18" stroke="#00c853" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+                </div>
+                <div class="app-menu-text">
+                  <span class="app-menu-title" data-en="Bank Account" data-ar="الحساب البنكي">الحساب البنكي</span>
+                </div>
+                <div class="app-menu-chevron"><svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></div>
+              </div>
+              <div class="app-menu-row" onclick="goProScreen('screen-pro-availability',-1)">
+                <div class="app-menu-icon" style="background:rgba(156,39,176,0.1);">
+                  <svg viewBox="0 0 24 24" width="18" height="18" stroke="#9C27B0" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                </div>
+                <div class="app-menu-text">
+                  <span class="app-menu-title" data-en="Availability" data-ar="التوفر">التوفر</span>
+                </div>
+                <div class="app-menu-chevron"><svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></div>
+              </div>
+              <div class="app-menu-row" onclick="goProScreen('screen-pro-support',-1)">
+                <div class="app-menu-icon" style="background:rgba(96,125,139,0.1);">
+                  <svg viewBox="0 0 24 24" width="18" height="18" stroke="#607D8B" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                </div>
+                <div class="app-menu-text">
+                  <span class="app-menu-title" data-en="Support" data-ar="الدعم">الدعم</span>
+                </div>
+                <div class="app-menu-chevron"><svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></div>
+              </div>
+              <div class="app-menu-row" onclick="toggleAppTheme(this)" style="cursor:pointer;">
+                <div class="app-menu-icon" style="background:rgba(255,193,7,0.1);">
+                  <svg viewBox="0 0 24 24" width="18" height="18" stroke="#FFC107" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+                </div>
+                <div class="app-menu-text">
+                  <span class="app-menu-title" data-en="Appearance" data-ar="المظهر">المظهر</span>
+                  <div class="app-menu-sub app-theme-label" data-en-dark="Dark" data-en-light="Light" data-ar-dark="داكن" data-ar-light="فاتح">داكن</div>
+                </div>
+                <div class="app-theme-switch">
+                  <div class="app-theme-knob"></div>
+                </div>
+              </div>
+            </div>
+            <!-- Logout button -->
+            <button style="width:100%;padding:12px;font-size:0.75rem;font-weight:600;background:transparent;color:var(--error);border:1px solid var(--error);border-radius:var(--radius-md);cursor:pointer;margin-top:14px;text-align:center;" data-en="Log Out" data-ar="تسجيل الخروج">تسجيل الخروج</button>
+          </div>
+        </div>
+
+        <!-- ═══ SUB-SCREENS ═══ -->
+
+        <!-- Vehicle Info -->
+        <div class="app-screen" id="screen-pro-vehicle">
+          <div class="app-header-bar">
+            <button class="app-icon-btn" onclick="goProScreen('screen-pro-profile',3)"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
+            <h3 data-en="Vehicle Info" data-ar="معلومات المركبة">معلومات المركبة</h3>
+            <div style="width:36px;"></div>
+          </div>
+          <div class="app-card">
+            <div style="display:flex;gap:12px;align-items:center;margin-bottom:14px;">
+              <div style="width:48px;height:48px;border-radius:12px;background:rgba(0,102,255,0.1);display:flex;align-items:center;justify-content:center;">
+                <svg viewBox="0 0 24 24" width="22" height="22" stroke="var(--accent)" fill="none" stroke-width="1.5"><rect x="1" y="6" width="22" height="12" rx="3"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="18" r="2"/></svg>
+              </div>
+              <div style="flex:1;">
+                <div style="font-size:0.82rem;font-weight:700;color:var(--text-primary);" data-en="Ford Transit 2022" data-ar="فورد ترانزيت 2022">فورد ترانزيت 2022</div>
+                <div style="font-size:0.65rem;color:var(--text-muted);" data-en="White · Van · DEF-9012" data-ar="أبيض · فان · DEF-9012">أبيض · فان · DEF-9012</div>
+              </div>
+            </div>
+            <div style="height:1px;background:var(--border-primary);margin:0 -14px 14px;"></div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+              <div>
+                <div style="font-size:0.6rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px;" data-en="License" data-ar="اللوحة">اللوحة</div>
+                <div style="font-size:0.78rem;font-weight:700;color:var(--text-primary);">DEF-9012</div>
+              </div>
+              <div>
+                <div style="font-size:0.6rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px;" data-en="Year" data-ar="السنة">السنة</div>
+                <div style="font-size:0.78rem;font-weight:700;color:var(--text-primary);">2022</div>
+              </div>
+              <div>
+                <div style="font-size:0.6rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px;" data-en="Color" data-ar="اللون">اللون</div>
+                <div style="font-size:0.78rem;font-weight:700;color:var(--text-primary);" data-en="White" data-ar="أبيض">أبيض</div>
+              </div>
+              <div>
+                <div style="font-size:0.6rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px;" data-en="Equipment" data-ar="المعدات">المعدات</div>
+                <div style="font-size:0.78rem;font-weight:700;color:var(--text-primary);" data-en="Full Kit" data-ar="طقم كامل">طقم كامل</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Documents -->
+        <div class="app-screen" id="screen-pro-documents">
+          <div class="app-header-bar">
+            <button class="app-icon-btn" onclick="goProScreen('screen-pro-profile',3)"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
+            <h3 data-en="Documents" data-ar="المستندات">المستندات</h3>
+            <div style="width:36px;"></div>
+          </div>
+          <div class="app-card" style="display:flex;gap:12px;align-items:center;">
+            <div style="width:40px;height:40px;border-radius:10px;background:rgba(0,200,83,0.1);display:flex;align-items:center;justify-content:center;">
+              <svg viewBox="0 0 24 24" width="18" height="18" stroke="#00c853" fill="none" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <div style="flex:1;">
+              <div style="font-size:0.8rem;font-weight:700;color:var(--text-primary);" data-en="National ID" data-ar="الهوية الوطنية">الهوية الوطنية</div>
+              <div style="font-size:0.62rem;color:#00c853;" data-en="Verified" data-ar="تم التحقق">تم التحقق</div>
+            </div>
+          </div>
+          <div class="app-card" style="display:flex;gap:12px;align-items:center;">
+            <div style="width:40px;height:40px;border-radius:10px;background:rgba(0,200,83,0.1);display:flex;align-items:center;justify-content:center;">
+              <svg viewBox="0 0 24 24" width="18" height="18" stroke="#00c853" fill="none" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <div style="flex:1;">
+              <div style="font-size:0.8rem;font-weight:700;color:var(--text-primary);" data-en="Driver's License" data-ar="رخصة القيادة">رخصة القيادة</div>
+              <div style="font-size:0.62rem;color:#00c853;" data-en="Verified" data-ar="تم التحقق">تم التحقق</div>
+            </div>
+          </div>
+          <div class="app-card" style="display:flex;gap:12px;align-items:center;">
+            <div style="width:40px;height:40px;border-radius:10px;background:rgba(0,200,83,0.1);display:flex;align-items:center;justify-content:center;">
+              <svg viewBox="0 0 24 24" width="18" height="18" stroke="#00c853" fill="none" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <div style="flex:1;">
+              <div style="font-size:0.8rem;font-weight:700;color:var(--text-primary);" data-en="Vehicle Registration" data-ar="استمارة المركبة">استمارة المركبة</div>
+              <div style="font-size:0.62rem;color:#00c853;" data-en="Verified" data-ar="تم التحقق">تم التحقق</div>
+            </div>
+          </div>
+          <div class="app-card" style="display:flex;gap:12px;align-items:center;">
+            <div style="width:40px;height:40px;border-radius:10px;background:rgba(245,166,35,0.1);display:flex;align-items:center;justify-content:center;">
+              <svg viewBox="0 0 24 24" width="18" height="18" stroke="#F5A623" fill="none" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            </div>
+            <div style="flex:1;">
+              <div style="font-size:0.8rem;font-weight:700;color:var(--text-primary);" data-en="Insurance" data-ar="التأمين">التأمين</div>
+              <div style="font-size:0.62rem;color:#F5A623;" data-en="Expires soon" data-ar="ينتهي قريباً">ينتهي قريباً</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bank Account -->
+        <div class="app-screen" id="screen-pro-bank">
+          <div class="app-header-bar">
+            <button class="app-icon-btn" onclick="goProScreen('screen-pro-profile',3)"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
+            <h3 data-en="Bank Account" data-ar="الحساب البنكي">الحساب البنكي</h3>
+            <div style="width:36px;"></div>
+          </div>
+          <div class="app-card">
+            <div style="display:flex;gap:12px;align-items:center;margin-bottom:14px;">
+              <div style="width:48px;height:32px;border-radius:6px;background:linear-gradient(135deg,#003d1e,#00753a);display:flex;align-items:center;justify-content:center;">
+                <span style="font-size:0.5rem;font-weight:800;color:white;letter-spacing:0.05em;">RJHI</span>
+              </div>
+              <div style="flex:1;">
+                <div style="font-size:0.82rem;font-weight:700;color:var(--text-primary);" data-en="Al Rajhi Bank" data-ar="مصرف الراجحي">مصرف الراجحي</div>
+                <div style="font-size:0.62rem;color:var(--text-muted);">SA **** **** **** 7823</div>
+              </div>
+              <div style="padding:3px 8px;border-radius:8px;background:rgba(0,200,83,0.1);font-size:0.6rem;font-weight:700;color:#00c853;" data-en="Active" data-ar="نشط">نشط</div>
+            </div>
+            <div style="height:1px;background:var(--border-primary);margin:0 -14px 14px;"></div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+              <div>
+                <div style="font-size:0.6rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px;" data-en="Holder" data-ar="صاحب الحساب">صاحب الحساب</div>
+                <div style="font-size:0.75rem;font-weight:700;color:var(--text-primary);" data-en="Ahmed Al-Mutairi" data-ar="أحمد المطيري">أحمد المطيري</div>
+              </div>
+              <div>
+                <div style="font-size:0.6rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px;" data-en="Payout" data-ar="التحويل">التحويل</div>
+                <div style="font-size:0.75rem;font-weight:700;color:var(--text-primary);" data-en="Weekly" data-ar="أسبوعي">أسبوعي</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Availability -->
+        <div class="app-screen" id="screen-pro-availability">
+          <div class="app-header-bar">
+            <button class="app-icon-btn" onclick="goProScreen('screen-pro-profile',3)"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
+            <h3 data-en="Availability" data-ar="التوفر">التوفر</h3>
+            <div style="width:36px;"></div>
+          </div>
+          <div class="app-card">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+              <div>
+                <div style="font-size:0.8rem;font-weight:700;color:var(--text-primary);" data-en="Sunday" data-ar="الأحد">الأحد</div>
+                <div style="font-size:0.62rem;color:var(--text-muted);">08:00 — 18:00</div>
+              </div>
+              <div style="width:40px;height:22px;border-radius:11px;background:var(--accent);position:relative;"><div style="width:18px;height:18px;border-radius:50%;background:#fff;position:absolute;top:2px;right:2px;box-shadow:0 1px 3px rgba(0,0,0,0.2);"></div></div>
+            </div>
+            <div style="height:1px;background:var(--border-primary);margin:0 -14px 14px;"></div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+              <div>
+                <div style="font-size:0.8rem;font-weight:700;color:var(--text-primary);" data-en="Monday" data-ar="الاثنين">الاثنين</div>
+                <div style="font-size:0.62rem;color:var(--text-muted);">08:00 — 18:00</div>
+              </div>
+              <div style="width:40px;height:22px;border-radius:11px;background:var(--accent);position:relative;"><div style="width:18px;height:18px;border-radius:50%;background:#fff;position:absolute;top:2px;right:2px;box-shadow:0 1px 3px rgba(0,0,0,0.2);"></div></div>
+            </div>
+            <div style="height:1px;background:var(--border-primary);margin:0 -14px 14px;"></div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+              <div>
+                <div style="font-size:0.8rem;font-weight:700;color:var(--text-primary);" data-en="Tuesday" data-ar="الثلاثاء">الثلاثاء</div>
+                <div style="font-size:0.62rem;color:var(--text-muted);">08:00 — 18:00</div>
+              </div>
+              <div style="width:40px;height:22px;border-radius:11px;background:var(--accent);position:relative;"><div style="width:18px;height:18px;border-radius:50%;background:#fff;position:absolute;top:2px;right:2px;box-shadow:0 1px 3px rgba(0,0,0,0.2);"></div></div>
+            </div>
+            <div style="height:1px;background:var(--border-primary);margin:0 -14px 14px;"></div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+              <div>
+                <div style="font-size:0.8rem;font-weight:700;color:var(--text-primary);" data-en="Wednesday" data-ar="الأربعاء">الأربعاء</div>
+                <div style="font-size:0.62rem;color:var(--text-muted);">08:00 — 18:00</div>
+              </div>
+              <div style="width:40px;height:22px;border-radius:11px;background:var(--accent);position:relative;"><div style="width:18px;height:18px;border-radius:50%;background:#fff;position:absolute;top:2px;right:2px;box-shadow:0 1px 3px rgba(0,0,0,0.2);"></div></div>
+            </div>
+            <div style="height:1px;background:var(--border-primary);margin:0 -14px 14px;"></div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+              <div>
+                <div style="font-size:0.8rem;font-weight:700;color:var(--text-primary);" data-en="Thursday" data-ar="الخميس">الخميس</div>
+                <div style="font-size:0.62rem;color:var(--text-muted);">08:00 — 16:00</div>
+              </div>
+              <div style="width:40px;height:22px;border-radius:11px;background:var(--accent);position:relative;"><div style="width:18px;height:18px;border-radius:50%;background:#fff;position:absolute;top:2px;right:2px;box-shadow:0 1px 3px rgba(0,0,0,0.2);"></div></div>
+            </div>
+            <div style="height:1px;background:var(--border-primary);margin:0 -14px 14px;"></div>
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+              <div>
+                <div style="font-size:0.8rem;font-weight:700;color:var(--text-muted);" data-en="Friday" data-ar="الجمعة">الجمعة</div>
+                <div style="font-size:0.62rem;color:var(--text-muted);" data-en="Day off" data-ar="يوم راحة">يوم راحة</div>
+              </div>
+              <div style="width:40px;height:22px;border-radius:11px;background:var(--bg-tertiary);position:relative;"><div style="width:18px;height:18px;border-radius:50%;background:#fff;position:absolute;top:2px;left:2px;box-shadow:0 1px 3px rgba(0,0,0,0.2);"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Support -->
+        <div class="app-screen" id="screen-pro-support">
+          <div class="app-header-bar">
+            <button class="app-icon-btn" onclick="goProScreen('screen-pro-profile',3)"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
+            <h3 data-en="Support" data-ar="الدعم">الدعم</h3>
+            <div style="width:36px;"></div>
+          </div>
+          <div class="app-menu">
+            <div class="app-menu-row">
+              <div class="app-menu-icon" style="background:rgba(0,102,255,0.1);">
+                <svg viewBox="0 0 24 24" width="18" height="18" stroke="var(--accent)" fill="none" stroke-width="1.5"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+              </div>
+              <div class="app-menu-text">
+                <span class="app-menu-title" data-en="Live Chat" data-ar="محادثة مباشرة">محادثة مباشرة</span>
+                <div class="app-menu-sub" data-en="Available 24/7" data-ar="متاح 24/7">متاح 24/7</div>
+              </div>
+              <div style="padding:3px 8px;border-radius:8px;background:rgba(0,200,83,0.1);font-size:0.58rem;font-weight:700;color:#00c853;" data-en="Online" data-ar="متصل">متصل</div>
+            </div>
+            <div class="app-menu-row">
+              <div class="app-menu-icon" style="background:rgba(0,200,83,0.1);">
+                <svg viewBox="0 0 24 24" width="18" height="18" stroke="#00c853" fill="none" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+              </div>
+              <div class="app-menu-text">
+                <span class="app-menu-title" data-en="Call Us" data-ar="اتصل بنا">اتصل بنا</span>
+                <div class="app-menu-sub">+966 11 XXX XXXX</div>
+              </div>
+            </div>
+            <div class="app-menu-row">
+              <div class="app-menu-icon" style="background:rgba(245,166,35,0.1);">
+                <svg viewBox="0 0 24 24" width="18" height="18" stroke="#F5A623" fill="none" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+              </div>
+              <div class="app-menu-text">
+                <span class="app-menu-title" data-en="FAQ" data-ar="الأسئلة الشائعة">الأسئلة الشائعة</span>
+              </div>
+              <div class="app-menu-chevron"><svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></div>
+            </div>
+            <div class="app-menu-row">
+              <div class="app-menu-icon" style="background:rgba(156,39,176,0.1);">
+                <svg viewBox="0 0 24 24" width="18" height="18" stroke="#9C27B0" fill="none" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22 6 12 13 2 6"/></svg>
+              </div>
+              <div class="app-menu-text">
+                <span class="app-menu-title" data-en="Email" data-ar="البريد الإلكتروني">البريد الإلكتروني</span>
+                <div class="app-menu-sub">pro@iris.sa</div>
+              </div>
+            </div>
+          </div>
+          <div style="padding:14px;text-align:center;">
+            <div style="font-size:0.62rem;color:var(--text-muted);" data-en="IRIS Pro v1.0.0" data-ar="IRIS Pro الإصدار 1.0.0">IRIS Pro الإصدار 1.0.0</div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Bottom Tab Bar -->
+      <div class="iphone-tab-bar" id="proTabBar">
+        <button class="tab-item active" data-screen="screen-pro-jobs" data-tab-idx="0">
+          <div class="tab-dot"></div>
+          <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 7V5a4 4 0 00-8 0v2"/></svg>
+          <span data-en="Jobs" data-ar="الطلبات">الطلبات</span>
+        </button>
+        <button class="tab-item" data-screen="screen-pro-active" data-tab-idx="1">
+          <div class="tab-dot"></div>
+          <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          <span data-en="Active" data-ar="نشط">نشط</span>
+        </button>
+        <button class="tab-item" data-screen="screen-pro-earnings" data-tab-idx="2">
+          <div class="tab-dot"></div>
+          <svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 10h20"/><path d="M6 16h2"/><path d="M12 16h6"/></svg>
+          <span data-en="Earnings" data-ar="الأرباح">الأرباح</span>
+        </button>
+        <button class="tab-item" data-screen="screen-pro-profile" data-tab-idx="3">
+          <div class="tab-dot"></div>
+          <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <span data-en="Profile" data-ar="الملف">الملف</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- Screens -->
 <section class="screens-section">
   <div class="container">
@@ -555,6 +1190,91 @@ const observer = new IntersectionObserver((entries) => {
 document.querySelectorAll('.animate-in').forEach(el => {
   el.style.animationPlayState = 'paused';
   observer.observe(el);
+});
+
+// ── App-Scoped Theme Toggle (phone only) ──
+function toggleAppTheme(el) {
+  const frame = el.closest('.iphone-frame');
+  if (!frame) return;
+  frame.classList.toggle('app-light');
+  const isLight = frame.classList.contains('app-light');
+  frame.querySelectorAll('.app-theme-label').forEach(lbl => {
+    const lang = document.body.classList.contains('ltr') ? 'en' : 'ar';
+    lbl.textContent = lbl.getAttribute('data-' + lang + '-' + (isLight ? 'light' : 'dark'));
+  });
+}
+
+// ── Pro Interactive Demo ──
+const PRO_SCREENS = [
+  'screen-pro-jobs',
+  'screen-pro-active',
+  'screen-pro-earnings',
+  'screen-pro-profile',
+  'screen-pro-vehicle',
+  'screen-pro-documents',
+  'screen-pro-bank',
+  'screen-pro-availability',
+  'screen-pro-support'
+];
+
+function goProScreen(name, tabIdx) {
+  // Toggle screens
+  PRO_SCREENS.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.classList.toggle('active', id === name);
+  });
+
+  // Sync top demo-tab buttons
+  document.querySelectorAll('#proDemoTabs .demo-tab').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.screen === name);
+  });
+
+  // Sync bottom nav items
+  const bottomTabs = document.querySelectorAll('#proTabBar .tab-item');
+  bottomTabs.forEach((btn, i) => {
+    btn.classList.toggle('active', i === tabIdx);
+  });
+
+  // Scroll content to top
+  const body = document.querySelector('.interactive-demo .iphone-body');
+  if (body) body.scrollTop = 0;
+
+  // Update status bar text color (light on profile gradient, dark on others)
+  const statusBar = document.querySelector('.interactive-demo .iphone-status');
+  if (statusBar) {
+    if (name === 'screen-pro-profile') {
+      statusBar.style.color = '#fff';
+    } else {
+      statusBar.style.color = '';
+    }
+  }
+}
+
+// Wire up demo-tab clicks
+document.querySelectorAll('#proDemoTabs .demo-tab').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const screen = btn.dataset.screen;
+    const tabIdx = parseInt(btn.dataset.tabIdx, 10);
+    goProScreen(screen, tabIdx);
+  });
+});
+
+// Wire up bottom tab-bar clicks
+document.querySelectorAll('#proTabBar .tab-item').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const screen = btn.dataset.screen;
+    const tabIdx = parseInt(btn.dataset.tabIdx, 10);
+    goProScreen(screen, tabIdx);
+  });
+});
+
+// Chip toggle interactions (within interactive demo only)
+document.querySelectorAll('.interactive-demo .app-chip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    const siblings = chip.parentElement.querySelectorAll('.app-chip');
+    siblings.forEach(s => s.classList.remove('active'));
+    chip.classList.add('active');
+  });
 });
 </script>
 </body>
