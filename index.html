@@ -223,34 +223,23 @@
       .steps-grid { grid-template-columns: 1fr; }
     }
 
-    /* Page transition */
-    .page-loader {
-      position: fixed;
-      inset: 0;
-      background: var(--bg-primary);
-      z-index: 9999;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: opacity 0.5s ease;
-    }
-    .page-loader.hidden {
-      opacity: 0;
-      pointer-events: none;
-    }
-    .page-loader svg {
-      width: 80px;
-      animation: pulse-glow 1.5s infinite;
-    }
   </style>
 </head>
 <body>
+<script>if(localStorage.getItem('iris-theme')==='light')document.body.classList.add('light');</script>
 
-<!-- Page Loader -->
-<div class="page-loader" id="pageLoader">
-  <svg viewBox="0 0 120 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <text x="50%" y="50%" dominant-baseline="central" text-anchor="middle" fill="var(--logo-fill)" font-family="Inter, sans-serif" font-weight="900" font-size="32">IRIS</text>
-  </svg>
+<!-- Splash Screen -->
+<div class="splash" id="splash">
+  <div class="splash-content">
+    <div class="splash-logo">
+      <span class="splash-letter" style="--i:0">I</span>
+      <span class="splash-letter" style="--i:1">R</span>
+      <span class="splash-letter" style="--i:2">I</span>
+      <span class="splash-letter" style="--i:3">S</span>
+    </div>
+    <div class="splash-tagline" data-en="Mobile Car Wash" data-ar="غسيل سيارات متنقل">غسيل سيارات متنقل</div>
+    <div class="splash-bar"><div class="splash-bar-fill"></div></div>
+  </div>
 </div>
 
 <!-- Navigation -->
@@ -697,9 +686,11 @@
 </footer>
 
 <script>
-// Page loader
+// Splash screen
 window.addEventListener('load', () => {
-  setTimeout(() => document.getElementById('pageLoader').classList.add('hidden'), 600);
+  const splash = document.getElementById('splash');
+  setTimeout(() => splash.classList.add('exit'), 1400);
+  setTimeout(() => splash.classList.add('hidden'), 2000);
 });
 
 // Language toggle
@@ -769,11 +760,6 @@ themeToggle.addEventListener('click', () => {
   document.body.classList.toggle('light');
   localStorage.setItem('iris-theme', document.body.classList.contains('light') ? 'light' : 'dark');
 });
-
-// Restore saved theme
-if (localStorage.getItem('iris-theme') === 'light') {
-  document.body.classList.add('light');
-}
 
 // Navbar scroll effect
 window.addEventListener('scroll', () => {

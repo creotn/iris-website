@@ -12,6 +12,7 @@
   --bg-card-hover: #22222F;
   --bg-surface: #15151F;
   --bg-input: #1E1E2A;
+  --bg-tertiary: #2A2A38;
 
   --accent: #0066FF;
   --accent-light: #3388FF;
@@ -97,6 +98,7 @@ body.light {
   --bg-card-hover: #F7F7F5;
   --bg-surface: #F5F4F2;
   --bg-input: #EFEEEC;
+  --bg-tertiary: #E5E4E1;
 
   --accent: #0055DD;
   --accent-light: #2277FF;
@@ -729,13 +731,145 @@ img {
 }
 
 @keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 20px rgba(0, 102, 255, 0.2); }
-  50% { box-shadow: 0 0 40px rgba(0, 102, 255, 0.4); }
+  0%, 100% { opacity: 1; box-shadow: 0 0 8px rgba(0, 102, 255, 0.3); }
+  50% { opacity: 0.7; box-shadow: 0 0 16px rgba(0, 102, 255, 0.5); }
 }
 
 @keyframes shimmer {
   0% { background-position: -200% 0; }
   100% { background-position: 200% 0; }
+}
+
+/* --- Splash Screen --- */
+.splash {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background: var(--bg-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.splash.exit {
+  opacity: 0;
+}
+.splash.hidden {
+  display: none;
+}
+
+.splash-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.splash-logo {
+  display: flex;
+  gap: 4px;
+}
+
+.splash-letter {
+  font-family: 'Inter', sans-serif;
+  font-weight: 900;
+  font-size: clamp(48px, 12vw, 80px);
+  color: var(--accent);
+  opacity: 0;
+  transform: translateY(24px) scale(0.8);
+  animation: splashLetterIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  animation-delay: calc(var(--i) * 0.1s + 0.2s);
+  text-shadow: 0 0 40px rgba(0, 102, 255, 0.3);
+}
+
+@keyframes splashLetterIn {
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.splash-tagline {
+  font-family: var(--font-ar), var(--font-en), sans-serif;
+  font-size: clamp(13px, 3vw, 16px);
+  color: var(--text-secondary);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0;
+  animation: splashFadeUp 0.5s ease forwards;
+  animation-delay: 0.7s;
+}
+
+@keyframes splashFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.splash-bar {
+  width: 120px;
+  height: 3px;
+  background: var(--bg-tertiary);
+  border-radius: 3px;
+  overflow: hidden;
+  opacity: 0;
+  animation: splashFadeUp 0.3s ease forwards;
+  animation-delay: 0.9s;
+}
+
+.splash-bar-fill {
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg, var(--accent), var(--accent-light, #4D9AFF));
+  border-radius: 3px;
+  animation: splashBarFill 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation-delay: 0.9s;
+}
+
+@keyframes splashBarFill {
+  to { width: 100%; }
+}
+
+/* Splash glow ring behind logo */
+.splash-logo::before {
+  content: '';
+  position: absolute;
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0, 102, 255, 0.15) 0%, transparent 70%);
+  opacity: 0;
+  animation: splashGlow 1.2s ease forwards;
+  animation-delay: 0.3s;
+  pointer-events: none;
+}
+
+.splash-logo {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  direction: ltr;
+}
+
+@keyframes splashGlow {
+  0% { opacity: 0; transform: scale(0.5); }
+  50% { opacity: 1; }
+  100% { opacity: 0.6; transform: scale(1.2); }
+}
+
+/* Light mode splash adjustments */
+body.light .splash-letter {
+  text-shadow: 0 0 40px rgba(0, 102, 255, 0.15);
+}
+body.light .splash-logo::before {
+  background: radial-gradient(circle, rgba(0, 102, 255, 0.08) 0%, transparent 70%);
 }
 
 @keyframes slideInLeft {
