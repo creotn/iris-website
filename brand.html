@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IRIS — كتيّب العلامة والمنصة · Brand &amp; Platform Book</title>
+  <meta name="description" content="دليل هوية ومنصة IRIS الكامل — للمستثمرين والشركاء. Brand & Platform Book v1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="stylesheet" href="assets/styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&family=Tajawal:wght@400;500;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    html { scroll-padding-top: 92px; }
+    .bb-wrap { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+    .bb-section { padding: 92px 0; position: relative; border-top: 1px solid var(--border); }
+    .bb-section:first-of-type { border-top: 0; }
+    .sec-kicker { font-family: var(--font-main); font-size: .72rem; letter-spacing: .22em; text-transform: uppercase; color: var(--text-accent); display:flex; gap:10px; align-items:center; margin-bottom:14px; }
+    .sec-kicker .num { color: var(--accent); }
+    .sec-title { font-size: clamp(1.7rem, 3.4vw, 2.6rem); font-weight: 800; line-height: 1.18; letter-spacing:-.01em; margin-bottom: 14px; max-width: 22ch; }
+    .sec-lead { font-size: 1.12rem; color: var(--text-secondary); line-height: 1.85; max-width: 60ch; }
+    .bb-grid { display:grid; gap: 20px; margin-top: 40px; }
+    .g2{grid-template-columns:repeat(2,1fr)} .g3{grid-template-columns:repeat(3,1fr)} .g4{grid-template-columns:repeat(4,1fr)} .g6{grid-template-columns:repeat(6,1fr)}
+    @media(max-width:900px){ .g3,.g4,.g6{grid-template-columns:repeat(2,1fr)} .g2{grid-template-columns:1fr} }
+    .bb-card { background: var(--bg-card); border:1px solid var(--border); border-radius: var(--radius-lg); padding: 22px; }
+    .bb-card h4 { font-size: 1.05rem; font-weight:700; margin-bottom:8px; }
+    .bb-card p { font-size:.92rem; color: var(--text-muted); line-height:1.7; }
+    .pill { display:inline-flex; align-items:center; gap:6px; font-family:var(--font-main); font-size:.68rem; letter-spacing:.12em; padding:5px 11px; border-radius:999px; border:1px solid var(--border-accent); color:var(--text-accent); background:var(--accent-subtle); text-transform:uppercase; }
+
+    /* Cover */
+    .bb-cover { position:relative; overflow:hidden; min-height: 86vh; display:flex; align-items:center; }
+    .bb-cover .inner { position:relative; z-index:3; }
+    .bb-cover .logo-lock { height:84px; width:auto; margin-bottom:34px; }
+    .bb-cover h1 { font-size: clamp(2.6rem, 7vw, 5.4rem); font-weight: 900; line-height:1.02; letter-spacing:-.02em; }
+    .bb-cover h1 .accent { color: var(--accent); }
+    .bb-cover .slogan { font-family: var(--font-mono); color: var(--text-accent); letter-spacing:.06em; margin-top:18px; font-size: clamp(.9rem,2vw,1.15rem); }
+    .bb-cover .sub { margin-top:26px; max-width: 56ch; color: var(--text-secondary); font-size:1.12rem; line-height:1.9; }
+    .cover-meta { display:flex; gap:30px; flex-wrap:wrap; margin-top:40px; font-family:var(--font-mono); font-size:.78rem; color:var(--text-muted); letter-spacing:.05em; }
+    .cover-meta b{ color: var(--text-primary); font-weight:700; }
+    .cover-mascot { position:absolute; inset-inline-end:-10px; bottom:-20px; width:auto; height:min(58vh,520px); border-radius:22px; opacity:.97; z-index:2; filter: drop-shadow(0 30px 60px rgba(106,79,182,.5)); }
+    @media(max-width:900px){ .cover-mascot{ opacity:.16; inset-inline-end:50%; transform:translateX(50%);} }
+
+    /* Contents */
+    .toc { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-top:36px; }
+    @media(max-width:900px){ .toc{grid-template-columns:repeat(2,1fr)} }
+    .toc a { display:flex; gap:10px; align-items:baseline; padding:13px 15px; border:1px solid var(--border); border-radius:12px; background:var(--bg-card); transition:all .2s; }
+    .toc a:hover { border-color:var(--border-accent); background:var(--bg-card-hover); transform:translateY(-2px); }
+    .toc a .n { font-family:var(--font-mono); color:var(--text-accent); font-size:.78rem; }
+    .toc a .t { font-size:.9rem; font-weight:600; color:var(--text-secondary); }
+
+    /* Part divider */
+    .part-div { position:relative; overflow:hidden; padding: 80px 0; text-align:center; background:var(--bg-secondary); border-block:1px solid var(--border); }
+    .part-div .pn { font-family:var(--font-main); letter-spacing:.4em; color:var(--accent); font-size:.9rem; }
+    .part-div h2 { font-size: clamp(2.2rem,6vw,4rem); font-weight:900; margin:10px 0 12px; }
+    .part-div p { color:var(--text-secondary); max-width:54ch; margin:0 auto; line-height:1.9; }
+
+    /* Color swatches */
+    .swatch { border-radius:16px; overflow:hidden; border:1px solid var(--border); }
+    .swatch .chip { height:120px; display:flex; align-items:flex-end; padding:12px; }
+    .swatch .meta { padding:14px; background:var(--bg-card); }
+    .swatch .meta .nm { font-weight:700; font-size:.95rem; }
+    .swatch .meta .en { font-family:var(--font-mono); font-size:.7rem; color:var(--text-muted); letter-spacing:.04em; }
+    .swatch .meta .vals { font-family:var(--font-mono); font-size:.72rem; color:var(--text-secondary); margin-top:8px; line-height:1.7; }
+    .ratio-bar{ display:flex; height:46px; border-radius:12px; overflow:hidden; margin-top:30px; border:1px solid var(--border); font-family:var(--font-mono); font-size:.72rem; }
+    .ratio-bar span{ display:flex; align-items:center; justify-content:center; color:#111315; font-weight:700; }
+
+    /* Type specimen */
+    .type-card{ background:var(--bg-card); border:1px solid var(--border); border-radius:16px; padding:24px; }
+    .type-card .role{ font-family:var(--font-mono); font-size:.7rem; letter-spacing:.18em; text-transform:uppercase; color:var(--text-accent); }
+    .type-card .big{ font-size:2.6rem; font-weight:800; margin:6px 0 4px; line-height:1.1; }
+    .type-card .wts{ font-family:var(--font-mono); font-size:.74rem; color:var(--text-muted); }
+
+    /* Moods */
+    .mood-card{ background:var(--bg-card); border:1px solid var(--border); border-radius:18px; padding:18px; text-align:center; transition:all .2s; }
+    .mood-card:hover{ border-color:var(--border-accent); transform:translateY(-3px); box-shadow:var(--shadow-glow); }
+    .mood-card img{ width:100%; height:auto; border-radius:12px; display:block; margin:0 auto 12px; background:#111315; }
+    .mood-card .en{ font-family:var(--font-mono); font-size:.74rem; letter-spacing:.14em; color:var(--text-accent); }
+    .mood-card .ar{ font-weight:700; font-size:1.05rem; margin:2px 0 6px; }
+    .mood-card .st{ font-size:.78rem; color:var(--text-muted); line-height:1.6; }
+    .mood-card .notif{ margin-top:10px; font-size:.74rem; color:var(--text-secondary); background:var(--accent-subtle); border:1px solid var(--border-accent); border-radius:10px; padding:8px; }
+
+    /* Logo panels */
+    .logo-panel{ border-radius:16px; padding:34px; display:flex; align-items:center; justify-content:center; min-height:150px; border:1px solid var(--border); }
+    .logo-panel img{ height:64px; width:auto; }
+    .onlight{ background:var(--iris-paper); } .ondark{ background:var(--iris-ink); }
+    .misuse .x{ color:var(--error); font-weight:800; }
+
+    /* Pattern demo */
+    .pat-demo{ height:150px; border-radius:16px; border:1px solid var(--border); position:relative; overflow:hidden; }
+
+    /* Voice */
+    .voice-line{ font-size:clamp(1.3rem,3vw,2rem); font-weight:800; padding:18px 0; border-bottom:1px solid var(--border); }
+    .voice-line .en{ display:block; font-size:.9rem; font-weight:500; font-family:var(--font-mono); color:var(--text-muted); letter-spacing:.04em; margin-top:6px; }
+
+    /* Stats / market */
+    .stat-num{ font-family:var(--font-main); font-size:2.6rem; font-weight:800; color:var(--text-accent); }
+    .stat-lbl{ color:var(--text-muted); font-size:.9rem; margin-top:4px; }
+
+    /* Packages */
+    .pkg{ background:var(--bg-card); border:1px solid var(--border); border-radius:16px; padding:22px; position:relative; }
+    .pkg.best{ border-color:var(--iris-violet); box-shadow:var(--shadow-glow); }
+    .pkg .tag{ position:absolute; inset-block-start:-11px; inset-inline-start:18px; background:var(--accent); color:#fff; font-family:var(--font-mono); font-size:.66rem; font-weight:700; padding:3px 10px; border-radius:999px; letter-spacing:.08em; }
+    .pkg .price{ font-family:var(--font-mono); font-size:2rem; font-weight:800; color:var(--text-primary); }
+    .pkg .price small{ font-size:.8rem; color:var(--text-muted); font-weight:500; }
+    .pkg .term{ color:var(--text-muted); font-size:.84rem; margin-top:4px; }
+
+    /* Steps / protocol */
+    .step-row{ display:flex; gap:14px; padding:14px 0; border-bottom:1px solid var(--border); }
+    .step-row .sn{ font-family:var(--font-main); color:var(--accent); font-weight:700; flex:0 0 auto; }
+
+    /* Architecture stack */
+    .arch-layer{ border:1px solid var(--border); border-radius:14px; padding:16px 18px; margin-bottom:12px; background:var(--bg-card); }
+    .arch-layer .lt{ font-family:var(--font-mono); font-size:.72rem; letter-spacing:.14em; text-transform:uppercase; color:var(--text-accent); margin-bottom:8px; }
+    .arch-layer .nodes{ display:flex; gap:8px; flex-wrap:wrap; }
+    .node{ font-family:var(--font-mono); font-size:.76rem; padding:7px 12px; border-radius:9px; background:var(--bg-tertiary); color:var(--text-secondary); border:1px solid var(--border); }
+    .arch-arrow{ text-align:center; color:var(--text-accent); margin:2px 0 10px; }
+    code.ep{ display:block; font-family:var(--font-mono); font-size:.78rem; color:var(--text-secondary); padding:6px 0; border-bottom:1px dashed var(--border); }
+    .meth{ color:var(--text-accent); }
+
+    /* Timeline */
+    .sprint{ display:grid; grid-template-columns:auto 1fr auto; gap:16px; align-items:center; padding:16px; border:1px solid var(--border); border-radius:14px; background:var(--bg-card); margin-bottom:10px; }
+    .sprint .wk{ font-family:var(--font-mono); color:var(--text-accent); font-size:.78rem; white-space:nowrap; }
+    .sprint .reuse{ font-family:var(--font-main); font-weight:700; color:var(--accent); }
+
+    /* Compare table */
+    .cmp{ width:100%; border-collapse:collapse; margin-top:30px; font-size:.92rem; }
+    .cmp th,.cmp td{ padding:13px 14px; border-bottom:1px solid var(--border); text-align:start; }
+    .cmp th{ font-family:var(--font-mono); font-size:.74rem; letter-spacing:.08em; text-transform:uppercase; color:var(--text-muted); }
+    .cmp td.center,.cmp th.center{ text-align:center; }
+    .cmp .yes{ color:var(--text-accent); font-weight:800; } .cmp .no{ color:var(--error); } .cmp .part{ color:var(--text-muted); }
+    .cmp tr td:first-child{ font-weight:600; }
+    .cmp .iriscol{ background:var(--accent-subtle); }
+
+    /* Download bar */
+    .dl-bar{ position:sticky; top:64px; z-index:40; }
+
+    /* PRINT — light book (matches the identity guide) */
+    @media print {
+      :root {
+        --bg-primary:#F1F3F6; --bg-secondary:#FFFFFF; --bg-card:#FFFFFF; --bg-card-hover:#F4F6F9;
+        --bg-surface:#FAFBFC; --bg-input:#ECEEF2; --bg-tertiary:#E1E5EA;
+        --text-primary:#111315; --text-secondary:#4A4E59; --text-muted:#797D8A; --text-accent:#5A3E92;
+        --border:rgba(17,19,21,.12); --border-primary:rgba(17,19,21,.12); --border-accent:rgba(106,79,182,.30);
+        --logo-fill:#111315;
+      }
+      html, body { background:#F1F3F6 !important; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+      .logo-img-dark{ display:none !important; } .logo-img-light{ display:block !important; }
+      .nav,.splash,.dl-float,.no-print,.theme-toggle,.lang-toggle,.nav-cta{ display:none !important; }
+      .bb-section{ break-inside:avoid; page-break-inside:avoid; padding:28px 0; }
+      .part-div, #idea, #market, #applications { break-before:page; }
+      a { color:inherit; text-decoration:none; }
+    }
+  </style>
+</head>
+<body>
+<script>if(localStorage.getItem('iris-theme')!=='dark')document.body.classList.add('light');</script>
+
+<!-- NAV -->
+<nav class="nav" id="mainNav">
+  <div class="container nav-inner">
+    <a href="index.html" style="display:flex;align-items:center;">
+      <img src="logo-white.png" alt="IRIS" class="logo-img-dark logo-img-nav">
+      <img src="logo-black.png" alt="IRIS" class="logo-img-light logo-img-nav">
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html" data-en="Home" data-ar="الرئيسية">الرئيسية</a></li>
+      <li><a href="brand.html" style="color:var(--accent);" data-en="Brand &amp; Platform" data-ar="العلامة والمنصة">العلامة والمنصة</a></li>
+      <li><a href="customer.html" data-en="Customer App" data-ar="تطبيق العميل">تطبيق العميل</a></li>
+      <li><a href="pro.html" data-en="Pro App" data-ar="تطبيق المحترف">تطبيق المحترف</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="assets/IRIS-Brand-Platform-Book.pdf" download class="btn btn-primary btn-sm nav-cta" data-en="Download PDF" data-ar="تحميل PDF">تحميل PDF</a>
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      </button>
+      <div class="lang-toggle" id="langToggle">
+        <button data-lang="en">EN</button>
+        <button class="active" data-lang="ar">عربي</button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- COVER -->
+<header class="bb-cover">
+  <div class="grid-bg"></div>
+  <div class="iris-pattern"></div>
+  <div class="glow-orb glow-orb-blue" style="width:520px;height:520px;top:-120px;inset-inline-start:-120px;opacity:.16;"></div>
+  <img src="assets/iris-mascot.png" alt="IRIS mascot" class="cover-mascot">
+  <div class="bb-wrap inner">
+    <img src="logo-white.png" alt="IRIS" class="logo-lock logo-img-dark">
+    <img src="logo-black.png" alt="IRIS" class="logo-lock logo-img-light">
+    <span class="pill" data-en="Brand &amp; Platform Book · v1.0" data-ar="كتيّب العلامة والمنصة · الإصدار 1.0">كتيّب العلامة والمنصة · الإصدار 1.0</span>
+    <h1 style="margin-top:22px;" data-en="We don't just wash.<br>We <span class='accent'>IRIS.</span>" data-ar="لا نغسل فقط.<br>نحن <span class='accent'>IRIS</span>.">لا نغسل فقط.<br>نحن <span class="accent">IRIS</span>.</h1>
+    <p class="slogan" data-en="Premium Care, Inside &amp; Out — AI-Powered" data-ar="عناية فاخرة، من الداخل والخارج — مدعومة بالذكاء الاصطناعي">عناية فاخرة، من الداخل والخارج — مدعومة بالذكاء الاصطناعي</p>
+    <p class="sub" data-en="A premium mobile car wash, powered by a digital platform and AI. An identity built on a gentle character and a strict protocol." data-ar="مغسلة سيارات متنقلة فاخرة، مدعومة بمنصة رقمية وذكاء اصطناعي. هوية مبنية على شخصية لطيفة وبروتوكول صارم.">مغسلة سيارات متنقلة فاخرة، مدعومة بمنصة رقمية وذكاء اصطناعي. هوية مبنية على شخصية لطيفة وبروتوكول صارم.</p>
+    <div class="cover-meta">
+      <span data-en="Mobile Car Wash" data-ar="غسيل سيارات متنقل">غسيل سيارات متنقل</span>
+      <span><b>KSA</b> <span data-en="· Built for the Saudi market" data-ar="· مُصمّم للسوق السعودي">· مُصمّم للسوق السعودي</span></span>
+      <span><b>June 2026</b></span>
+      <span>www.irismcw.com</span>
+    </div>
+  </div>
+</header>
+
+<!-- CONTENTS -->
+<section class="bb-section"><div class="bb-wrap">
+  <div class="sec-kicker"><span data-en="Contents" data-ar="المحتوى">المحتوى</span></div>
+  <h2 class="sec-title" data-en="Twenty chapters, three parts." data-ar="عشرون فصلاً، ثلاثة أجزاء.">عشرون فصلاً، ثلاثة أجزاء.</h2>
+  <div class="toc">
+    <a href="#idea"><span class="n">01</span><span class="t" data-en="The Idea" data-ar="الفكرة">الفكرة</span></a>
+    <a href="#character"><span class="n">02</span><span class="t" data-en="The Character" data-ar="الشخصية">الشخصية</span></a>
+    <a href="#moods"><span class="n">03</span><span class="t" data-en="The Six Moods" data-ar="المزاجات الستة">المزاجات الستة</span></a>
+    <a href="#logo"><span class="n">04</span><span class="t" data-en="The Logo" data-ar="الشعار">الشعار</span></a>
+    <a href="#color"><span class="n">05</span><span class="t" data-en="Color" data-ar="الألوان">الألوان</span></a>
+    <a href="#type"><span class="n">06</span><span class="t" data-en="Typography" data-ar="الخطوط">الخطوط</span></a>
+    <a href="#pattern"><span class="n">07</span><span class="t" data-en="Pattern" data-ar="النقشة">النقشة</span></a>
+    <a href="#voice"><span class="n">08</span><span class="t" data-en="Voice" data-ar="النبرة">النبرة</span></a>
+    <a href="#market"><span class="n">09</span><span class="t" data-en="Market" data-ar="السوق">السوق</span></a>
+    <a href="#platform"><span class="n">10</span><span class="t" data-en="Platform" data-ar="المنصة">المنصة</span></a>
+    <a href="#services"><span class="n">11</span><span class="t" data-en="Services" data-ar="الخدمات">الخدمات</span></a>
+    <a href="#app"><span class="n">12</span><span class="t" data-en="App &amp; Dashboard" data-ar="التطبيق واللوحة">التطبيق واللوحة</span></a>
+    <a href="#tech"><span class="n">13</span><span class="t" data-en="Technicians" data-ar="الفنّيون">الفنّيون</span></a>
+    <a href="#b2b"><span class="n">14</span><span class="t" data-en="B2B" data-ar="شركاء الأعمال">شركاء الأعمال</span></a>
+    <a href="#ai"><span class="n">15</span><span class="t" data-en="AI Layer" data-ar="طبقة الذكاء">طبقة الذكاء</span></a>
+    <a href="#arch"><span class="n">16</span><span class="t" data-en="Architecture" data-ar="البنية التقنية">البنية التقنية</span></a>
+    <a href="#roadmap"><span class="n">17</span><span class="t" data-en="Roadmap" data-ar="الجدول الزمني">الجدول الزمني</span></a>
+    <a href="#edge"><span class="n">18</span><span class="t" data-en="Competitive Edge" data-ar="الميزة التنافسية">الميزة التنافسية</span></a>
+    <a href="#applications"><span class="n">19</span><span class="t" data-en="Applications" data-ar="التطبيقات">التطبيقات</span></a>
+    <a href="#close"><span class="n">★</span><span class="t" data-en="Build IRIS" data-ar="لنبنِ IRIS">لنبنِ IRIS</span></a>
+  </div>
+</div></section>
+
+<!-- PART I DIVIDER -->
+<section class="part-div" id="part1">
+  <div class="iris-pattern-strong"></div>
+  <div class="bb-wrap" style="position:relative;z-index:2;">
+    <div class="pn">PART I</div>
+    <h2 data-en="The Brand" data-ar="البراند">البراند</h2>
+    <p data-en="The idea, the character, and the visual language — the part the customer feels before they read a single word." data-ar="الفكرة، الشخصية، واللغة البصرية — الجزء الذي يشعر به العميل قبل أن يقرأ كلمة واحدة.">الفكرة، الشخصية، واللغة البصرية — الجزء الذي يشعر به العميل قبل أن يقرأ كلمة واحدة.</p>
+  </div>
+</section>
+
+<!-- 01 THE IDEA -->
+<section class="bb-section" id="idea"><div class="bb-wrap">
+  <div class="sec-kicker"><span class="num">01</span><span data-en="The Idea" data-ar="جوهر العلامة">جوهر العلامة</span></div>
+  <h2 class="sec-title" data-en="A premium brand with a soul." data-ar="علامة بريميوم بروح.">علامة بريميوم بروح.</h2>
+  <p class="sec-lead" data-en="A gentle character creates the interaction; a premium logo carries the seriousness. Balance is the rule: luxury is not coldness, and warmth is not childishness. The brand has two faces that work together with discipline — one builds the relationship, the other carries the trust." data-ar="شخصية لطيفة تصنع التفاعل، وشعار فاخر يحمل الجدية. التوازن هو القاعدة: الفخامة لا تعني الجمود، واللطافة لا تعني الطفولية. للعلامة وجهان يعملان معاً بانضباط — أحدهما يبني العلاقة، والآخر يحمل الثقة.">شخصية لطيفة تصنع التفاعل، وشعار فاخر يحمل الجدية. التوازن هو القاعدة: الفخامة لا تعني الجمود، واللطافة لا تعني الطفولية. للعلامة وجهان يعملان معاً بانضباط — أحدهما يبني العلاقة، والآخر يحمل الثقة.</p>
+  <div class="bb-grid g2">
+    <div class="bb-card">
+      <span class="pill" data-en="The Character" data-ar="الشخصية">الشخصية</span>
+      <h4 style="margin-top:12px;" data-en="Where interaction is made" data-ar="حيث يُصنع التفاعل">حيث يُصنع التفاعل</h4>
+      <p data-en="Social, notifications, stickers, gifts, and order states. This is where the IRIS character lives and builds the relationship and the fun." data-ar="السوشيال، الإشعارات، الملصقات، الهدايا، وحالات الطلب. هنا تعيش شخصية IRIS وتبني العلاقة والمرح.">السوشيال، الإشعارات، الملصقات، الهدايا، وحالات الطلب. هنا تعيش شخصية IRIS وتبني العلاقة والمرح.</p>
+    </div>
+    <div class="bb-card">
+      <span class="pill" data-en="The Logo" data-ar="الشعار">الشعار</span>
+      <h4 style="margin-top:12px;" data-en="Where money is paid" data-ar="حيث يُدفع المال">حيث يُدفع المال</h4>
+      <p data-en="Invoicing, payment, official communication and B2B. Here the premium logo stands alone — seriousness, clarity, trust." data-ar="الفاتورة، الدفع، التواصل الرسمي وB2B. هنا يحضر الشعار الفاخر وحده — جدية، وضوح، ثقة.">الفاتورة، الدفع، التواصل الرسمي وB2B. هنا يحضر الشعار الفاخر وحده — جدية، وضوح، ثقة.</p>
+    </div>
+  </div>
+</div></section>
+
+<!-- 02 THE CHARACTER -->
+<section class="bb-section" id="character"><div class="bb-wrap">
+  <div class="sec-kicker"><span class="num">02</span><span data-en="The Character" data-ar="الشخصية">الشخصية</span></div>
+  <h2 class="sec-title" data-en="Meet IRIS — the creature of care." data-ar="تعرّف على IRIS — كائن العناية.">تعرّف على IRIS — كائن العناية.</h2>
+  <div class="bb-grid g2" style="align-items:center;">
+    <div style="display:flex;justify-content:center;background:var(--bg-secondary);border:1px solid var(--border);border-radius:18px;padding:30px;position:relative;overflow:hidden;">
+      <div class="iris-pattern"></div>
+      <img src="assets/iris-mascot.png" alt="IRIS mascot" style="height:360px;width:auto;border-radius:18px;position:relative;z-index:2;filter:drop-shadow(0 18px 40px rgba(106,79,182,.5));">
+    </div>
+    <div>
+      <p class="sec-lead" data-en="A gentle, balanced personality — curious, precise, friendly. It embodies the brand promise: ‘we don't just wash’. It lives in moments of interaction, not moments of payment." data-ar="شخصية لطيفة بروح متوازنة — تفضولية، دقيقة، ودودة. تُجسّد وعد العلامة: «نحن لا نغسل فقط». تعيش في لحظات التفاعل لا في لحظات الدفع.">شخصية لطيفة بروح متوازنة — تفضولية، دقيقة، ودودة. تُجسّد وعد العلامة: «نحن لا نغسل فقط». تعيش في لحظات التفاعل لا في لحظات الدفع.</p>
+      <div class="bb-grid g3" style="margin-top:24px;">
+        <div class="bb-card"><h4>A</h4><p data-en="Wide eyes — constant attention to detail; a symbol of care and precision." data-ar="العينان الواسعتان — انتباه دائم للتفاصيل؛ رمز العناية والدقّة.">العينان الواسعتان — انتباه دائم للتفاصيل؛ رمز العناية والدقّة.</p></div>
+        <div class="bb-card"><h4>B</h4><p data-en="The purple iris bloom — the crown on its head; source of the name and the primary color." data-ar="زهرة الإيرِس البنفسجية — تاج الشخصية على الرأس؛ مصدر الاسم واللون الأساسي.">زهرة الإيرِس البنفسجية — تاج الشخصية على الرأس؛ مصدر الاسم واللون الأساسي.</p></div>
+        <div class="bb-card"><h4>C</h4><p data-en="Sharp cuts — angular edges derived from the logo; the same visual DNA." data-ar="القصّات الحادّة — حوافٌ زاويّة مشتقّة من الشعار؛ نفس الحمض النووي البصري.">القصّات الحادّة — حوافٌ زاويّة مشتقّة من الشعار؛ نفس الحمض النووي البصري.</p></div>
+      </div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:18px;">
+        <span class="pill" data-en="Curious" data-ar="تفضولية">تفضولية</span>
+        <span class="pill" data-en="Precise" data-ar="دقيقة">دقيقة</span>
+        <span class="pill" data-en="Friendly" data-ar="ودودة">ودودة</span>
+        <span class="pill" data-en="Balanced" data-ar="متوازنة">متوازنة</span>
+      </div>
+    </div>
+  </div>
+</div></section>
+
+<!-- 03 SIX MOODS -->
+<section class="bb-section" id="moods" style="background:var(--bg-secondary);"><div class="bb-wrap">
+  <div class="sec-kicker"><span class="num">03</span><span data-en="The Six Moods" data-ar="المزاجات الستة">المزاجات الستة</span></div>
+  <h2 class="sec-title" data-en="Six moods = one complete order journey." data-ar="ستة مزاجات = رحلة طلب كاملة.">ستة مزاجات = رحلة طلب كاملة.</h2>
+  <p class="sec-lead" data-en="A unified expressive system that ties every stage of the order to a mood. Each app state has a matching mood and notification voice." data-ar="نظام تعبيري موحّد يربط كل مرحلة من رحلة الطلب بمزاج. لكل حالة في التطبيق مزاجٌ مقابل ونصّ إشعار.">نظام تعبيري موحّد يربط كل مرحلة من رحلة الطلب بمزاج. لكل حالة في التطبيق مزاجٌ مقابل ونصّ إشعار.</p>
+  <div class="bb-grid g3">
+    <div class="mood-card"><img src="assets/mood-0-focused.png" alt="Focused"><div class="en">FOCUSED</div><div class="ar" data-en="Focused" data-ar="مُركّز">مُركّز</div><div class="st" data-en="App state · Loading &amp; waiting screens" data-ar="حالة التطبيق · شاشات التحميل والانتظار">حالة التطبيق · شاشات التحميل والانتظار</div><div class="notif" data-en="Preparing your order to the finest detail…" data-ar="نُجهّز طلبك بأدقّ التفاصيل…">نُجهّز طلبك بأدقّ التفاصيل…</div></div>
+    <div class="mood-card"><img src="assets/mood-1-ontheway.png" alt="On the way"><div class="en">ON THE WAY</div><div class="ar" data-en="On the way" data-ar="في الطريق">في الطريق</div><div class="st" data-en="App state · Live tracking &amp; arrival" data-ar="حالة التطبيق · تتبّع الفني والوصول">حالة التطبيق · تتبّع الفني والوصول</div><div class="notif" data-en="Your technician is on the way — arriving in 12 min" data-ar="الفني في الطريق إليك — يصل خلال ١٢ دقيقة">الفني في الطريق إليك — يصل خلال ١٢ دقيقة</div></div>
+    <div class="mood-card"><img src="assets/mood-2-details.png" alt="Details"><div class="en">DETAILS</div><div class="ar" data-en="Details" data-ar="التفاصيل">التفاصيل</div><div class="st" data-en="App state · Service review &amp; add-ons" data-ar="حالة التطبيق · مراجعة الخدمة والإضافات">حالة التطبيق · مراجعة الخدمة والإضافات</div><div class="notif" data-en="One last touch? Polish + IRIS scent" data-ar="أضف لمسة أخيرة؟ تلميع + عطر IRIS">أضف لمسة أخيرة؟ تلميع + عطر IRIS</div></div>
+    <div class="mood-card"><img src="assets/mood-3-clean.png" alt="Clean"><div class="en">CLEAN</div><div class="ar" data-en="Clean" data-ar="نظيف">نظيف</div><div class="st" data-en="App state · Polishing complete &amp; shine" data-ar="حالة التطبيق · اكتمال التلميع واللمعان">حالة التطبيق · اكتمال التلميع واللمعان</div><div class="notif" data-en="Cleaned ✦ your car is shining now" data-ar="تمّ التنظيف ✦ سيارتك تلمع الآن">تمّ التنظيف ✦ سيارتك تلمع الآن</div></div>
+    <div class="mood-card"><img src="assets/mood-4-finished.png" alt="Finished"><div class="en">FINISHED</div><div class="ar" data-en="Finished" data-ar="منجز">منجز</div><div class="st" data-en="App state · Order completion" data-ar="حالة التطبيق · تأكيد إتمام الطلب">حالة التطبيق · تأكيد إتمام الطلب</div><div class="notif" data-en="Order complete — wishing you a bright drive" data-ar="اكتمل الطلب — نتمنّى لك قيادة مشرقة">اكتمل الطلب — نتمنّى لك قيادة مشرقة</div></div>
+    <div class="mood-card"><img src="assets/mood-5-relax.png" alt="Relax"><div class="en">RELAX</div><div class="ar" data-en="Relax" data-ar="استرخاء">استرخاء</div><div class="st" data-en="App state · Rating &amp; rewards" data-ar="حالة التطبيق · التقييم والمكافآت">حالة التطبيق · التقييم والمكافآت</div><div class="notif" data-en="Rate your experience and earn points" data-ar="قيّم تجربتك واكسب نقاطاً">قيّم تجربتك واكسب نقاطاً</div></div>
+  </div>
+  <div class="bb-grid g2" style="margin-top:24px;">
+    <div class="bb-card" style="border-color:rgba(31,138,91,.4);"><h4 style="color:var(--success);">✓ <span data-en="Use the character" data-ar="استخدم الشخصية">استخدم الشخصية</span></h4><p data-en="In social, notifications, order states, stickers, gifts, and welcome &amp; reward moments." data-ar="في السوشيال · الإشعارات · حالات الطلب · الملصقات · الهدايا · لحظات الترحيب والمكافأة.">في السوشيال · الإشعارات · حالات الطلب · الملصقات · الهدايا · لحظات الترحيب والمكافأة.</p></div>
+    <div class="bb-card" style="border-color:rgba(224,85,107,.4);"><h4 style="color:var(--error);">✕ <span data-en="Don't use it" data-ar="لا تستخدمها">لا تستخدمها</span></h4><p data-en="In the invoice, payment screen, official documents, or B2B communication. There, the logo stands alone." data-ar="في الفاتورة · شاشة الدفع · المستندات الرسمية · تواصل B2B. هناك الشعار وحده.">في الفاتورة · شاشة الدفع · المستندات الرسمية · تواصل B2B. هناك الشعار وحده.</p></div>
+  </div>
+</div></section>
+
+<!-- 04 LOGO -->
+<section class="bb-section" id="logo"><div class="bb-wrap">
+  <div class="sec-kicker"><span class="num">04</span><span data-en="The Logo" data-ar="الشعار">الشعار</span></div>
+  <h2 class="sec-title" data-en="A logo built on the cut." data-ar="شعار مبني على القصّ.">شعار مبني على القصّ.</h2>
+  <p class="sec-lead" data-en="The sharp negative spaces inside the letters are the source of the entire visual language." data-ar="الفراغات الحادة داخل الحروف هي مصدر اللغة البصرية كلها.">الفراغات الحادة داخل الحروف هي مصدر اللغة البصرية كلها.</p>
+  <div class="bb-grid g2">
+    <div><div class="logo-panel onlight"><img src="logo-black.png" alt="IRIS primary"></div><p style="text-align:center;color:var(--text-muted);font-family:var(--font-mono);font-size:.74rem;margin-top:10px;" data-en="Primary · on light" data-ar="الأساسي · على فاتح">الأساسي · على فاتح</p></div>
+    <div><div class="logo-panel ondark"><img src="logo-white.png" alt="IRIS reversed"></div><p style="text-align:center;color:var(--text-muted);font-family:var(--font-mono);font-size:.74rem;margin-top:10px;" data-en="Reversed · on dark" data-ar="معكوس · على داكن">معكوس · على داكن</p></div>
+  </div>
+  <div class="bb-grid g4" style="margin-top:24px;">
+    <div class="bb-card"><h4 data-en="Construction" data-ar="البناء">البناء</h4><p data-en="The diagonal cuts inside I·R·I·S are the signature. Keep their angles — never soften or fill them." data-ar="القصّات القُطرية في حروف I·R·I·S هي البصمة. حافظ على زواياها — لا تُنعّمها ولا تملأها.">القصّات القُطرية في حروف I·R·I·S هي البصمة. حافظ على زواياها — لا تُنعّمها ولا تملأها.</p></div>
+    <div class="bb-card"><h4 data-en="Clear space" data-ar="الهامش الفارغ">الهامش الفارغ</h4><p data-en="Leave clear space of at least one cap-height (X) on all sides." data-ar="اترك هامشاً فارغاً لا يقلّ عن ارتفاع حرف الشعار (X) من كل الجهات.">اترك هامشاً فارغاً لا يقلّ عن ارتفاع حرف الشعار (X) من كل الجهات.</p></div>
+    <div class="bb-card"><h4 data-en="Minimum size" data-ar="الحد الأدنى">الحد الأدنى</h4><p><span class="mono">Print 24mm · Digital 96px</span><br><span data-en="Never smaller — to keep the cuts and wordmark legible." data-ar="لا تستخدمه أصغر — لضمان وضوح القصّات والكلمة.">لا تستخدمه أصغر — لضمان وضوح القصّات والكلمة.</span></p></div>
+    <div class="bb-card misuse"><h4 data-en="Misuse — forbidden" data-ar="سوء الاستخدام — ممنوع">سوء الاستخدام — ممنوع</h4><p><span class="x">✕</span> <span data-en="recolor" data-ar="تغيير الألوان">تغيير الألوان</span><br><span class="x">✕</span> <span data-en="distort proportions" data-ar="تشويه النِسب">تشويه النِسب</span><br><span class="x">✕</span> <span data-en="rotate" data-ar="إدارة الشعار">إدارة الشعار</span><br><span class="x">✕</span> <span data-en="low contrast" data-ar="تباين منخفض">تباين منخفض</span></p></div>
+  </div>
+</div></section>
+
+<!-- 05 COLOR -->
+<section class="bb-section" id="color" style="background:var(--bg-secondary);"><div class="bb-wrap">
+  <div class="sec-kicker"><span class="num">05</span><span data-en="Color" data-ar="نظام الألوان">نظام الألوان</span></div>
+  <h2 class="sec-title" data-en="Royal Lavender leads; cool neutrals carry the space." data-ar="البنفسجي الملكي يقود؛ والمحايدات الباردة تحمل المساحة.">البنفسجي الملكي يقود؛ والمحايدات الباردة تحمل المساحة.</h2>
+  <div class="bb-grid g4">
+    <div class="swatch"><div class="chip" style="background:#6A4FB6;color:#fff;"><span style="font-size:.66rem;font-weight:700;letter-spacing:.1em;">PRIMARY</span></div><div class="meta"><div class="nm" data-en="Royal Lavender" data-ar="البنفسجي الملكي">البنفسجي الملكي</div><div class="en">Royal Lavender — primary</div><div class="vals">#6A4FB6 · RGB 106·79·182<br>CMYK 42·57·0·29</div></div></div>
+    <div class="swatch"><div class="chip" style="background:#5A3E92;color:#fff;"></div><div class="meta"><div class="nm" data-en="Deep Purple" data-ar="البنفسجي الداكن">البنفسجي الداكن</div><div class="en">Deep Purple — anchor</div><div class="vals">#5A3E92 · RGB 90·62·146<br>CMYK 38·58·0·43</div></div></div>
+    <div class="swatch"><div class="chip" style="background:#BCA7E8;color:#3A2A60;"></div><div class="meta"><div class="nm" data-en="Soft Lavender" data-ar="اللافندري الناعم">اللافندري الناعم</div><div class="en">Soft Lavender — support</div><div class="vals">#BCA7E8 · RGB 188·167·232<br>CMYK 19·28·0·9</div></div></div>
+    <div class="swatch"><div class="chip" style="background:#FFFFFF;color:#797D8A;border-bottom:1px solid #E1E5EA;"></div><div class="meta"><div class="nm" data-en="White" data-ar="أبيض">أبيض</div><div class="en">White — base</div><div class="vals">#FFFFFF · RGB 255·255·255<br>CMYK 0·0·0·0</div></div></div>
+    <div class="swatch"><div class="chip" style="background:#F1F3F6;color:#797D8A;"></div><div class="meta"><div class="nm" data-en="Light" data-ar="فاتح">فاتح</div><div class="en">Light — background</div><div class="vals">#F1F3F6 · RGB 241·243·246<br>CMYK 2·1·0·4</div></div></div>
+    <div class="swatch"><div class="chip" style="background:#E1E5EA;color:#797D8A;"></div><div class="meta"><div class="nm" data-en="light Gray" data-ar="رمادي فاتح">رمادي فاتح</div><div class="en">light Gray — surface</div><div class="vals">#E1E5EA · RGB 225·229·234<br>CMYK 4·2·0·8</div></div></div>
+    <div class="swatch"><div class="chip" style="background:#797D8A;color:#fff;"></div><div class="meta"><div class="nm" data-en="Gray" data-ar="رمادي">رمادي</div><div class="en">Gray — secondary text</div><div class="vals">#797D8A · RGB 121·125·138<br>CMYK 12·9·0·46</div></div></div>
+    <div class="swatch"><div class="chip" style="background:#111315;color:#BCA7E8;"></div><div class="meta"><div class="nm" data-en="Dark" data-ar="داكن">داكن</div><div class="en">Dark — ink / dark mode</div><div class="vals">#111315 · RGB 17·19·21<br>CMYK 19·10·0·92</div></div></div>
+  </div>
+  <div class="sec-kicker" style="margin-top:34px;"><span data-en="Usage discipline" data-ar="انضباط الاستخدام">انضباط الاستخدام</span></div>
+  <div class="ratio-bar">
+    <span style="background:#F1F3F6;color:#797D8A;width:42%;">42%</span>
+    <span style="background:#6A4FB6;color:#fff;width:26%;">26%</span>
+    <span style="background:#5A3E92;color:#fff;width:14%;">14</span>
+    <span style="background:#BCA7E8;color:#3A2A60;width:10%;">10</span>
+    <span style="background:#797D8A;color:#fff;width:8%;">8</span>
+  </div>
+  <p style="color:var(--text-muted);margin-top:12px;font-size:.9rem;" data-en="Light and white carry the layout; Royal Lavender leads interaction; Deep Purple anchors; Soft Lavender and the grays support." data-ar="الفاتح والأبيض يحملان التخطيط؛ البنفسجي الملكي يقود التفاعل؛ البنفسجي الداكن يثبّت؛ اللافندري والرماديات تُساند.">الفاتح والأبيض يحملان التخطيط؛ البنفسجي الملكي يقود التفاعل؛ البنفسجي الداكن يثبّت؛ اللافندري والرماديات تُساند.</p>
+</div></section>
+
+<!-- 06 TYPOGRAPHY -->
+<section class="bb-section" id="type"><div class="bb-wrap">
+  <div class="sec-kicker"><span class="num">06</span><span data-en="Typography" data-ar="الخطوط">الخطوط</span></div>
+  <h2 class="sec-title" data-en="SK Quadratica for the logo, Roboto for everything, Tajawal for Arabic." data-ar="SK Quadratica للشعار، Roboto لكل شيء، وتجوّل للعربية.">SK Quadratica للشعار، Roboto لكل شيء، وتجوّل للعربية.</h2>
+  <div class="bb-grid g3">
+    <div class="type-card"><div class="role" data-en="Display / Logo — SK Quadratica" data-ar="عرض / الشعار — SK Quadratica">عرض / الشعار — SK Quadratica</div><div class="big" style="font-weight:900;letter-spacing:-.02em;">SK Quadratica</div><div style="font-size:1.05rem;color:var(--text-secondary);">A modern geometric sans</div><div class="wts" data-en="Licensed — logo &amp; display only, never body text." data-ar="مرخّص — للشعار والعرض فقط، لا كنصّ.">Licensed — logo &amp; display only, never body text.</div></div>
+    <div class="type-card"><div class="role" data-en="Body / UI — Roboto" data-ar="نصوص / الواجهة — Roboto">نصوص / الواجهة — Roboto</div><div class="big" style="font-family:'Roboto',sans-serif;font-weight:700;">Roboto</div><div style="font-family:'Roboto';font-size:1.1rem;">ABCabc · 0123456789</div><div class="wts">Regular 400 · Medium 500 · Bold 700 · Black 900</div></div>
+    <div class="type-card"><div class="role" data-en="Arabic — Tajawal" data-ar="العربية — تجوّل">العربية — تجوّل</div><div class="big" style="font-family:'Tajawal',sans-serif;font-weight:700;">تجوّل</div><div style="font-family:'Tajawal';font-size:1.1rem;">أبجد هوّز حطّي · ٠١٢٣٤٥٦٧٨٩</div><div class="wts">Regular 400 · Medium 500 · Bold 700 · ExtraBold 800</div></div>
+  </div>
+  <div class="bb-grid g2" style="margin-top:24px;align-items:center;">
+    <div class="bb-card">
+      <div class="role sec-kicker" data-en="Type scale" data-ar="مقياس الخطوط">مقياس الخطوط</div>
+      <div style="font-weight:900;font-size:2.4rem;line-height:1.1;">H1 · 48</div>
+      <div style="font-weight:700;font-size:1.7rem;margin-top:6px;" data-en="Section title H2 · 32" data-ar="عنوان قسم H2 · 32">عنوان قسم H2 · 32</div>
+      <div style="font-size:1rem;margin-top:10px;color:var(--text-secondary);" data-en="Body · 16 — Roboto / Tajawal, comfortable reading." data-ar="نص أساسي · 16 — Roboto / تجوّل، مريح للقراءة.">نص أساسي · 16 — Roboto / تجوّل، مريح للقراءة.</div>
+      <div style="font-size:.74rem;margin-top:10px;color:var(--text-muted);letter-spacing:.1em;text-transform:uppercase;">Caption / Label · 12</div>
+    </div>
+    <div class="bb-card">
+      <div class="role sec-kicker" data-en="The pairing" data-ar="الاقتران">الاقتران</div>
+      <h4 style="font-size:1.3rem;">SK Quadratica → Roboto → Tajawal</h4>
+      <p data-en="SK Quadratica gives the logo its sharp geometric character. Roboto handles all interface and body text in Latin; Tajawal mirrors it in Arabic — clean, modern, and highly legible across both languages." data-ar="يمنح SK Quadratica الشعارَ طابعه الهندسي الحاد. ويتولّى Roboto كامل نصوص الواجهة والمحتوى باللاتينية، بينما يعكسه تجوّل في العربية — نظيف، عصري، وواضح في اللغتين.">يمنح SK Quadratica الشعارَ طابعه الهندسي الحاد. ويتولّى Roboto كامل نصوص الواجهة والمحتوى باللاتينية، بينما يعكسه تجوّل في العربية — نظيف، عصري، وواضح في اللغتين.</p>
+    </div>
+  </div>
+</div></section>
+
+<!-- 07 PATTERN -->
+<section class="bb-section" id="pattern" style="background:var(--bg-secondary);"><div class="bb-wrap">
+  <div class="sec-kicker"><span class="num">07</span><span data-en="Pattern" data-ar="النقشة">النقشة</span></div>
+  <h2 class="sec-title" data-en="A pattern derived from the letter cuts: sharp diagonals at a steady rhythm." data-ar="النقشة مشتقّة من قصّات الحروف: خطوط قُطرية حادّة بإيقاع ثابت.">النقشة مشتقّة من قصّات الحروف: خطوط قُطرية حادّة بإيقاع ثابت.</h2>
+  <div class="bb-grid g3">
+    <div><div class="pat-demo" style="background:#111315;"><div class="iris-pattern-strong"></div></div><p style="text-align:center;color:var(--text-muted);font-family:var(--font-mono);font-size:.74rem;margin-top:10px;" data-en="Primary · on dark" data-ar="الأساسي · على داكن">الأساسي · على داكن</p></div>
+    <div><div class="pat-demo" style="background:#F1F3F6;"><div class="iris-pattern-strong" style="opacity:.22;"></div></div><p style="text-align:center;color:var(--text-muted);font-family:var(--font-mono);font-size:.74rem;margin-top:10px;" data-en="On light" data-ar="على فاتح">على فاتح</p></div>
+    <div><div class="pat-demo" style="background:#6A4FB6;"><div class="iris-pattern-sun"></div></div><p style="text-align:center;color:var(--text-muted);font-family:var(--font-mono);font-size:.74rem;margin-top:10px;" data-en="On violet" data-ar="على بنفسجي">على بنفسجي</p></div>
+  </div>
+  <div class="bb-grid g3" style="margin-top:20px;">
+    <div class="bb-card"><h4 data-en="The angle" data-ar="الزاوية">الزاوية</h4><p data-en="Fixed at 135° — parallel to the primary cut in the logo." data-ar="ثابتة عند 135° — توازي القصّة الأساسية في الشعار.">ثابتة عند 135° — توازي القصّة الأساسية في الشعار.</p></div>
+    <div class="bb-card"><h4 data-en="The rhythm" data-ar="الإيقاع">الإيقاع</h4><p data-en="Even spacing; light as a background, bolder as a hero element." data-ar="تباعد منتظم؛ خفيف كخلفية، أوضح كعنصر بطل.">تباعد منتظم؛ خفيف كخلفية، أوضح كعنصر بطل.</p></div>
+    <div class="bb-card"><h4 data-en="Usage" data-ar="الاستخدام">الاستخدام</h4><p data-en="Packaging, backgrounds, dividers — never behind important text." data-ar="العبوات، الخلفيات، الفواصل — لا خلف النصوص المهمة.">العبوات، الخلفيات، الفواصل — لا خلف النصوص المهمة.</p></div>
+  </div>
+</div></section>
+
+<!-- 08 VOICE -->
+<section class="bb-section" id="voice"><div class="bb-wrap">
+  <div class="sec-kicker"><span class="num">08</span><span data-en="Voice &amp; Tone" data-ar="نبرة العلامة">نبرة العلامة</span></div>
+  <h2 class="sec-title" data-en="Confident, precise, friendly. Short sentences about care, not washing." data-ar="واثقة، دقيقة، ودودة. جُمل قصيرة تتكلم عن العناية لا عن الغسيل.">واثقة، دقيقة، ودودة. جُمل قصيرة تتكلم عن العناية لا عن الغسيل.</h2>
+  <div style="margin-top:30px;">
+    <div class="voice-line">نحن لا نغسل فقط. نحن IRIS.<span class="en">We don't just wash. We IRIS.</span></div>
+    <div class="voice-line">دقّة في كل تفصيل. لمعان في كل رحلة.<span class="en">Precision in every detail. Shine in every trip.</span></div>
+    <div class="voice-line">سيارتك. عنايتنا.<span class="en">Your car. Our care.</span></div>
+    <div class="voice-line">النظافة معيارنا. التفاصيل تُغيّر كل شيء.<span class="en">Cleanliness is our standard. Details change everything.</span></div>
+    <div class="voice-line" style="border-bottom:0;color:var(--text-accent);">عناية فاخرة، من الداخل والخارج.<span class="en">Premium Care, Inside &amp; Out.</span></div>
+  </div>
+</div></section>
+
+<!-- PART II DIVIDER -->
+<section class="part-div" id="part2">
+  <div class="iris-pattern-strong"></div>
+  <div class="bb-wrap" style="position:relative;z-index:2;">
+    <div class="pn">PART II</div>
+    <h2 data-en="The Platform" data-ar="المنصة">المنصة</h2>
+    <p data-en="From character to technology — an integrated digital ecosystem that turns care into a scalable experience, powered by AI." data-ar="من الشخصية إلى التقنية — منظومة رقمية متكاملة تُحوّل العناية إلى تجربة قابلة للتوسّع، مدعومة بالذكاء الاصطناعي.">من الشخصية إلى التقنية — منظومة رقمية متكاملة تُحوّل العناية إلى تجربة قابلة للتوسّع، مدعومة بالذكاء الاصطناعي.</p>
+  </div>
+</section>
+
+<!-- 09 MARKET -->
+<section class="bb-section" id="market"><div class="bb-wrap">
+  <div class="sec-kicker"><span class="num">09</span><span data-en="Market &amp; Opportunity" data-ar="التحديات وفرصة السوق">التحديات وفرصة السوق</span></div>
+  <h2 class="sec-title" data-en="Traditional washing is struggling — and the Saudi market is ready to go digital." data-ar="الغسيل التقليدي يُعاني — والسوق السعودي جاهز للتحوّل الرقمي.">الغسيل التقليدي يُعاني — والسوق السعودي جاهز للتحوّل الرقمي.</h2>
+  <div class="bb-grid g4">
+    <div class="bb-card" style="text-align:center;"><div class="stat-num">15M+</div><div class="stat-lbl" data-en="Registered cars in the Kingdom" data-ar="سيارة مسجّلة في المملكة">سيارة مسجّلة في المملكة</div></div>
+    <div class="bb-card" style="text-align:center;"><div class="stat-num">95%</div><div class="stat-lbl" data-en="Smartphone penetration" data-ar="انتشار الهواتف الذكية">انتشار الهواتف الذكية</div></div>
+    <div class="bb-card" style="text-align:center;"><div class="stat-num">8.3%</div><div class="stat-lbl" data-en="Annual wash-market growth" data-ar="نمو سنوي لسوق الغسيل">نمو سنوي لسوق الغسيل</div></div>
+    <div class="bb-card" style="text-align:center;"><div class="stat-num">2030</div><div class="stat-lbl" data-en="Vision — digital transformation" data-ar="رؤية المملكة للتحوّل الرقمي">رؤية المملكة للتحوّل الرقمي</div></div>
+  </div>
+  <div class="sec-kicker" style="margin-top:34px;"><span data-en="Four pain points in the traditional model" data-ar="أربع نقاط ألم في النموذج التقليدي">أربع نقاط ألم في النموذج التقليدي</span></div>
+  <div class="bb-grid g4">
+    <div class="bb-card"><h4 data-en="▪ Limited payment" data-ar="▪ دفع محدود">▪ دفع محدود</h4><p data-en="Cash dependence pushes away digital customers." data-ar="الاعتماد على النقد يُبعد العملاء الرقميين.">الاعتماد على النقد يُبعد العملاء الرقميين.</p></div>
+    <div class="bb-card"><h4 data-en="★ Inconsistent quality" data-ar="★ جودة غير موحّدة">★ جودة غير موحّدة</h4><p data-en="No instant rating leads to fluctuating service." data-ar="غياب التقييم الفوري يُفضي لخدمة متذبذبة.">غياب التقييم الفوري يُفضي لخدمة متذبذبة.</p></div>
+    <div class="bb-card"><h4 data-en="◎ Hard to access" data-ar="◎ صعوبة الوصول">◎ صعوبة الوصول</h4><p data-en="Driving to service centers wastes time and fuel." data-ar="التنقّل لمراكز الخدمة يهدر الوقت والوقود.">التنقّل لمراكز الخدمة يهدر الوقت والوقود.</p></div>
+    <div class="bb-card"><h4 data-en="◷ Waiting queues" data-ar="◷ طوابير الانتظار">◷ طوابير الانتظار</h4><p data-en="Hours at traditional stations disrupt the customer's day." data-ar="ساعات في المحطات التقليدية تُعطّل يوم العميل.">ساعات في المحطات التقليدية تُعطّل يوم العميل.</p></div>
+  </div>
+</div></section>
+
+<!-- 10 PLATFORM -->
+<section class="bb-section" id="platform" style="background:var(--bg-secondary);"><div class="bb-wrap">
+  <div class="sec-kicker"><span class="num">10</span><span data-en="The IRIS Platform" data-ar="منصة Iris">منصة Iris</span></div>
+  <h2 class="sec-title" data-en="An integrated digital ecosystem — five components, one environment." data-ar="منظومة رقمية متكاملة — خمسة مكوّنات، بيئة واحدة.">منظومة رقمية متكاملة — خمسة مكوّنات، بيئة واحدة.</h2>
+  <div class="bb-grid g3">
+    <div class="bb-card"><div class="mono" style="color:var(--text-accent);font-size:.72rem;">React Native</div><h4 style="margin-top:6px;" data-en="📱 Mobile App" data-ar="📱 تطبيق الجوال">📱 تطبيق الجوال</h4><p data-en="Customer interface — booking, tracking, payment." data-ar="واجهة العميل — حجز، تتبّع، دفع.">واجهة العميل — حجز، تتبّع، دفع.</p></div>
+    <div class="bb-card"><div class="mono" style="color:var(--text-accent);font-size:.72rem;">Next.js</div><h4 style="margin-top:6px;" data-en="🌐 Website" data-ar="🌐 الموقع الإلكتروني">🌐 الموقع الإلكتروني</h4><p data-en="Brand &amp; marketing front." data-ar="واجهة العلامة والتسويق.">واجهة العلامة والتسويق.</p></div>
+    <div class="bb-card"><div class="mono" style="color:var(--text-accent);font-size:.72rem;">ReactJS</div><h4 style="margin-top:6px;" data-en="📊 Dashboard" data-ar="📊 لوحة التحكم">📊 لوحة التحكم</h4><p data-en="Real-time management &amp; analytics." data-ar="إدارة وتحليلات لحظية.">إدارة وتحليلات لحظية.</p></div>
+    <div class="bb-card"><div class="mono" style="color:var(--text-accent);font-size:.72rem;">NestJS</div><h4 style="margin-top:6px;" data-en="⚙ API" data-ar="⚙ واجهة البرمجة">⚙ واجهة البرمجة</h4><p data-en="The heart of logic and services." data-ar="قلب المنطق والخدمات.">قلب المنطق والخدمات.</p></div>
+    <div class="bb-card"><div class="mono" style="color:var(--text-accent);font-size:.72rem;">PostgreSQL</div><h4 style="margin-top:6px;" data-en="🗄 Database" data-ar="🗄 قاعدة البيانات">🗄 قاعدة البيانات</h4><p data-en="The unified source of truth." data-ar="مصدر الحقيقة الموحّد.">مصدر الحقيقة الموحّد.</p></div>
+  </div>
+</div></section>
+
+<!-- 11 SERVICES -->
+<section class="bb-section" id="services"><div class="bb-wrap">
+  <div class="sec-kicker"><span class="num">11</span><span data-en="Services &amp; Packages" data-ar="الخدمات والباقات">الخدمات والباقات</span></div>
+  <h2 class="sec-title" data-en="Flexible packages, one protocol — consistent quality in every wash." data-ar="باقات مرنة، بروتوكول موحّد — جودة ثابتة في كل غسلة.">باقات مرنة، بروتوكول موحّد — جودة ثابتة في كل غسلة.</h2>
+  <div class="bb-grid g4">
+    <div class="pkg"><div class="mono" style="color:var(--text-muted);font-size:.72rem;" data-en="Single wash" data-ar="غسلة مفردة">غسلة مفردة</div><div class="price">59 <small>SAR</small></div><div class="term" data-en="/ wash · instant" data-ar="/ غسلة · فوري">/ غسلة · فوري</div></div>
+    <div class="pkg"><div class="mono" style="color:var(--text-muted);font-size:.72rem;" data-en="3-wash pack" data-ar="باقة 3 غسلات">باقة 3 غسلات</div><div class="price">49 <small>SAR</small></div><div class="term" data-en="/ wash · 1 month" data-ar="/ غسلة · شهر">/ غسلة · شهر</div></div>
+    <div class="pkg best"><div class="tag" data-en="BEST VALUE" data-ar="الأوفر">الأوفر</div><div class="mono" style="color:var(--text-muted);font-size:.72rem;" data-en="6-wash pack" data-ar="باقة 6 غسلات">باقة 6 غسلات</div><div class="price">39 <small>SAR</small></div><div class="term" data-en="/ wash · 3 months" data-ar="/ غسلة · 3 أشهر">/ غسلة · 3 أشهر</div></div>
+    <div class="pkg"><div class="mono" style="color:var(--text-muted);font-size:.72rem;" data-en="12-wash pack" data-ar="باقة 12 غسلة">باقة 12 غسلة</div><div class="price">29 <small>SAR</small></div><div class="term" data-en="/ wash · 6 months" data-ar="/ غسلة · 6 أشهر">/ غسلة · 6 أشهر</div></div>
+  </div>
+  <p style="text-align:center;color:var(--text-muted);font-family:var(--font-mono);margin-top:18px;font-size:.85rem;" data-en="Weighted average ≈ 44 SAR / wash" data-ar="متوسط السعر المرجّح ≈ 44 ريال / غسلة">متوسط السعر المرجّح ≈ 44 ريال / غسلة</p>
+  <div class="sec-kicker" style="margin-top:34px;"><span data-en="✓ The unified service protocol" data-ar="✓ بروتوكول الخدمة الموحّد">✓ بروتوكول الخدمة الموحّد</span></div>
+  <div class="bb-card">
+    <div class="step-row"><span class="sn">01</span><div><b data-en="Materials" data-ar="المواد">المواد</b> — <span style="color:var(--text-muted);" data-en="High-quality chemicals; dedicated IRIS™ microfiber towels." data-ar="مواد كيميائية عالية الجودة، مناشف مايكروفايبر مخصصة بعلامة IRIS™.">مواد كيميائية عالية الجودة، مناشف مايكروفايبر مخصصة بعلامة IRIS™.</span></div></div>
+    <div class="step-row"><span class="sn">02</span><div><b data-en="Wash" data-ar="الغسيل">الغسيل</b> — <span style="color:var(--text-muted);" data-en="Exterior rinse, full interior cleaning + vacuum, professional drying." data-ar="شطف خارجي، تنظيف داخلي شامل + شفط، تجفيف احترافي.">شطف خارجي، تنظيف داخلي شامل + شفط، تجفيف احترافي.</span></div></div>
+    <div class="step-row"><span class="sn">03</span><div><b data-en="Polish" data-ar="التلميع">التلميع</b> — <span style="color:var(--text-muted);" data-en="Exterior wax, nano layer for glass and leather — a value-add service." data-ar="واكس خارجي، طبقة نانو للزجاج والجلد — خدمة قيمة مضافة.">واكس خارجي، طبقة نانو للزجاج والجلد — خدمة قيمة مضافة.</span></div></div>
+    <div class="step-row" style="border-bottom:0;"><span class="sn">04</span><div><b data-en="Rating" data-ar="التقييم">التقييم</b> — <span style="color:var(--text-muted);" data-en="Instant rating + weekly mystery shopper + live quality metrics." data-ar="تقييم فوري + عميل خفي أسبوعياً + مؤشرات جودة مباشرة.">تقييم فوري + عميل خفي أسبوعياً + مؤشرات جودة مباشرة.</span></div></div>
+  </div>
+  <p style="color:var(--text-muted);margin-top:14px;font-size:.9rem;" data-en="Future expansion: advanced polishing · nano coatings · IRIS™ accessories." data-ar="التوسّع المستقبلي: تلميع متقدّم · طبقات نانو · إكسسوارات IRIS™.">التوسّع المستقبلي: تلميع متقدّم · طبقات نانو · إكسسوارات IRIS™.</p>
+</div></section>
+
+<!-- 12 APP & DASHBOARD -->
+<section class="bb-section" id="app" style="background:var(--bg-secondary);"><div class="bb-wrap">
+  <div class="sec-kicker"><span class="num">12</span><span data-en="App &amp; Dashboard" data-ar="التطبيق ولوحة التحكم">التطبيق ولوحة التحكم</span></div>
+  <h2 class="sec-title" data-en="The two main surfaces — where the six moods become real states." data-ar="المحوران الرئيسيان للمنصة — حيث تتحوّل المزاجات الستة إلى حالات حقيقية.">المحوران الرئيسيان للمنصة — حيث تتحوّل المزاجات الستة إلى حالات حقيقية.</h2>
+  <div class="bb-grid g2">
+    <div class="bb-card">
+      <div class="mono" style="color:var(--text-accent);font-size:.72rem;">Dashboard · ReactJS</div>
+      <div class="bb-grid g4" style="margin:14px 0;gap:10px;">
+        <div style="text-align:center;"><div class="stat-num" style="font-size:1.5rem;">1,248</div><div class="stat-lbl" style="font-size:.7rem;" data-en="Orders today" data-ar="طلب اليوم">طلب اليوم</div></div>
+        <div style="text-align:center;"><div class="stat-num" style="font-size:1.5rem;">87<small style="font-size:.7rem;color:var(--text-muted);">/120</small></div><div class="stat-lbl" style="font-size:.7rem;" data-en="Active techs" data-ar="فنّي نشط">فنّي نشط</div></div>
+        <div style="text-align:center;"><div class="stat-num" style="font-size:1.5rem;">12<small style="font-size:.7rem;color:var(--text-muted);">m</small></div><div class="stat-lbl" style="font-size:.7rem;" data-en="Avg response" data-ar="وسط الاستجابة">وسط الاستجابة</div></div>
+        <div style="text-align:center;"><div class="stat-num" style="font-size:1.5rem;">4.8<small style="font-size:.7rem;color:var(--accent);">★</small></div><div class="stat-lbl" style="font-size:.7rem;" data-en="Overall rating" data-ar="تقييم عام">تقييم عام</div></div>
+      </div>
+      <p style="font-size:.9rem;color:var(--text-muted);line-height:1.9;" data-en="— User management: customers, technicians, partners, admins · Order management: live dispatch, status tracking, full history · Analytics: performance, bookings, regional stats · AI panel: smart dispatch, demand forecast, quality alerts." data-ar="— إدارة المستخدمين: عملاء، فنّيون، شركاء، مسؤولون · إدارة الطلبات: توزيع لحظي، تتبّع الحالة، سجل كامل · التحليلات: الأداء، الحجوزات، إحصائيات المناطق · لوحة الذكاء: توزيع ذكي، توقع الطلب، تنبيهات الجودة.">— إدارة المستخدمين: عملاء، فنّيون، شركاء، مسؤولون · إدارة الطلبات: توزيع لحظي، تتبّع الحالة، سجل كامل · التحليلات: الأداء، الحجوزات، إحصائيات المناطق · لوحة الذكاء: توزيع ذكي، توقع الطلب، تنبيهات الجودة.</p>
+    </div>
+    <div class="bb-card">
+      <div class="mono" style="color:var(--text-accent);font-size:.72rem;">Mobile App · React Native</div>
+      <ul style="list-style:none;margin-top:12px;display:flex;flex-direction:column;gap:10px;">
+        <li><b>◎ <span data-en="Geo booking" data-ar="حجز بالموقع الجغرافي">حجز بالموقع الجغرافي</span></b> — <span style="color:var(--text-muted);font-size:.9rem;" data-en="book anywhere with GPS precision." data-ar="احجز خدمة في أي مكان بدقّة GPS.">احجز خدمة في أي مكان بدقّة GPS.</span></li>
+        <li><b>◎ <span data-en="Live tracking" data-ar="تتبّع الفني مباشرة">تتبّع الفني مباشرة</span></b> — <span style="color:var(--text-muted);font-size:.9rem;" data-en="a live map from dispatch to arrival." data-ar="خريطة حية من الإرسال حتى الوصول.">خريطة حية من الإرسال حتى الوصول.</span></li>
+        <li><b>◎ <span data-en="Gifting &amp; referrals" data-ar="إهداء وإحالات">إهداء وإحالات</span></b> — <span style="color:var(--text-muted);font-size:.9rem;" data-en="send credit and earn rewards." data-ar="أرسل رصيداً واكسب مكافآت.">أرسل رصيداً واكسب مكافآت.</span></li>
+        <li><b>◎ <span data-en="Integrated e-payment" data-ar="دفع إلكتروني متكامل">دفع إلكتروني متكامل</span></b> — <span style="color:var(--text-muted);font-size:.9rem;">Apple Pay · STC Pay · <span data-en="deferred payment." data-ar="الدفع الآجل.">الدفع الآجل.</span></span></li>
+        <li><b>◎ <span data-en="Technician rating" data-ar="تقييم الفني">تقييم الفني</span></b> — <span style="color:var(--text-muted);font-size:.9rem;" data-en="instant rating after each service." data-ar="تقييم فوري بعد كل خدمة.">تقييم فوري بعد كل خدمة.</span></li>
+      </ul>
+    </div>
+  </div>
+  <p style="text-align:center;color:var(--text-accent);margin-top:22px;font-size:.95rem;" data-en="Every notification and order state carries one of the six moods — the character is the emotional UI language." data-ar="كل إشعار وحالة طلب في التطبيق يحملان أحد المزاجات الستة — الشخصية هي لغة الواجهة العاطفية.">كل إشعار وحالة طلب في التطبيق يحملان أحد المزاجات الستة — الشخصية هي لغة الواجهة العاطفية.</p>
+</div></section>
+
+<!-- 13 TECHNICIANS -->
+<section class="bb-section" id="tech"><div class="bb-wrap">
+  <div class="sec-kicker"><span class="num">13</span><span data-en="Technician Model" data-ar="نموذج الفنّيين">نموذج الفنّيين</span></div>
+  <h2 class="sec-title" data-en="Three tracks — an internal team, trusted freelancers, and partner staff." data-ar="ثلاثة مسارات — فريق داخلي + مستقلّون موثوقون + موظفو الشركاء.">ثلاثة مسارات — فريق داخلي + مستقلّون موثوقون + موظفو الشركاء.</h2>
+  <div class="bb-grid g3">
+    <div class="bb-card"><span class="pill" data-en="Internal" data-ar="داخلي">داخلي</span><h4 style="margin-top:10px;" data-en="Internal technician" data-ar="فنّي داخلي">فنّي داخلي</h4><p data-en="Added by the admin. Account created with region &amp; full profile · instant access from day one — no waiting list · fixed shifts + on-demand dispatch · KPIs: rating, completion rate, response time." data-ar="يُضاف من قِبَل المسؤول. إنشاء الحساب مع تعيين المنطقة والملف الكامل · وصول فوري من اليوم الأول بدون قائمة انتظار · ورديّات ثابتة + إرسال عند الطلب · KPIs: التقييم، نسبة الإنجاز، وقت الاستجابة.">يُضاف من قِبَل المسؤول. إنشاء الحساب مع تعيين المنطقة والملف الكامل · وصول فوري من اليوم الأول بدون قائمة انتظار · ورديّات ثابتة + إرسال عند الطلب · KPIs: التقييم، نسبة الإنجاز، وقت الاستجابة.</p></div>
+    <div class="bb-card"><span class="pill" data-en="External" data-ar="مستقل">مستقل</span><h4 style="margin-top:10px;" data-en="Independent technician" data-ar="فنّي مستقل">فنّي مستقل</h4><p data-en="Self-registration — freelancers and small businesses. 1 Register (national ID + certificates via the app) · 2 Review (admin approval after verification) · 3 Qualify (quality &amp; safety test) · 4 Go live (accept orders on commission)." data-ar="تسجيل ذاتي — مستقلّون وأصحاب أعمال صغيرة. 1 التسجيل (رفع الهوية الوطنية والشهادات عبر التطبيق) · 2 المراجعة (موافقة المسؤول بعد التحقق) · 3 التأهيل (اختبار معايير الجودة والسلامة) · 4 الانطلاق (قبول الطلبات بالعمولة).">تسجيل ذاتي — مستقلّون وأصحاب أعمال صغيرة. 1 التسجيل (رفع الهوية الوطنية والشهادات عبر التطبيق) · 2 المراجعة (موافقة المسؤول بعد التحقق) · 3 التأهيل (اختبار معايير الجودة والسلامة) · 4 الانطلاق (قبول الطلبات بالعمولة).</p></div>
+    <div class="bb-card"><span class="pill" data-en="Partner" data-ar="شريك">شريك</span><h4 style="margin-top:10px;" data-en="Partner employee" data-ar="موظف شريك">موظف شريك</h4><p data-en="Belongs to a partner company — fleet, hotel, government body. Linked by company_id, works under the company contract · the partner manages its own staff · bound to the IRIS protocol &amp; standards · same KPI system — visible to partner and admin." data-ar="تابع لشركة شريكة — أسطول، فندق، جهة حكومية. مرتبط بـ company_id ويعمل ضمن عقد الشركة · الشركة الشريكة تُدير موظفيها · ملتزم ببروتوكول IRIS وإجراءاته · نفس نظام الـ KPIs — مرئي للشريك والمسؤول.">تابع لشركة شريكة — أسطول، فندق، جهة حكومية. مرتبط بـ company_id ويعمل ضمن عقد الشركة · الشركة الشريكة تُدير موظفيها · ملتزم ببروتوكول IRIS وإجراءاته · نفس نظام الـ KPIs — مرئي للشريك والمسؤول.</p></div>
+  </div>
+  <code class="ep" style="margin-top:20px;border:1px solid var(--border);border-radius:10px;padding:14px;"><span class="meth">technicians:</span> role 'internal|external|partner' · company_id (FK→partners) · status · approval_docs (JSONB) · commission_rate</code>
+</div></section>
+
+<!-- 14 B2B -->
+<section class="bb-section" id="b2b" style="background:var(--bg-secondary);"><div class="bb-wrap">
+  <div class="sec-kicker"><span class="num">14</span><span data-en="Business Partners" data-ar="شركاء الأعمال">شركاء الأعمال</span></div>
+  <h2 class="sec-title" data-en="Companies, fleets and government — inside the IRIS platform on custom contracts." data-ar="الشركات والأساطيل والجهات الحكومية — ضمن منصة Iris بعقود مخصصة.">الشركات والأساطيل والجهات الحكومية — ضمن منصة Iris بعقود مخصصة.</h2>
+  <div class="bb-grid g3">
+    <div class="bb-card"><h4 data-en="🚚 Fleets &amp; vehicles" data-ar="🚚 أساطيل ومركبات">🚚 أساطيل ومركبات</h4><p data-en="Delivery companies, rentals, school buses." data-ar="شركات التوصيل، التأجير، الحافلات المدرسية.">شركات التوصيل، التأجير، الحافلات المدرسية.</p></div>
+    <div class="bb-card"><h4 data-en="🏨 Hotels &amp; complexes" data-ar="🏨 فنادق ومجمعات">🏨 فنادق ومجمعات</h4><p data-en="Hotels, malls, tourist resorts." data-ar="فنادق، مراكز تجارية، منتجعات سياحية.">فنادق، مراكز تجارية، منتجعات سياحية.</p></div>
+    <div class="bb-card"><h4 data-en="🏛 Government bodies" data-ar="🏛 جهات حكومية">🏛 جهات حكومية</h4><p data-en="Ministries, municipalities, security agencies." data-ar="وزارات، بلديات، أجهزة أمنية.">وزارات، بلديات، أجهزة أمنية.</p></div>
+  </div>
+  <div class="bb-grid g2" style="margin-top:20px;">
+    <div class="bb-card">
+      <h4 data-en="How the model works" data-ar="كيف يعمل النموذج؟">كيف يعمل النموذج؟</h4>
+      <div class="step-row"><span class="sn">01</span><div data-en="The company signs a contract with IRIS." data-ar="الشركة تُبرم العقد مع IRIS.">الشركة تُبرم العقد مع IRIS.</div></div>
+      <div class="step-row"><span class="sn">02</span><div data-en="Activate the account and assign technicians." data-ar="تُفعّل الحساب وتُعيّن فنّيين.">تُفعّل الحساب وتُعيّن فنّيين.</div></div>
+      <div class="step-row" style="border-bottom:0;"><span class="sn">03</span><div data-en="Service is delivered (internal or partner) — all under the unified IRIS protocol." data-ar="تنفيذ الخدمة (داخلي أو شريك) — كل ذلك ببروتوكول Iris الموحّد.">تنفيذ الخدمة (داخلي أو شريك) — كل ذلك ببروتوكول Iris الموحّد.</div></div>
+    </div>
+    <div class="bb-card">
+      <h4 data-en="Partner benefits" data-ar="مزايا الشريك">مزايا الشريك</h4>
+      <p style="line-height:2;color:var(--text-secondary);font-size:.92rem;" data-en="✓ One unified monthly invoice for the whole fleet · ✓ a dedicated dashboard to follow its fleet · ✓ guaranteed scheduling priority · ✓ per-vehicle technician performance stats · ✓ partner staff work under the IRIS protocol · ✓ detailed monthly quality reports." data-ar="✓ فاتورة موحّدة شهرية للأسطول بالكامل · ✓ لوحة تحكم مخصصة لمتابعة أسطولها · ✓ أولوية مضمونة في الجدولة · ✓ إحصائيات أداء الفنّيين لكل مركبة · ✓ موظفو الشريك يعملون ببروتوكول IRIS · ✓ تقارير جودة شهرية مفصّلة.">✓ فاتورة موحّدة شهرية للأسطول بالكامل · ✓ لوحة تحكم مخصصة لمتابعة أسطولها · ✓ أولوية مضمونة في الجدولة · ✓ إحصائيات أداء الفنّيين لكل مركبة · ✓ موظفو الشريك يعملون ببروتوكول IRIS · ✓ تقارير جودة شهرية مفصّلة.</p>
+    </div>
+  </div>
+</div></section>
+
+<!-- 15 AI LAYER -->
+<section class="bb-section" id="ai"><div class="bb-wrap">
+  <div class="sec-kicker"><span class="num">15</span><span data-en="AI Layer" data-ar="طبقة الذكاء الاصطناعي">طبقة الذكاء الاصطناعي</span></div>
+  <h2 class="sec-title" data-en="AI solves real operational problems — no competitor has this." data-ar="الذكاء الاصطناعي يحلّ مشاكل تشغيلية حقيقية — لا منافس يملك هذا.">الذكاء الاصطناعي يحلّ مشاكل تشغيلية حقيقية — لا منافس يملك هذا.</h2>
+  <div class="bb-grid g3">
+    <div class="bb-card"><div class="mono" style="color:var(--text-accent);font-size:.7rem;">AI · Smart Dispatch</div><h4 style="margin-top:6px;" data-en="Smart dispatch" data-ar="التوزيع الذكي">التوزيع الذكي</h4><p><b data-en="Problem:" data-ar="المشكلة:">المشكلة:</b> <span data-en="one late worker triggers a chain of delays." data-ar="تأخر عامل واحد يُحرّك سلسلة تأخيرات.">تأخر عامل واحد يُحرّك سلسلة تأخيرات.</span><br><b data-en="Solution:" data-ar="الحل:">الحل:</b> <span data-en="an ML model assigns the best technician in real time based on location, rating, current load, and traffic." data-ar="نموذج ML يُعيّن الفني الأنسب لحظياً بناءً على الموقع، التقييم، الحِمل الحالي، وحركة المرور.">نموذج ML يُعيّن الفني الأنسب لحظياً بناءً على الموقع، التقييم، الحِمل الحالي، وحركة المرور.</span></p></div>
+    <div class="bb-card"><div class="mono" style="color:var(--text-accent);font-size:.7rem;">AI · Demand Forecasting</div><h4 style="margin-top:6px;" data-en="Demand forecasting" data-ar="توقّع الطلب">توقّع الطلب</h4><p><b data-en="Problem:" data-ar="المشكلة:">المشكلة:</b> <span data-en="orders cluster into narrow time windows." data-ar="تكدّس الطلبات في نوافذ زمنية ضيقة.">تكدّس الطلبات في نوافذ زمنية ضيقة.</span><br><b data-en="Solution:" data-ar="الحل:">الحل:</b> <span data-en="predicts demand by geography and time — pre-positioning technicians in the right areas hours ahead." data-ar="يتوقع الطلب جغرافياً وزمنياً — يُسبق وضع الفنّيين في المناطق الصحيحة قبل ساعات.">يتوقع الطلب جغرافياً وزمنياً — يُسبق وضع الفنّيين في المناطق الصحيحة قبل ساعات.</span></p></div>
+    <div class="bb-card"><div class="mono" style="color:var(--text-accent);font-size:.7rem;">AI · Quality Scoring</div><h4 style="margin-top:6px;" data-en="Quality scoring" data-ar="تقييم الجودة">تقييم الجودة</h4><p><b data-en="Problem:" data-ar="المشكلة:">المشكلة:</b> <span data-en="some workers wash their own way, off-protocol." data-ar="بعض العمال يغسلون بطريقتهم دون البروتوكول.">بعض العمال يغسلون بطريقتهم دون البروتوكول.</span><br><b data-en="Solution:" data-ar="الحل:">الحل:</b> <span data-en="automatically flags low-rated technicians and triggers a surprise supervisor field visit." data-ar="يرصد تلقائياً الفنّيين منخفضي التقييم ويُشغّل زيارة ميدانية مفاجئة من المشرف.">يرصد تلقائياً الفنّيين منخفضي التقييم ويُشغّل زيارة ميدانية مفاجئة من المشرف.</span></p></div>
+  </div>
+  <div class="sec-kicker" style="margin-top:30px;"><span data-en="Where AI plugs into the platform" data-ar="أين يندمج الذكاء في المنصة؟">أين يندمج الذكاء في المنصة؟</span></div>
+  <div class="bb-grid g4">
+    <div class="bb-card"><h4 data-en="Customer app" data-ar="تطبيق العميل">تطبيق العميل</h4><p data-en="‘Nearest technician in your area within 20 minutes.’" data-ar="«أقرب فنّي في منطقتك خلال 20 دقيقة».">«أقرب فنّي في منطقتك خلال 20 دقيقة».</p></div>
+    <div class="bb-card"><h4 data-en="Dispatch engine" data-ar="محرك الإرسال">محرك الإرسال</h4><p data-en="Real-time distribution that optimizes geographic efficiency." data-ar="توزيع لحظي يُحسّن الكفاءة الجغرافية.">توزيع لحظي يُحسّن الكفاءة الجغرافية.</p></div>
+    <div class="bb-card"><h4 data-en="Dashboard" data-ar="لوحة التحكم">لوحة التحكم</h4><p data-en="Proactive alerts for quality drops." data-ar="تنبيهات استباقية لتراجع الجودة.">تنبيهات استباقية لتراجع الجودة.</p></div>
+    <div class="bb-card"><h4 data-en="Partner reports" data-ar="تقارير الشركاء">تقارير الشركاء</h4><p data-en="Fleet performance analysis vs the market." data-ar="تحليل أداء الأسطول مقارنة بالسوق.">تحليل أداء الأسطول مقارنة بالسوق.</p></div>
+  </div>
+</div></section>
+
+<!-- 16 ARCHITECTURE -->
+<section class="bb-section" id="arch" style="background:var(--bg-secondary);"><div class="bb-wrap">
+  <div class="sec-kicker"><span class="num">16</span><span data-en="Technical Architecture" data-ar="البنية التقنية">البنية التقنية</span></div>
+  <h2 class="sec-title" data-en="Modular, scalable, secure — and production-ready." data-ar="معيارية، قابلة للتوسّع، آمنة — ومُجهَّزة للإنتاج.">معيارية، قابلة للتوسّع، آمنة — ومُجهَّزة للإنتاج.</h2>
+  <div class="bb-grid g2">
+    <div>
+      <div class="arch-layer"><div class="lt" data-en="Client layer" data-ar="طبقة العميل">طبقة العميل</div><div class="nodes"><span class="node">Mobile · React Native</span><span class="node">Dashboard · ReactJS</span><span class="node">Website · Next.js</span></div></div>
+      <div class="arch-arrow">▼</div>
+      <div class="arch-layer"><div class="lt" data-en="API gateway · NestJS" data-ar="بوابة الـ API · NestJS">بوابة الـ API · NestJS</div><div class="nodes"><span class="node">REST API</span><span class="node">JWT Auth + Guards</span><span class="node">Rate Limiting</span><span class="node">Swagger / OpenAPI</span></div></div>
+      <div class="arch-arrow">▼</div>
+      <div class="arch-layer"><div class="lt" data-en="AI layer" data-ar="طبقة الذكاء">طبقة الذكاء</div><div class="nodes"><span class="node">Smart Dispatch</span><span class="node">Demand Forecasting</span><span class="node">Quality Scoring AI</span></div></div>
+      <div class="arch-arrow">▼</div>
+      <div class="arch-layer"><div class="lt" data-en="Services layer" data-ar="طبقة الخدمات">طبقة الخدمات</div><div class="nodes"><span class="node">User</span><span class="node">Order</span><span class="node">Payment</span><span class="node">Notification</span><span class="node">Location</span></div></div>
+      <div class="arch-arrow">▼</div>
+      <div class="arch-layer"><div class="lt" data-en="Data layer" data-ar="طبقة البيانات">طبقة البيانات</div><div class="nodes"><span class="node">PostgreSQL · Primary</span><span class="node">Redis · Cache+Sessions</span><span class="node">AWS S3 · Media</span></div></div>
+    </div>
+    <div>
+      <div class="bb-card" style="margin-bottom:16px;">
+        <div class="lt sec-kicker" style="color:var(--text-accent);">PostgreSQL · <span data-en="tables" data-ar="الجداول">الجداول</span></div>
+        <code class="ep"><span class="meth">users</span> id, name, role, wallet_balance</code>
+        <code class="ep"><span class="meth">orders</span> user_id, tech_id, status, price</code>
+        <code class="ep"><span class="meth">technicians</span> role, status, company_id</code>
+        <code class="ep"><span class="meth">partners</span> type, contract, sla_minutes</code>
+        <code class="ep"><span class="meth">services</span> name, price, duration_min</code>
+        <code class="ep" style="border-bottom:0;"><span class="meth">payments</span> order_id, amount, method, status</code>
+      </div>
+      <div class="bb-card">
+        <div class="lt sec-kicker" style="color:var(--text-accent);">NestJS · <span data-en="API" data-ar="واجهة البرمجة">واجهة البرمجة</span></div>
+        <code class="ep"><span class="meth">POST</span> /auth/login · /register</code>
+        <code class="ep"><span class="meth">GET</span> /orders · <span class="meth">POST</span> /orders</code>
+        <code class="ep"><span class="meth">PATCH</span> /orders/:id/status</code>
+        <code class="ep"><span class="meth">GET</span> /services · /services/:id</code>
+        <code class="ep"><span class="meth">GET</span> /technicians/nearby</code>
+        <code class="ep"><span class="meth">GET</span> /partners/:id/fleet</code>
+        <code class="ep" style="border-bottom:0;"><span class="meth">POST</span> /payments/initiate · /webhook</code>
+      </div>
+    </div>
+  </div>
+</div></section>
+
+<!-- 17 ROADMAP -->
+<section class="bb-section" id="roadmap"><div class="bb-wrap">
+  <div class="sec-kicker"><span class="num">17</span><span data-en="Development Roadmap" data-ar="الجدول الزمني للتطوير">الجدول الزمني للتطوير</span></div>
+  <h2 class="sec-title" data-en="Reuse cuts the timeline — ~55% of the infrastructure is ready to adapt." data-ar="إعادة الاستخدام تُقلّص المدة — نحو 55% من البنية جاهزة للتكييف.">إعادة الاستخدام تُقلّص المدة — نحو 55% من البنية جاهزة للتكييف.</h2>
+  <p class="sec-lead" data-en="Saving ~18 extra weeks of development by adapting components from existing projects." data-ar="توفير نحو 18 أسبوعاً إضافياً من التطوير عبر تكييف المكوّنات من المشاريع الحالية.">توفير نحو 18 أسبوعاً إضافياً من التطوير عبر تكييف المكوّنات من المشاريع الحالية.</p>
+  <div style="margin-top:30px;">
+    <div class="sprint"><span class="wk">Sprint 1 · <span data-en="wk 1–3" data-ar="أسابيع 1–3">أسابيع 1–3</span></span><div data-en="Project setup &amp; component migration — environment, API adaptation, CI/CD, auth migration." data-ar="إعداد المشروع وترحيل المكوّنات — البيئة، تكييف API، CI/CD، ترحيل المصادقة.">إعداد المشروع وترحيل المكوّنات — البيئة، تكييف API، CI/CD، ترحيل المصادقة.</div><span class="reuse">85%</span></div>
+    <div class="sprint"><span class="wk">Sprint 2 · <span data-en="wk 4–6" data-ar="أسابيع 4–6">أسابيع 4–6</span></span><div data-en="Core booking &amp; package catalog — booking flow, the four packages, scheduling &amp; geo-dispatch." data-ar="الحجز الأساسي وكتالوج الباقات — تدفّق الحجز، الباقات الأربع، المواعيد والتوزيع الجغرافي.">الحجز الأساسي وكتالوج الباقات — تدفّق الحجز، الباقات الأربع، المواعيد والتوزيع الجغرافي.</div><span class="reuse">60%</span></div>
+    <div class="sprint"><span class="wk">Sprint 3 · <span data-en="wk 7–9" data-ar="أسابيع 7–9">أسابيع 7–9</span></span><div data-en="Technician model (3 tracks) + partners — internal/external/partner, company_id, KPIs, partner dashboard." data-ar="نموذج الفنّيين (3 مسارات) + الشركاء — داخلي + مستقل + شريك، company_id، KPI، لوحة الشريك.">نموذج الفنّيين (3 مسارات) + الشركاء — داخلي + مستقل + شريك، company_id، KPI، لوحة الشريك.</div><span class="reuse">40%</span></div>
+    <div class="sprint"><span class="wk">Sprint 4 · <span data-en="wk 10–12" data-ar="أسابيع 10–12">أسابيع 10–12</span></span><div data-en="Payments &amp; e-wallet — Apple Pay + STC Pay, deferred payment, wallet, gifting." data-ar="المدفوعات والمحفظة الإلكترونية — Apple Pay + STC Pay، الدفع الآجل، المحفظة، الإهداء.">المدفوعات والمحفظة الإلكترونية — Apple Pay + STC Pay، الدفع الآجل، المحفظة، الإهداء.</div><span class="reuse">50%</span></div>
+    <div class="sprint"><span class="wk">Sprint 5 · <span data-en="wk 13–15" data-ar="أسابيع 13–15">أسابيع 13–15</span></span><div data-en="AI &amp; live tracking — Smart Dispatch, Demand Forecast, GPS WebSocket, Firebase." data-ar="الذكاء الاصطناعي والتتبّع المباشر — Smart Dispatch، Demand Forecast، GPS WebSocket، Firebase.">الذكاء الاصطناعي والتتبّع المباشر — Smart Dispatch، Demand Forecast، GPS WebSocket، Firebase.</div><span class="reuse">30%</span></div>
+    <div class="sprint"><span class="wk">Sprint 6 · <span data-en="wk 16–18" data-ar="أسابيع 16–18">أسابيع 16–18</span></span><div data-en="Dashboard, website, QA — dashboard adaptation, Next.js site, tests, pilot deployment." data-ar="لوحة التحكم، الموقع، ضمان الجودة — تكييف لوحة التحكم، موقع Next.js، اختبارات، نشر تجريبي.">لوحة التحكم، الموقع، ضمان الجودة — تكييف لوحة التحكم، موقع Next.js، اختبارات، نشر تجريبي.</div><span class="reuse">70%</span></div>
+  </div>
+  <p style="text-align:center;color:var(--text-muted);font-family:var(--font-mono);margin-top:18px;font-size:.85rem;" data-en="18 weeks total · 6 sprints × 3 weeks · Team: 2 devs + tech lead + QA engineer · Agile Scrum" data-ar="18 أسبوعاً إجمالاً · 6 سبرنتات × 3 أسابيع · الفريق: مطوّران + قائد تقني + مهندس جودة · منهجية Agile Scrum">18 أسبوعاً إجمالاً · 6 سبرنتات × 3 أسابيع · الفريق: مطوّران + قائد تقني + مهندس جودة · منهجية Agile Scrum</p>
+</div></section>
+
+<!-- 18 COMPETITIVE EDGE -->
+<section class="bb-section" id="edge" style="background:var(--bg-secondary);"><div class="bb-wrap">
+  <div class="sec-kicker"><span class="num">18</span><span data-en="Competitive Edge" data-ar="الميزة التنافسية">الميزة التنافسية</span></div>
+  <h2 class="sec-title" data-en="What makes IRIS the optimal choice in the Saudi market." data-ar="ما يجعل Iris الخيار الأمثل في السوق السعودي.">ما يجعل Iris الخيار الأمثل في السوق السعودي.</h2>
+  <div style="overflow-x:auto;">
+  <table class="cmp">
+    <thead><tr><th data-en="Capability" data-ar="الميزة">الميزة</th><th class="center iriscol">IRIS</th><th class="center" data-en="Traditional" data-ar="تقليدي">تقليدي</th><th class="center" data-en="Competitors" data-ar="منافسون">منافسون</th></tr></thead>
+    <tbody>
+      <tr><td data-en="True car-wash specialization" data-ar="تخصّص حقيقي في غسيل السيارات">تخصّص حقيقي في غسيل السيارات</td><td class="center iriscol yes">✓</td><td class="center yes">✓</td><td class="center part" data-en="partial" data-ar="جزئية">جزئية</td></tr>
+      <tr><td data-en="Door-to-door service" data-ar="خدمة من الباب للباب">خدمة من الباب للباب</td><td class="center iriscol yes">✓</td><td class="center no">✕</td><td class="center part" data-en="partial" data-ar="جزئية">جزئية</td></tr>
+      <tr><td data-en="Unified protocol — same result every time" data-ar="بروتوكول موحّد — نفس النتيجة دائماً">بروتوكول موحّد — نفس النتيجة دائماً</td><td class="center iriscol yes">✓</td><td class="center no">✕</td><td class="center no">✕</td></tr>
+      <tr><td data-en="Prepaid packages that build loyalty" data-ar="باقات مسبقة تُعزّز الولاء">باقات مسبقة تُعزّز الولاء</td><td class="center iriscol yes">✓</td><td class="center no">✕</td><td class="center no">✕</td></tr>
+      <tr><td data-en="B2B — fleet management" data-ar="شركاء أعمال B2B — إدارة الأساطيل">شركاء أعمال B2B — إدارة الأساطيل</td><td class="center iriscol yes">✓</td><td class="center no">✕</td><td class="center no">✕</td></tr>
+      <tr><td data-en="AI — dispatch + demand forecast" data-ar="ذكاء اصطناعي — توزيع + توقّع طلب">ذكاء اصطناعي — توزيع + توقّع طلب</td><td class="center iriscol yes">✓</td><td class="center no">✕</td><td class="center no">✕</td></tr>
+      <tr><td data-en="STC Pay &amp; deferred payment" data-ar="STC Pay والدفع الآجل">STC Pay والدفع الآجل</td><td class="center iriscol yes">✓</td><td class="center no">✕</td><td class="center part" data-en="limited" data-ar="محدودة">محدودة</td></tr>
+      <tr><td data-en="Arabic experience tuned for the Saudi market" data-ar="تجربة عربية مُحسّنة للسوق السعودي">تجربة عربية مُحسّنة للسوق السعودي</td><td class="center iriscol yes">✓</td><td class="center no">✕</td><td class="center part" data-en="partial" data-ar="جزئية">جزئية</td></tr>
+      <tr><td data-en="Scalable, multi-city architecture" data-ar="بنية قابلة للتوسّع — متعددة المدن">بنية قابلة للتوسّع — متعددة المدن</td><td class="center iriscol yes">✓</td><td class="center no">✕</td><td class="center no">✕</td></tr>
+    </tbody>
+  </table>
+  </div>
+</div></section>
+
+<!-- PART III DIVIDER -->
+<section class="part-div" id="part3">
+  <div class="iris-pattern-strong"></div>
+  <div class="bb-wrap" style="position:relative;z-index:2;">
+    <div class="pn">PART III</div>
+    <h2 data-en="In the World" data-ar="في الواقع">في الواقع</h2>
+    <p data-en="Where the identity lands — from the vehicle to the packaging — and the invitation to build it." data-ar="حيث تحطّ الهوية — من المركبة إلى العبوة — والدعوة إلى بنائها.">حيث تحطّ الهوية — من المركبة إلى العبوة — والدعوة إلى بنائها.</p>
+  </div>
+</section>
+
+<!-- 19 APPLICATIONS -->
+<section class="bb-section" id="applications"><div class="bb-wrap">
+  <div class="sec-kicker"><span class="num">19</span><span data-en="Applications" data-ar="التطبيقات">التطبيقات</span></div>
+  <h2 class="sec-title" data-en="The identity on the ground — from the vehicle to the packaging." data-ar="الهوية على أرض الواقع — من المركبة إلى العبوة.">الهوية على أرض الواقع — من المركبة إلى العبوة.</h2>
+  <div class="bb-grid g3">
+    <div class="swatch"><div class="chip" style="background:#111315;height:130px;position:relative;overflow:hidden;"><div class="iris-pattern-strong"></div><span style="position:relative;z-index:2;color:#F1F3F6;font-weight:800;font-size:1.4rem;font-family:Roboto,sans-serif;">IRIS</span></div><div class="meta"><div class="nm" data-en="Vehicle livery" data-ar="كسوة المركبة">كسوة المركبة</div><div class="en" data-en="Van wrap — ink + violet + 135° cuts" data-ar="تغليف العربة — أسود + بنفسجي + قصّات 135°">تغليف العربة — أسود + بنفسجي + قصّات 135°</div></div></div>
+    <div class="swatch"><div class="chip" style="background:#6A4FB6;height:130px;position:relative;overflow:hidden;"><div class="iris-pattern-sun"></div><span style="position:relative;z-index:2;color:#fff;font-weight:700;" data-en="Uniform" data-ar="الزيّ">الزيّ</span></div><div class="meta"><div class="nm" data-en="Technician uniform" data-ar="زيّ الفنّي">زيّ الفنّي</div><div class="en" data-en="Violet polo + cap, mono name tag" data-ar="بولو بنفسجي + كاب، شارة اسم mono">بولو بنفسجي + كاب، شارة اسم mono</div></div></div>
+    <div class="swatch"><div class="chip" style="background:#F1F3F6;height:130px;display:flex;align-items:center;justify-content:center;"><span style="color:#5A3E92;font-weight:700;">IRIS™ microfiber</span></div><div class="meta"><div class="nm" data-en="Microfiber towels" data-ar="مناشف المايكروفايبر">مناشف المايكروفايبر</div><div class="en" data-en="Branded IRIS™ towels — part of the protocol" data-ar="مناشف IRIS™ — جزء من البروتوكول">مناشف IRIS™ — جزء من البروتوكول</div></div></div>
+    <div class="swatch"><div class="chip" style="background:#161619;height:130px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;"><div class="iris-pattern"></div><span style="position:relative;z-index:2;color:#BCA7E8;font-family:JetBrains Mono,monospace;font-size:.8rem;">NANO · WAX · SCENT</span></div><div class="meta"><div class="nm" data-en="Product bottles" data-ar="عبوات المواد">عبوات المواد</div><div class="en" data-en="Chemicals &amp; coatings — mono labels" data-ar="المواد والطبقات — ملصقات mono">المواد والطبقات — ملصقات mono</div></div></div>
+    <div class="swatch"><div class="chip" style="background:#5A3E92;height:130px;display:flex;align-items:center;justify-content:center;"><span style="color:#BCA7E8;font-weight:800;font-family:Roboto,sans-serif;">✦</span></div><div class="meta"><div class="nm" data-en="Packaging &amp; covers" data-ar="العبوة والأغطية">العبوة والأغطية</div><div class="en" data-en="Seat covers, kit boxes, gift packs" data-ar="أغطية المقاعد، علب العدّة، عبوات الهدايا">أغطية المقاعد، علب العدّة، عبوات الهدايا</div></div></div>
+    <div class="swatch"><div class="chip" style="background:#111315;height:130px;display:flex;align-items:center;justify-content:center;gap:6px;"><img src="assets/mood-3-clean.png" style="width:130px;border-radius:8px;"><img src="assets/mood-4-finished.png" style="width:130px;border-radius:8px;"></div><div class="meta"><div class="nm" data-en="Social stickers" data-ar="ملصقات السوشيال">ملصقات السوشيال</div><div class="en" data-en="The six moods as stickers &amp; reactions" data-ar="المزاجات الستة كملصقات وتفاعلات">المزاجات الستة كملصقات وتفاعلات</div></div></div>
+  </div>
+</div></section>
+
+<!-- CLOSE -->
+<section class="bb-section" id="close" style="text-align:center;position:relative;overflow:hidden;">
+  <div class="iris-pattern"></div>
+  <div class="glow-orb glow-orb-blue" style="width:480px;height:480px;top:0;inset-inline-start:50%;transform:translateX(-50%);opacity:.14;"></div>
+  <div class="bb-wrap" style="position:relative;z-index:2;">
+    <img src="assets/iris-mascot.png" alt="IRIS" style="width:170px;border-radius:16px;margin:0 auto 18px;filter:drop-shadow(0 16px 40px rgba(106,79,182,.5));">
+    <span class="pill" data-en="Ready?" data-ar="جاهزون؟">جاهزون؟</span>
+    <h2 class="sec-title" style="margin:16px auto;max-width:18ch;" data-en="Ready to build IRIS?" data-ar="جاهزون لبناء Iris؟">جاهزون لبناء Iris؟</h2>
+    <p class="sec-lead" style="margin:0 auto;" data-en="An integrated tech platform that revolutionizes car washing in the Kingdom — with AI, convenience, a unified protocol, and full digital transformation." data-ar="منصة تقنية متكاملة تُحدث ثورة في غسيل السيارات بالمملكة — بالذكاء الاصطناعي، الراحة، البروتوكول الموحّد، والتحوّل الرقمي الكامل.">منصة تقنية متكاملة تُحدث ثورة في غسيل السيارات بالمملكة — بالذكاء الاصطناعي، الراحة، البروتوكول الموحّد، والتحوّل الرقمي الكامل.</p>
+    <div class="bb-grid g4" style="max-width:760px;margin:36px auto 0;">
+      <div><div class="stat-num">18</div><div class="stat-lbl" data-en="weeks to launch" data-ar="أسبوعاً للإطلاق">أسبوعاً للإطلاق</div></div>
+      <div><div class="stat-num">3</div><div class="stat-lbl" data-en="technician tracks" data-ar="مسارات فنّيين">مسارات فنّيين</div></div>
+      <div><div class="stat-num">4</div><div class="stat-lbl" data-en="service packages" data-ar="باقات خدمة">باقات خدمة</div></div>
+      <div><div class="stat-num">6</div><div class="stat-lbl" data-en="character moods" data-ar="مزاجات للشخصية">مزاجات للشخصية</div></div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:30px;">
+      <span class="node">React Native</span><span class="node">ReactJS</span><span class="node">Next.js</span><span class="node">NestJS</span><span class="node">PostgreSQL</span>
+    </div>
+    <p style="font-size:clamp(1.4rem,3vw,2rem);font-weight:800;margin-top:34px;color:var(--text-accent);">نحن لا نغسل فقط. نحن IRIS.</p>
+    <p class="mono" style="color:var(--text-muted);margin-top:6px;">We don't just wash. We IRIS. · www.irismcw.com · June 2026</p>
+    <div class="hero-actions" style="justify-content:center;margin-top:26px;">
+      <a href="assets/IRIS-Brand-Platform-Book.pdf" download class="btn btn-primary btn-lg" data-en="Download the Book (PDF)" data-ar="تحميل الكتيّب (PDF)">تحميل الكتيّب (PDF)</a>
+      <a href="index.html" class="btn btn-secondary btn-lg" data-en="Back to site" data-ar="العودة للموقع">العودة للموقع</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <img src="logo-white.png" alt="IRIS" class="logo-img-dark logo-img-footer">
+        <img src="logo-black.png" alt="IRIS" class="logo-img-light logo-img-footer">
+        <p data-en="Premium mobile car wash · Brand &amp; Platform Book v1.0 — confidential, for investors and partners." data-ar="غسيل سيارات متنقل فاخر · كتيّب العلامة والمنصة الإصدار 1.0 — خاص، للمستثمرين والشركاء.">غسيل سيارات متنقل فاخر · كتيّب العلامة والمنصة الإصدار 1.0 — خاص، للمستثمرين والشركاء.</p>
+      </div>
+      <div>
+        <div class="footer-heading" data-en="The Book" data-ar="الكتيّب">الكتيّب</div>
+        <ul class="footer-links">
+          <li><a href="#part1" data-en="Part I — Brand" data-ar="الجزء الأول — البراند">الجزء الأول — البراند</a></li>
+          <li><a href="#part2" data-en="Part II — Platform" data-ar="الجزء الثاني — المنصة">الجزء الثاني — المنصة</a></li>
+          <li><a href="#part3" data-en="Part III — In the World" data-ar="الجزء الثالث — في الواقع">الجزء الثالث — في الواقع</a></li>
+          <li><a href="assets/IRIS-Brand-Platform-Book.pdf" download data-en="Download PDF" data-ar="تحميل PDF">تحميل PDF</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-heading" data-en="Product" data-ar="المنتج">Product</div>
+        <ul class="footer-links">
+          <li><a href="index.html" data-en="Home" data-ar="الرئيسية">الرئيسية</a></li>
+          <li><a href="customer.html" data-en="Customer App" data-ar="تطبيق العميل">تطبيق العميل</a></li>
+          <li><a href="pro.html" data-en="Pro App" data-ar="تطبيق المحترف">تطبيق المحترف</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-heading" data-en="Contact" data-ar="تواصل">تواصل</div>
+        <ul class="footer-links">
+          <li><a href="https://www.irismcw.com">www.irismcw.com</a></li>
+          <li><a href="#">June 2026 · KSA</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 IRIS Mobile Car Wash. <span data-en="All rights reserved." data-ar="جميع الحقوق محفوظة.">جميع الحقوق محفوظة.</span></span>
+      <span data-en="Built by reup.sa 🇸🇦" data-ar="بُني بواسطة reup.sa 🇸🇦">بُني بواسطة reup.sa 🇸🇦</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+function applyLang(lang){
+  document.querySelectorAll('[data-'+lang+']').forEach(el=>{
+    var v=el.getAttribute('data-'+lang);
+    if(v.indexOf('<')>-1){ el.innerHTML=v; } else { el.textContent=v; }
+  });
+}
+document.addEventListener('DOMContentLoaded',()=>applyLang('ar'));
+const langToggle=document.getElementById('langToggle');
+let currentLang='ar';
+langToggle.addEventListener('click',(e)=>{
+  if(e.target.tagName!=='BUTTON')return;
+  const lang=e.target.dataset.lang;
+  if(lang===currentLang)return;
+  currentLang=lang;
+  langToggle.querySelectorAll('button').forEach(b=>b.classList.remove('active'));
+  e.target.classList.add('active');
+  const html=document.documentElement;
+  if(lang==='en'){ html.lang='en'; html.dir='ltr'; document.body.classList.add('ltr'); }
+  else { html.lang='ar'; html.dir='rtl'; document.body.classList.remove('ltr'); }
+  applyLang(lang);
+});
+const themeToggle=document.getElementById('themeToggle');
+if(themeToggle){ themeToggle.addEventListener('click',()=>{
+  document.body.classList.toggle('light');
+  localStorage.setItem('iris-theme',document.body.classList.contains('light')?'light':'dark');
+}); }
+window.addEventListener('scroll',()=>{
+  const nav=document.getElementById('mainNav');
+  if(nav) nav.style.background=window.scrollY>50?'var(--nav-bg-scroll)':'var(--nav-bg)';
+});
+</script>
+</body>
+</html>

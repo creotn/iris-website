@@ -3,9 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
   <title>IRIS — Pro App Design</title>
   <link rel="stylesheet" href="assets/styles.css">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Cairo:wght@400;500;600;700;800;900&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&family=Tajawal:wght@400;500;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
   <style>
     .page-hero {
       padding: 140px 0 60px;
@@ -71,16 +74,14 @@
   </style>
 </head>
 <body>
-<script>if(localStorage.getItem('iris-theme')==='light')document.body.classList.add('light');</script>
+<script>if(localStorage.getItem('iris-theme')!=='dark')document.body.classList.add('light');</script>
 
 <!-- Splash Screen -->
 <div class="splash" id="splash">
   <div class="splash-content">
     <div class="splash-logo">
-      <span class="splash-letter" style="--i:0">I</span>
-      <span class="splash-letter" style="--i:1">R</span>
-      <span class="splash-letter" style="--i:2">I</span>
-      <span class="splash-letter" style="--i:3">S</span>
+      <img src="logo-white.png" alt="IRIS" class="logo-img-dark logo-img-splash">
+      <img src="logo-black.png" alt="IRIS" class="logo-img-light logo-img-splash">
     </div>
     <div class="splash-tagline" data-en="Mobile Car Wash" data-ar="غسيل سيارات متنقل">غسيل سيارات متنقل</div>
     <div class="splash-bar"><div class="splash-bar-fill"></div></div>
@@ -91,14 +92,15 @@
 <nav class="nav">
   <div class="container nav-inner">
     <a href="index.html">
-      <svg class="logo-svg" viewBox="0 0 100 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <text x="0" y="26" fill="var(--logo-fill)" font-family="Inter, sans-serif" font-weight="900" font-size="28">IRIS</text>
-      </svg>
+      <img src="logo-white.png" alt="IRIS" class="logo-img-dark logo-img-nav">
+      <img src="logo-black.png" alt="IRIS" class="logo-img-light logo-img-nav">
     </a>
     <ul class="nav-links" id="navLinks">
       <li><a href="index.html" data-en="Home" data-ar="الرئيسية">Home</a></li>
       <li><a href="customer.html" data-en="Customer App" data-ar="تطبيق العميل">Customer App</a></li>
-      <li><a href="pro.html" style="color:var(--accent);" data-en="Pro App" data-ar="تطبيق المحترف">Pro App</a></li>
+      <li><a href="pro.html" style="color:var(--accent);" data-en="Pro App" data-ar="تطبيق المحترف">Pro App</a>
+        <a href="brand.html" data-en="Brand &amp; Platform" data-ar="العلامة والمنصة">Brand &amp; Platform</a></li>
+      <li><a href="brand.html" data-en="Brand &amp; Platform" data-ar="العلامة والمنصة">Brand &amp; Platform</a></li>
     </ul>
     <div class="nav-actions">
       <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
@@ -417,7 +419,7 @@
         <!-- Screen 4: Profile -->
         <div class="app-screen" id="screen-pro-profile">
           <!-- Profile hero with gradient -->
-          <div style="background:linear-gradient(135deg, var(--success), #00953A);padding:30px 18px 20px;text-align:center;">
+          <div style="background:linear-gradient(135deg, var(--success), #176B47);padding:30px 18px 20px;text-align:center;">
             <div class="app-avatar" style="width:56px;height:56px;font-size:1.3rem;margin:0 auto 10px;background:rgba(255,255,255,0.2);color:white;border:2px solid rgba(255,255,255,0.4);">أ</div>
             <div style="font-size:1rem;font-weight:700;color:white;" data-en="Ahmed Al-Mutairi" data-ar="أحمد المطيري">أحمد المطيري</div>
             <div style="font-size:0.75rem;color:rgba(255,255,255,0.8);margin-top:2px;">4.9 &#x2B50;</div>
@@ -442,7 +444,7 @@
             <!-- Menu card -->
             <div class="app-menu">
               <div class="app-menu-row" onclick="goProScreen('screen-pro-vehicle',-1)">
-                <div class="app-menu-icon" style="background:rgba(0,102,255,0.1);">
+                <div class="app-menu-icon" style="background:rgba(106,79,182,0.1);">
                   <svg viewBox="0 0 24 24" width="18" height="18" stroke="var(--accent)" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13" rx="2"/><polygon points="16 8 22 4 22 16 16 12"/></svg>
                 </div>
                 <div class="app-menu-text">
@@ -460,7 +462,7 @@
                 <div class="app-menu-chevron"><svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></div>
               </div>
               <div class="app-menu-row" onclick="goProScreen('screen-pro-bank',-1)">
-                <div class="app-menu-icon" style="background:rgba(0,200,83,0.1);">
+                <div class="app-menu-icon" style="background:rgba(31,138,91,0.1);">
                   <svg viewBox="0 0 24 24" width="18" height="18" stroke="#00c853" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
                 </div>
                 <div class="app-menu-text">
@@ -515,7 +517,7 @@
           </div>
           <div class="app-card">
             <div style="display:flex;gap:12px;align-items:center;margin-bottom:14px;">
-              <div style="width:48px;height:48px;border-radius:12px;background:rgba(0,102,255,0.1);display:flex;align-items:center;justify-content:center;">
+              <div style="width:48px;height:48px;border-radius:12px;background:rgba(106,79,182,0.1);display:flex;align-items:center;justify-content:center;">
                 <svg viewBox="0 0 24 24" width="22" height="22" stroke="var(--accent)" fill="none" stroke-width="1.5"><rect x="1" y="6" width="22" height="12" rx="3"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="18" r="2"/></svg>
               </div>
               <div style="flex:1;">
@@ -553,7 +555,7 @@
             <div style="width:36px;"></div>
           </div>
           <div class="app-card" style="display:flex;gap:12px;align-items:center;">
-            <div style="width:40px;height:40px;border-radius:10px;background:rgba(0,200,83,0.1);display:flex;align-items:center;justify-content:center;">
+            <div style="width:40px;height:40px;border-radius:10px;background:rgba(31,138,91,0.1);display:flex;align-items:center;justify-content:center;">
               <svg viewBox="0 0 24 24" width="18" height="18" stroke="#00c853" fill="none" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
             </div>
             <div style="flex:1;">
@@ -562,7 +564,7 @@
             </div>
           </div>
           <div class="app-card" style="display:flex;gap:12px;align-items:center;">
-            <div style="width:40px;height:40px;border-radius:10px;background:rgba(0,200,83,0.1);display:flex;align-items:center;justify-content:center;">
+            <div style="width:40px;height:40px;border-radius:10px;background:rgba(31,138,91,0.1);display:flex;align-items:center;justify-content:center;">
               <svg viewBox="0 0 24 24" width="18" height="18" stroke="#00c853" fill="none" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
             </div>
             <div style="flex:1;">
@@ -571,7 +573,7 @@
             </div>
           </div>
           <div class="app-card" style="display:flex;gap:12px;align-items:center;">
-            <div style="width:40px;height:40px;border-radius:10px;background:rgba(0,200,83,0.1);display:flex;align-items:center;justify-content:center;">
+            <div style="width:40px;height:40px;border-radius:10px;background:rgba(31,138,91,0.1);display:flex;align-items:center;justify-content:center;">
               <svg viewBox="0 0 24 24" width="18" height="18" stroke="#00c853" fill="none" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
             </div>
             <div style="flex:1;">
@@ -606,7 +608,7 @@
                 <div style="font-size:0.82rem;font-weight:700;color:var(--text-primary);" data-en="Al Rajhi Bank" data-ar="مصرف الراجحي">مصرف الراجحي</div>
                 <div style="font-size:0.62rem;color:var(--text-muted);">SA **** **** **** 7823</div>
               </div>
-              <div style="padding:3px 8px;border-radius:8px;background:rgba(0,200,83,0.1);font-size:0.6rem;font-weight:700;color:#00c853;" data-en="Active" data-ar="نشط">نشط</div>
+              <div style="padding:3px 8px;border-radius:8px;background:rgba(31,138,91,0.1);font-size:0.6rem;font-weight:700;color:#00c853;" data-en="Active" data-ar="نشط">نشط</div>
             </div>
             <div style="height:1px;background:var(--border-primary);margin:0 -14px 14px;"></div>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
@@ -689,17 +691,17 @@
           </div>
           <div class="app-menu">
             <div class="app-menu-row">
-              <div class="app-menu-icon" style="background:rgba(0,102,255,0.1);">
+              <div class="app-menu-icon" style="background:rgba(106,79,182,0.1);">
                 <svg viewBox="0 0 24 24" width="18" height="18" stroke="var(--accent)" fill="none" stroke-width="1.5"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
               </div>
               <div class="app-menu-text">
                 <span class="app-menu-title" data-en="Live Chat" data-ar="محادثة مباشرة">محادثة مباشرة</span>
                 <div class="app-menu-sub" data-en="Available 24/7" data-ar="متاح 24/7">متاح 24/7</div>
               </div>
-              <div style="padding:3px 8px;border-radius:8px;background:rgba(0,200,83,0.1);font-size:0.58rem;font-weight:700;color:#00c853;" data-en="Online" data-ar="متصل">متصل</div>
+              <div style="padding:3px 8px;border-radius:8px;background:rgba(31,138,91,0.1);font-size:0.58rem;font-weight:700;color:#00c853;" data-en="Online" data-ar="متصل">متصل</div>
             </div>
             <div class="app-menu-row">
-              <div class="app-menu-icon" style="background:rgba(0,200,83,0.1);">
+              <div class="app-menu-icon" style="background:rgba(31,138,91,0.1);">
                 <svg viewBox="0 0 24 24" width="18" height="18" stroke="#00c853" fill="none" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
               </div>
               <div class="app-menu-text">
@@ -1001,7 +1003,7 @@
               <!-- Payout -->
               <div style="font-size:11px;font-weight:600;color:var(--text-muted);margin-bottom:8px;" data-en="RECENT PAYOUTS" data-ar="المدفوعات الأخيرة">RECENT PAYOUTS</div>
               <div class="screen-list-item" style="padding:8px 0;">
-                <div style="width:32px;height:32px;background:rgba(0,200,83,0.1);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--success);font-size:14px;">&#x2713;</div>
+                <div style="width:32px;height:32px;background:rgba(31,138,91,0.1);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--success);font-size:14px;">&#x2713;</div>
                 <div style="flex:1;">
                   <div style="font-size:11px;font-weight:600;" data-en="Weekly Payout" data-ar="دفعة أسبوعية">Weekly Payout</div>
                   <div style="font-size:9px;color:var(--text-muted);">May 12, 2026</div>
@@ -1009,7 +1011,7 @@
                 <span style="font-size:13px;font-weight:700;color:var(--success);">+1,280</span>
               </div>
               <div class="screen-list-item" style="padding:8px 0;">
-                <div style="width:32px;height:32px;background:rgba(0,200,83,0.1);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--success);font-size:14px;">&#x2713;</div>
+                <div style="width:32px;height:32px;background:rgba(31,138,91,0.1);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--success);font-size:14px;">&#x2713;</div>
                 <div style="flex:1;">
                   <div style="font-size:11px;font-weight:600;" data-en="Weekly Payout" data-ar="دفعة أسبوعية">Weekly Payout</div>
                   <div style="font-size:9px;color:var(--text-muted);">May 5, 2026</div>
@@ -1048,7 +1050,7 @@
             <div class="screen-content">
               <!-- Profile header -->
               <div style="text-align:center;padding:10px 0 16px;">
-                <div class="screen-avatar" style="width:60px;height:60px;margin:0 auto 10px;font-size:24px;background:linear-gradient(135deg, var(--success), #00953A);">K</div>
+                <div class="screen-avatar" style="width:60px;height:60px;margin:0 auto 10px;font-size:24px;background:linear-gradient(135deg, var(--success), #176B47);">K</div>
                 <div style="font-size:16px;font-weight:700;" data-en="Karim Mansour" data-ar="كريم منصور">Karim Mansour</div>
                 <div style="font-size:10px;color:var(--text-muted);" data-en="Pro Washer · Since Jan 2026" data-ar="غاسل محترف · منذ يناير 2026">Pro Washer · Since Jan 2026</div>
                 <div style="display:flex;justify-content:center;gap:6px;margin-top:8px;">
