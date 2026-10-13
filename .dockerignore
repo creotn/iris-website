@@ -1,5 +1,25 @@
+# Items that don't need to be in a Docker image.
+# Anything not used by the build system should go here.
+
+Dockerfile
+.dockerignore
+.gitignore
+.gitlab-ci.yml
+.env
+.env*.local
+README.md
+CLAUDE.md
+nginx.conf
 .git
 .github
+.vercel
 .vscode
-sonar-project.properties
-*.md
+.claude
+.specify
+coverage
+*.tsbuildinfo
+
+# Artifacts that will be built during image creation.
+
+.next
+node_modules

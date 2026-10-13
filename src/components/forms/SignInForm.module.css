@@ -1,0 +1,112 @@
+.form {
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.heading {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  margin-block-end: var(--space-sm);
+}
+
+.title {
+  margin: 0;
+  font-size: var(--fs-h2);
+  font-weight: 800;
+}
+
+.subtitle {
+  font-size: var(--fs-body-sm);
+  color: var(--text-muted);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.inputWrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.icon {
+  position: absolute;
+  inset-inline-start: 14px;
+  color: var(--text-muted);
+  pointer-events: none;
+  transition: color 0.2s ease;
+}
+
+.input {
+  width: 100%;
+  padding-block: 12px;
+  padding-inline: 44px 14px;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  font: inherit;
+  text-align: start;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+/* The input is LTR (email/password) but the icon follows the page, so in RTL the reserved space
+   is the input's own inline-end. */
+html[dir="rtl"] .input {
+  padding-inline: 14px 44px;
+  text-align: right;
+}
+
+.input::placeholder {
+  color: var(--text-muted);
+}
+
+.input:focus {
+  outline: none;
+  background: var(--bg-card);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px var(--accent-subtle);
+}
+
+.inputWrap:focus-within .icon {
+  color: var(--accent);
+}
+
+.submit {
+  width: 100%;
+  margin-block-start: var(--space-xs);
+  padding: 14px var(--space-md);
+  background: var(--accent);
+  color: var(--text-on-accent);
+  border: 0;
+  border-radius: var(--radius-md);
+  box-shadow: 0 4px 15px var(--accent-shadow);
+  font-size: 0.95rem;
+  font-weight: 700;
+  transition:
+    background 0.25s ease,
+    box-shadow 0.25s ease,
+    translate 0.25s ease;
+}
+
+.submit:hover:not(:disabled) {
+  background: var(--accent-light);
+  box-shadow: 0 6px 25px var(--accent-shadow-hover);
+  translate: 0 -2px;
+}
