@@ -1,0 +1,57 @@
+.shell {
+  width: 100%;
+  max-width: 502px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 28px;
+}
+
+.back {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0;
+  background: none;
+  border: 0;
+  color: var(--text-secondary);
+  font: inherit;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.back:hover {
+  color: var(--text-primary);
+}
+
+/* The arrow points back, which flips with the page direction. */
+html[dir="rtl"] .backIcon {
+  scale: -1 1;
+}
+
+.count {
+  margin-inline-start: auto;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.track {
+  height: 4px;
+  overflow: hidden;
+  background: var(--border);
+  border-radius: var(--radius-full);
+}
+
+.fill {
+  display: block;
+  height: 100%;
+  background: var(--accent);
+  border-radius: inherit;
+  transition: inline-size 0.3s ease;
+}

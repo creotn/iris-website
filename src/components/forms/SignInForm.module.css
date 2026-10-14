@@ -1,6 +1,6 @@
 .form {
   width: 100%;
-  max-width: 400px;
+  max-width: 502px;
   display: flex;
   flex-direction: column;
   gap: var(--space-md);
@@ -15,8 +15,81 @@
 
 .title {
   margin: 0;
-  font-size: var(--fs-h2);
+  font-size: clamp(2rem, 5vw, 3rem);
   font-weight: 800;
+  line-height: 1.2;
+}
+
+.tabs {
+  display: flex;
+  gap: var(--space-lg);
+  margin-block-end: var(--space-sm);
+  border-block-end: 1px solid var(--border);
+}
+
+.tab {
+  margin-block-end: -1px;
+  background: none;
+  border-inline: 0;
+  border-block-start: 0;
+  cursor: pointer;
+  font-family: inherit;
+  padding-block: 10px;
+  border-block-end: 2px solid transparent;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.tabActive {
+  color: var(--text-primary);
+  border-color: var(--accent);
+}
+
+.fields {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-md);
+}
+
+.notice {
+  padding: 12px 14px;
+  background: var(--accent-subtle);
+  border-radius: var(--radius-md);
+  font-size: 0.85rem;
+  color: var(--text-primary);
+}
+
+.labelRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.forgot {
+  font-size: 0.8rem;
+  color: var(--accent);
+}
+
+.toggle {
+  position: absolute;
+  inset-inline-end: 14px;
+  display: flex;
+  padding: 0;
+  background: none;
+  border: 0;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+
+.toggle:hover {
+  color: var(--text-primary);
 }
 
 .subtitle {
@@ -31,9 +104,9 @@
 }
 
 .label {
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   font-weight: 600;
-  color: var(--text-secondary);
+  color: var(--text-primary);
 }
 
 .inputWrap {
@@ -43,6 +116,7 @@
 }
 
 .icon {
+  display: flex;
   position: absolute;
   inset-inline-start: 14px;
   color: var(--text-muted);
@@ -52,9 +126,9 @@
 
 .input {
   width: 100%;
-  padding-block: 12px;
-  padding-inline: 44px 14px;
-  background: var(--bg-input);
+  padding-block: 16px;
+  padding-inline: 44px;
+  background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
   color: var(--text-primary);
@@ -66,10 +140,8 @@
     background 0.2s ease;
 }
 
-/* The input is LTR (email/password) but the icon follows the page, so in RTL the reserved space
-   is the input's own inline-end. */
+/* The input is LTR (email/password) but the icons follow the page, so in RTL text hugs the right. */
 html[dir="rtl"] .input {
-  padding-inline: 14px 44px;
   text-align: right;
 }
 
@@ -89,15 +161,19 @@ html[dir="rtl"] .input {
 }
 
 .submit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
   width: 100%;
   margin-block-start: var(--space-xs);
-  padding: 14px var(--space-md);
-  background: var(--accent);
-  color: var(--text-on-accent);
+  padding: 18px var(--space-md);
+  background: var(--iris-ink);
+  color: var(--iris-paper);
   border: 0;
   border-radius: var(--radius-md);
   box-shadow: 0 4px 15px var(--accent-shadow);
-  font-size: 0.95rem;
+  font-size: 1rem;
   font-weight: 700;
   transition:
     background 0.25s ease,
@@ -106,7 +182,43 @@ html[dir="rtl"] .input {
 }
 
 .submit:hover:not(:disabled) {
-  background: var(--accent-light);
   box-shadow: 0 6px 25px var(--accent-shadow-hover);
   translate: 0 -2px;
+}
+
+.arrow {
+  color: var(--iris-light);
+}
+
+html[dir="rtl"] .arrow {
+  scale: -1 1;
+}
+
+.fieldError {
+  font-size: 0.8rem;
+  color: var(--error);
+}
+
+.input[aria-invalid="true"] {
+  border-color: var(--error);
+}
+
+.ghost {
+  width: 100%;
+  padding: 12px var(--space-md);
+  background: none;
+  border: 0;
+  color: var(--text-muted);
+  font: inherit;
+  text-align: center;
+  cursor: pointer;
+}
+
+.ghost:hover:not(:disabled) {
+  color: var(--text-primary);
+}
+
+.ghost:disabled {
+  cursor: default;
+  opacity: 0.6;
 }

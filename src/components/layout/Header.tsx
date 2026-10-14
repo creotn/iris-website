@@ -1,4 +1,5 @@
 import Link from "next/link";
+import AuthButton from "./AuthButton";
 import { getScopedI18n } from "@/locales/server";
 import LanguageSwitcher from "./LanguageSwitcher";
 import Logo from "./Logo";
@@ -36,9 +37,10 @@ export default async function Header({ locale }: { locale: Locale }) {
         </nav>
 
         <div className={styles.actions}>
-          <Link href={`/${locale}/sign-in`} className="btn btn-primary btn-sm">
-            {t("signIn")}
-          </Link>
+          <AuthButton
+            locale={locale}
+            labels={{ signIn: t("signIn"), book: t("book"), account: t("account"), signOut: t("signOut") }}
+          />
           <ThemeToggle label={t("toggleTheme")} />
           <LanguageSwitcher
             labels={{ en: t("switchToEnglish"), ar: t("switchToArabic") }}

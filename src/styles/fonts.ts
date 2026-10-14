@@ -18,7 +18,6 @@ const LatinFont = Roboto({
 // Arabic in mono labels falls through to the system monospace face, as the brand design intends.
 const MonoFont = JetBrains_Mono({
   subsets: ["latin"],
-  weight: ["400", "500"],
   display: "swap",
   variable: "--font-mono",
   adjustFontFallback: false,

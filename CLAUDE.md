@@ -34,6 +34,11 @@ Runtime: Node 24 LTS locally, `node:22` in Docker.
   `locales/*.ts`, because the locale dictionaries also ship to the client. Keep both halves in sync.
 - `app/[locale]/customer/` — the Customer App showcase: an interactive iPhone prototype (12 screens)
   plus a screens gallery. Copy in `customer/_content.ts`, same pattern as the brand book.
+- `app/[locale]/book/(protected)/wash/` + `components/booking/wash/` — the customer booking flow
+  (service → customize → when & visit details → review/promo → pay → done), one client component
+  (`WashFlow`) driving six phases over `api/BookingAPI.ts`. Source of the UX: `../iris/ux/customer-journey.html`.
+  Scheduled washes go through `POST /scheduling/slots`, not `POST /bookings`; card payment is
+  Moyasar's hosted form (`MoyasarForm`), confirmed server-side by `verifyCardPayment`.
 - `components/app-prototype/` — the reusable iPhone prototype: `PhoneDemo` (client; screens are
   server-rendered nodes that navigate via `data-goto="<screen id>"` and toggle the in-phone theme via
   `data-app-theme`), `ChipGroup` (client), and the shared `AppPrototype.module.css`. Reuse it for the

@@ -23,7 +23,7 @@ import { sessionCookieName } from "./sessionCookie";
 export async function getAuthToken(): Promise<string | null> {
   try {
     const cookieStore = await cookies();
-    const token = cookieStore.get("access_token");
+    const token = cookieStore.get("iris_token");
 
     if (!token?.value) {
       return null;

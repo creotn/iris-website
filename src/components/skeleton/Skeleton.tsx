@@ -1,6 +1,8 @@
+"use client";
+
 import clsx from "clsx";
 import type { ReactNode } from "react";
-import { getScopedI18n } from "@/locales/server";
+import { useScopedI18n } from "@/locales/client";
 import styles from "./Skeleton.module.css";
 
 type Radius = "sm" | "md" | "lg" | "full" | "circle";
@@ -29,15 +31,19 @@ export function Skeleton({
   );
 }
 
-/** Wraps a page-shaped skeleton and announces the loading state to assistive technology. */
-export async function SkeletonScreen({
+/**
+ * Wraps a page-shaped skeleton and announces the loading state to assistive technology. A client
+ * component on purpose: a `loading.tsx` is prerendered with its page, before any `setStaticParamsLocale`
+ * could run, so the label comes from the layout's i18n provider instead of the server lookup.
+ */
+export function SkeletonScreen({
   children,
   className,
 }: {
   children: ReactNode;
   className?: string;
 }) {
-  const t = await getScopedI18n("loading");
+  const t = useScopedI18n("loading");
 
   return (
     <div role="status" aria-busy="true" className={clsx(styles.screen, className)}>

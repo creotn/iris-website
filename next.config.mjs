@@ -17,6 +17,7 @@ const nextConfig = {
         port: "5000",
         pathname: "/v1/api/files/**",
       },
+      { protocol: "https", hostname: "flagcdn.com", pathname: "/w40/**" },
     ],
   },
   async rewrites() {
