@@ -1,0 +1,46 @@
+.toggle {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  overflow: hidden;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  color: var(--text-primary);
+  transition: all var(--transition-normal);
+}
+
+.toggle:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--border-accent);
+  transform: scale(1.05);
+}
+
+.moon,
+.sun {
+  position: absolute;
+  transition: all 0.4s ease;
+}
+
+.sun {
+  opacity: 1;
+  transform: rotate(0deg) scale(1);
+}
+
+.moon {
+  opacity: 0;
+  transform: rotate(90deg) scale(0.5);
+}
+
+:global(:root[data-theme="dark"]) .sun {
+  opacity: 0;
+  transform: rotate(-90deg) scale(0.5);
+}
+
+:global(:root[data-theme="dark"]) .moon {
+  opacity: 1;
+  transform: rotate(0deg) scale(1);
+}

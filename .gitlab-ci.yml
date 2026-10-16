@@ -1,0 +1,35 @@
+stages:
+  - build
+  - sync
+
+workflow:
+  rules:
+    - if: '$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH || $CI_JOB_MANUAL == "true"'
+
+variables:
+  PROJECT_NAME: ehya-customer
+  COMMIT: $CI_COMMIT_SHORT_SHA
+  CONTAINER_REGISTRY: $AZURE_REGISTRY_URL
+
+build:
+  stage: build
+  tags:
+    - creo-aws-runner
+  before_script:
+    - echo "Logging into Azure Container Registry..."
+    - echo "$AZURE_SP_PASSWD" | docker login $CONTAINER_REGISTRY -u $AZURE_SP_APP_ID --password-stdin
+  script:
+    - echo "Building the project..."
+    - docker build -t $PROJECT_NAME:$COMMIT .
+    - docker tag $PROJECT_NAME:$COMMIT $CONTAINER_REGISTRY/$PROJECT_NAME:$COMMIT
+    - docker push $CONTAINER_REGISTRY/$PROJECT_NAME:$COMMIT
+
+downstream:
+  stage: sync
+  variables:
+    TRIGERRED_JOB: customer
+    CUSTOMER_COMMIT: $CI_COMMIT_SHORT_SHA
+  trigger:
+    branch: main
+    project: creo.tn/ehya-prod-infra
+    strategy: depend

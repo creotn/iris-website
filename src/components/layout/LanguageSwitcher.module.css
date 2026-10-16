@@ -1,0 +1,29 @@
+.toggle {
+  display: inline-flex;
+  gap: 2px;
+  padding: 3px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+}
+
+.button {
+  padding: 6px 16px;
+  border: none;
+  border-radius: var(--radius-full);
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  font-weight: 600;
+  transition: all var(--transition-fast);
+}
+
+.button:hover:not(:disabled) {
+  color: var(--text-primary);
+}
+
+.active {
+  background: var(--accent);
+  color: var(--text-on-accent);
+  cursor: default;
+}

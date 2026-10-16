@@ -1,0 +1,170 @@
+.header {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: 100;
+  padding-block: var(--space-md);
+  background: var(--nav-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-block-end: 1px solid var(--border);
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+}
+
+.logo {
+  height: 32px;
+  width: auto;
+}
+
+.links {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xl);
+  list-style: none;
+}
+
+.link {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.link:hover {
+  color: var(--text-primary);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.mobileOnly {
+  display: none;
+}
+
+/* Below this the links and actions no longer fit on one line. Keep in sync with MobileMenu.tsx. */
+@media (max-width: 1024px) {
+  .desktopOnly {
+    display: none;
+  }
+
+  .mobileOnly {
+    display: contents;
+  }
+}
+
+/* ---- Mobile drawer ---- */
+
+.menuButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  color: var(--text-primary);
+  transition: all var(--transition-normal);
+}
+
+.menuButton:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--border-accent);
+}
+
+.drawer {
+  margin: 0;
+  margin-inline-start: auto;
+  padding: 0;
+  width: min(340px, 85vw);
+  max-width: none;
+  height: 100dvh;
+  max-height: none;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  border: none;
+  border-inline-start: 1px solid var(--border);
+  box-shadow: var(--shadow-lg);
+}
+
+.drawer[open] {
+  animation: drawer-in var(--transition-normal) ease-out;
+}
+
+.drawer::backdrop {
+  background: rgb(0 0 0 / 0.45);
+  backdrop-filter: blur(2px);
+}
+
+.drawer[open]::backdrop {
+  animation: backdrop-in var(--transition-normal) ease-out;
+}
+
+:global(html):has(.drawer[open]) {
+  overflow: hidden;
+}
+
+.drawerPanel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  min-height: 100%;
+  padding: var(--space-md) var(--space-lg) var(--space-xl);
+}
+
+.drawerPanel > .menuButton {
+  align-self: flex-end;
+}
+
+.drawerLinks {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+}
+
+.drawerLink {
+  display: block;
+  padding-block: var(--space-md);
+  border-block-end: 1px solid var(--border);
+  color: var(--text-primary);
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.drawerLink:hover {
+  color: var(--text-accent);
+}
+
+@keyframes drawer-in {
+  from {
+    translate: 100% 0;
+  }
+}
+
+:global(html[dir="rtl"]) .drawer[open] {
+  animation-name: drawer-in-rtl;
+}
+
+@keyframes drawer-in-rtl {
+  from {
+    translate: -100% 0;
+  }
+}
+
+@keyframes backdrop-in {
+  from {
+    opacity: 0;
+  }
+}
+
+.drawerLanguage {
+  margin-block-start: auto;
+}

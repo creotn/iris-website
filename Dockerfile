@@ -1,15 +1,42 @@
-FROM nginx:1.23.3-alpine
+FROM node:22-alpine3.24 AS build
 
-RUN rm /etc/nginx/conf.d/default.conf
+WORKDIR /app
 
-COPY nginx.conf /etc/nginx/conf.d/app.conf
-COPY *.html /app/
-COPY logo-black.png logo-white.png /app/
-COPY assets /app/assets
+ARG API_URL
+ARG NEXT_PUBLIC_URL
+ARG NEXT_SERVER_ACTIONS_ENCRYPTION_KEY
 
-EXPOSE 3000
+ENV API_URL=$API_URL \
+	NEXT_PUBLIC_URL=$NEXT_PUBLIC_URL \
+	NEXT_SERVER_ACTIONS_ENCRYPTION_KEY=$NEXT_SERVER_ACTIONS_ENCRYPTION_KEY \
+	NEXT_TELEMETRY_DISABLED=1
 
-# HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
-#   CMD wget -qO- http://127.0.0.1:3000/ || exit 1
+# Pinned to match package.json "packageManager"
+RUN npm install -g pnpm@10.18.3
 
-CMD ["nginx", "-g", "daemon off;"]
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+
+RUN pnpm install --frozen-lockfile --ignore-scripts
+
+COPY . ./
+
+RUN pnpm build
+
+FROM node:22-alpine3.24 AS production
+
+WORKDIR /app
+
+ENV NODE_ENV=production \
+	NEXT_TELEMETRY_DISABLED=1
+
+# Copy standalone server + bundled deps
+COPY --from=build /app/.next/standalone ./
+
+# Static assets (standalone doesn't inline these)
+COPY --from=build /app/.next/static ./.next/static
+COPY --from=build /app/public ./public
+
+# Create cache dir
+RUN mkdir -p .next/cache/images
+
+ENTRYPOINT ["node", "server.js"]
