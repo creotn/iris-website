@@ -3,28 +3,34 @@ import { apiRequest, type ApiResult } from "@/lib/api/client";
 /** Optional form fields arrive as empty strings; the API wants them absent. */
 const blankToUndefined = (value: string) => (value.trim() === "" ? undefined : value.trim());
 
-export function addVehicle(input: {
+export type VehicleInput = {
   make: string;
   model: string;
   year: string;
   plateNumber: string;
   color: string;
   type: string;
-}): Promise<ApiResult> {
+};
+
+function vehicleBody(input: VehicleInput) {
   const year = blankToUndefined(input.year);
-  return apiRequest("/vehicles", {
-    method: "POST",
-    auth: true,
-    body: {
-      make: input.make.trim(),
-      model: input.model.trim(),
-      year: year === undefined ? undefined : Number(year),
-      plateNumber: blankToUndefined(input.plateNumber),
-      color: blankToUndefined(input.color),
-      type: input.type,
-    },
-  });
+  return {
+    make: input.make.trim(),
+    model: input.model.trim(),
+    year: year === undefined ? undefined : Number(year),
+    plateNumber: blankToUndefined(input.plateNumber),
+    color: blankToUndefined(input.color),
+    type: input.type,
+  };
 }
+
+export const addVehicle = (input: VehicleInput) =>
+  apiRequest("/vehicles", { method: "POST", auth: true, body: vehicleBody(input) });
+
+export const updateVehicle = (pubkey: string, input: VehicleInput) =>
+  apiRequest(`/vehicles/${pubkey}`, { method: "PATCH", auth: true, body: vehicleBody(input) });
+
+export const deleteVehicle = (pubkey: string) => apiRequest(`/vehicles/${pubkey}`, { method: "DELETE", auth: true });
 
 export async function saveAddress(input: {
   address: string;
@@ -103,7 +109,15 @@ export const requestQuote = (lines: BookingItem[]) =>
     body: { lines: lines.map(({ dimension: _dimension, ...line }) => line) },
   });
 
-export type Vehicle = { pubkey: string; make: string; model: string; year: number | null; plateNumber: string | null; type: string };
+export type Vehicle = {
+  pubkey: string;
+  make: string;
+  model: string;
+  year: number | null;
+  plateNumber: string | null;
+  color: string | null;
+  type: string;
+};
 
 export async function fetchVehicles(): Promise<ApiResult<Vehicle[]>> {
   const result = await apiRequest<Vehicle[] | { data: Vehicle[] }>("/vehicles", { auth: true });
@@ -112,7 +126,7 @@ export async function fetchVehicles(): Promise<ApiResult<Vehicle[]>> {
 }
 
 export type SavedAddress = {
-  address: { pubkey: string; address: string } | null;
+  address: { pubkey: string; address: string; latitude: number | null; longitude: number | null } | null;
   /** Null with an address present means the address is outside coverage. */
   area: { pubkey: string; city: string } | null;
 };

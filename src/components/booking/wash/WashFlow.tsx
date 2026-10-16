@@ -45,6 +45,9 @@ type Data = {
   address: SavedAddress & { area: NonNullable<SavedAddress["area"]> };
 };
 
+/** Keeps the booking in the URL so a refresh reopens it instead of starting a new one. */
+const bookingUrl = (pubkey: string) => `${window.location.pathname}?booking=${encodeURIComponent(pubkey)}`;
+
 type Load = { status: "loading" } | { status: "failed"; message: string } | { status: "ready"; data: Data };
 
 export default function WashFlow() {
@@ -105,31 +108,36 @@ export default function WashFlow() {
         },
       });
 
-      // Coming back from a 3-D Secure challenge: Moyasar appends the payment id to our callback URL.
+      // A booking in the URL is reopened: after a refresh, or coming back from a 3-D Secure challenge
+      // (Moyasar appends the payment id to our callback URL).
       const params = new URLSearchParams(window.location.search);
       const pubkey = params.get("booking");
       if (!pubkey) return;
       const paymentId = params.get("id");
       const transaction = params.get("tx");
-      window.history.replaceState(null, "", window.location.pathname);
-
+      window.history.replaceState(null, "", bookingUrl(pubkey));
       setBookingPubkey(pubkey);
-      if (!paymentId || !transaction) return finish(pubkey);
 
-      setReturning(true);
-      const verified = await verifyCardPayment(pubkey, transaction, paymentId);
-      if (!active) return;
-      setReturning(false);
-      if (verified.ok) return finish(pubkey);
-
-      // Declined or abandoned: the booking is still waiting, so offer the payment methods again.
-      setError(translateError(verified.error, locale));
-      const again = await fetchPaymentSummary(pubkey);
-      if (!active) return;
-      if (again.ok) {
-        setSummary(again.data);
-        setPhase("pay");
+      if (paymentId && transaction) {
+        setReturning(true);
+        const verified = await verifyCardPayment(pubkey, transaction, paymentId);
+        if (!active) return;
+        setReturning(false);
+        if (verified.ok) return finish(pubkey);
+        // Declined or abandoned: the booking is still waiting, so offer the payment methods again.
+        setError(translateError(verified.error, locale));
       }
+
+      const summary = await fetchPaymentSummary(pubkey);
+      if (!active) return;
+      if (!summary.ok) {
+        // Not this account's booking, or gone: start a fresh one rather than reuse the pubkey on confirm.
+        window.history.replaceState(null, "", window.location.pathname);
+        return setBookingPubkey(null);
+      }
+      if (!summary.data.requiresPayment) return finish(pubkey);
+      setSummary(summary.data);
+      setPhase("pay");
     })();
 
     return () => {
@@ -163,6 +171,7 @@ export default function WashFlow() {
       }
       pubkey = created.data.pubkey;
       setBookingPubkey(pubkey);
+      window.history.replaceState(null, "", bookingUrl(pubkey));
     }
 
     const result = await fetchPaymentSummary(pubkey);
@@ -176,6 +185,7 @@ export default function WashFlow() {
   };
 
   const reset = () => {
+    window.history.replaceState(null, "", window.location.pathname);
     setDraftState(emptyDraft);
     setBookingPubkey(null);
     setSummary(null);

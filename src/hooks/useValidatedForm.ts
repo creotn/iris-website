@@ -23,10 +23,10 @@ export const numberInRange =
  * Controlled form state with per-field rules: an error shows once its field has been blurred, and
  * `isValid` (over all rules, touched or not) is what keeps the submit button disabled.
  */
-export function useValidatedForm<K extends string>(rules: Record<K, Rule>) {
+export function useValidatedForm<K extends string>(rules: Record<K, Rule>, initial?: Partial<Record<K, string>>) {
   const keys = Object.keys(rules) as K[];
   const [values, setValues] = useState(
-    () => Object.fromEntries(keys.map((key) => [key, ""])) as Record<K, string>,
+    () => Object.fromEntries(keys.map((key) => [key, initial?.[key] ?? ""])) as Record<K, string>,
   );
   const [touched, setTouched] = useState<Partial<Record<K, boolean>>>({});
 

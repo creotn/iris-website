@@ -1,16 +1,21 @@
 import { Skeleton, SkeletonScreen } from "@/components/skeleton/Skeleton";
-import formStyles from "@/components/forms/SignInForm.module.css";
-import styles from "../book/book.module.css";
+import styles from "@/components/account/Account.module.css";
 
 export default function Loading() {
   return (
     <SkeletonScreen className={`container ${styles.main}`}>
-      <div className={formStyles.form}>
-        <Skeleton width="55%" height="40px" />
-        <Skeleton width="70%" height="16px" />
-        <Skeleton height="58px" />
-        <Skeleton height="58px" />
-        <Skeleton height="58px" />
+      <div className={styles.page}>
+        <Skeleton height="220px" radius="lg" />
+        <div className={styles.tiles}>
+          <Skeleton height="74px" radius="lg" />
+          <Skeleton height="74px" radius="lg" />
+          <Skeleton height="74px" radius="lg" />
+        </div>
+        <Skeleton width="180px" height="28px" />
+        <div className={styles.liveGrid}>
+          <Skeleton height="230px" radius="lg" />
+          <Skeleton height="230px" radius="lg" />
+        </div>
       </div>
     </SkeletonScreen>
   );

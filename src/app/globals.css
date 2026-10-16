@@ -62,6 +62,18 @@
   --map-bg: linear-gradient(135deg, #ece5f1 0%, #e0d7ea 50%, #ece5f1 100%);
   --map-grid-line: rgba(0, 0, 0, 0.04);
 
+  /* Account dashboard: a deep-violet hero with a white call to action. */
+  --hero-bg: #4d2d70;
+  --hero-glow: rgba(188, 167, 232, 0.22);
+  --hero-text: #ffffff;
+  --hero-muted: rgba(255, 255, 255, 0.72);
+  --hero-card: rgba(255, 255, 255, 0.08);
+  --hero-border: rgba(255, 255, 255, 0.18);
+  --lime: #ffffff;
+  --lime-hover: #ffffff;
+  --on-lime: var(--iris-ink);
+  --backdrop: rgba(17, 19, 21, 0.45);
+
   color-scheme: light;
 
   --space-xs: 4px;
@@ -138,6 +150,17 @@
   --phone-notch: var(--iris-ink);
   --map-bg: linear-gradient(135deg, #15101e 0%, #221a30 50%, #15101e 100%);
   --map-grid-line: rgba(255, 255, 255, 0.03);
+
+  --hero-bg: #4d2d70;
+  --hero-glow: rgba(188, 167, 232, 0.16);
+  --hero-text: #ffffff;
+  --hero-muted: rgba(255, 255, 255, 0.7);
+  --hero-card: rgba(255, 255, 255, 0.07);
+  --hero-border: rgba(255, 255, 255, 0.14);
+  --lime: #ffffff;
+  --lime-hover: #ffffff;
+  --on-lime: var(--iris-ink);
+  --backdrop: rgba(0, 0, 0, 0.6);
 
   color-scheme: dark;
 }

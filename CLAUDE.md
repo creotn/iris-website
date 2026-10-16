@@ -38,11 +38,23 @@ Runtime: Node 24 LTS locally, `node:22` in Docker.
   (`WashFlow`) driving six phases over `api/BookingAPI.ts`. Source of the UX: `../iris/ux/customer-journey.html`.
   Scheduled washes go through `POST /scheduling/slots`, not `POST /bookings`; card payment is
   Moyasar's hosted form (`MoyasarForm`), confirmed server-side by `verifyCardPayment`.
+- `app/[locale]/account/` + `components/account/` — the customer's account: `(overview)` (one page:
+  violet hero with wallet + top-up, shortcut tiles, payment-needed cards, live orders, cars, address,
+  order history) and `orders/[pubkey]` (status tracker polled every 15 s while active, price
+  breakdown, photos, pay / cancel / rate). Forms open in the native-`<dialog>` `Dialog`; reads go
+  through `useResource` (reload without blanking) and `api/AccountAPI.ts`. A top-up's 3-D Secure
+  return lands on `/account?topup=…` and is verified there. The overview sits in a route group so its
+  `loading.tsx` doesn't cover the order page. There is no customer-facing technician position in the
+  API, so tracking is status-only.
 - `components/app-prototype/` — the reusable iPhone prototype: `PhoneDemo` (client; screens are
   server-rendered nodes that navigate via `data-goto="<screen id>"` and toggle the in-phone theme via
   `data-app-theme`), `ChipGroup` (client), and the shared `AppPrototype.module.css`. Reuse it for the
   Pro App page rather than forking it.
 - `app/api/auth/refresh` — spends the session cookie for a fresh access token (the proxy redirects here).
+- `app/api/geo` — the address map's place search and place names, proxied to OpenStreetMap
+  Nominatim (signed-in only, cached a day). Server-side because browsers on a broken IPv6 route hang
+  on Nominatim; the map itself is Leaflet (`components/account/LocationMap`). `src/instrumentation.ts`
+  makes the server prefer IPv4 for the same reason.
 - `app/api/clear-cache` — `POST { tag } | { tags }` with `x-cache-secret` → `revalidateTag(tag, "max")`.
 - `api/<Domain>API.tsx` — server **reads** (`ProjectAPI.fetchProjects` is the example).
 - `actions/` — server **writes** (`"use server"`, Zod-validated). `auth.ts` = sign-in / sign-out.
@@ -59,7 +71,9 @@ Runtime: Node 24 LTS locally, `node:22` in Docker.
 - `proxy.ts` — locale routing (`next-international`) + session refresh redirect. This is Next 16's
   rename of `middleware.ts`; it always runs on the Node.js runtime.
 - `styles/fonts.ts` — `ArabicFont` (Tajawal), `LatinFont` (Roboto), `MonoFont` (JetBrains Mono), all
-  `next/font/google`, exposed as `--font-ar` / `--font-en` / `--font-mono`; `globals.css` picks the
+  self-hosted with `next/font/local` from `styles/fonts/` (OFL licences alongside) — not
+  `next/font/google`, which needs Google at compile time and silently falls back to a system font
+  when it can't reach it. Exposed as `--font-ar` / `--font-en` / `--font-mono`; `globals.css` picks the
   body font by `html[dir]`. The mono font has no Arabic glyphs and no adjusted fallback on purpose, so
   Arabic mono labels fall back to the system monospace face (the brand look).
 - `config/theme.ts` — theme storage key + the pre-paint init script.

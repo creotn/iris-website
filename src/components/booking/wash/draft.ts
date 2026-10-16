@@ -32,6 +32,9 @@ export const emptyDraft: Draft = {
 export const pick = (value: L10n, locale: string) =>
   (value as Record<string, string | undefined> | null)?.[locale] ?? value?.ar ?? value?.en ?? "";
 
+/** "Van wash + Headlight polish": reads the same in both languages. */
+export const joinNames = (names: string[]) => names.join(" + ");
+
 /** Latin digits in both languages; Arabic gets the plain "ر.س" suffix Intl's own symbol would pad with marks. */
 export const formatMoney = (value: string | number, locale: string) => {
   const amount = Number(value);
