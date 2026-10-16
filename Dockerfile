@@ -4,10 +4,14 @@ WORKDIR /app
 
 ARG API_URL
 ARG NEXT_PUBLIC_URL
+# NEXT_PUBLIC_* values are inlined into the client bundle by `pnpm build`; setting them on the
+# running container has no effect. Missing here = the browser calls "undefined/v1/api/...".
+ARG NEXT_PUBLIC_API_URL
 ARG NEXT_SERVER_ACTIONS_ENCRYPTION_KEY
 
 ENV API_URL=$API_URL \
 	NEXT_PUBLIC_URL=$NEXT_PUBLIC_URL \
+	NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL \
 	NEXT_SERVER_ACTIONS_ENCRYPTION_KEY=$NEXT_SERVER_ACTIONS_ENCRYPTION_KEY \
 	NEXT_TELEMETRY_DISABLED=1
 
