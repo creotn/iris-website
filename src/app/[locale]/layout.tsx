@@ -6,9 +6,9 @@ import { ReactNode } from "react";
 import { setStaticParamsLocale } from "next-international/server";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import ThemeScript from "@/components/layout/ThemeScript";
 import { I18nProviderClient } from "@/components/providers/I18nProviderClient";
 import AppConfig from "@/config/Base";
-import { themeInitScript } from "@/config/theme";
 import { resolveLocale } from "@/locales/resolveLocale";
 import { getScopedI18n, getStaticParams } from "@/locales/server";
 import { ArabicFont, LatinFont, MonoFont } from "@/styles/fonts";
@@ -45,7 +45,7 @@ export default async function LocaleLayout({
       suppressHydrationWarning
     >
       <head>
-        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+        <ThemeScript />
       </head>
       {/* Browser extensions (e.g. ColorZilla's cz-shortcut-listen) add attributes to <body> before hydration. */}
       <body suppressHydrationWarning>

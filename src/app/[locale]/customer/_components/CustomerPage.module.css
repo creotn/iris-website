@@ -37,7 +37,6 @@
   padding: 18px 20px;
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-inline-start: 3px solid var(--accent);
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-md);
 }

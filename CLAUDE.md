@@ -26,14 +26,13 @@ Runtime: Node 24 LTS locally, `node:22` in Docker.
   provider, `Header`, `Footer`), `page.tsx` (home), `sign-in/`, `loading.tsx`, `error.tsx`,
   `not-found.tsx`.
 - `app/[locale]/_components/` — the landing sections (`HeroSection`, `FeaturesSection`,
-  `HowItWorksSection`, `AppsSection`, `BrandBookSection`), `SectionHeader`, and the phone mockups
+  `HowItWorksSection`, `AppsSection`), `SectionHeader`, and the phone mockups
   (`PhoneMockup` + `MockupScreens`). All server components; shared design classes (`.btn`, `.badge`,
   `.card`, `.heading-*`, `.section`, `.animate-in`, …) live in `globals.css`.
-- `app/[locale]/brand/` — the Brand & Platform Book (20 chapters, `_components/`). Its long-form copy
-  lives in `brand/_content.ts` (`{ ar, en }`, read server-side by `getBrandBookContent`) instead of
-  `locales/*.ts`, because the locale dictionaries also ship to the client. Keep both halves in sync.
 - `app/[locale]/customer/` — the Customer App showcase: an interactive iPhone prototype (12 screens)
-  plus a screens gallery. Copy in `customer/_content.ts`, same pattern as the brand book.
+  plus a screens gallery. Its long-form copy lives in `customer/_content.ts` (`{ ar, en }`, read
+  server-side) instead of `locales/*.ts`, because the locale dictionaries also ship to the client.
+  Keep both halves in sync.
 - `app/[locale]/book/(protected)/wash/` + `components/booking/wash/` — the customer booking flow
   (service → customize → when & visit details → review/promo → pay → done), one client component
   (`WashFlow`) driving six phases over `api/BookingAPI.ts`. Source of the UX: `../iris/ux/customer-journey.html`.
@@ -52,7 +51,7 @@ Runtime: Node 24 LTS locally, `node:22` in Docker.
   `components/forms/SignInForm`.
 - `components/skeleton/` — `Skeleton` (shimmer block) + `SkeletonScreen` (announces loading in
   both languages). Every route has a `loading.tsx` skeleton shaped like its page (`(home)/`,
-  `brand/`, `customer/`, `sign-in/`); a new page ships its own instead of a spinner. **Never put a
+  `customer/`, `sign-in/`); a new page ships its own instead of a spinner. **Never put a
   `loading.tsx` directly in `app/[locale]/`**: navigation shows the loading screen of the highest
   segment that changes, so it would replace every page's own skeleton. That's why the home page
   lives in the `(home)` route group (no effect on the URL).
@@ -63,7 +62,6 @@ Runtime: Node 24 LTS locally, `node:22` in Docker.
   `next/font/google`, exposed as `--font-ar` / `--font-en` / `--font-mono`; `globals.css` picks the
   body font by `html[dir]`. The mono font has no Arabic glyphs and no adjusted fallback on purpose, so
   Arabic mono labels fall back to the system monospace face (the brand look).
-- `config/brand.ts` — `BRAND_BOOK_PDF` (`public/brand/iris-brand-platform-book.pdf`, ~59 MB).
 - `config/theme.ts` — theme storage key + the pre-paint init script.
 - `public/brand/` — IRIS logos (`iris-logo-black.png` on light backgrounds, `-white` on dark), mascot,
   mood images, brand book PDF.

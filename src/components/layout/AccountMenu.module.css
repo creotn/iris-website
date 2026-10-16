@@ -1,0 +1,128 @@
+.root {
+  position: relative;
+}
+
+/* Same look as ThemeToggle. */
+.trigger {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  color: var(--text-primary);
+  transition: all var(--transition-normal);
+}
+
+.trigger:hover,
+.trigger[aria-expanded="true"] {
+  background: var(--bg-card-hover);
+  border-color: var(--border-accent);
+  transform: scale(1.05);
+}
+
+.trigger[aria-expanded="true"] {
+  color: var(--accent);
+}
+
+/* Signed-out state: the same look, stretched into a pill to fit the label. */
+.signIn {
+  display: flex;
+  align-items: center;
+  height: 36px;
+  padding-inline: var(--space-md);
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  color: var(--text-primary);
+  font-size: 0.85rem;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: all var(--transition-normal);
+}
+
+.signIn:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--border-accent);
+  transform: scale(1.05);
+}
+
+.menu {
+  position: absolute;
+  inset-block-start: calc(100% + var(--space-sm));
+  inset-inline-end: 0;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 220px;
+  padding: var(--space-xs);
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  transform-origin: top right;
+  animation: menu-in var(--transition-fast) ease-out;
+}
+
+:global(html[dir="rtl"]) .menu {
+  transform-origin: top left;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  width: 100%;
+  padding: 10px 12px;
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-align: start;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background var(--transition-fast);
+}
+
+.item:hover,
+.item:focus-visible {
+  background: var(--bg-card-hover);
+  color: var(--text-primary);
+  outline: none;
+}
+
+.primary {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.primary:hover,
+.primary:focus-visible {
+  background: var(--accent-subtle);
+  color: var(--accent);
+}
+
+.danger,
+.danger:hover,
+.danger:focus-visible {
+  color: var(--error);
+}
+
+.separator {
+  height: 1px;
+  margin-block: var(--space-xs);
+  background: var(--border);
+}
+
+@keyframes menu-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px) scale(0.97);
+  }
+}

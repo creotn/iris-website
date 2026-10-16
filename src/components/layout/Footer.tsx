@@ -1,9 +1,8 @@
-import { BRAND_BOOK_PDF } from "@/config/brand";
 import { getScopedI18n } from "@/locales/server";
 import Logo from "./Logo";
 import styles from "./Footer.module.css";
 
-type FooterLink = { label: string; href: string; download?: boolean };
+type FooterLink = { label: string; href: string };
 
 export default async function Footer({ locale }: { locale: Locale }) {
   const t = await getScopedI18n("footer");
@@ -12,8 +11,6 @@ export default async function Footer({ locale }: { locale: Locale }) {
     {
       heading: t("product"),
       links: [
-        { label: t("brandBook"), href: `/${locale}/brand` },
-        { label: t("downloadBook"), href: BRAND_BOOK_PDF, download: true },
         { label: t("customerApp"), href: `/${locale}/customer` },
         { label: t("proApp"), href: `/${locale}#apps` },
       ],
@@ -50,7 +47,7 @@ export default async function Footer({ locale }: { locale: Locale }) {
               <ul className={styles.links}>
                 {column.links.map((link) => (
                   <li key={link.label}>
-                    <a href={link.href} download={link.download}>
+                    <a href={link.href}>
                       {link.label}
                     </a>
                   </li>

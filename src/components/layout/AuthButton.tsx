@@ -2,9 +2,9 @@
 
 import { useSyncExternalStore } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { signOut } from "@/api/AuthAPI";
 import { AUTH_CHANGE_EVENT, getAccessToken } from "@/lib/api/client";
+import AccountMenu, { type AccountMenuLabels } from "./AccountMenu";
+import styles from "./AccountMenu.module.css";
 
 const subscribe = (onChange: () => void) => {
   window.addEventListener(AUTH_CHANGE_EVENT, onChange);
@@ -12,7 +12,7 @@ const subscribe = (onChange: () => void) => {
 };
 
 /**
- * The header's account button. Signed-in state lives in a client-readable cookie, so it's read here
+ * The header's account control. Signed-in state lives in a client-readable cookie, so it's read here
  * rather than on the server — reading cookies in the layout would make every page dynamic. The
  * server snapshot is "signed out", so the first paint matches the static HTML.
  */
@@ -21,38 +21,17 @@ export default function AuthButton({
   labels,
 }: {
   locale: Locale;
-  labels: { signIn: string; book: string; account: string; signOut: string };
+  labels: AccountMenuLabels & { signIn: string };
 }) {
-  const router = useRouter();
   const signedIn = useSyncExternalStore(subscribe, () => getAccessToken() !== null, () => false);
 
   if (!signedIn) {
     return (
-      <Link href={`/${locale}/sign-in`} className="btn btn-primary btn-sm">
+      <Link href={`/${locale}/sign-in`} className={styles.signIn}>
         {labels.signIn}
       </Link>
     );
   }
 
-  return (
-    <>
-      <Link href={`/${locale}/book/wash`} className="btn btn-primary btn-sm">
-        {labels.book}
-      </Link>
-      <Link href={`/${locale}/account`} className="btn btn-secondary btn-sm">
-        {labels.account}
-      </Link>
-      <button
-        type="button"
-        className="btn btn-secondary btn-sm"
-        onClick={async () => {
-          await signOut();
-          router.replace(`/${locale}`);
-          router.refresh();
-        }}
-      >
-        {labels.signOut}
-      </button>
-    </>
-  );
+  return <AccountMenu locale={locale} labels={labels} />;
 }

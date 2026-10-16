@@ -9,6 +9,9 @@ const nextConfig = {
   cacheHandler,
   output: Boolean(process.env.VERCEL) ? undefined : "standalone",
   trailingSlash: false,
+  // Dev only: lets a phone on the LAN (http://192.168.x.x:3000) load the dev scripts. Without it
+  // the page renders but never hydrates, so no button works.
+  allowedDevOrigins: ["192.168.*.*"],
   images: {
     remotePatterns: [
       {

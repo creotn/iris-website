@@ -37,20 +37,6 @@
   max-width: 560px;
 }
 
-.badge {
-  gap: 8px;
-  margin-block-end: var(--space-lg);
-}
-
-.dot {
-  width: 8px;
-  height: 8px;
-  background: var(--success);
-  border-radius: 50%;
-  box-shadow: 0 0 10px rgba(31, 138, 91, 0.4);
-  animation: pulse-glow 2s infinite;
-}
-
 .title {
   margin-block-end: 20px;
 }
@@ -181,18 +167,6 @@
   }
 }
 
-@keyframes pulse-glow {
-  0%,
-  100% {
-    opacity: 1;
-    box-shadow: 0 0 8px rgba(106, 79, 182, 0.3);
-  }
-  50% {
-    opacity: 0.7;
-    box-shadow: 0 0 16px rgba(106, 79, 182, 0.5);
-  }
-}
-
 .phones {
   display: flex;
   gap: 20px;
@@ -230,34 +204,108 @@
   }
 }
 
+
+/* Phones: a compact, single-column hero. Buttons go full width, the stats stay one row, and the
+   two phones overlap into one composition that fades out instead of stacking two full screens. */
 @media (max-width: 768px) {
-  .phones {
-    flex-direction: column;
-    align-items: center;
+  .hero {
+    min-height: auto;
+    padding-block: var(--space-xl) 0;
   }
 
-  .phoneOffset {
-    margin-block-start: 0;
+  .orb1 {
+    width: 280px;
+    height: 280px;
+  }
+
+  .orb2 {
+    width: 240px;
+    height: 240px;
+  }
+
+  .title {
+    margin-block-end: var(--space-md);
+    font-size: clamp(2.1rem, 9vw, 2.75rem);
+  }
+
+  .description {
+    margin-block-end: var(--space-lg);
+    font-size: 1rem;
+    line-height: 1.65;
+  }
+
+  .actions {
+    flex-direction: column;
+    gap: var(--space-sm);
+    margin-block-end: var(--space-lg);
+  }
+
+  .actions > :global(.btn) {
+    width: 100%;
+    padding-block: 15px;
+  }
+
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    width: 100%;
+    padding-inline: 0;
   }
 
   .stat {
-    padding-inline: var(--space-md);
+    padding-inline: var(--space-sm);
   }
 
   .statValue {
-    font-size: 1.75rem;
+    gap: 4px;
+    font-size: 1.6rem;
+  }
+
+  .statUnit {
+    font-size: 0.8rem;
+  }
+
+  .statLabel {
+    font-size: 0.72rem;
+    line-height: 1.3;
+    white-space: normal;
+  }
+
+  .visual {
+    height: 400px;
+    margin-block-start: var(--space-xl);
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(to bottom, black 65%, transparent);
+    mask-image: linear-gradient(to bottom, black 65%, transparent);
+  }
+
+  .mascot {
+    inset-block-start: 4px;
+    inset-inline-start: auto;
+    inset-inline-end: 0;
+    width: 76px;
+  }
+
+  .phones {
+    gap: 0;
+    padding-block-start: var(--space-md);
+  }
+
+  .phones > :first-child {
+    position: relative;
+    z-index: 1;
+  }
+
+  .phoneOffset {
+    margin-block-start: 48px;
+    margin-inline-start: -130px;
+    scale: 0.88;
+    opacity: 0.85;
   }
 }
 
-@media (max-width: 420px) {
-  .stats {
-    flex-direction: column;
-    gap: var(--space-sm);
-  }
-
-  .stat + .stat {
-    padding-block-start: var(--space-sm);
-    border-inline-start: none;
-    border-block-start: 1px solid var(--border);
+@media (max-width: 380px) {
+  .phoneOffset {
+    margin-inline-start: -160px;
   }
 }

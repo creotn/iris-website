@@ -23,11 +23,6 @@ export default async function HeroSection({ locale }: { locale: Locale }) {
 
       <div className={`container ${styles.inner}`}>
         <div className={`${styles.content} animate-in`}>
-          <div className={`badge badge-accent ${styles.badge}`}>
-            <span className={styles.dot} />
-            <span>{t("badge")}</span>
-          </div>
-
           <h1 className={`heading-1 ${styles.title}`}>
             {t("titleLine1")}
             <br />
