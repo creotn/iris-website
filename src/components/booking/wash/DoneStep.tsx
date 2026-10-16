@@ -5,7 +5,7 @@ import { IconCheck } from "@tabler/icons-react";
 import type { Booking } from "@/api/BookingAPI";
 import formStyles from "@/components/forms/SignInForm.module.css";
 import { useCurrentLocale, useScopedI18n } from "@/locales/client";
-import { formatMoney, pick } from "./draft";
+import { formatMoney, joinNames, pick } from "./draft";
 import { Ghost, Line } from "./ui";
 import styles from "./Wash.module.css";
 
@@ -38,7 +38,7 @@ export default function DoneStep({ booking, onAnother }: { booking: Booking; onA
       </div>
 
       <div className={styles.card}>
-        {names.length > 0 && <Line label={t("service")} value={names.join("، ")} />}
+        {names.length > 0 && <Line label={t("service")} value={joinNames(names)} />}
         <Line label={t("when")} value={when} />
         <Line label={t("paidWith")} value={t(`pm_${booking.paymentMethod}` as "pm_CARD")} />
         <Line strong label={t("total")} value={formatMoney(booking.amountPaid ?? booking.amountDue, locale)} />

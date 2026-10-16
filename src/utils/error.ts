@@ -5,6 +5,14 @@ export const errorsMap = {
     en: "The request took too long — please check before trying again",
     ar: "استغرق الطلب وقتًا طويلاً — يرجى التحقق قبل المحاولة مرة أخرى",
   },
+  balance_top_up_amount_invalid: {
+    en: "That amount can't be added — check the limits and try again",
+    ar: "لا يمكن إضافة هذا المبلغ — تحقّق من الحدود وحاول مرة أخرى",
+  },
+  booking_rating_requires_completion: {
+    en: "You can rate the wash once it's done",
+    ar: "يمكنك تقييم الغسلة بعد اكتمالها",
+  },
   network_error: {
     en: "Couldn't reach the server — check your connection and try again",
     ar: "تعذّر الوصول إلى الخادم — تحقق من اتصالك وحاول مرة أخرى",
