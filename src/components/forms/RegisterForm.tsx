@@ -28,7 +28,6 @@ export default function RegisterForm() {
       email,
       password: String(formData.get("password") ?? ""),
     });
-    // The account can't sign in until its phone is proved, so registering leads straight to the code step.
     if (result.ok) router.push(`/${locale}/book/verify?identifier=${encodeURIComponent(email)}`);
     else setFailure(result.error);
   };

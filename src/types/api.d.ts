@@ -1,5 +1,3 @@
-/* GENERAL */
-
 type Locale = "en" | "ar";
 
 interface Base {
@@ -17,15 +15,11 @@ interface FindManyResponse<T> {
   total: number;
 }
 
-/* IMAGE */
-
 interface Image extends Base {
   filename?: string;
   thumbnailname?: string;
   altText?: string;
 }
-
-/* PROJECT */
 
 type ProjectStatus = "OLD" | "AVAILABLE" | "UPCOMING" | "DRAFT" | "SOLD";
 
@@ -47,8 +41,6 @@ type FetchProjectsReturn = {
   total: number;
   currentPage: number;
 };
-
-/* AUTH */
 
 interface AuthUser {
   pubkey: string;

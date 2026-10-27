@@ -12,7 +12,6 @@ export default function ThemeToggle({ label }: { label: string }) {
     try {
       localStorage.setItem(THEME_STORAGE_KEY, next);
     } catch {
-      // Private mode / blocked storage: the switch still applies for this visit.
     }
   };
 

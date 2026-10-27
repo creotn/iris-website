@@ -42,6 +42,7 @@
   --shadow-glow: 0 0 30px rgba(90, 62, 146, 0.1);
 
   --nav-bg: rgba(241, 243, 246, 0.85);
+  --header-bg: rgba(247, 245, 255, 0.88);
   --grid-line: rgba(17, 19, 21, 0.04);
 
   --text-accent: var(--iris-deep);
@@ -62,7 +63,6 @@
   --map-bg: linear-gradient(135deg, #ece5f1 0%, #e0d7ea 50%, #ece5f1 100%);
   --map-grid-line: rgba(0, 0, 0, 0.04);
 
-  /* Account dashboard: a deep-violet hero with a white call to action. */
   --hero-bg: #4d2d70;
   --hero-glow: rgba(188, 167, 232, 0.22);
   --hero-text: #ffffff;
@@ -73,6 +73,24 @@
   --lime-hover: #ffffff;
   --on-lime: var(--iris-ink);
   --backdrop: rgba(17, 19, 21, 0.45);
+
+  --video-hero-base: #0e0e12;
+  --video-hero-tint: #7a4fe0;
+  --video-hero-accent: #a78bfa;
+  --video-hero-panel: rgba(24, 25, 30, 0.82);
+  --video-hero-panel-border: rgba(255, 255, 255, 0.08);
+  --video-hero-btn-dark: rgba(20, 21, 26, 0.78);
+
+  --device-body: #1b1d22;
+  --device-screen: #15121d;
+  --device-sheet: #1c1e24;
+  --device-tile: #272a32;
+  --device-road: #2a2a35;
+  --device-line: rgba(255, 255, 255, 0.07);
+  --device-chip: rgba(22, 23, 28, 0.94);
+
+  --section-bg-a: #f7f5ff;
+  --section-bg-b: #ffffff;
 
   color-scheme: light;
 
@@ -94,7 +112,7 @@
   --transition-normal: 250ms ease;
 
   --container-max-width: 1200px;
-  --header-height: 73px;
+  --header-height: 88px;
 
   --fs-h1: 2.25rem;
   --fs-h2: 1.75rem;
@@ -103,6 +121,8 @@
 }
 
 :root[data-theme="dark"] {
+  --section-bg-a: #0e0e12;
+  --section-bg-b: #17171d;
   --bg-primary: var(--iris-ink);
   --bg-secondary: #17191d;
   --bg-card: #1c1f24;
@@ -133,6 +153,7 @@
   --shadow-glow: 0 0 30px rgba(106, 79, 182, 0.18);
 
   --nav-bg: rgba(17, 19, 21, 0.8);
+  --header-bg: rgba(14, 14, 18, 0.92);
   --grid-line: rgba(188, 167, 232, 0.05);
 
   --gradient-text: linear-gradient(
@@ -254,7 +275,6 @@ button {
   }
 }
 
-/* Typography */
 .heading-1 {
   font-size: clamp(2.5rem, 5vw, 4rem);
   font-weight: 800;
@@ -263,7 +283,7 @@ button {
 }
 
 .heading-2 {
-  font-size: clamp(2rem, 4vw, 3rem);
+  font-size: clamp(1.75rem, 3.2vw, 2.5rem);
   font-weight: 700;
   line-height: 1.15;
   letter-spacing: -0.02em;
@@ -307,7 +327,7 @@ html[dir="rtl"] .body-md {
   font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--accent);
+  color: var(--text-accent);
 }
 
 .gradient-text {
@@ -317,7 +337,6 @@ html[dir="rtl"] .body-md {
   background-clip: text;
 }
 
-/* Buttons */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -366,7 +385,6 @@ html[dir="rtl"] .body-md {
   font-size: 1.05rem;
 }
 
-/* Badges */
 .badge {
   display: inline-flex;
   align-items: center;
@@ -395,7 +413,6 @@ html[dir="rtl"] .body-md {
   border: 1px solid var(--warning-border);
 }
 
-/* Cards */
 .card {
   background: var(--bg-card);
   border: 1px solid var(--border);
@@ -415,15 +432,24 @@ html[dir="rtl"] .body-md {
   box-shadow: var(--shadow-glow), var(--shadow-md);
 }
 
-/* Sections */
 .section {
   position: relative;
-  padding-block: var(--space-4xl);
+  padding-block: clamp(var(--space-3xl), 11svh, var(--space-4xl));
   scroll-margin-top: var(--header-height);
 }
 
 .section-alt {
   background: var(--bg-secondary);
+}
+
+.alternating-sections > section:nth-child(even) {
+  --section-bg: var(--section-bg-a);
+  background: var(--section-bg);
+}
+
+.alternating-sections > section:nth-child(odd):not(:first-child) {
+  --section-bg: var(--section-bg-b);
+  background: var(--section-bg);
 }
 
 @media (max-width: 768px) {
@@ -432,7 +458,6 @@ html[dir="rtl"] .body-md {
   }
 }
 
-/* Background effects */
 .grid-bg {
   position: absolute;
   inset: 0;
@@ -502,7 +527,6 @@ html[dir="rtl"] .body-md {
   opacity: var(--glow-soft);
 }
 
-/* Animations */
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -535,8 +559,6 @@ html[dir="rtl"] .body-md {
   animation-delay: 0.4s;
 }
 
-/* Below the fold a load-time animation finishes before anyone sees it, so inside a `.section` the
-   reveal is driven by scrolling instead; the delay classes become scroll offsets to keep the stagger. */
 @supports (animation-timeline: view()) {
   .section .animate-in {
     animation: fadeInUp linear both;
@@ -579,4 +601,10 @@ html[dir="rtl"] .body-md {
   color: var(--error);
   font-size: var(--fs-body-sm);
   min-height: 1.25em;
+}
+
+@media (max-width: 1024px) {
+  :root {
+    --header-height: 68px;
+  }
 }

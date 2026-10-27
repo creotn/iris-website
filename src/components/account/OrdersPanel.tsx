@@ -112,7 +112,6 @@ function HistoryRow({ order }: { order: Order }) {
   );
 }
 
-/** Every order, newest first: the dashboard's first page, then more on demand. */
 export function OrderHistory({ firstPage }: { firstPage: OrderPage }) {
   const t = useScopedI18n("account");
   const locale = useCurrentLocale();
@@ -121,7 +120,6 @@ export function OrderHistory({ firstPage }: { firstPage: OrderPage }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  // An order placed meanwhile shifts the pages, so a later page can repeat a row.
   const orders = [...firstPage.data, ...more].filter(
     (order, index, all) => all.findIndex((other) => other.pubkey === order.pubkey) === index,
   );

@@ -26,7 +26,6 @@ export default function AccountView({ initialView }: { initialView: View }) {
   const locale = useCurrentLocale();
   const [view, setView] = useState(initialView);
 
-  // Kept in the URL so a refresh, or coming back from an order, opens the same section.
   const show = (next: View) => {
     setView(next);
     window.history.replaceState(null, "", next === "live" ? window.location.pathname : `?view=${next}`);
@@ -41,7 +40,6 @@ export default function AccountView({ initialView }: { initialView: View }) {
 
   const reloadBalance = balance.reload;
 
-  // Back from a 3-D Secure challenge during a top-up: Moyasar appends the payment id to our callback.
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const topUp = params.get("topup");
@@ -153,7 +151,6 @@ export default function AccountView({ initialView }: { initialView: View }) {
         />
       </div>
 
-      {/* Keyed by view so the entrance animation replays on every switch. */}
       <section key={view} id={`panel-${view}`} role="tabpanel" aria-labelledby={`tab-${view}`} className={`${styles.section} ${styles.reveal}`}>
         {view === "live" && (
           <>

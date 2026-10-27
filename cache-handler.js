@@ -1,17 +1,3 @@
-// Next requires this file directly at runtime (dynamic import of a file:// URL) and calls `new` on
-// `mod.default || mod`, so it is CommonJS at the repo root rather than TypeScript under src/ — the
-// app build never processes it. A named-only export makes every request 500.
-//
-// Next constructs a handler PER REQUEST, so everything long-lived is module scope. A client built
-// in the constructor would open one connection per request.
-//
-// Design notes that are not obvious from the code:
-//   - No in-process cache of entry values. A local LRU in front of the store would serve entries
-//     another replica already purged, which is the exact bug this file exists to remove.
-//   - `get`/`set` never reject; `revalidateTag` does. A read that cannot reach the store must
-//     degrade silently or an outage becomes a site outage, but a purge that was not recorded must
-//     not be reported as successful.
-
 const fs = require("node:fs");
 const path = require("node:path");
 const Redis = require("ioredis");
@@ -44,8 +30,6 @@ function transition(connected, errorCode) {
     log(connected ? "info" : "warn", connected ? "store connected" : "store connection lost");
   }
   status.connected = connected;
-  // Keep the last known code while disconnected — `end` fires after `error` and would otherwise
-  // erase the only clue an operator has.
   status.lastErrorCode = connected ? null : errorCode || status.lastErrorCode;
 }
 
@@ -68,8 +52,6 @@ function buildClient() {
   const sentinels = parseSentinels(process.env.REDIS_SENTINELS);
   if (sentinels.length === 0) return null;
 
-  // The API accepts either spelling and its production config sets both; reading only one would
-  // find no master on a deployment that set the other.
   const name = process.env.REDIS_SENTINEL_NAME || process.env.REDIS_MASTER_NAME;
   if (!name) {
     log("warn", "REDIS_SENTINELS set but no master-set name; caching locally");
@@ -80,20 +62,15 @@ function buildClient() {
     sentinels,
     name,
     ...(process.env.REDIS_PASSWORD ? { password: process.env.REDIS_PASSWORD } : {}),
-    // Authenticates against the sentinels, not the master — a separate credential.
     ...(process.env.REDIS_SENTINEL_PASSWORD
       ? { sentinelPassword: process.env.REDIS_SENTINEL_PASSWORD }
       : {}),
-    // Without this, commands queue while disconnected and OP_TIMEOUT_MS becomes the only thing
-    // bounding a render; with it a disconnected client rejects at once and we fall through.
     enableOfflineQueue: false,
     lazyConnect: true,
     maxRetriesPerRequest: 1,
   });
 
   client.on("ready", () => {
-    // The resolved peer, not `options.host` — under Sentinel that stays at its default and would
-    // report a node we are not talking to. This updates on the reconnect that follows a failover.
     const socket = client.stream;
     status.primary = socket ? `${socket.remoteAddress}:${socket.remotePort}` : null;
     transition(true, null);
@@ -102,7 +79,6 @@ function buildClient() {
   client.on("end", () => transition(false, status.lastErrorCode));
   client.on("+failover-end", () => log("warn", "store failover completed"));
 
-  // Never awaited: a replica must become ready even when the store is unreachable at start-up.
   client.connect().catch((err) => transition(false, errorCodeOf(err)));
 
   status.mode = "shared";
@@ -156,9 +132,6 @@ function buildId(serverDistDir) {
   return cachedBuildId;
 }
 
-// The prefix is built into the key rather than handed to ioredis's `keyPrefix`, which is invisible
-// to SCAN and so would make keyspace verification lie. The API hit the same option's sharp edge
-// with BullMQ and had to strip it back out.
 function namespace(serverDistDir) {
   return `${process.env.REDIS_KEY_PREFIX || ""}${siteSegment()}:${buildId(serverDistDir)}`;
 }
@@ -173,8 +146,6 @@ function withTimeout(promise) {
   ]).finally(() => clearTimeout(timer));
 }
 
-// `revalidate: false` means "cache indefinitely" and Next treats it as cacheable, so it must not be
-// refused — but FR-005 requires every entry to expire, so it is capped like any other.
 function ttlFor(revalidate) {
   if (revalidate === false) return MAX_REVALIDATE_SECONDS + GRACE_SECONDS;
   if (typeof revalidate !== "number" || !(revalidate > 0)) return null;
@@ -183,8 +154,6 @@ function ttlFor(revalidate) {
 
 let fileSystemCache;
 
-// A custom handler replaces Next's on-disk read, so without this the prerendered HTML produced at
-// build time is never served and every deploy re-renders those routes on demand.
 function getFileSystemCache(ctx) {
   if (fileSystemCache !== undefined) return fileSystemCache;
   try {
@@ -231,8 +200,6 @@ module.exports = class CacheHandler {
       if (!raw) return null;
 
       const entry = JSON.parse(raw);
-      // softTags arrive on the read and are not on the entry, which is why invalidation is a
-      // timestamp comparison rather than a delete-by-index.
       const tags = [
         ...new Set([...(entry.tags || []), ...((ctx && ctx.tags) || []), ...((ctx && ctx.softTags) || [])]),
       ];
@@ -252,8 +219,6 @@ module.exports = class CacheHandler {
   async set(cacheKey, data, ctx) {
     const revalidate = ctx && ctx.revalidate;
     const ttl = ttlFor(revalidate);
-    // Per-visitor reads carry revalidate 0 and Next never offers them here; this is the last of
-    // three independent layers keeping them out of a store shared across replicas.
     if (ttl === null) return;
 
     const tags = (ctx && ctx.tags) || [];
@@ -267,8 +232,6 @@ module.exports = class CacheHandler {
     try {
       await withTimeout(client.set(this.entryKey(cacheKey), payload, "EX", ttl));
     } catch {
-      // Swallowed on purpose: a write that cannot reach the store is a missed optimisation, and
-      // failing the render instead would turn a store outage into a site outage.
     }
   }
 
@@ -283,16 +246,12 @@ module.exports = class CacheHandler {
       return;
     }
 
-    // Alone among the three methods this rethrows: the platform must not be told a purge succeeded
-    // when it was never recorded. The marker outlives every entry it governs by design.
     try {
       const now = Date.now();
       const pipeline = client.pipeline();
       for (const tag of list) {
         pipeline.set(this.tagKey(tag), String(now), "EX", TAG_MARKER_TTL_SECONDS);
       }
-      // `exec` resolves with per-command [error, result] tuples rather than rejecting, so a purge
-      // against a disconnected store would otherwise look like a success.
       const results = await withTimeout(pipeline.exec());
       if (!results) throw new Error("purge_not_recorded");
       const failure = results.find(([commandError]) => commandError);

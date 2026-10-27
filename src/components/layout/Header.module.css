@@ -2,8 +2,7 @@
   position: sticky;
   inset-block-start: 0;
   z-index: 100;
-  padding-block: var(--space-md);
-  background: var(--nav-bg);
+  background: var(--header-bg);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-block-end: 1px solid var(--border);
@@ -13,30 +12,66 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--space-md);
+  gap: var(--space-xl);
+  height: var(--header-height);
+}
+
+.brand {
+  display: flex;
+  flex: none;
+  align-items: center;
 }
 
 .logo {
-  height: 32px;
+  height: 26px;
   width: auto;
 }
 
 .links {
   display: flex;
   align-items: center;
-  gap: var(--space-xl);
+  gap: 40px;
   list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
 .link {
-  color: var(--text-secondary);
-  font-size: 0.9rem;
+  position: relative;
+  display: block;
+  padding-block: 8px;
+  color: var(--text-muted);
+  font-size: 0.95rem;
   font-weight: 500;
   white-space: nowrap;
+  transition: color var(--transition-normal);
 }
 
-.link:hover {
+.link::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  inset-block-end: 0;
+  height: 2px;
+  border-radius: 1px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+:global(html[dir="rtl"]) .link::after {
+  transform-origin: 100% 50%;
+}
+
+.link:hover,
+.link:focus-visible {
   color: var(--text-primary);
+}
+
+.link:hover::after,
+.link:focus-visible::after {
+  transform: scaleX(1);
 }
 
 .actions {
@@ -45,11 +80,43 @@
   gap: var(--space-md);
 }
 
+.download {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 47px;
+  padding-inline: 24px;
+  border-radius: var(--radius-md);
+  background: var(--accent);
+  color: var(--text-on-accent);
+  font-size: 0.95rem;
+  font-weight: 600;
+  white-space: nowrap;
+  box-shadow: 0 6px 24px -6px var(--accent-shadow-hover);
+  transition:
+    background var(--transition-normal),
+    box-shadow var(--transition-normal),
+    translate var(--transition-normal);
+}
+
+.download:hover {
+  color: var(--text-on-accent);
+  background: var(--accent-light);
+  box-shadow: 0 10px 30px -6px var(--accent-shadow-hover);
+  translate: 0 -2px;
+}
+
+.download:focus-visible,
+.link:focus-visible {
+  outline: 2px solid var(--accent-light);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
 .mobileOnly {
   display: none;
 }
 
-/* Below this the links and actions no longer fit on one line. Keep in sync with MobileMenu.tsx. */
 @media (max-width: 1024px) {
   .desktopOnly {
     display: none;
@@ -58,17 +125,23 @@
   .mobileOnly {
     display: contents;
   }
-}
 
-/* ---- Mobile drawer ---- */
+  .actions {
+    gap: var(--space-sm);
+  }
+
+  .logo {
+    height: 24px;
+  }
+}
 
 .menuButton {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
-  background: var(--bg-card);
+  width: 40px;
+  height: 40px;
+  background: color-mix(in srgb, var(--bg-card) 70%, transparent);
   border: 1px solid var(--border);
   border-radius: 50%;
   color: var(--text-primary);
@@ -163,6 +236,23 @@
   from {
     opacity: 0;
   }
+}
+
+.drawerDownload {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 52px;
+  border-radius: var(--radius-md);
+  background: var(--accent);
+  color: var(--text-on-accent);
+  font-size: 1rem;
+  font-weight: 600;
+  box-shadow: 0 8px 24px -8px var(--accent-shadow-hover);
+}
+
+.drawerDownload:hover {
+  color: var(--text-on-accent);
 }
 
 .drawerLanguage {

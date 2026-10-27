@@ -32,7 +32,7 @@ export default function LanguageSwitcher({
         aria-label={labels.ar}
         title={labels.ar}
       >
-        عربي
+        AR
       </button>
     </div>
   );

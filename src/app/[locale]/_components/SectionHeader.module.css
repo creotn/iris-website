@@ -1,7 +1,7 @@
 .header {
   max-width: 680px;
   margin-inline: auto;
-  margin-block-end: var(--space-3xl);
+  margin-block-end: var(--space-2xl);
   text-align: center;
 }
 

@@ -27,7 +27,6 @@ export default function PayStep({
 }: {
   bookingPubkey: string;
   summary: PaymentSummary;
-  /** Called after any method completes; the server has confirmed it. */
   onPaid: () => void;
   onCancel: () => void;
 }) {

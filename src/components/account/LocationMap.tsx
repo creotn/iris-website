@@ -7,15 +7,9 @@ import styles from "./Account.module.css";
 
 export type Point = { latitude: number; longitude: number };
 
-/** Where an unpinned map opens: the customer usually taps "use my location" from here. */
 const DEFAULT_VIEW = { center: [24.7136, 46.6753] as [number, number], zoom: 11 };
 const PINNED_ZOOM = 16;
 
-/**
- * An OpenStreetMap the customer can pan and zoom. With `onPick`, a tap anywhere — or dragging the
- * pin — chooses the spot; without it the pin is fixed and the map is for looking around.
- * `wheelZoom` is off for a map inline in the page, where the wheel should scroll the page.
- */
 export default function LocationMap({
   value,
   onPick,
@@ -31,7 +25,6 @@ export default function LocationMap({
   const map = useRef<LeafletMap | null>(null);
   const marker = useRef<Marker | null>(null);
   const placeRef = useRef<((point: Point) => void) | null>(null);
-  // The map is built once, asynchronously; these let it read the latest props when it's ready.
   const valueRef = useRef(value);
   const pickRef = useRef(onPick);
   const picking = Boolean(onPick);
@@ -44,7 +37,6 @@ export default function LocationMap({
   useEffect(() => {
     let cancelled = false;
 
-    // Leaflet reads `window` on import, so it loads in the browser only.
     import("leaflet").then((L) => {
       if (cancelled || !container.current) return;
       const start = valueRef.current;
@@ -52,7 +44,6 @@ export default function LocationMap({
         start ? [start.latitude, start.longitude] : DEFAULT_VIEW.center,
         start ? PINNED_ZOOM : DEFAULT_VIEW.zoom,
       );
-      // The map box is LTR; keep the zoom buttons at the page's inline end, clear of the coverage badge.
       const rtl = document.documentElement.dir === "rtl";
       L.control.zoom({ position: rtl ? "topleft" : "topright" }).addTo(instance);
       L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
@@ -82,7 +73,6 @@ export default function LocationMap({
       }
 
       map.current = instance;
-      // Inside an opening dialog the box is still animating; measure again once it has settled.
       setTimeout(() => instance.invalidateSize(), 320);
     });
 
@@ -95,7 +85,6 @@ export default function LocationMap({
     };
   }, [picking, wheelZoom]);
 
-  // A location set from outside — "use my location" or typed coordinates — moves the pin and the view.
   const latitude = value?.latitude;
   const longitude = value?.longitude;
   useEffect(() => {

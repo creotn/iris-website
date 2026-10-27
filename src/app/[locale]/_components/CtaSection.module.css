@@ -1,0 +1,333 @@
+.section {
+  padding-block-start: calc(clamp(64px, 11svh, 96px) + 40px);
+  overflow-x: clip;
+}
+
+.card {
+  --portrait: clamp(170px, 18vw, 240px);
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: clamp(340px, 52svh, 440px);
+  border-radius: 48px;
+  background: var(--accent);
+  color: #fff;
+}
+
+.bg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.waves {
+  position: absolute;
+  inset-block-start: 5px;
+  inset-inline-end: 90px;
+  width: var(--portrait);
+  height: 0;
+}
+
+.wave {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: 50%;
+  width: calc(var(--portrait) + 30px);
+  aspect-ratio: 1;
+  translate: -50% -50%;
+  border: 1.5px solid rgba(255, 255, 255, 0.6);
+  border-radius: 50%;
+  box-shadow: 0 0 22px rgba(255, 255, 255, 0.14);
+  opacity: 0;
+  animation: wave 6s cubic-bezier(0.25, 0.5, 0.3, 1) calc(var(--w) * -2s) infinite;
+}
+
+.sheen {
+  position: absolute;
+  inset: -40%;
+  background: radial-gradient(40% 40% at 30% 30%, rgba(255, 255, 255, 0.14), transparent 70%);
+  animation: drift 14s ease-in-out infinite alternate;
+}
+
+.copy {
+  position: relative;
+  z-index: 1;
+  max-width: 620px;
+  padding: var(--space-3xl) var(--space-3xl) var(--space-3xl) 64px;
+  padding-inline: 64px var(--space-xl);
+}
+
+.title {
+  margin-block-end: var(--space-lg);
+  font-size: clamp(2.2rem, 4.6vw, 3.8rem);
+  font-weight: 800;
+  line-height: 1.04;
+  letter-spacing: -0.03em;
+}
+
+:global([dir="rtl"]) .title {
+  line-height: 1.25;
+  letter-spacing: 0;
+}
+
+.line {
+  display: block;
+}
+
+.description {
+  max-width: 440px;
+  margin-block-end: var(--space-lg);
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+}
+
+.primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  height: 52px;
+  padding-inline: 28px;
+  border-radius: var(--radius-full);
+  font-size: 0.95rem;
+  font-weight: 700;
+  white-space: nowrap;
+  transition:
+    translate var(--transition-normal),
+    box-shadow var(--transition-normal),
+    background var(--transition-normal);
+}
+
+.primary {
+  background: var(--iris-paper);
+  color: var(--iris-ink);
+}
+
+.primary:hover {
+  color: var(--iris-ink);
+  translate: 0 -3px;
+  box-shadow: 0 14px 30px -8px rgba(0, 0, 0, 0.45);
+}
+
+.primary:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+}
+
+.arrow {
+  transition: translate var(--transition-normal);
+}
+
+.primary:hover .arrow {
+  translate: 4px 0;
+}
+
+:global([dir="rtl"]) .arrow {
+  scale: -1 1;
+}
+
+:global([dir="rtl"]) .primary:hover .arrow {
+  translate: -4px 0;
+}
+
+.art {
+  position: absolute;
+  inset-block-start: calc(var(--portrait) / -2 + 5px);
+  inset-inline-end: 90px;
+  z-index: 2;
+  display: grid;
+  justify-items: center;
+  gap: 22px;
+  width: var(--portrait);
+}
+
+.portrait {
+  width: var(--portrait);
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: 50%;
+  background: var(--iris-ink);
+  box-shadow:
+    0 0 0 6px var(--iris-paper),
+    0 30px 60px -10px rgba(0, 0, 0, 0.55);
+  animation: bob 6s ease-in-out infinite;
+  transition: scale 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.art:hover .portrait {
+  scale: 1.05;
+}
+
+.portraitImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@keyframes wave {
+  0% {
+    scale: 1;
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.85;
+  }
+  100% {
+    scale: 2.9;
+    opacity: 0;
+  }
+}
+
+@keyframes drift {
+  to {
+    translate: 12% 8%;
+  }
+}
+
+@keyframes bob {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 0 -10px;
+  }
+}
+
+@keyframes cardIn {
+  from {
+    opacity: 0;
+    translate: 0 60px;
+    scale: 0.94;
+  }
+}
+
+@keyframes lineIn {
+  from {
+    opacity: 0;
+    translate: 0 50%;
+    filter: blur(8px);
+  }
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    translate: 0 20px;
+  }
+}
+
+@keyframes popIn {
+  from {
+    opacity: 0;
+    scale: 0.5;
+  }
+}
+
+@supports (animation-timeline: view()) {
+  .card {
+    animation: cardIn linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 60%;
+  }
+
+  .line {
+    animation: lineIn linear both;
+    animation-timeline: view();
+    animation-range: entry calc(20% + var(--l) * 8%) entry calc(75% + var(--l) * 8%);
+  }
+
+  .description,
+  .actions {
+    animation: fadeUp linear both;
+    animation-timeline: view();
+    animation-range: entry 45% entry 100%;
+  }
+
+  .art {
+    animation: popIn linear both;
+    animation-timeline: view();
+    animation-range: entry 15% entry 75%;
+  }
+}
+
+@media (max-width: 1100px) {
+  .card {
+    --portrait: 200px;
+  }
+
+  .waves {
+    inset-inline-end: 60px;
+  }
+
+  .art {
+    inset-inline-end: 60px;
+  }
+
+  .copy {
+    padding-inline: 48px var(--space-lg);
+  }
+}
+
+@media (max-width: 820px) {
+  .section {
+    padding-block-start: calc(var(--space-3xl) + 40px);
+  }
+
+  .card {
+    --portrait: 150px;
+    align-items: flex-end;
+    min-height: 0;
+    border-radius: 36px;
+  }
+
+  .waves {
+    inset-inline-end: 24px;
+  }
+
+  .art {
+    inset-inline-end: 24px;
+    gap: 14px;
+  }
+
+  .copy {
+    max-width: none;
+    padding: calc(var(--portrait) / 2 + var(--space-xl)) var(--space-xl) var(--space-xl);
+  }
+}
+
+@media (max-width: 520px) {
+  .card {
+    --portrait: 120px;
+    border-radius: 28px;
+  }
+
+  .copy {
+    padding-inline: var(--space-lg);
+  }
+
+  .actions {
+    flex-direction: column;
+  }
+
+  .primary {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wave,
+  .sheen,
+  .portrait {
+    animation: none;
+  }
+}

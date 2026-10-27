@@ -1,6 +1,4 @@
 export const errorsMap = {
-  // The abort fired but the request may have already landed — distinct from network_error (which
-  // never reached the API at all) so the copy doesn't tell a user "nothing happened" when it might have.
   request_timeout: {
     en: "The request took too long — please check before trying again",
     ar: "استغرق الطلب وقتًا طويلاً — يرجى التحقق قبل المحاولة مرة أخرى",

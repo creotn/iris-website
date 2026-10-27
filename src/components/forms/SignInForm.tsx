@@ -26,8 +26,6 @@ function SignInFields() {
   const router = useRouter();
   const [failure, setFailure] = useState<string | null>(null);
 
-  // Read off the URL rather than `useSearchParams`, which would force this static route to client
-  // rendering and a Suspense boundary. The server snapshot is null, so hydration stays consistent.
   const reason = useSyncExternalStore(subscribeNever, readReason, () => null);
   const notice = useSyncExternalStore(subscribeNever, readNotice, () => null);
 

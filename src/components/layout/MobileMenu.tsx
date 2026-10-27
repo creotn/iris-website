@@ -4,13 +4,8 @@ import { useEffect, useRef, useState, type MouseEvent, type ReactNode } from "re
 import { IconMenu2, IconX } from "@tabler/icons-react";
 import styles from "./Header.module.css";
 
-// Keep in sync with the breakpoint in Header.module.css.
 const DESKTOP_QUERY = "(min-width: 1025px)";
 
-/**
- * The header's drawer below the desktop breakpoint. A modal <dialog> gives focus trapping, Escape
- * to close and an inert page behind it for free; the content is server-rendered and passed in.
- */
 export default function MobileMenu({
   labels,
   children,
@@ -21,7 +16,6 @@ export default function MobileMenu({
   const dialogRef = useRef<HTMLDialogElement>(null);
   const [open, setOpen] = useState(false);
 
-  // Growing the window past the breakpoint hides the trigger, so close a drawer left open.
   useEffect(() => {
     const query = window.matchMedia(DESKTOP_QUERY);
     const onChange = () => query.matches && dialogRef.current?.close();
@@ -34,7 +28,6 @@ export default function MobileMenu({
     setOpen(true);
   };
 
-  // A click on the backdrop lands on the <dialog> itself; a click on a link navigates away.
   const onClick = (event: MouseEvent<HTMLDialogElement>) => {
     const target = event.target as HTMLElement;
     if (target === event.currentTarget || target.closest("a")) dialogRef.current?.close();

@@ -1,7 +1,3 @@
-/**
- * Get the current log level from environment
- * @default 'standard' (requests + responses + errors)
- */
 function getLogLevel(): "debug" | "standard" | "minimal" {
   const level = process.env.API_LOG_LEVEL || "minimal";
   return ["debug", "standard", "minimal"].includes(level)
@@ -9,12 +5,6 @@ function getLogLevel(): "debug" | "standard" | "minimal" {
     : "standard";
 }
 
-/**
- * Format a log entry for console output.
- *
- * Only an allowlisted subset of extra fields is appended (never the full entry) so this can never
- * start printing request bodies or tokens if a future caller passes richer metadata through.
- */
 function formatLogEntry(entry: RequestLogEntry): string {
   const {
     requestId,
@@ -45,9 +35,6 @@ function formatLogEntry(entry: RequestLogEntry): string {
   return `[${timestamp}] [API] [${level.toUpperCase()}] [${requestId}] ${method} ${url}${status} (${time})${msg}${extrasStr}`;
 }
 
-/**
- * Create a logger instance
- */
 export const createApiLogger = (): ApiLogger => {
   const logLevel = getLogLevel();
 
@@ -115,22 +102,13 @@ export const createApiLogger = (): ApiLogger => {
   };
 };
 
-/**
- * Singleton logger instance
- */
 export const apiLogger = createApiLogger();
 
-/**
- * Format duration in milliseconds to a readable string
- */
 export function formatDuration(ms: number): string {
   if (ms < 1000) return `${Math.round(ms)}ms`;
   return `${(ms / 1000).toFixed(2)}s`;
 }
 
-/**
- * Generate a unique request ID for tracing
- */
 export function generateRequestId(): string {
   return `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
 }

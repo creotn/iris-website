@@ -57,7 +57,6 @@ export default function VerifyForm({ identifier }: { identifier: string }) {
         className={formStyles.form}
         action={verify}
         onSubmit={(event) => {
-          // `action` runs the transition; this keeps Enter from submitting while invalid.
           if (!form.isValid) event.preventDefault();
         }}
       >

@@ -26,7 +26,6 @@ export const initiateTopUp = (amount: string) =>
     body: { amount },
   });
 
-/** Like a booking payment, the API re-reads the payment from the gateway before crediting. */
 export const verifyTopUp = (topUpPubkey: string, transactionPubkey: string, moyasarPaymentId: string) =>
   apiRequest(`/wallet/balance/top-ups/${topUpPubkey}/verify`, {
     method: "POST",
@@ -51,7 +50,6 @@ export type Order = VisitDetails & {
   status: OrderStatus;
   bookingType: "INSTANT" | "SCHEDULED";
   notes: string | null;
-  /** Tax-exclusive line total, before any discount. */
   price: string;
   priceAfterDiscount: string;
   onlineDiscount: string;
@@ -90,5 +88,4 @@ export const rateOrder = (pubkey: string, value: number, note: string) =>
     body: { value, note: note.trim() || undefined },
   });
 
-/** Uploaded files are served publicly by the API under `/files/<name>`. */
 export const fileUrl = (name: string) => `${process.env.NEXT_PUBLIC_API_URL}/v1/api/files/${name}`;

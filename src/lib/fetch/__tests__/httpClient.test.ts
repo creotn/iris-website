@@ -205,7 +205,6 @@ describe("httpClient", () => {
       { identifier: "a", password: "b" },
     );
 
-    // Keying off the status alone would bounce a failed sign-in to the sign-in page it came from.
     expect(response.sessionRejected).toBeUndefined();
     expect(response.errorCode).toBe("invalid_credentials");
   });
@@ -277,8 +276,6 @@ describe("httpClient", () => {
       tags: ["should-not-be-applied"],
     });
 
-    // The incremental cache is shared across replicas, so a cached per-user response would reach a
-    // different customer. `requiresAuth` therefore wins over an explicit cache directive.
     const [, init] = (global.fetch as Mock).mock.calls[0];
     expect(init.cache).toBe("no-store");
     expect(init.next).toBeUndefined();

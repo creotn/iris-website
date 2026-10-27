@@ -1,21 +1,11 @@
-/**
- * Browser-side API client: the site calls the backend directly (`NEXT_PUBLIC_API_URL`) rather than
- * through server actions. Never throws — branch on `ok`, and show `error` through `translateError`.
- */
-
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
-// Not `access_token`: an earlier server-side sign-in left an httpOnly cookie of that name, which script can
-// neither read nor overwrite, so it would pin visitors as signed out.
 const TOKEN_COOKIE = "iris_token";
-/** Fired on the window whenever the token is set or cleared, so signed-in UI can follow. */
 export const AUTH_CHANGE_EVENT = "iris-auth-change";
 const TOKEN_MAX_AGE = 60 * 60 * 24 * 7;
 const TIMEOUT_MS = 30_000;
 
 export type ApiResult<T = unknown> = { ok: true; data: T } | { ok: false; error: string };
 
-/** Readable by script on purpose: the browser attaches it as a bearer token, and the server-side
- *  route guard only checks that it exists. The refresh credential stays an httpOnly cookie. */
 export function getAccessToken(): string | null {
   const match = document.cookie.split("; ").find((pair) => pair.startsWith(`${TOKEN_COOKIE}=`));
   return match ? decodeURIComponent(match.slice(TOKEN_COOKIE.length + 1)) : null;
@@ -32,9 +22,7 @@ export function clearAccessToken() {
   window.dispatchEvent(new Event(AUTH_CHANGE_EVENT));
 }
 
-/** The API's own code lives in `message` (a string, or the first of an array for validation errors). */
 function errorCode(body: unknown, status: number): string {
-  // The throttler and the auth guard answer with prose / a bare "Unauthorized", not a domain code.
   if (status === 429) return "too_many_requests";
   if (status === 401 && (body as { message?: unknown } | null)?.message === "Unauthorized") {
     return "user_not_authenticated";
@@ -48,10 +36,7 @@ function errorCode(body: unknown, status: number): string {
 type RequestOptions = {
   method?: "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
   body?: object;
-  /** Attach the bearer token, refreshing it once on a 401. */
   auth?: boolean;
-  /** Send and accept cookies. Only the routes that set or spend the refresh cookie need it: a
-   *  credentialed request is refused by a wildcard CORS origin, so everything else stays plain. */
   credentials?: boolean;
 };
 
@@ -59,7 +44,6 @@ async function send(path: string, options: RequestOptions, token: string | null)
   const headers: Record<string, string> = {};
   if (options.body) headers["Content-Type"] = "application/json";
   if (token) headers.Authorization = `Bearer ${token}`;
-  // Tells the API to deliver the refresh token as an httpOnly cookie instead of in the body.
   if (options.credentials) headers["X-Client"] = "web";
 
   return fetch(`${BASE_URL}/v1/api${path}`, {
@@ -102,7 +86,6 @@ export async function apiRequest<T = unknown>(
     try {
       body = text ? JSON.parse(text) : null;
     } catch {
-      // A non-JSON body (a proxy's 503 page) carries no API code; the status decides.
     }
 
     if (!response.ok) return { ok: false, error: errorCode(body, response.status) };

@@ -8,10 +8,6 @@ type DemoScreen = { id: string; node: ReactNode };
 type DemoTab = { screen: string; label: string };
 type TabBarItem = DemoTab & { icon: ReactNode };
 
-/**
- * Screens are server-rendered and passed in as nodes. They navigate by carrying `data-goto="<id>"`
- * (and toggle the in-phone theme with `data-app-theme`), which this component handles by delegation.
- */
 export default function PhoneDemo({
   screens,
   tabs,
@@ -26,9 +22,7 @@ export default function PhoneDemo({
   tabBar: TabBarItem[];
   initialScreen: string;
   accentStatusScreens?: string[];
-  /** Advance to the next tab every N ms; hovering or focusing the demo pauses it. */
   autoPlayMs?: number;
-  /** Render a smaller, shorter phone, for placing it beside other content. */
   compact?: boolean;
 }) {
   const [active, setActive] = useState(initialScreen);
@@ -43,7 +37,6 @@ export default function PhoneDemo({
 
   const autoPlaying = Boolean(autoPlayMs) && !paused;
 
-  // Re-armed on every screen change, so a click restarts the countdown.
   useEffect(() => {
     if (!autoPlaying) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;

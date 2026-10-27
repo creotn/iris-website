@@ -30,7 +30,6 @@
   color: var(--text-primary);
 }
 
-/* The arrow points back, which flips with the page direction. */
 html[dir="rtl"] .backIcon {
   scale: -1 1;
 }

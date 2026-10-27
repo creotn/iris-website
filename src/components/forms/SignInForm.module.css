@@ -140,7 +140,6 @@
     background 0.2s ease;
 }
 
-/* The input is LTR (email/password) but the icons follow the page, so in RTL text hugs the right. */
 html[dir="rtl"] .input {
   text-align: right;
 }

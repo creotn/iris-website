@@ -6,7 +6,6 @@ import { resolveLocale } from "@/locales/resolveLocale";
 import { getScopedI18n } from "@/locales/server";
 import styles from "../book.module.css";
 
-// Reads the identifier from the query string, so this page renders per request.
 export const revalidate = 0;
 
 export async function generateMetadata(): Promise<Metadata> {

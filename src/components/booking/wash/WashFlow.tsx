@@ -45,7 +45,6 @@ type Data = {
   address: SavedAddress & { area: NonNullable<SavedAddress["area"]> };
 };
 
-/** Keeps the booking in the URL so a refresh reopens it instead of starting a new one. */
 const bookingUrl = (pubkey: string) => `${window.location.pathname}?booking=${encodeURIComponent(pubkey)}`;
 
 type Load = { status: "loading" } | { status: "failed"; message: string } | { status: "ready"; data: Data };
@@ -94,7 +93,6 @@ export default function WashFlow() {
       }
       if (!catalog.ok || !vehicles.ok || !address.ok) return;
 
-      // The wash needs a car and a covered address; the onboarding steps collect them.
       if (vehicles.data.length === 0) return router.replace(stepPath(locale, "car"));
       if (!address.data.address || !address.data.area) return router.replace(stepPath(locale, "address"));
 
@@ -108,8 +106,6 @@ export default function WashFlow() {
         },
       });
 
-      // A booking in the URL is reopened: after a refresh, or coming back from a 3-D Secure challenge
-      // (Moyasar appends the payment id to our callback URL).
       const params = new URLSearchParams(window.location.search);
       const pubkey = params.get("booking");
       if (!pubkey) return;
@@ -124,14 +120,12 @@ export default function WashFlow() {
         if (!active) return;
         setReturning(false);
         if (verified.ok) return finish(pubkey);
-        // Declined or abandoned: the booking is still waiting, so offer the payment methods again.
         setError(translateError(verified.error, locale));
       }
 
       const summary = await fetchPaymentSummary(pubkey);
       if (!active) return;
       if (!summary.ok) {
-        // Not this account's booking, or gone: start a fresh one rather than reuse the pubkey on confirm.
         window.history.replaceState(null, "", window.location.pathname);
         return setBookingPubkey(null);
       }
@@ -178,7 +172,6 @@ export default function WashFlow() {
     setBusy(false);
     if (!result.ok) return setError(translateError(result.error, locale));
 
-    // Nothing to pay (a prepaid wash or a zero total) — the booking is already released.
     if (!result.data.requiresPayment) return finish(pubkey);
     setSummary(result.data);
     setPhase("pay");

@@ -1,26 +1,13 @@
-import {
-  IconChartBar,
-  IconCreditCard,
-  IconDeviceMobile,
-  IconLeaf,
-  IconMapPin,
-  IconStar,
-} from "@tabler/icons-react";
+import Image from "next/image";
+import type { CSSProperties } from "react";
 import { getScopedI18n } from "@/locales/server";
+import { features } from "./features.content";
 import SectionHeader from "./SectionHeader";
+import SpotlightGrid from "./SpotlightGrid";
 import styles from "./FeaturesSection.module.css";
 
-export default async function FeaturesSection() {
+export default async function FeaturesSection({ locale }: { locale: Locale }) {
   const t = await getScopedI18n("features");
-
-  const features = [
-    { Icon: IconDeviceMobile, title: t("bookTitle"), desc: t("bookDesc") },
-    { Icon: IconMapPin, title: t("trackingTitle"), desc: t("trackingDesc") },
-    { Icon: IconStar, title: t("prosTitle"), desc: t("prosDesc") },
-    { Icon: IconCreditCard, title: t("paymentsTitle"), desc: t("paymentsDesc") },
-    { Icon: IconChartBar, title: t("earningsTitle"), desc: t("earningsDesc") },
-    { Icon: IconLeaf, title: t("ecoTitle"), desc: t("ecoDesc") },
-  ];
 
   return (
     <section className="section" id="features">
@@ -31,20 +18,36 @@ export default async function FeaturesSection() {
           description={t("description")}
         />
 
-        <div className={styles.grid}>
-          {features.map(({ Icon, title, desc }, index) => (
-            <div
-              key={title}
-              className={`card card-glow animate-in animate-delay-${(index % 3) + 1}`}
+        <SpotlightGrid className={styles.grid}>
+          {features.map(({ icon: Icon, image, title, desc }, index) => (
+            <li
+              key={image}
+              className={styles.card}
+              data-spotlight
+              style={{ "--i": index % 3 } as CSSProperties}
             >
-              <div className={styles.icon}>
-                <Icon size={24} stroke={1.75} />
+              <div className={styles.media}>
+                <div className={styles.parallax}>
+                  <Image
+                    src={image}
+                    alt=""
+                    fill
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 384px"
+                    className={styles.image}
+                  />
+                </div>
               </div>
-              <h3 className={styles.title}>{title}</h3>
-              <p className={styles.desc}>{desc}</p>
-            </div>
+
+              <div className={styles.body}>
+                <span className={styles.icon} aria-hidden="true">
+                  <Icon size={22} stroke={1.75} />
+                </span>
+                <h3 className={styles.title}>{title[locale]}</h3>
+                {desc && <p className={styles.desc}>{desc[locale]}</p>}
+              </div>
+            </li>
           ))}
-        </div>
+        </SpotlightGrid>
       </div>
     </section>
   );

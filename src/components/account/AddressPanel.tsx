@@ -87,12 +87,10 @@ export default function AddressPanel({
   );
 }
 
-/** The saved address on a live map: search or tap to move the pin, then confirm before it's saved. */
 function AddressCard({ saved, address, onEdit, onSaved }: { saved: SavedAddress; address: Stored; onEdit: () => void; onSaved: () => void }) {
   const t = useScopedI18n("account");
   const locale = useCurrentLocale();
   const resolveName = usePlaceName();
-  // `name` is undefined while it's being looked up, null when none was found.
   const [draft, setDraft] = useState<{ point: Point; name?: string | null } | null>(null);
   const [error, setError] = useState("");
   const [pending, startTransition] = useTransition();
@@ -220,7 +218,6 @@ function AddressForm({ address, onSaved, onCancel }: { address: Stored | null; o
     !numberInRange(-180, 180, "errLongitude")(form.values.longitude);
   const point: Point | null = pinned ? { latitude: Number(form.values.latitude), longitude: Number(form.values.longitude) } : null;
 
-  // A place name only fills the field while the customer hasn't written their own.
   const typed = useRef(form.values.address);
   const autoName = useRef<string | null>(null);
   useEffect(() => {
@@ -255,7 +252,6 @@ function AddressForm({ address, onSaved, onCancel }: { address: Stored | null; o
     );
   };
 
-  // An uncovered address is still saved; the card then shows the coverage badge.
   const save = () =>
     startTransition(async () => {
       const result = await saveAddress(form.values);

@@ -1,0 +1,456 @@
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.12fr);
+  gap: clamp(40px, 6vw, 80px);
+  align-items: center;
+}
+
+.title {
+  max-width: 520px;
+  margin-block-end: var(--space-md);
+  font-size: clamp(1.9rem, 3.4vw, 2.6rem);
+  font-weight: 700;
+  line-height: 1.12;
+  letter-spacing: -0.025em;
+}
+
+:global([dir="rtl"]) .title {
+  line-height: 1.3;
+  letter-spacing: 0;
+}
+
+.accent {
+  color: var(--text-accent);
+}
+
+.description {
+  max-width: 480px;
+  margin-block-end: var(--space-xl);
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: var(--text-muted);
+}
+
+.areas {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.areas li:last-child:nth-child(odd) {
+  grid-column: 1 / -1;
+}
+
+.area {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  height: 46px;
+  padding-inline: 10px 14px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--bg-card);
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  font-weight: 500;
+  text-align: start;
+  cursor: pointer;
+  transition:
+    border-color 0.3s ease,
+    background 0.3s ease,
+    translate 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 0.4s ease;
+}
+
+.area:hover {
+  translate: 0 -2px;
+  border-color: var(--border-accent);
+}
+
+.area:focus-visible {
+  outline: 2px solid var(--accent-light);
+  outline-offset: 2px;
+}
+
+.areaIcon {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  background: var(--accent-subtle);
+  color: var(--text-accent);
+  transition:
+    background 0.3s ease,
+    color 0.3s ease,
+    scale 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.areaName {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.area[data-active="true"] {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 10%, var(--bg-card));
+  box-shadow: 0 10px 26px -14px var(--accent-shadow-hover);
+}
+
+.area[data-active="true"] .areaIcon {
+  scale: 1.1;
+  background: var(--accent);
+  color: var(--text-on-accent);
+}
+
+.map {
+  position: relative;
+  height: clamp(360px, 76svh, 560px);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 28px;
+  background: var(--bg-card);
+  box-shadow: var(--shadow-lg);
+  direction: ltr;
+}
+
+:global([dir="rtl"]) .map {
+  --text-dir: rtl;
+}
+
+.leaflet {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: var(--bg-card);
+  font: inherit;
+}
+
+.leaflet :global(.leaflet-tile-pane) {
+  filter: saturate(0.6) contrast(0.96) brightness(1.02);
+}
+
+:global(:root[data-theme="dark"]) .leaflet :global(.leaflet-tile-pane) {
+  filter: invert(1) hue-rotate(185deg) saturate(0.55) brightness(0.88) contrast(0.92);
+}
+
+.map :global(.leaflet-control-attribution) {
+  padding: 2px 8px;
+  background: color-mix(in srgb, var(--bg-card) 82%, transparent);
+  font-size: 10px;
+  color: var(--text-muted);
+}
+
+.map :global(.leaflet-control-attribution a) {
+  color: var(--text-accent);
+}
+
+.map :global(.leaflet-bar) {
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: var(--shadow-md);
+}
+
+.map :global(.leaflet-bar a) {
+  width: 34px;
+  height: 34px;
+  line-height: 34px;
+  background: var(--bg-card);
+  border-color: var(--border);
+  color: var(--text-primary);
+}
+
+.map :global(.leaflet-bar a:hover) {
+  background: var(--accent-subtle);
+  color: var(--text-accent);
+}
+
+.zone {
+  fill: var(--accent);
+  fill-opacity: 0.06;
+  stroke: var(--accent);
+  stroke-opacity: 0.25;
+  transition:
+    fill-opacity 0.6s ease,
+    stroke-opacity 0.6s ease;
+}
+
+.zone[data-active="true"] {
+  fill-opacity: 0.22;
+  stroke-opacity: 0.9;
+}
+
+.pin {
+  cursor: pointer;
+  background: none;
+  border: 0;
+}
+
+.pin[data-active="true"] {
+  z-index: 5;
+}
+
+.pin:focus-visible {
+  outline: 2px solid var(--accent-light);
+  outline-offset: 2px;
+  border-radius: 12px;
+}
+
+.glyph {
+  position: absolute;
+  inset-inline-start: 50%;
+  inset-block-end: 0;
+  width: 26px;
+  height: 26px;
+  rotate: -45deg;
+  border-radius: 50% 50% 50% 0;
+  background: var(--accent);
+  box-shadow: 0 6px 14px -2px var(--accent-shadow-hover);
+  transform-origin: 0 100%;
+  transition:
+    scale 0.45s cubic-bezier(0.34, 1.56, 0.64, 1),
+    background 0.3s ease;
+}
+
+.glyph::after {
+  content: "";
+  position: absolute;
+  inset: 8px;
+  border-radius: 50%;
+  background: #fff;
+}
+
+.pin:hover .glyph {
+  scale: 1.12;
+}
+
+.pin[data-active="true"] .glyph {
+  scale: 1.3;
+  background: var(--accent-light);
+  animation: drop 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.ping {
+  position: absolute;
+  inset-inline-start: 50%;
+  inset-block-end: 0;
+  width: 14px;
+  height: 14px;
+  margin-inline-start: -7px;
+  margin-block-end: -7px;
+  border: 2px solid var(--accent);
+  border-radius: 50%;
+  opacity: 0;
+}
+
+.pin[data-active="true"] .ping {
+  animation: ping 1.8s ease-out infinite;
+}
+
+.card {
+  position: absolute;
+  display: grid;
+  gap: 2px;
+  min-width: max-content;
+  padding: 10px 14px;
+  border: 1px solid var(--border-accent);
+  border-radius: 14px;
+  background: var(--bg-card);
+  box-shadow: var(--shadow-lg);
+  text-align: start;
+  direction: var(--text-dir, ltr);
+  opacity: 0;
+  scale: 0.9;
+  pointer-events: none;
+  transition:
+    opacity 0.25s ease,
+    scale 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.card strong {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.card small {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.76rem;
+  color: var(--success);
+}
+
+.pin[data-x="start"] .card {
+  left: 50%;
+  margin-left: -16px;
+  transform-origin: 16px 100%;
+}
+
+.pin[data-x="end"] .card {
+  right: 50%;
+  margin-right: -16px;
+  transform-origin: calc(100% - 16px) 100%;
+}
+
+.pin[data-y="above"] .card {
+  bottom: calc(100% + 8px);
+}
+
+.pin[data-y="below"] .card {
+  top: calc(100% + 10px);
+  transform-origin: 16px 0;
+}
+
+.pin[data-active="true"] .card {
+  opacity: 1;
+  scale: 1;
+}
+
+@keyframes ping {
+  0% {
+    scale: 0.6;
+    opacity: 0.9;
+  }
+  100% {
+    scale: 4.2;
+    opacity: 0;
+  }
+}
+
+@keyframes drop {
+  0% {
+    translate: 0 -14px;
+  }
+  60% {
+    translate: 0 2px;
+  }
+  100% {
+    translate: 0 0;
+  }
+}
+
+@keyframes lineIn {
+  from {
+    opacity: 0;
+    translate: 0 40%;
+    filter: blur(8px);
+  }
+}
+
+@keyframes popIn {
+  from {
+    opacity: 0;
+    translate: 0 14px;
+    scale: 0.85;
+  }
+}
+
+@keyframes mapIn {
+  from {
+    opacity: 0;
+    translate: 0 50px;
+    scale: 0.95;
+  }
+}
+
+@keyframes pinIn {
+  from {
+    opacity: 0;
+    scale: 0;
+  }
+}
+
+@supports (animation-timeline: view()) {
+  .title,
+  .description {
+    animation: lineIn linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 60%;
+  }
+
+  .areas li {
+    animation: popIn linear both;
+    animation-timeline: view();
+    animation-range: entry calc(20% + var(--i) * 3%) entry calc(65% + var(--i) * 3%);
+  }
+
+  .map {
+    animation: mapIn linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 60%;
+  }
+
+  .glyph {
+    animation: pinIn linear both;
+    animation-timeline: view();
+    animation-range: entry calc(30% + var(--i) * 4%) entry calc(75% + var(--i) * 4%);
+  }
+
+}
+
+@media (max-width: 960px) {
+  .map {
+    height: auto;
+    aspect-ratio: 600 / 540;
+  }
+
+  .layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-2xl);
+  }
+
+  .title,
+  .description {
+    max-width: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .map {
+    border-radius: 22px;
+  }
+
+  .areas {
+    gap: 8px;
+  }
+
+  .area {
+    height: 46px;
+    gap: 8px;
+    padding-inline: 7px 8px;
+    font-size: 0.85rem;
+  }
+
+  .areaIcon {
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+  }
+
+  .card {
+    padding: 8px 12px;
+  }
+}
+
+@media (max-width: 340px) {
+  .areas {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (hover: none) {
+  .area:hover {
+    translate: none;
+  }
+}
+

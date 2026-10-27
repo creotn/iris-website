@@ -47,7 +47,6 @@ export default async function LocaleLayout({
       <head>
         <ThemeScript />
       </head>
-      {/* Browser extensions (e.g. ColorZilla's cz-shortcut-listen) add attributes to <body> before hydration. */}
       <body suppressHydrationWarning>
         <I18nProviderClient locale={safeLocale}>
           <Header locale={safeLocale} />

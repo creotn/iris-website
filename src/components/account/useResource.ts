@@ -6,10 +6,6 @@ import type { ApiResult } from "@/lib/api/client";
 import { useCurrentLocale } from "@/locales/client";
 import { translateError } from "@/utils/error";
 
-/**
- * One account read. `reload` re-fetches without blanking what's on screen, so saving a car or an
- * address updates the page in place instead of flashing a skeleton. `fetcher` must be stable.
- */
 export function useResource<T>(fetcher: () => Promise<ApiResult<T>>) {
   const locale = useCurrentLocale();
   const router = useRouter();

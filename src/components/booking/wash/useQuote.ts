@@ -3,8 +3,6 @@ import { requestQuote, type BookingItem, type Quote } from "@/api/BookingAPI";
 
 type Result = { key: string; quote: Quote | null; error: string | null };
 
-/** Price estimate for a set of lines. Loading is derived (no result for the current key yet), so
- *  nothing sets state synchronously inside the effect. */
 export function useQuote(items: BookingItem[]) {
   const key = JSON.stringify(items);
   const [result, setResult] = useState<Result | null>(null);

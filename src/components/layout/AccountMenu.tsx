@@ -9,7 +9,6 @@ import styles from "./AccountMenu.module.css";
 
 export type AccountMenuLabels = { menu: string; book: string; account: string; signOut: string };
 
-/** The signed-in header control: a round icon button (styled like the theme toggle) opening a menu. */
 export default function AccountMenu({ locale, labels }: { locale: Locale; labels: AccountMenuLabels }) {
   const router = useRouter();
   const menuId = useId();
@@ -17,7 +16,6 @@ export default function AccountMenu({ locale, labels }: { locale: Locale; labels
   const buttonRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
 
-  // While open: move focus into the menu, and close on a press anywhere outside it.
   useEffect(() => {
     if (!open) return;
     rootRef.current?.querySelector<HTMLElement>("[role=menuitem]")?.focus();

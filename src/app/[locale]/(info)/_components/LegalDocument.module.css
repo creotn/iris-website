@@ -1,0 +1,329 @@
+.body {
+  position: relative;
+}
+
+.progress {
+  position: fixed;
+  inset-block-start: var(--header-height);
+  inset-inline: 0;
+  z-index: 90;
+  height: 2px;
+  background: var(--accent);
+  transform-origin: 0 50%;
+  scale: 0 1;
+  opacity: 0;
+}
+
+:global([dir="rtl"]) .progress {
+  transform-origin: 100% 50%;
+}
+
+@keyframes read {
+  to {
+    scale: 1 1;
+  }
+}
+
+@supports (animation-timeline: scroll()) {
+  .progress {
+    opacity: 1;
+    animation: read linear both;
+    animation-timeline: scroll(root);
+  }
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 280px minmax(0, 1fr);
+  gap: clamp(32px, 6vw, 96px);
+  align-items: start;
+}
+
+.toc {
+  position: sticky;
+  inset-block-start: calc(var(--header-height) + 24px);
+  max-height: calc(100vh - var(--header-height) - 48px);
+  overflow-y: auto;
+}
+
+.tocLabel {
+  margin-block-end: var(--space-md);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.tocList {
+  display: grid;
+  gap: 2px;
+  margin: 0;
+  padding: 0;
+  padding-inline-start: 0;
+  border-inline-start: 1px solid var(--border);
+  list-style: none;
+}
+
+.tocLink {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-inline-start: -1px;
+  padding: 9px 14px;
+  border-inline-start: 2px solid transparent;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  color: var(--text-muted);
+  transition:
+    color var(--transition-normal),
+    border-color var(--transition-normal),
+    background var(--transition-normal);
+}
+
+.tocNumber {
+  flex: none;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  opacity: 0.7;
+}
+
+.tocLink:hover {
+  color: var(--text-primary);
+}
+
+.tocLink[aria-current="location"] {
+  border-inline-start-color: var(--accent);
+  background: linear-gradient(to inline-end, var(--accent-subtle), transparent);
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.tocLink[aria-current="location"] .tocNumber {
+  color: var(--text-accent);
+  opacity: 1;
+}
+
+.tocLink:focus-visible {
+  outline: 2px solid var(--accent-light);
+  outline-offset: -2px;
+}
+
+.article {
+  max-width: 760px;
+}
+
+.part {
+  display: grid;
+  gap: var(--space-md);
+  padding-block: var(--space-xl);
+  border-block-start: 1px solid var(--border);
+  scroll-margin-block-start: calc(var(--header-height) + 24px);
+}
+
+.part:first-child {
+  padding-block-start: 0;
+  border-block-start: 0;
+}
+
+.partHead {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+}
+
+.number {
+  flex: none;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: var(--text-accent);
+}
+
+.partTitle {
+  font-size: clamp(1.35rem, 2.4vw, 1.75rem);
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.015em;
+}
+
+:global([dir="rtl"]) .partTitle {
+  line-height: 1.45;
+  letter-spacing: 0;
+}
+
+.text {
+  font-size: 1.02rem;
+  line-height: 1.85;
+  color: var(--text-secondary);
+}
+
+.list {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.list li {
+  position: relative;
+  padding-inline-start: 28px;
+  font-size: 1.02rem;
+  line-height: 1.7;
+  color: var(--text-secondary);
+}
+
+.list li::before {
+  content: "";
+  position: absolute;
+  inset-block-start: 0.62em;
+  inset-inline-start: 4px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 4px var(--accent-subtle);
+}
+
+.questions {
+  display: flex;
+  gap: var(--space-lg);
+  margin-block-start: var(--space-2xl);
+  padding: var(--space-xl);
+  border: 1px solid var(--border-accent);
+  border-radius: 24px;
+  background: linear-gradient(135deg, var(--accent-subtle), transparent 70%), var(--bg-card);
+}
+
+.questionsIcon {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-md);
+  background: var(--accent);
+  color: var(--text-on-accent);
+}
+
+.questionsCopy {
+  display: grid;
+  gap: var(--space-sm);
+}
+
+.questionsTitle {
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.questionsLinks {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-sm) var(--space-lg);
+  margin-block-start: var(--space-xs);
+}
+
+.email {
+  font-weight: 600;
+  color: var(--text-accent);
+  word-break: break-all;
+}
+
+.email:focus-visible {
+  outline: 2px solid var(--accent-light);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+@keyframes partIn {
+  from {
+    opacity: 0;
+    translate: 0 28px;
+  }
+}
+
+@supports (animation-timeline: view()) {
+  .part,
+  .questions {
+    animation: partIn linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 40%;
+  }
+}
+
+@media (max-width: 960px) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-xl);
+  }
+
+  .toc {
+    inset-block-start: var(--header-height);
+    z-index: 5;
+    max-height: none;
+    margin-inline: calc(var(--space-lg) * -1);
+    padding: var(--space-sm) var(--space-lg);
+    overflow: auto hidden;
+    background: var(--header-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-block-end: 1px solid var(--border);
+    scrollbar-width: none;
+  }
+
+  .tocLabel {
+    display: none;
+  }
+
+  .tocList {
+    display: flex;
+    gap: 8px;
+    border-inline-start: 0;
+  }
+
+  .tocLink {
+    margin: 0;
+    padding: 8px 14px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-full);
+    background: var(--bg-card);
+    white-space: nowrap;
+    font-size: 0.85rem;
+  }
+
+  .tocNumber {
+    display: none;
+  }
+
+  .tocLink[aria-current="location"] {
+    border-color: var(--accent);
+    background: var(--accent);
+    color: var(--text-on-accent);
+  }
+
+  .part {
+    scroll-margin-block-start: calc(var(--header-height) + 72px);
+  }
+}
+
+@media (max-width: 640px) {
+  .questions {
+    flex-direction: column;
+    padding: var(--space-lg);
+    border-radius: 20px;
+  }
+
+  .toc {
+    margin-inline: calc(var(--space-md) * -1);
+    padding-inline: var(--space-md);
+  }
+
+  .text,
+  .list li {
+    font-size: 0.98rem;
+  }
+}

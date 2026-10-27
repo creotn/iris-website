@@ -30,7 +30,6 @@ const noRule = () => null;
 
 const carName = (vehicle: Vehicle) => `${vehicle.make} ${vehicle.model}`;
 
-/** `"new"` is the add dialog, a car its edit dialog. */
 type Editing = null | "new" | Vehicle;
 
 export default function VehiclesPanel({

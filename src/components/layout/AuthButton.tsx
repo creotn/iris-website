@@ -2,6 +2,7 @@
 
 import { useSyncExternalStore } from "react";
 import Link from "next/link";
+import { IconUser } from "@tabler/icons-react";
 import { AUTH_CHANGE_EVENT, getAccessToken } from "@/lib/api/client";
 import AccountMenu, { type AccountMenuLabels } from "./AccountMenu";
 import styles from "./AccountMenu.module.css";
@@ -11,11 +12,6 @@ const subscribe = (onChange: () => void) => {
   return () => window.removeEventListener(AUTH_CHANGE_EVENT, onChange);
 };
 
-/**
- * The header's account control. Signed-in state lives in a client-readable cookie, so it's read here
- * rather than on the server — reading cookies in the layout would make every page dynamic. The
- * server snapshot is "signed out", so the first paint matches the static HTML.
- */
 export default function AuthButton({
   locale,
   labels,
@@ -27,8 +23,8 @@ export default function AuthButton({
 
   if (!signedIn) {
     return (
-      <Link href={`/${locale}/sign-in`} className={styles.signIn}>
-        {labels.signIn}
+      <Link href={`/${locale}/sign-in`} className={styles.signIn} aria-label={labels.signIn} title={labels.signIn}>
+        <IconUser size={18} stroke={2} aria-hidden="true" />
       </Link>
     );
   }

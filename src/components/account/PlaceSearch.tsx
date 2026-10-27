@@ -6,10 +6,6 @@ import { searchPlaces, type Place } from "@/api/GeoAPI";
 import { useCurrentLocale, useScopedI18n } from "@/locales/client";
 import styles from "./Account.module.css";
 
-/**
- * Search by name, run on Enter or the button. Not a <form>: it also sits inside the address form,
- * and forms can't nest, so Enter is caught here instead of submitting the address.
- */
 export default function PlaceSearch({ onPick }: { onPick: (place: Place) => void }) {
   const t = useScopedI18n("account");
   const locale = useCurrentLocale();

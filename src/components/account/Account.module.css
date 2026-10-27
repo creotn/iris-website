@@ -12,7 +12,6 @@
   margin-inline: auto;
 }
 
-/* Entrance: transform, not `translate`, so it never fights the hover lifts below. */
 .reveal {
   animation: rise 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) both;
   animation-delay: calc(var(--i, 0) * 70ms);
@@ -39,8 +38,6 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-
-/* ---------- hero ---------- */
 
 .hero {
   position: relative;
@@ -178,8 +175,6 @@
   }
 }
 
-/* ---------- shortcut tiles ---------- */
-
 .tiles {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -216,7 +211,6 @@
   outline-offset: 2px;
 }
 
-/* The section on show: the tile reads as pressed in, its icon filled. */
 .tileOn,
 .tileOn:hover {
   translate: none;
@@ -261,7 +255,6 @@
   }
 }
 
-/* On a phone the tiles shrink to their icon and title, so all four stay in two short rows. */
 @media (max-width: 520px) {
   .tile {
     gap: 10px;
@@ -272,8 +265,6 @@
     display: none;
   }
 }
-
-/* ---------- payment needed ---------- */
 
 .payCard {
   display: grid;
@@ -355,8 +346,6 @@
   }
 }
 
-/* ---------- sections ---------- */
-
 .section {
   display: flex;
   flex-direction: column;
@@ -408,8 +397,6 @@
   font-size: 1.05rem;
   font-weight: 800;
 }
-
-/* ---------- live orders ---------- */
 
 .liveGrid {
   display: grid;
@@ -528,8 +515,6 @@
   gap: 10px;
 }
 
-/* ---------- buttons ---------- */
-
 .button {
   display: inline-flex;
   align-items: center;
@@ -610,8 +595,6 @@
   rotate: 90deg;
 }
 
-/* ---------- history rows ---------- */
-
 .historyList {
   display: flex;
   flex-direction: column;
@@ -663,8 +646,6 @@
   gap: 6px;
 }
 
-/* ---------- status badge ---------- */
-
 .badge {
   display: inline-flex;
   align-items: center;
@@ -714,8 +695,6 @@
   }
 }
 
-/* ---------- empty / error ---------- */
-
 .empty {
   display: flex;
   flex-direction: column;
@@ -760,8 +739,6 @@
   border-radius: 14px;
   font-size: 0.9rem;
 }
-
-/* ---------- cars ---------- */
 
 .carGrid {
   display: grid;
@@ -851,8 +828,6 @@
   font: inherit;
 }
 
-/* ---------- address ---------- */
-
 .addressRow {
   display: flex;
   align-items: flex-start;
@@ -885,7 +860,6 @@
   padding: 22px;
 }
 
-/* `isolation` keeps Leaflet's own z-indexes (up to 1000) from rising above the sticky header. */
 .mapWrap,
 .pickMap {
   position: relative;
@@ -915,12 +889,10 @@
   outline-offset: -2px;
 }
 
-/* The tiles only come light; this keeps them from glaring in dark mode. */
 :global(:root[data-theme="dark"]) .leafletMap :global(.leaflet-tile-pane) {
   filter: invert(0.9) hue-rotate(180deg) brightness(0.95);
 }
 
-/* The pin: a rotated rounded square whose sharp corner is the exact spot. */
 .pin span {
   display: block;
   inline-size: 30px;
@@ -1105,13 +1077,10 @@
   margin-block-end: var(--space-md);
 }
 
-/* ---------- dialog ---------- */
-
 .dialog {
   inline-size: min(560px, calc(100vw - 32px));
   max-inline-size: none;
   max-block-size: calc(100dvh - 32px);
-  /* The global reset zeroes margins, which is what centres a modal dialog. */
   margin: auto;
   padding: 0;
   overflow: visible;
@@ -1185,7 +1154,6 @@
   }
 }
 
-/* A bottom sheet on phones. */
 @media (max-width: 600px) {
   .dialog {
     inline-size: 100vw;
@@ -1259,8 +1227,6 @@
   }
 }
 
-/* ---------- toast ---------- */
-
 .toast {
   position: fixed;
   inset-block-end: var(--space-lg);
@@ -1287,8 +1253,6 @@
     transform: translateY(20px);
   }
 }
-
-/* ---------- order detail ---------- */
 
 .back {
   display: inline-flex;

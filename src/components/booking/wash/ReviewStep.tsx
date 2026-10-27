@@ -47,7 +47,6 @@ export default function ReviewStep({
     const result = await checkDiscount(code, itemCount(items), quote.total);
     setChecking(false);
 
-    // A refused code is still HTTP 201 — the body says whether it is valid.
     if (!result.ok) return setPromoError(translateError(result.error, locale));
     if (!result.data.valid) return setPromoError(translateError(result.data.message, locale));
 

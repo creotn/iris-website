@@ -2,11 +2,9 @@ import type { CSSProperties } from "react";
 import type { Order, OrderStatus } from "@/api/AccountAPI";
 import { joinNames, pick } from "@/components/booking/wash/draft";
 
-/** The account page's sections; here rather than in the client component so the server page can read them. */
 export const VIEWS = ["live", "cars", "address", "history"] as const;
 export type View = (typeof VIEWS)[number];
 
-/** Position in a list, so `.reveal` items enter one after another. */
 export const stagger = (index: number) => ({ "--i": index }) as CSSProperties;
 
 export const STAGES =["booked", "assigned", "onTheWay", "arrived", "washing", "done"] as const;
@@ -23,7 +21,6 @@ const STAGE_STATUSES: Record<Stage, OrderStatus[]> = {
 
 const CLOSED: OrderStatus[] = ["COMPLETED", "PAID", "CANCELLED", "REJECTED"];
 
-/** Mirrors the API's `CANCELLABLE_STATUSES`; it refuses any other status anyway. */
 const CANCELLABLE: OrderStatus[] = ["NEW", "PENDING", "ACCEPTED", "EN_ROUTE", "ARRIVED", "IN_PROGRESS"];
 
 export const isActive = (status: OrderStatus) => !CLOSED.includes(status);
@@ -31,13 +28,10 @@ export const isCancellable = (status: OrderStatus) => CANCELLABLE.includes(statu
 export const isDone = (status: OrderStatus) => STAGE_STATUSES.done.includes(status);
 export const isStopped = (status: OrderStatus) => status === "CANCELLED" || status === "REJECTED";
 
-/** Created but not paid for: the wash flow takes it back to its payment step. */
 export const awaitsPayment = (order: Order) => order.status === "NEW" && order.paymentMethod === "UNPAID";
 
-/** -1 for a cancelled or declined order, which left the happy path. */
 export const stageIndex = (status: OrderStatus) => STAGES.findIndex((stage) => STAGE_STATUSES[stage].includes(status));
 
-/** When the order reached each stage, from its status history; the first stage is the order itself. */
 export function stageTimes(order: Order): Partial<Record<Stage, string>> {
   const times: Partial<Record<Stage, string>> = { booked: order.createdAt };
   for (const event of order.statusEvents) {

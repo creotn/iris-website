@@ -28,8 +28,6 @@ export async function register(input: RegisterInput): Promise<ApiResult> {
   const result = await apiRequest("/auth/customer-register", { method: "POST", body: input });
   if (!result.ok) return result;
 
-  // Registering sends no code: send-otp issues it. A failed send isn't fatal — the verify step
-  // has a resend button.
   await sendOtp(input.email);
   return result;
 }
@@ -58,7 +56,6 @@ export const resetPassword = (identifier: string, newPassword: string) =>
   });
 
 export async function signOut(): Promise<void> {
-  // The visitor asked to leave, so an unreachable API must not leave them signed in.
   await apiRequest("/auth/signout", { method: "POST", auth: true, credentials: true });
   clearAccessToken();
 }
