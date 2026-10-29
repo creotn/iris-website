@@ -8,55 +8,55 @@ export type HowItWorksContent = {
 export const howItWorksContent: Record<"ar" | "en", HowItWorksContent> = {
   en: {
     label: "How it works",
-    title: "From tap to spotless\nin four moves.",
+    title: "Four steps\nto a spotless car.",
     cta: "Book your first wash",
     steps: [
       {
-        title: "Drop a pin",
-        desc: "Search your district, enter an address or use your current location — then pin where the car is.",
+        title: "Pin your car",
+        desc: "Search the address or use your location, and tell us how the technician gets the key: from you, from the guard, or the car is unlocked.",
         image: "/images/how-it-works/visit-place.png",
       },
       {
+        title: "Choose a service and time",
+        desc: "Pick your car size, service, add-ons and scent level, then book now or for later.",
+        image: "/images/how-it-works/membership.jpg",
+      },
+      {
         title: "Pay your way",
-        desc: "Card (mada, Visa, Mastercard), wallet or cash at the visit. Pay online and save 10%.",
+        desc: "By card (mada, Visa, Mastercard), from your balance, from your membership washes, or in cash to the technician.",
         image: "/images/how-it-works/payment-card.jpg",
       },
       {
-        title: "Track your visit",
-        desc: "Follow it live: finding a technician, on the way, arrived, washing, done.",
+        title: "Track and receive",
+        desc: "Follow the technician live, get before-and-after photos when done, then rate the visit.",
         image: "/images/how-it-works/visit-tracking.jpg",
-      },
-      {
-        title: "Make it a membership",
-        desc: "Pick a 1, 3 or 12-month IRIS membership and make washing part of your routine.",
-        image: "/images/how-it-works/membership.jpg",
       },
     ],
   },
   ar: {
     label: "كيف يعمل",
-    title: "من لمسة إلى لمعان\nفي أربع خطوات.",
+    title: "أربع خطوات\nوسيارتك لامعة.",
     cta: "احجز أول غسلة",
     steps: [
       {
-        title: "حدّد موقعك",
-        desc: "ابحث عن حيّك أو أدخل العنوان أو استخدم موقعك الحالي، ثم ضع الدبوس حيث توجد سيارتك.",
+        title: "حدّد موقع سيارتك",
+        desc: "ابحث عن العنوان أو استخدم موقعك، وأخبرنا كيف يصل الفني للمفتاح: معك، أو مع الحارس، أو السيارة مفتوحة.",
         image: "/images/how-it-works/visit-place.png",
       },
       {
+        title: "اختر الخدمة والوقت",
+        desc: "حدّد حجم سيارتك والخدمة والإضافات ودرجة العطر، ثم احجز الآن أو في موعد يناسبك.",
+        image: "/images/how-it-works/membership.jpg",
+      },
+      {
         title: "ادفع بطريقتك",
-        desc: "بالبطاقة (مدى، فيزا، ماستركارد) أو من المحفظة أو نقداً عند الزيارة. وفّر 10% عند الدفع أونلاين.",
+        desc: "بالبطاقة (مدى، فيزا، ماستركارد)، أو من رصيدك، أو من غسلات عضويتك، أو نقداً للفني عند الزيارة.",
         image: "/images/how-it-works/payment-card.jpg",
       },
       {
-        title: "تابع زيارتك",
-        desc: "تابعها مباشرة: البحث عن فني، في الطريق، وصل، جارٍ الغسيل، انتهت.",
+        title: "تابع واستلم",
+        desc: "تابع الفني مباشرة، واستلم صور قبل وبعد عند الانتهاء، ثم قيّم الزيارة.",
         image: "/images/how-it-works/visit-tracking.jpg",
-      },
-      {
-        title: "اجعلها عضوية",
-        desc: "اختر عضوية IRIS لشهر أو 3 أشهر أو 12 شهراً، واجعل الغسيل جزءاً من روتينك.",
-        image: "/images/how-it-works/membership.jpg",
       },
     ],
   },

@@ -91,7 +91,6 @@ export default function CoverageShowcase({ locale, areas, content }: Props) {
             );
           })}
         </ul>
-
       </div>
 
       <div className={styles.map} {...hold}>

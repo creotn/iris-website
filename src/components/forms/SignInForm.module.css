@@ -13,6 +13,31 @@
   margin-block-end: var(--space-sm);
 }
 
+.eyebrow {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.secure {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.secure svg {
+  color: var(--accent);
+}
+
+.footnote {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
 .title {
   margin: 0;
   font-size: clamp(2rem, 5vw, 3rem);
@@ -167,8 +192,8 @@ html[dir="rtl"] .input {
   width: 100%;
   margin-block-start: var(--space-xs);
   padding: 18px var(--space-md);
-  background: var(--iris-ink);
-  color: var(--iris-paper);
+  background: var(--accent);
+  color: #fff;
   border: 0;
   border-radius: var(--radius-md);
   box-shadow: 0 4px 15px var(--accent-shadow);
@@ -186,7 +211,7 @@ html[dir="rtl"] .input {
 }
 
 .arrow {
-  color: var(--iris-light);
+  color: inherit;
 }
 
 html[dir="rtl"] .arrow {

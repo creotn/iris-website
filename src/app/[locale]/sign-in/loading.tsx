@@ -1,6 +1,6 @@
 import { Skeleton, SkeletonScreen } from "@/components/skeleton/Skeleton";
 import formStyles from "@/components/forms/SignInForm.module.css";
-import styles from "./page.module.css";
+import styles from "@/components/layout/SplitLayout.module.css";
 
 export default function Loading() {
   return (

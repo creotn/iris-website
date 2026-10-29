@@ -6,6 +6,10 @@
   gap: var(--space-md);
 }
 
+.wide {
+  max-width: 1080px;
+}
+
 .bar {
   display: flex;
   align-items: center;

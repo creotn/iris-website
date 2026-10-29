@@ -1,6 +1,6 @@
 import { faqContent } from "./faq.content";
 import FaqList from "./FaqList";
-import SectionHeader from "./SectionHeader";
+import SectionHeader from "../shared/SectionHeader";
 import styles from "./FaqSection.module.css";
 
 export default function FaqSection({ locale }: { locale: Locale }) {

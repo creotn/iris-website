@@ -95,7 +95,7 @@ export default function PayStep({
 
   if (card) {
     return (
-      <div className={styles.stack}>
+      <div className={`${styles.stack} ${styles.narrow}`}>
         <Heading title={t("cardTitle")} subtitle={t("cardSubtitle", { amount: formatMoney(card.moyasar.amount / 100, locale) })} />
         {useBalance && split && <Banner icon={<IconWallet size={18} stroke={1.75} aria-hidden />}>{t("balanceHeld", { amount: formatMoney(split.balancePart, locale) })}</Banner>}
         <MoyasarForm payment={card} callbackUrl={callbackUrl} onCompleted={onCompleted} onLoadFailed={onLoadFailed} />
@@ -134,13 +134,8 @@ export default function PayStep({
     <div className={styles.stack}>
       <Heading title={t("payTitle")} subtitle={t("paySubtitle")} />
 
-      <div className={styles.card}>
-        <Line label={t("subtotal")} value={formatMoney(summary.price, locale)} />
-        {online && Number(online.discount) > 0 && <Line tone="negative" label={t("onlineDiscount")} value={`−${formatMoney(online.discount, locale)}`} />}
-        <Line label={t("vat")} value={formatMoney(online?.taxAmount ?? summary.taxAmount, locale)} />
-        <Line strong label={t("toPay")} value={formatMoney(method === "cash" ? summary.amountDue : payNow, locale)} />
-      </div>
-
+      <div className={styles.split}>
+      <div className={styles.col}>
       <div className={styles.group} role="radiogroup" aria-label={t("method")}>
         {methods.map((item) => (
           <button
@@ -183,6 +178,15 @@ export default function PayStep({
           />
         </div>
       )}
+      </div>
+
+      <div className={styles.side}>
+      <div className={styles.card}>
+        <Line label={t("subtotal")} value={formatMoney(summary.price, locale)} />
+        {online && Number(online.discount) > 0 && <Line tone="negative" label={t("onlineDiscount")} value={`−${formatMoney(online.discount, locale)}`} />}
+        <Line label={t("vat")} value={formatMoney(online?.taxAmount ?? summary.taxAmount, locale)} />
+        <Line strong label={t("toPay")} value={formatMoney(method === "cash" ? summary.amountDue : payNow, locale)} />
+      </div>
 
       <span className={styles.hint}>
         <IconLock size={12} stroke={1.75} aria-hidden /> {t("secureNote")}
@@ -196,6 +200,8 @@ export default function PayStep({
         {busy ? t("processing") : label}
       </Cta>
       <Ghost onClick={onCancel}>{t("cancelBooking")}</Ghost>
+      </div>
+      </div>
     </div>
   );
 }

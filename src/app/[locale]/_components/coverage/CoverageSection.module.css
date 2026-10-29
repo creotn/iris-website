@@ -1,8 +1,16 @@
 .layout {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1.12fr);
-  gap: clamp(40px, 6vw, 80px);
+  gap: clamp(32px, 5vw, 64px);
   align-items: center;
+}
+
+.copy {
+  --dir: 1;
+}
+
+:global([dir="rtl"]) .copy {
+  --dir: -1;
 }
 
 .title {
@@ -23,18 +31,29 @@
   color: var(--text-accent);
 }
 
+.areas li:nth-child(even) {
+  --side: 1;
+}
+
 .description {
   max-width: 480px;
-  margin-block-end: var(--space-xl);
-  font-size: 1.05rem;
+  margin-block-end: var(--space-lg);
+  font-size: 1rem;
   line-height: 1.7;
+  color: var(--text-muted);
+}
+
+.missing {
+  margin-block-start: var(--space-lg);
+  max-width: 480px;
+  font-size: 0.95rem;
   color: var(--text-muted);
 }
 
 .areas {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px;
+  gap: 8px;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -44,14 +63,28 @@
   grid-column: 1 / -1;
 }
 
+@media (min-width: 1101px) {
+  .areas {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .areas li:last-child:nth-child(odd) {
+    grid-column: auto;
+  }
+
+  .area {
+    font-size: 0.88rem;
+  }
+}
+
 .area {
   position: relative;
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   width: 100%;
-  height: 46px;
-  padding-inline: 10px 14px;
+  height: 44px;
+  padding-inline: 8px 12px;
   overflow: hidden;
   border: 1px solid var(--border);
   border-radius: 14px;
@@ -113,7 +146,7 @@
 
 .map {
   position: relative;
-  height: clamp(360px, 76svh, 560px);
+  height: clamp(340px, 62svh, 480px);
   overflow: hidden;
   border: 1px solid var(--border);
   border-radius: 28px;
@@ -139,7 +172,8 @@
 }
 
 :global(:root[data-theme="dark"]) .leaflet :global(.leaflet-tile-pane) {
-  filter: invert(1) hue-rotate(185deg) saturate(0.55) brightness(0.88) contrast(0.92);
+  filter: invert(1) hue-rotate(185deg) saturate(0.55) brightness(0.88)
+    contrast(0.92);
 }
 
 .map :global(.leaflet-control-attribution) {
@@ -347,6 +381,14 @@
   }
 }
 
+@keyframes slideChip {
+  from {
+    opacity: 0;
+    translate: calc(var(--dir) * var(--side, -1) * 36px) 0;
+    scale: 0.9;
+  }
+}
+
 @keyframes popIn {
   from {
     opacity: 0;
@@ -363,6 +405,35 @@
   }
 }
 
+@keyframes copySlide {
+  from {
+    translate: calc(var(--dir) * -48px) 0;
+  }
+}
+
+@keyframes mapReveal {
+  from {
+    clip-path: inset(14% 10% 14% 10% round 28px);
+  }
+}
+
+@keyframes mapDrift {
+  from {
+    transform: translateY(24px);
+  }
+  to {
+    transform: translateY(-24px);
+  }
+}
+
+@keyframes iconSpring {
+  from {
+    opacity: 0;
+    scale: 0.4;
+    rotate: -30deg;
+  }
+}
+
 @keyframes pinIn {
   from {
     opacity: 0;
@@ -371,6 +442,18 @@
 }
 
 @supports (animation-timeline: view()) {
+  .copy {
+    animation: copySlide linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 70%;
+  }
+
+  .areaIcon {
+    animation: iconSpring linear both;
+    animation-timeline: view();
+    animation-range: entry 30% entry 100%;
+  }
+
   .title,
   .description {
     animation: lineIn linear both;
@@ -378,24 +461,37 @@
     animation-range: entry 0% entry 60%;
   }
 
-  .areas li {
-    animation: popIn linear both;
+  .missing {
+    animation: lineIn linear both;
     animation-timeline: view();
-    animation-range: entry calc(20% + var(--i) * 3%) entry calc(65% + var(--i) * 3%);
+    animation-range: entry 40% entry 100%;
+  }
+
+  .areas li {
+    animation: slideChip linear both;
+    animation-timeline: view();
+    animation-range: entry calc(20% + var(--i) * 3%) entry
+      calc(65% + var(--i) * 3%);
   }
 
   .map {
-    animation: mapIn linear both;
-    animation-timeline: view();
-    animation-range: entry 0% entry 60%;
+    animation:
+      mapIn linear both,
+      mapReveal linear both,
+      mapDrift linear both;
+    animation-timeline: view(), view(), view();
+    animation-range:
+      entry 0% entry 60%,
+      entry 0% entry 80%,
+      cover 0% cover 100%;
   }
 
   .glyph {
     animation: pinIn linear both;
     animation-timeline: view();
-    animation-range: entry calc(30% + var(--i) * 4%) entry calc(75% + var(--i) * 4%);
+    animation-range: entry calc(30% + var(--i) * 4%) entry
+      calc(75% + var(--i) * 4%);
   }
-
 }
 
 @media (max-width: 960px) {
@@ -453,4 +549,3 @@
     translate: none;
   }
 }
-

@@ -18,21 +18,22 @@ export type CoverageContent = {
   description: string;
   mapLabel: string;
   available: string;
+   
 };
 
 export const coverageContent: Record<"ar" | "en", CoverageContent> = {
   en: {
-    title: "We come to you, across",
+    title: "We come to you across",
     titleAccent: "Riyadh",
-    description: "Pick a neighbourhood to see it on the map. New cities are launching soon.",
+    description: "Tap any district to see it on the map. Check that your district is covered before you book, and we keep adding districts.",
     mapLabel: "Map of the Riyadh neighbourhoods we serve",
-    available: "Service available",
+    available: "Available"
   },
   ar: {
-    title: "نأتي إليك في كل أنحاء",
+    title: "نأتي إليك في",
     titleAccent: "الرياض",
-    description: "اختر حياً لتراه على الخريطة. مدن جديدة قريباً.",
+    description: "اضغط على أي حي لتراه على الخريطة. تأكد من أن حيّك ضمن مناطق خدمتنا قبل الحجز، ونضيف أحياء جديدة باستمرار.",
     mapLabel: "خريطة أحياء الرياض التي نخدمها",
-    available: "الخدمة متاحة",
-  },
+    available: "الخدمة متاحة"
+  }
 };

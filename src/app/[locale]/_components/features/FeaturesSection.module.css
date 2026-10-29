@@ -1,5 +1,48 @@
+.section {
+  position: relative;
+  isolation: isolate;
+  overflow-x: clip;
+}
+
+.glow {
+  position: absolute;
+  inset-inline: 0;
+  inset-block: 10% 10%;
+  z-index: -1;
+  background:
+    radial-gradient(
+      520px circle at 15% 30%,
+      color-mix(in srgb, var(--accent) 30%, transparent),
+      transparent 70%
+    ),
+    radial-gradient(
+      480px circle at 88% 75%,
+      color-mix(in srgb, var(--accent-light) 24%, transparent),
+      transparent 70%
+    );
+  pointer-events: none;
+}
+
+.index {
+  position: absolute;
+  inset-block-start: 14px;
+  inset-inline-start: 14px;
+  z-index: 3;
+  padding: 4px 10px;
+  border: 1px solid var(--video-hero-panel-border, var(--border));
+  border-radius: var(--radius-full);
+  background: color-mix(in srgb, var(--bg-card) 72%, transparent);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  font-family: var(--font-mono), monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  color: var(--text-accent);
+}
+
 .grid {
   display: grid;
+  perspective: 1400px;
   grid-template-columns: repeat(3, 1fr);
   gap: var(--space-lg);
   margin: 0;
@@ -8,6 +51,7 @@
 }
 
 .card {
+  transform-style: preserve-3d;
   --mx: 50%;
   --my: 30%;
   position: relative;
@@ -24,7 +68,9 @@
 
 .card:hover {
   translate: 0 -4px;
-  box-shadow: var(--shadow-lg), 0 0 40px -12px var(--accent);
+  box-shadow:
+    var(--shadow-lg),
+    0 0 40px -12px var(--accent);
 }
 
 .card::before {
@@ -34,7 +80,11 @@
   z-index: 2;
   padding: 1px;
   border-radius: inherit;
-  background: radial-gradient(260px circle at var(--mx) var(--my), var(--accent-light), transparent 65%);
+  background: radial-gradient(
+    260px circle at var(--mx) var(--my),
+    var(--accent-light),
+    transparent 65%
+  );
   mask:
     linear-gradient(#000 0 0) content-box,
     linear-gradient(#000 0 0);
@@ -50,7 +100,11 @@
   position: absolute;
   inset: 0;
   z-index: 1;
-  background: radial-gradient(320px circle at var(--mx) var(--my), color-mix(in srgb, var(--accent) 14%, transparent), transparent 70%);
+  background: radial-gradient(
+    320px circle at var(--mx) var(--my),
+    color-mix(in srgb, var(--accent) 14%, transparent),
+    transparent 70%
+  );
   opacity: 0;
   transition: opacity 0.4s ease;
   pointer-events: none;
@@ -132,9 +186,31 @@
 @keyframes cardIn {
   from {
     opacity: 0;
-    translate: 0 44px;
-    scale: 0.96;
-    filter: blur(8px);
+    translate: 0 96px;
+    scale: 0.88;
+    rotate: x 24deg;
+    filter: blur(14px);
+  }
+}
+
+@keyframes glowDrift {
+  from {
+    translate: 0 -12%;
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 1;
+  }
+  to {
+    translate: 0 12%;
+    opacity: 0.35;
+  }
+}
+
+@keyframes indexIn {
+  from {
+    opacity: 0;
+    translate: -12px 0;
   }
 }
 
@@ -178,10 +254,22 @@
 }
 
 @supports (animation-timeline: view()) {
+  .glow {
+    animation: glowDrift linear both;
+    animation-timeline: view();
+    animation-range: cover 0% cover 100%;
+  }
+
+  .index {
+    animation: indexIn linear both;
+    animation-timeline: view();
+    animation-range: entry 30% entry 90%;
+  }
+
   .card {
     animation: cardIn linear both;
     animation-timeline: view();
-    animation-range: entry calc(var(--i) * 5%) entry calc(60% + var(--i) * 5%);
+    animation-range: entry calc(var(--i) * 10%) entry calc(75% + var(--i) * 10%);
   }
 
   .media {

@@ -1,16 +1,11 @@
 import Link from "next/link";
 import { getScopedI18n } from "@/locales/server";
+import { fetchBookableServices } from "@/api/PricingAPI";
 import HeroBookingBar from "./HeroBookingBar";
 import styles from "./HeroSection.module.css";
 
 const iconProps = { width: 18, height: 18, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 2, strokeLinecap: "round", strokeLinejoin: "round" } as const;
 
-const pinIcon = (
-  <svg {...iconProps}>
-    <path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 0 1 16 0Z" />
-    <circle cx="12" cy="10" r="3" />
-  </svg>
-);
 const sparkIcon = (
   <svg {...iconProps}>
     <path d="m12 3 1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9L12 3Z" />
@@ -24,39 +19,39 @@ const clockIcon = (
   </svg>
 );
 
+const formatAmount = (value: string | number) => {
+  const n = Number(value);
+  return Number.isInteger(n) ? String(n) : n.toFixed(2);
+};
+
 export default async function HeroSection({ locale }: { locale: Locale }) {
   const t = await getScopedI18n("hero");
+  const services = await fetchBookableServices();
 
   const fields = [
-    {
-      id: "where",
-      label: t("whereLabel"),
-      icon: pinIcon,
-      options: [
-        { value: "olaya", label: t("areaOlaya") },
-        { value: "malqa", label: t("areaMalqa") },
-        { value: "narjis", label: t("areaNarjis") },
-        { value: "yasmin", label: t("areaYasmin") },
-      ],
-    },
-    {
-      id: "package",
-      label: t("packageLabel"),
-      icon: sparkIcon,
-      options: [
-        { value: "express", label: t("packageExpress") },
-        { value: "premium", label: t("packagePremium") },
-        { value: "detail", label: t("packageDetail") },
-      ],
-    },
+    ...(services.length > 0
+      ? [
+          {
+            id: "package",
+            label: t("packageLabel"),
+            icon: sparkIcon,
+            options: services.map((service) => ({
+              value: service.pubkey,
+              label: t("priceFrom", {
+                name: service.title?.[locale] ?? service.title?.ar ?? service.title?.en ?? "",
+                price: formatAmount(service.indicativePriceAfterTax ?? 0),
+              }),
+            })),
+          },
+        ]
+      : []),
     {
       id: "when",
       label: t("whenLabel"),
       icon: clockIcon,
       options: [
-        { value: "today", label: t("whenToday") },
-        { value: "tomorrow", label: t("whenTomorrow") },
-        { value: "weekend", label: t("whenWeekend") },
+        { value: "now", label: t("whenNow") },
+        { value: "later", label: t("whenLater") },
       ],
     },
   ];

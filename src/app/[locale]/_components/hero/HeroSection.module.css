@@ -1,10 +1,10 @@
 .hero {
   position: relative;
   display: flex;
-  align-items: center;
-  min-height: clamp(640px, calc(100svh - var(--header-height)), 880px);
-  padding-block: var(--space-4xl) var(--space-3xl);
-  overflow: hidden;
+  align-items: stretch;
+  min-height: max(640px, calc(100svh - var(--header-height)));
+  padding-block: var(--space-3xl) var(--space-xl);
+  z-index: 2;
   isolation: isolate;
   background: var(--video-hero-base);
   color: var(--hero-text);
@@ -14,6 +14,7 @@
   position: absolute;
   inset: 0;
   z-index: -1;
+  overflow: hidden;
   background: var(--video-hero-base) url("/videos/hero-poster.jpg") center / cover no-repeat;
 }
 
@@ -70,17 +71,20 @@
 .inner {
   position: relative;
   display: flex;
+  flex: 1;
   flex-direction: column;
-  gap: var(--space-3xl);
+  justify-content: space-between;
+  gap: var(--space-xl);
 }
 
 .content {
   max-width: 640px;
+  margin-block: auto;
 }
 
 .title {
   margin-block-end: var(--space-lg);
-  font-size: clamp(2.5rem, 6.2vw, 4.4rem);
+  font-size: clamp(2.5rem, min(6.2vw, 7svh), 4.4rem);
   font-weight: 800;
   line-height: 1.08;
   letter-spacing: -0.02em;
@@ -178,7 +182,7 @@
 
 .bar {
   display: grid;
-  grid-template-columns: repeat(3, 1fr) auto;
+  grid-template-columns: repeat(2, 1fr) auto;
   align-items: stretch;
   gap: 0;
   padding: var(--space-sm);
@@ -271,19 +275,79 @@
   translate: 0 2px;
 }
 
-.select {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  opacity: 0;
+.trigger {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: var(--space-md);
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  text-align: start;
   cursor: pointer;
-  appearance: none;
 }
 
-.select option {
-  background: var(--bg-card);
-  color: var(--text-primary);
+.trigger::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+
+.trigger:focus-visible {
+  outline: none;
+}
+
+.field[data-open="true"] .chevron {
+  rotate: 180deg;
+}
+
+.menu {
+  position: absolute;
+  inset-inline: 0;
+  inset-block-start: calc(100% + 12px);
+  z-index: 10;
+  display: grid;
+  gap: 2px;
+  margin: 0;
+  padding: 6px;
+  list-style: none;
+  background: var(--video-hero-panel);
+  border: 1px solid var(--video-hero-panel-border);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  animation: menuIn 0.16s ease-out;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  padding: 12px 14px;
+  border-radius: var(--radius-md);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--hero-text);
+  cursor: pointer;
+}
+
+.option[data-highlight="true"] {
+  background: color-mix(in srgb, var(--accent) 24%, transparent);
+}
+
+.option[aria-selected="true"] {
+  color: var(--video-hero-accent);
+}
+
+@keyframes menuIn {
+  from {
+    opacity: 0;
+    translate: 0 -6px;
+  }
 }
 
 .bookBtn {
@@ -350,7 +414,7 @@
   }
 
   .bar {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
   }
 
   .bookBtn {

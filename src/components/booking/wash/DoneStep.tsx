@@ -1,12 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { IconCheck } from "@tabler/icons-react";
+import { IconArrowRight, IconCheck } from "@tabler/icons-react";
 import type { Booking } from "@/api/BookingAPI";
 import formStyles from "@/components/forms/SignInForm.module.css";
 import { useCurrentLocale, useScopedI18n } from "@/locales/client";
 import { formatMoney, joinNames, pick } from "./draft";
-import { Ghost, Line } from "./ui";
 import styles from "./Wash.module.css";
 
 const TIMELINE = ["tlConfirmed", "tlAssigned", "tlOnTheWay", "tlInProgress", "tlDone"] as const;
@@ -27,35 +26,62 @@ export default function DoneStep({ booking, onAnother }: { booking: Booking; onA
       })
     : t("asap");
 
+  const rows = [
+    { label: t("service"), value: joinNames(names) },
+    { label: t("when"), value: when },
+    { label: t("paidWith"), value: t(`pm_${booking.paymentMethod}` as "pm_CARD") },
+  ].filter((row) => row.value);
+
   return (
-    <div className={styles.stack}>
-      <div className={styles.hero}>
-        <div className={`${styles.big} ${styles.bigOk}`} aria-hidden>
-          <IconCheck size={44} stroke={2.5} />
+    <div className={styles.doneFull}>
+      <header className={styles.doneHead}>
+        <div className={styles.doneTitleRow}>
+          <svg className={styles.doneCheck} viewBox="0 0 52 52" aria-hidden>
+            <circle cx="26" cy="26" r="24" />
+            <path d="M15 27l8 8 15-17" />
+          </svg>
+          <h1 className={styles.doneTitle}>{cash ? t("bookingConfirmed") : t("paymentSuccessful")}</h1>
         </div>
-        <h1 className={formStyles.title}>{cash ? t("bookingConfirmed") : t("paymentSuccessful")}</h1>
-        <p className={formStyles.subtitle}>{booking.scheduledAt ? t("scheduledNote") : t("matchingNote")}</p>
+        <p className={styles.doneSub}>{booking.scheduledAt ? t("scheduledNote") : t("matchingNote")}</p>
+      </header>
+
+      <div className={styles.doneColumns}>
+        <dl className={styles.doneRows}>
+          {rows.map((row) => (
+            <div key={row.label}>
+              <dt>{row.label}</dt>
+              <dd>{row.value}</dd>
+            </div>
+          ))}
+          <div className={styles.doneTotal}>
+            <dt>{t("total")}</dt>
+            <dd>{formatMoney(booking.amountPaid ?? booking.amountDue, locale)}</dd>
+          </div>
+        </dl>
+
+        <div className={styles.statusCard}>
+          <dl className={`${styles.doneRows} ${styles.stageRows}`}>
+            {TIMELINE.map((key, index) => (
+              <div key={key} className={index === 0 ? styles.stageDone : index === 1 ? styles.stageNow : undefined}>
+                <dt>{t(key)}</dt>
+                <dd aria-hidden>
+                  {index === 0 ? <IconCheck size={14} stroke={3} /> : index === 1 ? <span className={styles.stageSpin} /> : <span className={styles.stageEmpty} />}
+                </dd>
+              </div>
+            ))}
+          </dl>
+
+          <div className={styles.statusActions}>
+            <Link href={`/${locale}/account`} className={`${formStyles.submit} ${styles.statusLink}`}>
+              {t("backToAccount")}
+              <IconArrowRight className={formStyles.arrow} size={18} stroke={2} aria-hidden />
+            </Link>
+            <button type="button" className={styles.doneSecondary} onClick={onAnother}>
+              {t("bookAnother")}
+            </button>
+          </div>
+        </div>
       </div>
-
-      <div className={styles.card}>
-        {names.length > 0 && <Line label={t("service")} value={joinNames(names)} />}
-        <Line label={t("when")} value={when} />
-        <Line label={t("paidWith")} value={t(`pm_${booking.paymentMethod}` as "pm_CARD")} />
-        <Line strong label={t("total")} value={formatMoney(booking.amountPaid ?? booking.amountDue, locale)} />
-      </div>
-
-      <ol className={styles.timeline}>
-        {TIMELINE.map((key, index) => (
-          <li key={key} className={index === 0 ? styles.timelineOn : undefined}>
-            {t(key)}
-          </li>
-        ))}
-      </ol>
-
-      <Link href={`/${locale}/account`} className={formStyles.submit}>
-        {t("backToAccount")}
-      </Link>
-      <Ghost onClick={onAnother}>{t("bookAnother")}</Ghost>
     </div>
   );
 }

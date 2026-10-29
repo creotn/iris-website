@@ -1,12 +1,12 @@
 import { setStaticParamsLocale } from "next-international/server";
 import { resolveLocale } from "@/locales/resolveLocale";
-import CoverageSection from "../_components/CoverageSection";
-import CtaSection from "../_components/CtaSection";
-import FaqSection from "../_components/FaqSection";
-import FeaturesSection from "../_components/FeaturesSection";
-import HeroSection from "../_components/HeroSection";
-import HowItWorksSection from "../_components/HowItWorksSection";
-import PricingSection from "../_components/PricingSection";
+import CoverageSection from "../_components/coverage";
+import CtaSection from "../_components/cta";
+import FaqSection from "../_components/faq";
+import FeaturesSection from "../_components/features";
+import HeroSection from "../_components/hero";
+import HowItWorksSection from "../_components/how-it-works";
+import PricingSection from "../_components/pricing";
 
 export const revalidate = 300;
 

@@ -12,16 +12,13 @@ export default async function Footer({ locale }: { locale: Locale }) {
   const t = await getScopedI18n("footer");
   const year = new Date().getFullYear();
 
-  const columns: { heading: string; links: FooterLink[]; split?: boolean }[] = [
+  const columns: { heading: string; links: FooterLink[] }[] = [
     {
       heading: t("explore"),
-      split: true,
       links: [
         { label: t("services"), href: `/${locale}#features` },
         { label: t("howItWorks"), href: `/${locale}#how-it-works` },
         { label: t("pricing"), href: `/${locale}#pricing` },
-        { label: t("coverage"), href: `/${locale}#coverage` },
-        { label: t("faq"), href: `/${locale}#faq` },
       ],
     },
     {
@@ -53,7 +50,7 @@ export default async function Footer({ locale }: { locale: Locale }) {
           {columns.map((column) => (
             <nav key={column.heading} aria-label={column.heading}>
               <div className={styles.heading}>{column.heading}</div>
-              <ul className={`${styles.links} ${column.split ? styles.linksSplit : ""}`}>
+              <ul className={styles.links}>
                 {column.links.map((link) => (
                   <li key={link.href}>
                     <Link href={link.href} className={styles.link}>

@@ -75,7 +75,9 @@ export default function ReviewStep({
     <div className={styles.stack}>
       <Heading title={t("reviewTitle")} />
 
-      <div className={styles.card}>
+      <div className={styles.split}>
+      <div className={styles.col}>
+      <div className={styles.panel}>
         <Line
           label={
             <>
@@ -110,6 +112,7 @@ export default function ReviewStep({
         />
       </div>
 
+      <div className={styles.panel}>
       <div className={styles.group}>
         <label htmlFor="promo" className={styles.groupLabel}>
           {t("promo")} <span className={styles.hint}>({t("optional")})</span>
@@ -147,6 +150,10 @@ export default function ReviewStep({
         )}
       </div>
 
+      </div>
+      </div>
+
+      <div className={styles.side}>
       {quote && (
         <div className={styles.card}>
           <Line label={t("subtotal")} value={formatMoney(quote.total, locale)} />
@@ -165,6 +172,8 @@ export default function ReviewStep({
       <Cta disabled={!quote || busy} onClick={onConfirm}>
         {busy ? t("creating") : t("continueToPayment")}
       </Cta>
+      </div>
+      </div>
     </div>
   );
 }

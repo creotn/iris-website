@@ -29,3 +29,22 @@ export const fetchMembershipPlans = async (): Promise<MembershipPlan[]> => {
   const plans = Array.isArray(response.data) ? response.data : response.data.data;
   return [...(plans ?? [])].sort((a, b) => a.displayOrder - b.displayOrder);
 };
+
+export type HeroService = {
+  pubkey: string;
+  title: L10n;
+  comingSoon: boolean;
+  indicativePriceAfterTax: string | null;
+  displayOrder: number;
+};
+
+export const fetchBookableServices = async (): Promise<HeroService[]> => {
+  const response = await httpClient<{ services?: HeroService[] }>(`${process.env.API_URL}/v1/api/catalog`, {
+    revalidate: FIVE_MINUTES_REVALIDATE,
+    tags: ["catalog"],
+  });
+  if (!response.success || !response.data) return [];
+  return (response.data.services ?? [])
+    .filter((service) => !service.comingSoon && Number(service.indicativePriceAfterTax) > 0)
+    .sort((a, b) => a.displayOrder - b.displayOrder);
+};

@@ -7,63 +7,83 @@ export type FaqContent = {
 export const faqContent: Record<"ar" | "en", FaqContent> = {
   en: {
     label: "FAQ",
-    title: "Questions? We have answers",
+    title: "Frequently asked questions",
     items: [
       {
-        question: "Do I need to provide water or electricity?",
+        question: "Do I need to be there?",
         answer:
-          "No. Our pros arrive fully equipped with waterless solutions and their own power — just share your location.",
+          "No. When booking, choose to hand over the key yourself, leave it with the guard or reception, or leave the car unlocked.",
       },
       {
-        question: "Where can you wash my car?",
+        question: "Do I need to provide water or power?",
         answer:
-          "At your home, office or any parking spot inside our service areas. Drop a pin when you book and we'll confirm coverage instantly.",
+          "No. The technician brings all equipment and products, and we offer a waterless eco wash for light dust.",
       },
       {
         question: "How do I pay?",
         answer:
-          "Pay in the app or on the website by card, from your IRIS wallet balance, or in cash once the wash is done. Prices include VAT.",
+          "By card (mada, Visa, Mastercard), from your balance, from your membership washes, or in cash to the technician. Prices include VAT.",
       },
       {
-        question: "Can I reschedule or cancel?",
+        question: "Can you wash more than one car?",
         answer:
-          "Yes. You can change the time or cancel from your account before your pro is on the way, at no cost.",
+          "Yes. Add your cars to the same visit, or share it with neighbours so each pays a lower price per car.",
       },
       {
-        question: "What if I am not satisfied?",
+        question: "Can I gift a wash?",
         answer:
-          "Tell us within 24 hours and we'll send a pro back to fix it for free. Every wash ends with before and after photos as proof.",
+          "Yes. Send a wash or membership to any phone number, even if they don't have an account yet. Invite a friend and you both get washes.",
+      },
+      {
+        question: "What if I cancel?",
+        answer:
+          "A membership wash goes back to your wallet, a balance payment goes back to your balance, and our team handles card refunds.",
+      },
+      {
+        question: "What if I'm not happy?",
+        answer:
+          "Rate the visit and chat with support in the app. The before-and-after photos help us sort it out quickly.",
       },
     ],
   },
   ar: {
     label: "الأسئلة الشائعة",
-    title: "أسئلة؟ لدينا الإجابات",
+    title: "أسئلة شائعة",
     items: [
       {
-        question: "هل أحتاج إلى توفير الماء أو الكهرباء؟",
+        question: "هل يجب أن أكون موجوداً؟",
         answer:
-          "لا. يصل محترفونا بكامل معداتهم وحلول الغسيل بلا ماء ومصدر طاقتهم الخاص — فقط شاركنا موقعك.",
+          "لا. عند الحجز اختر: تسليم المفتاح بنفسك، أو تركه مع الحارس أو الاستقبال، أو ترك السيارة مفتوحة.",
       },
       {
-        question: "أين يمكنكم غسل سيارتي؟",
+        question: "هل أحتاج إلى توفير ماء أو كهرباء؟",
         answer:
-          "في بيتك أو مكتبك أو أي موقف داخل مناطق خدمتنا. حدّد موقعك عند الحجز وسنؤكد التغطية فوراً.",
+          "لا. يصل الفني بكامل معداته ومنتجاته، ولدينا غسيل بيئي بدون ماء جارٍ للغبار الخفيف.",
       },
       {
         question: "كيف أدفع؟",
         answer:
-          "ادفع من التطبيق أو الموقع بالبطاقة، أو من رصيد محفظة IRIS، أو نقداً بعد انتهاء الغسلة. الأسعار شاملة الضريبة.",
+          "بالبطاقة (مدى، فيزا، ماستركارد)، أو من رصيدك، أو من غسلات عضويتك، أو نقداً للفني. الأسعار شاملة الضريبة.",
       },
       {
-        question: "هل يمكنني تغيير الموعد أو الإلغاء؟",
+        question: "هل يمكن غسل أكثر من سيارة؟",
         answer:
-          "نعم. يمكنك تغيير الوقت أو الإلغاء من حسابك قبل أن ينطلق المحترف إليك، دون أي تكلفة.",
+          "نعم. أضف سياراتك إلى الزيارة نفسها، أو شاركها مع جيرانك ليدفع كل شخص سعراً أقل لسيارته.",
+      },
+      {
+        question: "هل يمكنني إهداء غسلة؟",
+        answer:
+          "نعم. أرسل غسلة أو عضوية إلى أي رقم جوال، حتى لو لم يكن لدى صاحبه حساب. وعندما تدعو صديقاً، تحصلان كلاكما على غسلات.",
+      },
+      {
+        question: "ماذا لو ألغيت الحجز؟",
+        answer:
+          "تعود غسلة العضوية إلى محفظتك، ويعود المبلغ المدفوع من الرصيد إلى رصيدك، ويراجع فريقنا استرداد مدفوعات البطاقة.",
       },
       {
         question: "ماذا لو لم أكن راضياً؟",
         answer:
-          "أخبرنا خلال 24 ساعة وسنرسل محترفاً لإصلاح الأمر مجاناً. وتنتهي كل غسلة بصور قبل وبعد كإثبات.",
+          "قيّم الزيارة وتحدّث مع فريق الدعم من التطبيق مباشرة، وصور قبل وبعد تساعدنا على معالجة الأمر بسرعة.",
       },
     ],
   },

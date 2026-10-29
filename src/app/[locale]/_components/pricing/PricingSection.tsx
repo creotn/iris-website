@@ -3,8 +3,10 @@ import { IconCheck } from "@tabler/icons-react";
 import type { CSSProperties } from "react";
 import { fetchMembershipPlans } from "@/api/PricingAPI";
 import { getScopedI18n } from "@/locales/server";
-import SectionHeader from "./SectionHeader";
-import SpotlightGrid from "./SpotlightGrid";
+import PricingTabs from "./PricingTabs";
+import { addOnPrices, carSizes, singleWashes } from "./pricing.content";
+import SectionHeader from "../shared/SectionHeader";
+import SpotlightGrid from "../shared/SpotlightGrid";
 import styles from "./PricingSection.module.css";
 
 type L10n = { en?: string; ar?: string; ur?: string } | null | undefined;
@@ -54,18 +56,16 @@ export default async function PricingSection({ locale }: { locale: Locale }) {
         ? t("validityMonths", { count: days / 30 })
         : t("validityDays", { count: days });
 
-  return (
-    <section className="section" id="pricing">
-      <div className="container">
-        <SectionHeader label={t("label")} title={t("title")} description={t("description")} />
+  const memberships = (
+    <>
+      {plans.length === 0 && <p className={styles.empty}>{t("unavailable")}</p>}
 
-        {plans.length === 0 && <p className={styles.empty}>{t("unavailable")}</p>}
-
-        {plans.length > 0 && (
+      {plans.length > 0 && (
+        <>
           <SpotlightGrid className={styles.grid}>
             {plans.map((plan, index) => {
               const name = pick(plan.name, locale);
-              const isFeatured = index === featured;
+              const isFeatured = index === 1;
               const badge = plan.badgeLabel || (isFeatured ? t("bestValue") : "");
               const description = pick(plan.description, locale);
               const lines = [
@@ -105,18 +105,48 @@ export default async function PricingSection({ locale }: { locale: Locale }) {
                     ))}
                   </ul>
 
-                  <Link
-                    href={`/${locale}/account`}
-                    className={`${styles.cta} ${isFeatured ? styles.ctaPrimary : ""}`}
-                    aria-label={t("choosePlanNamed", { name })}
-                  >
-                    {isFeatured ? t("choosePlanNamed", { name }) : t("choosePlan")}
-                  </Link>
+                  <div className={styles.actions}>
+                    <Link
+                      href={`/${locale}/account`}
+                      className={`${styles.cta} ${isFeatured ? styles.ctaPrimary : ""}`}
+                      aria-label={t("choosePlanNamed", { name })}
+                    >
+                      {isFeatured ? t("choosePlanNamed", { name }) : t("choosePlan")}
+                    </Link>
+                    <Link href={`/${locale}/account`} className={styles.gift} aria-label={t("giftNamed", { name })}>
+                      {t("gift")}
+                    </Link>
+                  </div>
                 </li>
               );
             })}
           </SpotlightGrid>
-        )}
+          <p className={styles.note}>{t("membershipNote")}</p>
+        </>
+      )}
+    </>
+  );
+
+  const rows = singleWashes.map((wash) => ({
+    id: wash.id,
+    name: wash.name[locale],
+    desc: wash.desc[locale],
+    prices: carSizes.map((size) => String(wash.prices[size])),
+  }));
+
+  return (
+    <section className="section" id="pricing">
+      <div className="container">
+        <SectionHeader label={t("label")} title={t("title")} description={t("description")} />
+
+        <PricingTabs
+          singleLabel={t("tabSingle")}
+          membershipsLabel={t("tabMemberships")}
+          sizes={[t("sizeSedan"), t("sizeSuv"), t("sizeVan")]}
+          rows={rows}
+          addOns={t("addOns", { engine: addOnPrices.engineBay, headlight: addOnPrices.headlight })}
+          memberships={memberships}
+        />
       </div>
     </section>
   );

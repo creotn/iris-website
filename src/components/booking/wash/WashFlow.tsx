@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { IconArrowLeft } from "@tabler/icons-react";
 import {
@@ -20,29 +21,31 @@ import {
   type SavedAddress,
   type Vehicle,
 } from "@/api/BookingAPI";
-import { stepPath } from "@/config/booking";
 import { useCurrentLocale, useScopedI18n } from "@/locales/client";
 import { translateError } from "@/utils/error";
+import AddressStep, { type Place, type SavedPlace } from "./AddressStep";
+import CarStep from "./CarStep";
 import CustomizeStep from "./CustomizeStep";
 import DoneStep from "./DoneStep";
-import { buildItems, emptyDraft, type Draft } from "./draft";
+import { buildItems, emptyDraft, pick, type Draft } from "./draft";
 import PayStep from "./PayStep";
 import ReviewStep from "./ReviewStep";
 import ServiceStep from "./ServiceStep";
+import Stepper from "./Stepper";
 import { Banner, Cta } from "./ui";
 import WhenStep from "./WhenStep";
 import shellStyles from "./../StepShell.module.css";
 import styles from "./Wash.module.css";
 
-type Phase = "service" | "customize" | "when" | "review" | "pay" | "done";
-const PHASES: Phase[] = ["service", "customize", "when", "review", "pay", "done"];
-const BACK: Partial<Record<Phase, Phase>> = { customize: "service", when: "customize", review: "when" };
+type Phase = "car" | "address" | "service" | "customize" | "when" | "review" | "pay" | "done";
+const PHASES: Phase[] = ["car", "address", "service", "customize", "when", "review", "pay", "done"];
+const BACK: Partial<Record<Phase, Phase>> = { address: "car", service: "address", customize: "service", when: "customize", review: "when" };
 
 type Data = {
   categories: CatalogCategory[];
   services: CatalogService[];
-  vehicle: Vehicle;
-  address: SavedAddress & { area: NonNullable<SavedAddress["area"]> };
+  vehicles: Vehicle[];
+  saved: SavedPlace | null;
 };
 
 const bookingUrl = (pubkey: string) => `${window.location.pathname}?booking=${encodeURIComponent(pubkey)}`;
@@ -55,7 +58,10 @@ export default function WashFlow() {
   const router = useRouter();
 
   const [load, setLoad] = useState<Load>({ status: "loading" });
-  const [phase, setPhase] = useState<Phase>("service");
+  const [phase, setPhase] = useState<Phase>("car");
+  const [vehicles, setVehicles] = useState<Vehicle[]>([]);
+  const [vehicle, setVehicle] = useState<Vehicle | null>(null);
+  const [place, setPlace] = useState<Place | null>(null);
   const [draft, setDraftState] = useState<Draft>(emptyDraft);
   const [bookingPubkey, setBookingPubkey] = useState<string | null>(null);
   const [summary, setSummary] = useState<PaymentSummary | null>(null);
@@ -93,17 +99,16 @@ export default function WashFlow() {
       }
       if (!catalog.ok || !vehicles.ok || !address.ok) return;
 
-      if (vehicles.data.length === 0) return router.replace(stepPath(locale, "car"));
-      if (!address.data.address || !address.data.area) return router.replace(stepPath(locale, "address"));
+      const saved: SavedPlace | null = address.data.address ? { address: address.data.address, area: address.data.area } : null;
+      const coveredPlace: Place | null = saved?.area ? { address: saved.address, area: saved.area } : null;
+      const lastVehicle = vehicles.data[vehicles.data.length - 1] ?? null;
 
+      setVehicles(vehicles.data);
+      setVehicle(lastVehicle);
+      setPlace(coveredPlace);
       setLoad({
         status: "ready",
-        data: {
-          categories: catalog.data.categories,
-          services: catalog.data.services,
-          vehicle: vehicles.data[vehicles.data.length - 1],
-          address: { ...address.data, area: address.data.area },
-        },
+        data: { categories: catalog.data.categories, services: catalog.data.services, vehicles: vehicles.data, saved },
       });
 
       const params = new URLSearchParams(window.location.search);
@@ -140,8 +145,7 @@ export default function WashFlow() {
   }, [locale, router, finish]);
 
   const confirm = async () => {
-    if (load.status !== "ready") return;
-    const { vehicle, address } = load.data;
+    if (load.status !== "ready" || !vehicle || !place) return;
     setBusy(true);
     setError("");
 
@@ -149,7 +153,7 @@ export default function WashFlow() {
     if (!pubkey) {
       const base = {
         items: buildItems(draft),
-        addressPubkey: address.address!.pubkey,
+        addressPubkey: place.address.pubkey,
         vehiclePubkey: vehicle.pubkey,
         discountCode: draft.promo,
         notes: draft.notes,
@@ -158,7 +162,7 @@ export default function WashFlow() {
       const created =
         draft.when === "now"
           ? await createInstantBooking(base)
-          : await createScheduledBooking({ ...base, areaPubkey: address.area.pubkey, date: draft.date, timeSlot: draft.slot! });
+          : await createScheduledBooking({ ...base, areaPubkey: place.area.pubkey, date: draft.date, timeSlot: draft.slot! });
       if (!created.ok) {
         setBusy(false);
         return setError(translateError(created.error, locale));
@@ -184,7 +188,7 @@ export default function WashFlow() {
     setSummary(null);
     setBooking(null);
     setError("");
-    setPhase("service");
+    setPhase("car");
   };
 
   const cancel = async () => {
@@ -217,7 +221,7 @@ export default function WashFlow() {
   const back = BACK[phase];
 
   return (
-    <div className={shellStyles.shell}>
+    <div className={`${shellStyles.shell} ${shellStyles.wide}`}>
       <div className={shellStyles.bar}>
         {back && (
           <button type="button" className={shellStyles.back} onClick={() => setPhase(back)}>
@@ -225,46 +229,69 @@ export default function WashFlow() {
             {t("back")}
           </button>
         )}
-        <span className={shellStyles.count}>{t("step", { current: index, total: PHASES.length })}</span>
       </div>
-      <div className={shellStyles.track} role="progressbar" aria-valuemin={1} aria-valuemax={PHASES.length} aria-valuenow={index}>
-        <span className={shellStyles.fill} style={{ inlineSize: `${(index / PHASES.length) * 100}%` }} />
-      </div>
+      {phase !== "done" && (
+      <Stepper
+        current={index}
+        steps={[t("stepCar"), t("stepLocation"), t("stepService"), t("stepQuantity"), t("stepWhen"), t("stepReview"), t("stepPayment"), t("stepDone")]}
+      />
+      )}
 
-      {phase === "service" && (
+      {phase === "car" && (
+        <CarStep vehicles={vehicles} selected={vehicle} onSelect={setVehicle} onVehiclesChange={setVehicles} onNext={() => setPhase("address")} />
+      )}
+      {phase === "address" && <AddressStep saved={place ?? data.saved} onChoose={setPlace} onNext={() => setPhase("service")} />}
+      {phase === "service" && vehicle && place && (
         <ServiceStep
           categories={data.categories}
           services={data.services}
-          vehicle={data.vehicle}
-          address={data.address}
+          vehicle={vehicle}
+          address={{ address: place.address, area: place.area }}
           onPick={(service) => {
             setDraftState({ ...emptyDraft, service });
             setPhase("customize");
           }}
         />
       )}
-      {phase === "customize" && <CustomizeStep draft={draft} setDraft={setDraft} onNext={() => setPhase("when")} />}
-      {phase === "when" && <WhenStep draft={draft} setDraft={setDraft} areaPubkey={data.address.area.pubkey} onNext={() => setPhase("review")} />}
-      {phase === "review" && (
-        <ReviewStep
-          draft={draft}
-          setDraft={setDraft}
-          vehicle={data.vehicle}
-          address={data.address}
-          busy={busy}
-          error={error}
-          onConfirm={confirm}
-        />
-      )}
-      {phase === "pay" && bookingPubkey && summary && (
-        <>
-          {error && (
-            <p className="errorMessage" role="alert">
-              {error}
-            </p>
-          )}
-          <PayStep bookingPubkey={bookingPubkey} summary={summary} onPaid={() => finish(bookingPubkey)} onCancel={cancel} />
-        </>
+      {vehicle && place && phase !== "car" && phase !== "address" && phase !== "service" && phase !== "done" && (
+        <div className={styles.flowSplit}>
+          <aside className={`${styles.doneArt} ${styles.flowArt}`}>
+            <Image src="/images/features/eco-friendly.jpg" alt="" fill sizes="(min-width: 900px) 34vw, 100vw" className={styles.doneArtImage} />
+            <div className={styles.doneArtShade} />
+            <div className={styles.doneArtCopy}>
+              <span className={styles.flowEyebrow}>{t("yourWash")}</span>
+              <h2 className={styles.doneTitle}>{draft.service ? pick(draft.service.title, locale) : ""}</h2>
+              <p className={styles.doneSub}>
+                {vehicle.make} {vehicle.model} · {place.area.city}
+              </p>
+            </div>
+          </aside>
+          <div className={styles.flowBody}>
+        {phase === "customize" && <CustomizeStep draft={draft} setDraft={setDraft} onNext={() => setPhase("when")} />}
+        {phase === "when" && <WhenStep draft={draft} setDraft={setDraft} areaPubkey={place.area.pubkey} onNext={() => setPhase("review")} />}
+        {phase === "review" && (
+          <ReviewStep
+            draft={draft}
+            setDraft={setDraft}
+            vehicle={vehicle}
+            address={{ address: place.address, area: place.area }}
+            busy={busy}
+            error={error}
+            onConfirm={confirm}
+          />
+        )}
+        {phase === "pay" && bookingPubkey && summary && (
+          <>
+            {error && (
+              <p className="errorMessage" role="alert">
+                {error}
+              </p>
+            )}
+            <PayStep bookingPubkey={bookingPubkey} summary={summary} onPaid={() => finish(bookingPubkey)} onCancel={cancel} />
+          </>
+        )}
+          </div>
+        </div>
       )}
       {phase === "done" && booking && <DoneStep booking={booking} onAnother={reset} />}
     </div>

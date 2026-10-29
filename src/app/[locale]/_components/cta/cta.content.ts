@@ -8,15 +8,15 @@ export type CtaContent = {
 
 export const ctaContent: Record<"ar" | "en", CtaContent> = {
   en: {
-    title: "Ready for a\nspotless car?",
+    title: "A clean car today,\nwithout leaving your spot.",
     description:
-      "Book in 30 seconds and get 20% off your first wash with code IRIS20 — plus a free re-wash if it isn't perfect.",
+      "Book now or for later, and leave the rest to your IRIS technician.",
     primary: "Book your wash",
   },
   ar: {
-    title: "جاهز لسيارة\nلامعة؟",
+    title: "سيارتك نظيفة اليوم،\nدون أن تتحرك.",
     description:
-      "احجز في 30 ثانية واحصل على خصم 20% على أول غسلة بالرمز IRIS20 — مع إعادة غسل مجانية إن لم تكن مثالية.",
+      "احجز الآن أو في موعد يناسبك، واترك الباقي على فني IRIS.",
     primary: "احجز غسلتك",
   },
 };
