@@ -1,0 +1,13 @@
+.page {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.note {
+  padding-inline: 16px;
+  padding-block-end: var(--space-xl);
+  color: var(--text-muted);
+  text-align: center;
+}
