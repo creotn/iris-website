@@ -102,6 +102,18 @@ export default {
     proPoint4: "ملف محترف مع الشهادات",
     viewCustomer: "عرض جميع شاشات العميل",
   },
+  download: {
+    label: "حمّل التطبيق",
+    title: "امسح الرمز. حمّل التطبيق. احجز غسلتك.",
+    description:
+      "وجّه كاميرا هاتفك نحو رمز QR وسيصبح IRIS على بعد لمسة واحدة. غسيل سيارتك أينما كنت.",
+    iosStore: "حمّله من",
+    iosStoreName: "App Store",
+    iosScan: "امسح الرمز بكاميرا الآيفون",
+    androidStoreName: "Google Play",
+    androidSoon: "قريبًا",
+    qrAlt: "رمز QR لتحميل IRIS من App Store",
+  },
   mockup: {
     currency: "ريال",
     goodMorning: "صباح الخير،",

@@ -1,6 +1,7 @@
 import { setStaticParamsLocale } from "next-international/server";
 import { resolveLocale } from "@/locales/resolveLocale";
 import AppsSection from "../_components/AppsSection";
+import DownloadSection from "../_components/DownloadSection";
 import FeaturesSection from "../_components/FeaturesSection";
 import HeroSection from "../_components/HeroSection";
 import HowItWorksSection from "../_components/HowItWorksSection";
@@ -21,6 +22,7 @@ export default async function Home({
       <FeaturesSection />
       <HowItWorksSection />
       <AppsSection locale={locale} />
+      <DownloadSection />
     </main>
   );
 }

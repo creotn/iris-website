@@ -1,0 +1,166 @@
+.panel {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: var(--space-2xl);
+  align-items: center;
+  padding: clamp(28px, 5vw, 64px);
+  border: 1px solid var(--border-accent);
+  border-radius: calc(var(--radius-lg) * 1.75);
+  background:
+    radial-gradient(circle at 100% 0%, var(--accent-subtle), transparent 60%),
+    var(--bg-card);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+}
+
+.title {
+  margin-block: var(--space-md) 12px;
+}
+
+.buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-block-start: var(--space-xl);
+}
+
+.storeBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 22px;
+  border-radius: var(--radius-md);
+  background: var(--iris-ink);
+  color: var(--iris-paper);
+  text-align: start;
+  transition: translate 0.2s ease, box-shadow 0.2s ease;
+}
+
+.storeBtn:hover {
+  translate: 0 -2px;
+  box-shadow: 0 8px 20px var(--accent-shadow);
+}
+
+:root[data-theme="dark"] .storeBtn {
+  background: var(--iris-paper);
+  color: var(--iris-ink);
+}
+
+.storeIcon {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+}
+
+.storeText {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.15;
+}
+
+.storeText small {
+  font-size: 11px;
+  opacity: 0.75;
+}
+
+.storeText strong {
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.storeBtnSoon,
+.storeBtnSoon:hover {
+  translate: 0;
+  box-shadow: none;
+  background: var(--bg-tertiary);
+  color: var(--text-muted);
+  cursor: default;
+}
+
+:root[data-theme="dark"] .storeBtnSoon {
+  background: var(--bg-tertiary);
+  color: var(--text-muted);
+}
+
+.qrSide {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.qr {
+  position: relative;
+  display: block;
+  width: min(100%, 240px);
+  aspect-ratio: 1;
+  padding: 16px;
+  border-radius: var(--radius-lg);
+  background: var(--text-on-accent);
+  color: var(--iris-ink);
+  box-shadow: 0 0 0 8px var(--accent-subtle), var(--shadow-lg);
+  overflow: hidden;
+  transition: scale 0.3s ease;
+}
+
+.qr:hover {
+  scale: 1.03;
+}
+
+.qr svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.scanLine {
+  position: absolute;
+  inset-inline: 0;
+  inset-block-start: 0;
+  height: 36px;
+  background: linear-gradient(to bottom, transparent, var(--accent-shadow), transparent);
+  border-block-end: 2px solid var(--accent);
+  opacity: 0;
+  animation: scan 3.4s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.caption {
+  color: var(--text-muted);
+  text-align: center;
+}
+
+@keyframes scan {
+  0% {
+    inset-block-start: -36px;
+    opacity: 0;
+  }
+  15%,
+  85% {
+    opacity: 1;
+  }
+  100% {
+    inset-block-start: 100%;
+    opacity: 0;
+  }
+}
+
+/* A phone can't scan its own screen: below tablet the store buttons lead and the code is dropped. */
+@media (max-width: 768px) {
+  .panel {
+    grid-template-columns: 1fr;
+  }
+
+  .qrSide {
+    display: none;
+  }
+
+  .buttons {
+    flex-direction: column;
+  }
+
+  .storeBtn {
+    justify-content: center;
+  }
+}

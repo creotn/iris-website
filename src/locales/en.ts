@@ -110,6 +110,18 @@ export default {
     proPoint4: "Professional profile with certifications",
     viewCustomer: "View All Customer Screens",
   },
+  download: {
+    label: "Get the app",
+    title: "Scan. Download. Book your wash.",
+    description:
+      "Point your phone camera at the QR code and IRIS is one tap away. Your car wash, wherever you park.",
+    iosStore: "Download on the",
+    iosStoreName: "App Store",
+    iosScan: "Scan with your iPhone camera",
+    androidStoreName: "Google Play",
+    androidSoon: "Coming soon",
+    qrAlt: "QR code to download IRIS on the App Store",
+  },
   mockup: {
     currency: "SAR",
     goodMorning: "Good morning,",
