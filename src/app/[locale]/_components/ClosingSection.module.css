@@ -1,0 +1,48 @@
+.panel {
+  --focus-ring: var(--hero-text);
+
+  position: relative;
+  margin-block-start: var(--space-2xl);
+  padding: clamp(var(--space-xl), 5vw, var(--space-3xl));
+  background: var(--hero-bg);
+  border-radius: var(--radius-lg);
+  color: var(--hero-text);
+}
+
+/* Lies on the panel's top edge, on the same side as the hero's mascot. */
+.mascot {
+  position: absolute;
+  inset-block-end: calc(100% - 4px);
+  inset-inline-end: clamp(var(--space-lg), 6vw, var(--space-3xl));
+  width: 148px;
+  height: auto;
+}
+
+.title {
+  margin-block-end: var(--space-md);
+}
+
+.lead {
+  max-width: 40rem;
+  margin-block-end: var(--space-xl);
+  color: var(--hero-muted);
+  font-size: var(--fs-lg);
+  line-height: 1.75;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-md) var(--space-lg);
+}
+
+@media (max-width: 480px) {
+  .actions > :global(.btn) {
+    width: 100%;
+  }
+
+  .mascot {
+    width: 120px;
+  }
+}

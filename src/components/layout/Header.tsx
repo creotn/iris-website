@@ -11,10 +11,10 @@ export default async function Header({ locale }: { locale: Locale }) {
   const t = await getScopedI18n("header");
 
   const links = [
-    { href: `/${locale}#features`, label: t("features") },
+    { href: `/${locale}#services`, label: t("services") },
     { href: `/${locale}#how-it-works`, label: t("howItWorks") },
-    { href: `/${locale}#apps`, label: t("apps") },
-    { href: `/${locale}/customer`, label: t("customerApp") },
+    { href: `/${locale}#why-iris`, label: t("whyIris") },
+    { href: `/${locale}#faq`, label: t("faq") },
   ];
 
   const authLabels = {
@@ -46,6 +46,9 @@ export default async function Header({ locale }: { locale: Locale }) {
         </nav>
 
         <div className={styles.actions}>
+          <Link href={`/${locale}/book/wash`} className={`btn btn-primary btn-sm ${styles.desktopOnly}`}>
+            {t("book")}
+          </Link>
           <AuthButton locale={locale} labels={authLabels} />
           <ThemeToggle label={t("toggleTheme")} />
           <div className={styles.desktopOnly}>
@@ -64,6 +67,9 @@ export default async function Header({ locale }: { locale: Locale }) {
                   ))}
                 </ul>
               </nav>
+              <Link href={`/${locale}/book/wash`} className={`btn btn-primary ${styles.drawerBook}`}>
+                {t("book")}
+              </Link>
               <div className={styles.drawerLanguage}>
                 <LanguageSwitcher labels={languageLabels} />
               </div>

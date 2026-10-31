@@ -1,3 +1,4 @@
+import { APP_STORE_URL, PRO_APP_STORE_URL } from "@/config/stores";
 import { getScopedI18n } from "@/locales/server";
 import Logo from "./Logo";
 import styles from "./Footer.module.css";
@@ -11,24 +12,17 @@ export default async function Footer({ locale }: { locale: Locale }) {
     {
       heading: t("product"),
       links: [
-        { label: t("customerApp"), href: `/${locale}/customer` },
-        { label: t("proApp"), href: `/${locale}#apps` },
+        { label: t("customerApp"), href: `${APP_STORE_URL}?l=${locale}` },
+        { label: t("proApp"), href: `${PRO_APP_STORE_URL}?l=${locale}` },
       ],
     },
     {
       heading: t("company"),
-      links: [
-        { label: t("about"), href: "#" },
-        { label: t("careers"), href: "#" },
-        { label: t("contact"), href: "#" },
-      ],
+      links: [{ label: t("contact"), href: "https://admin.iris.reup.sa/contact" }],
     },
     {
       heading: t("legal"),
-      links: [
-        { label: t("privacy"), href: "#" },
-        { label: t("terms"), href: "#" },
-      ],
+      links: [{ label: t("privacy"), href: "https://admin.iris.reup.sa/privacy" }],
     },
   ];
 
@@ -43,11 +37,11 @@ export default async function Footer({ locale }: { locale: Locale }) {
 
           {columns.map((column) => (
             <div key={column.heading}>
-              <div className={styles.heading}>{column.heading}</div>
+              <h2 className={styles.heading}>{column.heading}</h2>
               <ul className={styles.links}>
                 {column.links.map((link) => (
                   <li key={link.label}>
-                    <a href={link.href}>
+                    <a href={link.href} target="_blank" rel="noopener noreferrer">
                       {link.label}
                     </a>
                   </li>
@@ -59,7 +53,7 @@ export default async function Footer({ locale }: { locale: Locale }) {
 
         <div className={styles.bottom}>
           <span>
-            © {new Date().getFullYear()} IRIS Mobile Car Wash. {t("rights")}
+            © {new Date().getFullYear()} {t("legalName")}. {t("rights")}
           </span>
           <span>{t("builtBy")}</span>
         </div>

@@ -25,20 +25,19 @@
 .heading {
   margin-block-end: var(--space-md);
   font-size: 0.85rem;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--text-primary);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
 }
 
 .links {
   display: flex;
   flex-direction: column;
-  gap: var(--space-sm);
   list-style: none;
 }
 
 .links a {
+  display: block;
+  padding-block: var(--space-xs);
   color: var(--text-muted);
   font-size: 0.85rem;
 }

@@ -1,117 +1,98 @@
+.band {
+  --focus-ring: var(--hero-text);
+
+  background: var(--band-bg);
+  color: var(--hero-text);
+}
+
+.heading {
+  margin-block-end: var(--space-2xl);
+}
+
 .steps {
-  position: relative;
+  counter-reset: step;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: var(--space-xl);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   list-style: none;
 }
 
-.steps::before {
-  content: "";
-  position: absolute;
-  inset-block-start: 32px;
-  inset-inline: 15%;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, var(--accent), transparent);
-  opacity: 0.3;
-}
-
 .step {
-  position: relative;
-  text-align: center;
+  counter-increment: step;
+  padding-inline-end: var(--space-lg);
 }
 
-.number {
-  position: relative;
-  z-index: 2;
+/* No gap between steps, so each step's bottom border joins into one ledge the mascots stand on. */
+.art {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 64px;
-  height: 64px;
-  margin-inline: auto;
-  margin-block-end: var(--space-md);
-  background: var(--bg-card);
-  border: 2px solid var(--border-accent);
-  border-radius: 50%;
-  font-size: 1.4rem;
-  font-weight: 800;
-  color: var(--accent);
+  align-items: flex-end;
+  height: 136px;
+  margin-inline-end: calc(var(--space-lg) * -1);
+  margin-block-end: var(--space-lg);
+  border-block-end: 3px solid var(--iris-light);
+}
+
+.mascot {
+  width: auto;
+  height: 112px;
+}
+
+/* The strip runs with the reading direction, so the mascot dashes forward in Arabic too. */
+:global(html[dir="rtl"]) .mascot {
+  scale: -1 1;
 }
 
 .title {
-  margin-block-end: 6px;
-  font-size: 1rem;
-  font-weight: 600;
+  margin-block-end: var(--space-sm);
+  font-size: var(--fs-lg);
+  font-weight: 700;
+  line-height: 1.4;
 }
 
-.desc {
-  font-size: 0.85rem;
-  color: var(--text-muted);
+.title::before {
+  content: counter(step);
+  display: block;
+  margin-block-end: var(--space-xs);
+  color: var(--iris-light);
+  font-size: var(--fs-xl);
+  font-weight: 800;
+}
+
+.text {
+  color: var(--hero-muted);
+  line-height: 1.75;
 }
 
 @media (max-width: 1024px) {
   .steps {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .steps::before {
-    display: none;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    row-gap: var(--space-2xl);
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 560px) {
   .steps {
-    grid-template-columns: 1fr;
-  }
-}
-
-.number {
-  transition:
-    background 0.25s ease,
-    color 0.25s ease,
-    box-shadow 0.25s ease;
-}
-
-.step:hover .number {
-  background: var(--accent);
-  color: var(--text-on-accent);
-  box-shadow: 0 0 0 6px var(--accent-subtle);
-}
-
-@keyframes drawLine {
-  from {
-    transform: scaleX(0);
-  }
-  to {
-    transform: scaleX(1);
-  }
-}
-
-@keyframes popIn {
-  0% {
-    transform: scale(0.4);
-    opacity: 0;
-  }
-  70% {
-    transform: scale(1.12);
-    opacity: 1;
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-
-@supports (animation-timeline: view()) {
-  .steps::before {
-    animation: drawLine linear both;
-    animation-timeline: view();
-    animation-range: entry 30% cover 45%;
+    grid-template-columns: minmax(0, 1fr);
   }
 
-  .number {
-    animation: popIn linear both;
-    animation-timeline: view();
-    animation-range: entry 10% entry 100%;
+  .step {
+    display: grid;
+    grid-template-columns: 96px minmax(0, 1fr);
+    column-gap: var(--space-md);
+    align-items: start;
+    padding-inline-end: 0;
+  }
+
+  .art {
+    grid-row: span 2;
+    height: 80px;
+    margin: 0;
+  }
+
+  .mascot {
+    width: 100%;
+    height: auto;
+    max-height: 72px;
+    object-fit: contain;
+    object-position: bottom;
   }
 }

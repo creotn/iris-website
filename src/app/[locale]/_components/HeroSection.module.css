@@ -1,311 +1,179 @@
 .hero {
+  --focus-ring: var(--hero-text);
+
   position: relative;
-  display: flex;
-  align-items: center;
-  min-height: calc(100vh - var(--header-height));
-  padding-block: var(--space-3xl);
   overflow: hidden;
-}
-
-.orb1 {
-  inset-block-start: -100px;
-  inset-inline-end: -100px;
-  width: 500px;
-  height: 500px;
-  background: var(--accent);
-  opacity: var(--glow-strong);
-}
-
-.orb2 {
-  inset-block-end: -50px;
-  inset-inline-start: -100px;
-  width: 400px;
-  height: 400px;
-  background: var(--accent-dark);
+  padding-block: clamp(var(--space-2xl), 7vw, var(--space-4xl));
+  background: var(--hero-bg);
+  border-end-start-radius: var(--radius-lg);
+  border-end-end-radius: var(--radius-lg);
+  color: var(--hero-text);
 }
 
 .inner {
   position: relative;
-  z-index: 2;
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 60px;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  gap: clamp(var(--space-2xl), 6vw, var(--space-4xl));
   align-items: center;
 }
 
-.content {
-  max-width: 560px;
-}
-
 .title {
-  margin-block-end: 20px;
+  margin-block: 0 var(--space-lg);
 }
 
-.description {
-  margin-block-end: 36px;
-  font-size: 1.15rem;
-  line-height: 1.7;
-  color: var(--text-secondary);
+.lead {
+  max-width: 34rem;
+  margin-block-end: var(--space-xl);
+  color: var(--hero-muted);
+  font-size: var(--fs-lg);
+  line-height: 1.75;
 }
 
 .actions {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-md);
-  margin-block-end: var(--space-2xl);
+  align-items: center;
+  gap: var(--space-md) var(--space-lg);
+  margin-block-end: var(--space-lg);
 }
 
-.stats {
+.area {
   display: inline-flex;
-  padding: var(--space-md) var(--space-xs);
-  background: color-mix(in srgb, var(--bg-card) 70%, transparent);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-md);
+  align-items: center;
+  gap: var(--space-xs);
+  color: var(--hero-text);
+  font-weight: 500;
 }
 
-.stat {
-  padding-inline: var(--space-lg);
-  transition: translate 0.25s ease;
-}
-
-.stat + .stat {
-  border-inline-start: 1px solid var(--border);
-}
-
-.stat:hover {
-  translate: 0 -3px;
-}
-
-.statValue {
-  display: flex;
-  align-items: baseline;
-  gap: 6px;
-  font-size: 2.25rem;
-  font-weight: 800;
-  line-height: 1.1;
-}
-
-/* Count-up without JavaScript: a registered integer property animates from 0 to the stat's
-   `--target`, and a CSS counter prints it. With motion off, it simply rests on `--target`. */
-@property --num {
-  syntax: "<integer>";
-  initial-value: 0;
-  inherits: false;
-}
-
-.counter {
-  --num: var(--target);
-  counter-reset: num var(--num);
-  background: linear-gradient(135deg, var(--accent), var(--accent-light));
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  font-variant-numeric: tabular-nums;
-  animation: countUp 1.8s cubic-bezier(0.22, 1, 0.36, 1) calc(0.6s + var(--i) * 0.2s) both;
-}
-
-.counter::after {
-  content: counter(num);
-}
-
-@keyframes countUp {
-  from {
-    --num: 0;
-  }
-}
-
-.statUnit {
-  font-size: 1rem;
-  font-weight: 700;
-  color: var(--accent-light);
-}
-
-.statLabel {
-  margin-block-start: 4px;
-  font-size: 0.8rem;
-  white-space: nowrap;
-  color: var(--text-muted);
-}
-
-.srOnly {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip-path: inset(50%);
-  white-space: nowrap;
-}
-
+/* The mascot's paws rest on the ticket's top edge; it rises from behind the ticket. */
 .visual {
   position: relative;
-  display: flex;
-  justify-content: center;
+  width: min(100%, 22rem);
+  margin-block-start: var(--space-3xl);
+  justify-self: center;
 }
 
 .mascot {
   position: absolute;
-  inset-block-start: -28px;
-  inset-inline-start: -34px;
-  z-index: 3;
-  width: 128px;
+  inset-block-end: calc(100% - 4px);
+  inset-inline-end: var(--space-lg);
+  z-index: 0;
+  width: 132px;
   height: auto;
+  animation: mascotRise 0.6s cubic-bezier(0.22, 1, 0.36, 1) 2.2s backwards;
+}
+
+.ticket {
+  position: relative;
+  z-index: 1;
+  padding: var(--space-lg);
+  background: var(--bg-card);
   border-radius: var(--radius-lg);
-  filter: drop-shadow(0 14px 30px rgba(106, 79, 182, 0.45));
-  animation: float 5s ease-in-out infinite 0.6s;
+  box-shadow: var(--shadow-lg);
+  color: var(--text-primary);
 }
 
-@keyframes float {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
+.service {
+  margin-block-end: var(--space-md);
+  padding-block-end: var(--space-md);
+  border-block-end: 1px solid var(--border);
+  font-size: var(--fs-lg);
+  font-weight: 700;
 }
 
-.phones {
+.stages {
+  list-style: none;
+}
+
+.stage {
+  position: relative;
   display: flex;
-  gap: 20px;
-  align-items: flex-start;
+  align-items: center;
+  gap: var(--space-md);
+  padding-block: 10px;
+  font-weight: 500;
+  animation: stageText 0.3s ease calc(0.5s + var(--i) * 0.4s) backwards;
 }
 
-.phoneOffset {
-  margin-block-start: 40px;
+.dot {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  background: var(--accent);
+  border-radius: 50%;
+  color: var(--text-on-accent);
+  animation: stageDot 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) calc(0.5s + var(--i) * 0.4s) backwards;
 }
 
-@media (max-width: 1024px) {
+/* The rail between two dots, centred under the first dot. */
+.stage:not(:last-child)::before {
+  content: "";
+  position: absolute;
+  inset-block: 50% -50%;
+  inset-inline-start: 11px;
+  width: 2px;
+  background: var(--accent);
+  transform-origin: top;
+  animation: stageRail 0.3s ease-out calc(0.7s + var(--i) * 0.4s) backwards;
+}
+
+.note {
+  margin-block-start: var(--space-md);
+  padding-block-start: var(--space-md);
+  border-block-start: 1px solid var(--border);
+  color: var(--text-muted);
+  font-size: var(--fs-body-sm);
+}
+
+/* The page's one unprompted motion: the visit plays through once, then the mascot looks up. Every
+   element rests on its finished state, so nothing is hidden before it runs or with motion off. */
+@keyframes stageText {
+  from {
+    color: var(--text-muted);
+  }
+}
+
+@keyframes stageDot {
+  from {
+    background: var(--bg-tertiary);
+    color: transparent;
+    scale: 0.7;
+  }
+}
+
+@keyframes stageRail {
+  from {
+    transform: scaleY(0);
+  }
+}
+
+@keyframes mascotRise {
+  from {
+    translate: 0 85%;
+  }
+}
+
+@media (max-width: 900px) {
   .inner {
     grid-template-columns: 1fr;
-    text-align: center;
-  }
-
-  .content {
-    max-width: 100%;
-    margin-inline: auto;
-  }
-
-  .actions,
-  .stats,
-  .statValue {
-    justify-content: center;
-  }
-
-  .visual {
-    margin-block-start: 40px;
-  }
-
-  .mascot {
-    inset-block-start: -64px;
-    inset-inline-start: calc(50% - 64px);
   }
 }
 
-
-/* Phones: a compact, single-column hero. Buttons go full width, the stats stay one row, and the
-   two phones overlap into one composition that fades out instead of stacking two full screens. */
-@media (max-width: 768px) {
-  .hero {
-    min-height: auto;
-    padding-block: var(--space-xl) 0;
-  }
-
-  .orb1 {
-    width: 280px;
-    height: 280px;
-  }
-
-  .orb2 {
-    width: 240px;
-    height: 240px;
-  }
-
-  .title {
-    margin-block-end: var(--space-md);
-    font-size: clamp(2.1rem, 9vw, 2.75rem);
-  }
-
-  .description {
-    margin-block-end: var(--space-lg);
-    font-size: 1rem;
-    line-height: 1.65;
-  }
-
-  .actions {
-    flex-direction: column;
-    gap: var(--space-sm);
-    margin-block-end: var(--space-lg);
-  }
-
+@media (max-width: 480px) {
   .actions > :global(.btn) {
     width: 100%;
-    padding-block: 15px;
-  }
-
-  .stats {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    width: 100%;
-    padding-inline: 0;
-  }
-
-  .stat {
-    padding-inline: var(--space-sm);
-  }
-
-  .statValue {
-    gap: 4px;
-    font-size: 1.6rem;
-  }
-
-  .statUnit {
-    font-size: 0.8rem;
-  }
-
-  .statLabel {
-    font-size: 0.72rem;
-    line-height: 1.3;
-    white-space: normal;
   }
 
   .visual {
-    height: 400px;
-    margin-block-start: var(--space-xl);
-    overflow: hidden;
-    -webkit-mask-image: linear-gradient(to bottom, black 65%, transparent);
-    mask-image: linear-gradient(to bottom, black 65%, transparent);
+    width: 100%;
   }
 
   .mascot {
-    inset-block-start: 4px;
-    inset-inline-start: auto;
-    inset-inline-end: 0;
-    width: 76px;
-  }
-
-  .phones {
-    gap: 0;
-    padding-block-start: var(--space-md);
-  }
-
-  .phones > :first-child {
-    position: relative;
-    z-index: 1;
-  }
-
-  .phoneOffset {
-    margin-block-start: 48px;
-    margin-inline-start: -130px;
-    scale: 0.88;
-    opacity: 0.85;
-  }
-}
-
-@media (max-width: 380px) {
-  .phoneOffset {
-    margin-inline-start: -160px;
+    width: 112px;
   }
 }

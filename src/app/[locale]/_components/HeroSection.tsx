@@ -1,79 +1,67 @@
+import { IconCheck, IconMapPin } from "@tabler/icons-react";
 import Image from "next/image";
 import Link from "next/link";
 import type { CSSProperties } from "react";
-import { getScopedI18n } from "@/locales/server";
-import { CustomerHomeScreen, ProDashboardScreen } from "./MockupScreens";
+import type { HomeContent } from "../(home)/_content";
+import StoreBadges from "./StoreBadges";
 import styles from "./HeroSection.module.css";
 
-export default async function HeroSection({ locale }: { locale: Locale }) {
-  const t = await getScopedI18n("hero");
-
-  const stats = [
-    { value: 4, label: t("statPackages") },
-    { value: 3, label: t("statTracks") },
-    { value: 18, unit: t("statWeeksUnit"), label: t("statLaunch") },
-  ];
-
+export default function HeroSection({
+  locale,
+  c,
+}: {
+  locale: Locale;
+  c: HomeContent["hero"];
+}) {
   return (
-    <section className={styles.hero} id="hero">
-      <div className="grid-bg" />
+    <section className={styles.hero}>
       <div className="iris-pattern" />
-      <div className={`glow-orb ${styles.orb1}`} />
-      <div className={`glow-orb ${styles.orb2}`} />
 
       <div className={`container ${styles.inner}`}>
-        <div className={`${styles.content} animate-in`}>
-          <h1 className={`heading-1 ${styles.title}`}>
-            {t("titleLine1")}
-            <br />
-            <span className="gradient-text">{t("titleLine2")}</span>
-          </h1>
-
-          <p className={styles.description}>{t("description")}</p>
+        <div>
+          <h1 className={`heading-1 ${styles.title}`}>{c.title}</h1>
+          <p className={styles.lead}>{c.lead}</p>
 
           <div className={styles.actions}>
-            <Link href={`/${locale}/sign-in`} className="btn btn-primary btn-lg">
-              {t("primaryCta")}
+            <Link href={`/${locale}/book/wash`} className="btn btn-light btn-lg">
+              {c.cta}
             </Link>
-            <a href="#apps" className="btn btn-secondary btn-lg">
-              {t("secondaryCta")}
-            </a>
+            <p className={styles.area}>
+              <IconMapPin size={18} stroke={1.75} aria-hidden />
+              {c.area}
+            </p>
           </div>
 
-          <div className={styles.stats}>
-            {stats.map((stat, index) => (
-              <div
-                key={stat.label}
-                className={styles.stat}
-                style={{ "--target": stat.value, "--i": index } as CSSProperties}
-              >
-                <div className={styles.statValue}>
-                  <span className={styles.counter} aria-hidden="true" />
-                  <span className={styles.srOnly}>{stat.value}</span>
-                  {stat.unit && <span className={styles.statUnit}>{stat.unit}</span>}
-                </div>
-                <div className={styles.statLabel}>{stat.label}</div>
-              </div>
-            ))}
-          </div>
+          <StoreBadges locale={locale} />
         </div>
 
-        <div className={`${styles.visual} animate-in animate-delay-2`}>
+        <div className={styles.visual}>
           <Image
-            src="/brand/iris-mascot.png"
-            alt={t("mascotAlt")}
-            width={490}
-            height={895}
-            priority
-            sizes="128px"
+            src="/brand/mascot/peek.svg"
+            alt=""
+            width={151}
+            height={94}
+            loading="eager"
             className={styles.mascot}
           />
-          <div className={styles.phones}>
-            <CustomerHomeScreen />
-            <div className={styles.phoneOffset}>
-              <ProDashboardScreen delay={1} />
-            </div>
-          </div>
+          <section className={styles.ticket} aria-label={c.ticket.label}>
+            <p className={styles.service}>{c.ticket.service}</p>
+            <ol className={styles.stages}>
+              {c.ticket.stages.map((stage, index) => (
+                <li
+                  key={stage}
+                  className={styles.stage}
+                  style={{ "--i": index } as CSSProperties}
+                >
+                  <span className={styles.dot} aria-hidden>
+                    <IconCheck size={14} stroke={3} />
+                  </span>
+                  {stage}
+                </li>
+              ))}
+            </ol>
+            <p className={styles.note}>{c.ticket.note}</p>
+          </section>
         </div>
       </div>
     </section>

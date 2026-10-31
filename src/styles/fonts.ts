@@ -31,6 +31,8 @@ const MonoFont = localFont({
   display: "swap",
   variable: "--font-mono",
   adjustFontFallback: false,
+  // Used by one account label: not worth a preload on every page.
+  preload: false,
   fallback: ["monospace"],
 });
 
