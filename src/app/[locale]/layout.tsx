@@ -6,9 +6,11 @@ import { ReactNode } from "react";
 import { setStaticParamsLocale } from "next-international/server";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
-import ThemeScript from "@/components/layout/ThemeScript";
+import PrePaintScript from "@/components/layout/PrePaintScript";
 import { I18nProviderClient } from "@/components/providers/I18nProviderClient";
 import AppConfig from "@/config/Base";
+import { platformInitScript } from "@/config/stores";
+import { themeInitScript } from "@/config/theme";
 import { resolveLocale } from "@/locales/resolveLocale";
 import { getScopedI18n, getStaticParams } from "@/locales/server";
 import { ArabicFont, LatinFont, MonoFont } from "@/styles/fonts";
@@ -35,6 +37,7 @@ export default async function LocaleLayout({
 }) {
   const safeLocale = resolveLocale((await params).locale);
   setStaticParamsLocale(safeLocale);
+  const t = await getScopedI18n("header");
 
   return (
     <html
@@ -45,13 +48,19 @@ export default async function LocaleLayout({
       suppressHydrationWarning
     >
       <head>
-        <ThemeScript />
+        <PrePaintScript code={themeInitScript} />
+        <PrePaintScript code={platformInitScript} />
       </head>
       {/* Browser extensions (e.g. ColorZilla's cz-shortcut-listen) add attributes to <body> before hydration. */}
       <body suppressHydrationWarning>
         <I18nProviderClient locale={safeLocale}>
+          <a href="#root" className="skip-link">
+            {t("skipToContent")}
+          </a>
           <Header locale={safeLocale} />
-          <div id="root">{children}</div>
+          <div id="root" tabIndex={-1}>
+            {children}
+          </div>
           <Footer locale={safeLocale} />
         </I18nProviderClient>
       </body>

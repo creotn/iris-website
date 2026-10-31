@@ -134,15 +134,6 @@ html[dir="rtl"] .phone::before {
   border-color: var(--border-accent);
 }
 
-.cardAccent {
-  border-inline-start: 3px solid var(--accent);
-}
-
-.cardCenter {
-  padding: 20px;
-  text-align: center;
-}
-
 .kicker {
   margin-block-end: 8px;
   font-size: 11px;
@@ -184,12 +175,6 @@ html[dir="rtl"] .phone::before {
   color: var(--accent);
 }
 
-.priceLg {
-  font-size: 18px;
-  font-weight: 800;
-  color: var(--accent);
-}
-
 .priceUnit {
   font-size: 9px;
   font-weight: 500;
@@ -210,30 +195,6 @@ html[dir="rtl"] .phone::before {
   font-weight: 600;
 }
 
-.btnInline {
-  width: auto;
-  margin: 0;
-  padding: 8px 20px;
-  font-size: 11px;
-}
-
-.btnHalf {
-  flex: 1;
-  margin: 0;
-  padding: 8px;
-  font-size: 11px;
-}
-
-.btnGhost {
-  background: transparent;
-  color: var(--text-secondary);
-}
-
-.badgeSm {
-  padding: 3px 8px;
-  font-size: 9px;
-}
-
 .avatar {
   display: flex;
   align-items: center;
@@ -246,10 +207,6 @@ html[dir="rtl"] .phone::before {
   color: var(--text-on-accent);
   font-size: 14px;
   font-weight: 700;
-}
-
-.avatarSuccess {
-  background: linear-gradient(135deg, var(--success), #176b47);
 }
 
 .listItem {
@@ -274,6 +231,18 @@ html[dir="rtl"] .phone::before {
   letter-spacing: 3px;
 }
 
+.btnHalf {
+  flex: 1;
+  margin: 0;
+  padding: 8px;
+  font-size: 11px;
+}
+
+.btnGhost {
+  background: transparent;
+  color: var(--text-secondary);
+}
+
 .statGrid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -293,11 +262,8 @@ html[dir="rtl"] .phone::before {
   color: var(--accent);
 }
 
-.statValueLg {
-  margin-block: 4px;
-  font-size: 32px;
-  font-weight: 800;
-  color: var(--accent);
+.warning {
+  color: var(--warning);
 }
 
 .statLabel {
@@ -309,52 +275,6 @@ html[dir="rtl"] .phone::before {
 
 .success {
   color: var(--success);
-}
-
-.warning {
-  color: var(--warning);
-}
-
-.trend {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-  margin-block-start: 6px;
-  font-size: 10px;
-  color: var(--text-muted);
-}
-
-.chart {
-  display: flex;
-  align-items: flex-end;
-  gap: 6px;
-  height: 80px;
-  margin-block: 12px;
-  padding-inline: 4px;
-}
-
-.chartSm {
-  height: 70px;
-}
-
-.chartBar {
-  flex: 1;
-  min-height: 8px;
-  background: var(--accent-subtle);
-  border-radius: 3px 3px 0 0;
-}
-
-.chartBarActive {
-  background: var(--accent);
-}
-
-.chartLabel {
-  display: flex;
-  justify-content: space-between;
-  padding: 4px 4px 0;
-  font-size: 8px;
-  color: var(--text-muted);
 }
 
 .map {
@@ -396,25 +316,6 @@ html[dir="rtl"] .phone::before {
   border: 2px solid var(--text-on-accent);
   border-radius: 50%;
   box-shadow: 0 0 10px rgba(106, 79, 182, 0.5);
-}
-
-.payoutIcon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
-  background: var(--success-subtle);
-  border-radius: var(--radius-sm);
-  color: var(--success);
-  font-size: 14px;
-}
-
-.payoutAmount {
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--success);
-  direction: ltr;
 }
 
 @media (max-width: 768px) {

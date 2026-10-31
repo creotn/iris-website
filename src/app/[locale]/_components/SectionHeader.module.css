@@ -1,15 +1,7 @@
 .header {
-  max-width: 680px;
-  margin-inline: auto;
-  margin-block-end: var(--space-3xl);
-  text-align: center;
-}
-
-.label {
-  display: block;
-  margin-block-end: var(--space-md);
+  max-width: 44rem;
 }
 
 .title {
-  margin-block-end: var(--space-md);
+  margin-block-end: var(--space-sm);
 }

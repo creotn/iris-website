@@ -1,0 +1,23 @@
+.stores {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+}
+
+/* `data-platform` is set by the pre-paint script in config/stores.ts, on phones and tablets only. */
+html[data-platform="ios"] .storeAndroid,
+html[data-platform="android"] .storeIos {
+  display: none;
+}
+
+/* Full width, like the booking button above them at this size. */
+@media (max-width: 480px) {
+  .stores {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .stores > * {
+    justify-content: center;
+  }
+}

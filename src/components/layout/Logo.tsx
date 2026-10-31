@@ -14,7 +14,8 @@ export default function Logo({
         alt="IRIS"
         width={727}
         height={399}
-        priority={priority}
+        loading={priority ? "eager" : "lazy"}
+        sizes="64px"
         className={`${className} theme-light-only`}
       />
       <Image
@@ -22,7 +23,8 @@ export default function Logo({
         alt="IRIS"
         width={727}
         height={399}
-        priority={priority}
+        loading={priority ? "eager" : "lazy"}
+        sizes="64px"
         className={`${className} theme-dark-only`}
       />
     </>

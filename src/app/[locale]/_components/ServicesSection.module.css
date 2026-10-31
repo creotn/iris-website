@@ -1,0 +1,86 @@
+.list {
+  margin-block-start: var(--space-2xl);
+  list-style: none;
+  border-block-start: 2px solid var(--text-primary);
+}
+
+.item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: var(--space-xl) var(--space-3xl);
+  align-items: center;
+  padding-block: var(--space-xl);
+  border-block-end: 1px solid var(--border);
+}
+
+.name {
+  margin-block-end: var(--space-sm);
+  font-size: var(--fs-xl);
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.includes {
+  max-width: 38rem;
+  color: var(--text-secondary);
+  line-height: 1.75;
+}
+
+.duration {
+  margin-block-start: var(--space-sm);
+  color: var(--text-muted);
+  font-size: var(--fs-body-sm);
+}
+
+.buy {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xl);
+}
+
+.price {
+  display: grid;
+  text-align: end;
+}
+
+.from {
+  color: var(--text-muted);
+  font-size: var(--fs-body-sm);
+}
+
+.amount {
+  font-size: clamp(1.625rem, 1.3rem + 1.2vw, 2.25rem);
+  font-weight: 800;
+  line-height: 1.25;
+  white-space: nowrap;
+}
+
+.soon {
+  color: var(--text-accent);
+  font-size: var(--fs-lg);
+  font-weight: 700;
+}
+
+.noPrice {
+  max-width: 11rem;
+  color: var(--text-muted);
+  font-size: var(--fs-body-sm);
+  text-align: end;
+}
+
+@media (max-width: 768px) {
+  .item {
+    grid-template-columns: 1fr;
+    gap: var(--space-md);
+  }
+
+  .buy {
+    justify-content: space-between;
+  }
+
+  .price,
+  .noPrice,
+  .soon {
+    text-align: start;
+  }
+}

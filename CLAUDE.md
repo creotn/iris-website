@@ -25,10 +25,15 @@ Runtime: Node 24 LTS locally, `node:22` in Docker.
 - `app/[locale]/` — the single root layout (`layout.tsx`: `<html dir>`, fonts, theme script, i18n
   provider, `Header`, `Footer`), `page.tsx` (home), `sign-in/`, `loading.tsx`, `error.tsx`,
   `not-found.tsx`.
-- `app/[locale]/_components/` — the landing sections (`HeroSection`, `FeaturesSection`,
-  `HowItWorksSection`, `AppsSection`), `SectionHeader`, and the phone mockups
-  (`PhoneMockup` + `MockupScreens`). All server components; shared design classes (`.btn`, `.badge`,
-  `.card`, `.heading-*`, `.section`, `.animate-in`, …) live in `globals.css`.
+- `app/[locale]/(home)/_content.ts` + `app/[locale]/_components/` — the public home page, for car owners
+  (`HeroSection`, `ServicesSection`, `HowItWorksSection`, `WhySection`, `FaqSection`, `ClosingSection`,
+  `StoreBadges`, `SectionHeader`). Server components; copy is server-only in `_content.ts`, and every claim
+  must be true of the shipped product. Prices come from the public catalog via `api/CatalogAPI.ts`; only
+  services listed in `_content.ts` appear, which keeps internal ones off the page. The page renders without
+  the API. The hero's stage sequence is the page's one unprompted motion: everything rests on its finished
+  state, so nothing is hidden before it runs. `PhoneMockup` now serves only `/customer`, which is unlinked
+  and `noindex`. Shared design classes (`.btn`, `.heading-*`, `.section`, `.animate-in`, …) live in
+  `globals.css`.
 - `app/[locale]/customer/` — the Customer App showcase: an interactive iPhone prototype (12 screens)
   plus a screens gallery. Its long-form copy lives in `customer/_content.ts` (`{ ar, en }`, read
   server-side) instead of `locales/*.ts`, because the locale dictionaries also ship to the client.
@@ -77,6 +82,9 @@ Runtime: Node 24 LTS locally, `node:22` in Docker.
   body font by `html[dir]`. The mono font has no Arabic glyphs and no adjusted fallback on purpose, so
   Arabic mono labels fall back to the system monospace face (the brand look).
 - `config/theme.ts` — theme storage key + the pre-paint init script.
+- `config/stores.ts` — app store links + a pre-paint script that sets `<html data-platform>` on
+  phones and tablets, so the hero shows only that system's badge (desktops show both). Replace
+  `PLAY_STORE_URL` (the Play Store home page for now) when the Android app is released.
 - `public/brand/` — IRIS logos (`iris-logo-black.png` on light backgrounds, `-white` on dark), mascot,
   mood images, brand book PDF.
 - `utils/error.ts` — `errorsMap` + `translateError(code, locale)`.

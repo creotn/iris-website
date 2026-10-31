@@ -3,29 +3,25 @@ import styles from "./loading.module.css";
 
 export default function Loading() {
   return (
-    <SkeletonScreen className={`container ${styles.hero}`}>
-      <div className={styles.text}>
-        <Skeleton width="240px" height="30px" radius="full" />
-        <div className={styles.stack}>
-          <Skeleton width="80%" height="56px" />
-          <Skeleton width="55%" height="56px" />
+    <div className={styles.stage}>
+      <SkeletonScreen className={`container ${styles.hero}`}>
+        <div className={styles.text}>
+          <div className={styles.stack}>
+            <Skeleton width="85%" height="60px" />
+            <Skeleton width="55%" height="60px" />
+          </div>
+          <div className={styles.stack}>
+            <Skeleton height="18px" />
+            <Skeleton width="70%" height="18px" />
+          </div>
+          <Skeleton width="190px" height="63px" />
+          <Skeleton width="157px" height="52px" />
         </div>
-        <div className={styles.lines}>
-          <Skeleton height="16px" />
-          <Skeleton width="92%" height="16px" />
-          <Skeleton width="70%" height="16px" />
-        </div>
-        <div className={styles.row}>
-          <Skeleton width="170px" height="58px" />
-          <Skeleton width="190px" height="58px" />
-        </div>
-        <Skeleton width="360px" height="96px" radius="lg" />
-      </div>
 
-      <div className={styles.phones}>
-        <Skeleton width="280px" height="580px" radius="lg" />
-        <Skeleton width="280px" height="580px" radius="lg" className={styles.offset} />
-      </div>
-    </SkeletonScreen>
+        <div className={styles.ticket}>
+          <Skeleton height="393px" radius="lg" />
+        </div>
+      </SkeletonScreen>
+    </div>
   );
 }
