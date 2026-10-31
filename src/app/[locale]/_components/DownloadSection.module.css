@@ -16,6 +16,11 @@
 
 .title {
   margin-block: var(--space-md) 12px;
+  text-wrap: balance;
+}
+
+.mobileCopy {
+  display: none;
 }
 
 .buttons {
@@ -43,11 +48,6 @@
   color: var(--iris-ink);
   box-shadow: 0 0 0 8px var(--accent-subtle), var(--shadow-lg);
   overflow: hidden;
-  transition: scale 0.3s ease;
-}
-
-.qr:hover {
-  scale: 1.03;
 }
 
 .qr svg {
@@ -88,14 +88,31 @@
   }
 }
 
-/* A phone can't scan its own screen: below tablet the store buttons lead and the code is dropped. */
+/*
+ * A phone can't scan its own screen: below tablet the code and the "scan" wording are dropped and
+ * the store buttons lead, close enough to the top to be on screen without scrolling.
+ */
 @media (max-width: 768px) {
-  .panel {
-    grid-template-columns: 1fr;
+  section.section {
+    padding-block: var(--space-lg);
   }
 
+  .panel {
+    grid-template-columns: 1fr;
+    padding: var(--space-lg);
+  }
+
+  h1.title {
+    font-size: 1.75rem;
+  }
+
+  .desktopCopy,
   .qrSide {
     display: none;
+  }
+
+  .mobileCopy {
+    display: block;
   }
 
   .buttons {

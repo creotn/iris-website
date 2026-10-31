@@ -115,6 +115,8 @@ export default {
     title: "Scan. Download. Book your wash.",
     description:
       "Point your phone camera at the QR code and IRIS is one tap away. Your car wash, wherever you park.",
+    mobileTitle: "Your next wash is one tap away.",
+    mobileDescription: "Download IRIS from your phone's store and book a car wash wherever you park.",
     iosStore: "Download on the",
     iosStoreName: "App Store",
     scan: "Scan with your phone camera",

@@ -27,3 +27,11 @@
   color: var(--text-on-accent);
   cursor: default;
 }
+
+/* Below this the switcher lives in the header's touch drawer. */
+@media (max-width: 1024px) {
+  .button {
+    min-height: 44px;
+    padding-inline: 20px;
+  }
+}

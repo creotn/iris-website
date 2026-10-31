@@ -44,3 +44,11 @@
   opacity: 1;
   transform: rotate(0deg) scale(1);
 }
+
+/* Same breakpoint and size as the header's menu button. */
+@media (max-width: 1024px) {
+  .toggle {
+    width: 44px;
+    height: 44px;
+  }
+}
