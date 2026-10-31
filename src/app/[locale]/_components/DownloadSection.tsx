@@ -2,6 +2,7 @@ import clsx from "clsx";
 import AppConfig from "@/config/Base";
 import { getStoreUrls } from "@/lib/downloadLink";
 import { getScopedI18n } from "@/locales/server";
+import DeviceQrCode, { type QrVariant } from "./DeviceQrCode";
 import QrCode from "./QrCode";
 import StoreButton from "./StoreButton";
 import styles from "./DownloadSection.module.css";
@@ -9,8 +10,11 @@ import styles from "./DownloadSection.module.css";
 export default async function DownloadSection() {
   const t = await getScopedI18n("download");
   const stores = getStoreUrls();
-  // One permanent code for both stores: it opens the /download page, so it never changes.
+  // Desktops, and any device whose store isn't configured, get the permanent /download code, which
+  // sends the phone that scans it to its own store.
   const downloadUrl = `${AppConfig.baseUrl}/download`;
+  const storeVariant = (url: string | null, caption: string): QrVariant | undefined =>
+    url ? { code: <QrCode value={url} label={t("qrAlt")} />, caption, href: url } : undefined;
 
   return (
     <section className={clsx("section", styles.section)} id="download">
@@ -43,11 +47,16 @@ export default async function DownloadSection() {
           </div>
 
           <div className={styles.qrSide}>
-            <div className={styles.qr}>
-              <QrCode value={downloadUrl} label={t("qrAlt")} />
-              <span className={styles.scanLine} aria-hidden="true" />
-            </div>
-            <p className={clsx("body-sm", styles.caption)}>{t("scan")}</p>
+            <DeviceQrCode
+              fallback={{
+                code: <QrCode value={downloadUrl} label={t("qrAlt")} />,
+                caption: t("scan"),
+              }}
+              stores={{
+                ios: storeVariant(stores.ios, t("iosScan")),
+                android: storeVariant(stores.android, t("androidScan")),
+              }}
+            />
           </div>
         </div>
       </div>

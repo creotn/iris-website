@@ -89,8 +89,9 @@
 }
 
 /*
- * A phone can't scan its own screen: below tablet the code and the "scan" wording are dropped and
- * the store buttons lead, close enough to the top to be on screen without scrolling.
+ * A phone can't scan its own screen, so below tablet the store buttons lead, close enough to the top
+ * to be on screen without scrolling. The panel's card look moves to its two children, which puts the
+ * code in its own card underneath.
  */
 @media (max-width: 768px) {
   section.section {
@@ -99,15 +100,36 @@
 
   .panel {
     grid-template-columns: 1fr;
+    gap: var(--space-md);
+    padding: 0;
+    border: none;
+    border-radius: 0;
+    background: none;
+    box-shadow: none;
+    overflow: visible;
+  }
+
+  .content,
+  .qrSide {
     padding: var(--space-lg);
+    border: 1px solid var(--border-accent);
+    border-radius: calc(var(--radius-lg) * 1.75);
+    background:
+      radial-gradient(circle at 100% 0%, var(--accent-subtle), transparent 60%),
+      var(--bg-card);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .qr {
+    width: min(100%, 200px);
+    margin-block: 8px;
   }
 
   h1.title {
     font-size: 1.75rem;
   }
 
-  .desktopCopy,
-  .qrSide {
+  .desktopCopy {
     display: none;
   }
 

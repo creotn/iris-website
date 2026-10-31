@@ -27,12 +27,16 @@ See `.env.example` for the full list, including the two store URLs below.
 
 One permanent URL for the QR code: `https://<your-domain>/download`.
 
-- Every device lands on the page `/[locale]/download`, with no redirect to a store. Visitors choose a
-  store with the App Store and Google Play buttons.
+- Apple devices (iPhone, iPad, iPod, Mac, Apple TV, Apple Watch) → App Store. Everything else, including
+  Windows, Linux and unknown devices → Google Play. It's a `302` from `src/proxy.ts`, never cached.
+- `/[locale]/download` stays a normal page with store buttons and an on-screen QR code, and `/download`
+  falls through to it if the visitor's store URL is unset or invalid.
 - Set `NEXT_PUBLIC_APP_STORE_URL` and `NEXT_PUBLIC_PLAY_STORE_URL` (https only); a button whose URL is
   unset or invalid shows "coming soon". They are inlined at build time: pass them as Docker build args /
   Vercel env vars and redeploy to change a destination.
-  The QR code never changes. The download page's own QR code already encodes `/download`.
+- The page's on-screen QR code follows the device: iPhone and iPad show the App Store link, Android
+  shows Google Play (both tappable), and everything else, or a device whose store URL is unset, shows
+  `/download`. It's picked in the browser (`DeviceQrCode`) because the page is static.
 - QR for print: `npx qrcode -o iris-download.svg -e H "https://<your-domain>/download"` (SVG for print;
   error correction H survives logos and wear). Generate it once; test by scanning on both platforms.
 - Installed-app opening (Universal Links / App Links) is **not** set up: it needs the mobile apps'

@@ -46,6 +46,8 @@ export default {
     iosStore: "حمّله من",
     iosStoreName: "App Store",
     scan: "امسح الرمز بكاميرا هاتفك",
+    iosScan: "اضغط على الرمز لفتح App Store، أو امسحه من جهاز Apple آخر",
+    androidScan: "اضغط على الرمز لفتح Google Play، أو امسحه من جهاز Android آخر",
     androidStore: "حمّله من",
     soon: "قريبًا",
     pageTitle: "حمّل IRIS",

@@ -18,7 +18,7 @@ export async function generateMetadata({
   return { title: t("pageTitle"), description: t("mobileDescription") };
 }
 
-// Where the QR code's `/download` URL lands on every device; the store buttons take it from here.
+// `/download` goes straight to a store (proxy.ts) and only falls back here if that store isn't set.
 export default async function DownloadPage({
   params,
 }: {

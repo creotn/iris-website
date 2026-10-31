@@ -47,6 +47,8 @@ export default {
     iosStore: "Download on the",
     iosStoreName: "App Store",
     scan: "Scan with your phone camera",
+    iosScan: "Tap the code to open the App Store, or scan it from another Apple device",
+    androidScan: "Tap the code to open Google Play, or scan it from another Android device",
     androidStore: "Get it on",
     soon: "Coming soon",
     pageTitle: "Download IRIS",
