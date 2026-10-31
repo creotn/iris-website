@@ -4,7 +4,6 @@ import { getStoreUrls } from "@/lib/downloadLink";
 import { getScopedI18n } from "@/locales/server";
 import { resolveLocale } from "@/locales/resolveLocale";
 import DownloadSection from "../_components/DownloadSection";
-import IpadRedirect from "./IpadRedirect";
 import styles from "./download.module.css";
 
 export const revalidate = false;
@@ -16,10 +15,10 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   setStaticParamsLocale(resolveLocale((await params).locale));
   const t = await getScopedI18n("download");
-  return { title: t("pageTitle"), description: t("description") };
+  return { title: t("pageTitle"), description: t("mobileDescription") };
 }
 
-// Landing page for desktops and anything the `/download` redirect (proxy.ts) didn't send to a store.
+// Where the QR code's `/download` URL lands on every device; the store buttons take it from here.
 export default async function DownloadPage({
   params,
 }: {
@@ -31,7 +30,6 @@ export default async function DownloadPage({
 
   return (
     <main className={styles.page}>
-      {stores.ios && <IpadRedirect url={stores.ios} />}
       <DownloadSection />
       {!stores.ios && !stores.android && (
         <p className={`body-sm ${styles.note}`} role="status">

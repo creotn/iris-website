@@ -10,9 +10,12 @@
   transition: translate 0.2s ease, box-shadow 0.2s ease;
 }
 
-.btn:hover {
-  translate: 0 -2px;
-  box-shadow: 0 8px 20px var(--accent-shadow);
+/* Touch screens keep :hover after a tap, which would leave the button lifted. */
+@media (hover: hover) {
+  .btn:hover {
+    translate: 0 -2px;
+    box-shadow: 0 8px 20px var(--accent-shadow);
+  }
 }
 
 :root[data-theme="dark"] .btn {
@@ -50,4 +53,19 @@
   background: var(--bg-tertiary);
   color: var(--text-muted);
   cursor: default;
+}
+
+/* Stacked full-width buttons: a shared text width keeps the two icons in line. */
+@media (max-width: 768px) {
+  .btn {
+    min-height: 56px;
+  }
+
+  .text {
+    min-width: 6.5rem;
+  }
+
+  .text small {
+    font-size: 12px;
+  }
 }

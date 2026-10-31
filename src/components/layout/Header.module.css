@@ -168,3 +168,23 @@
 .drawerLanguage {
   margin-block-start: auto;
 }
+
+/* Finger-sized controls wherever the drawer is in use; the slimmer padding keeps the bar's height. */
+@media (max-width: 1024px) {
+  .header {
+    padding-block: 12px;
+  }
+
+  .menuButton {
+    width: 44px;
+    height: 44px;
+  }
+}
+
+/* The logo, sign-in and both round buttons only fit the smallest phones with tighter gaps. */
+@media (max-width: 480px) {
+  .inner,
+  .actions {
+    gap: var(--space-sm);
+  }
+}

@@ -1,11 +1,6 @@
 import { describe, test, expect, afterEach, vi } from "vitest";
 import { NextRequest } from "next/server";
-import {
-  detectPlatform,
-  getStoreUrls,
-  resolveStoreRedirect,
-  validStoreUrl,
-} from "@/lib/downloadLink";
+import { getStoreUrls, validStoreUrl } from "@/lib/downloadLink";
 import { proxy } from "@/proxy";
 
 const IPHONE =
@@ -22,33 +17,6 @@ const URLS = {
   android: "https://play.google.com/store/apps/details?id=com.example",
 };
 
-describe("detectPlatform", () => {
-  test.each([
-    ["iPhone", IPHONE, "ios"],
-    ["iPad", IPAD, "ios"],
-    ["Android", ANDROID, "android"],
-    ["desktop", DESKTOP, null],
-    ["garbage", "not-a-user-agent \u0000 ???", null],
-    ["empty", "", null],
-    ["missing", undefined, null],
-  ])("%s", (_name, ua, expected) => {
-    expect(detectPlatform(ua)).toBe(expected);
-  });
-});
-
-describe("resolveStoreRedirect", () => {
-  test("iOS → App Store", () => expect(resolveStoreRedirect(IPHONE, URLS)).toBe(URLS.ios));
-  test("Android → Play Store", () =>
-    expect(resolveStoreRedirect(ANDROID, URLS)).toBe(URLS.android));
-  test("desktop → landing page", () => expect(resolveStoreRedirect(DESKTOP, URLS)).toBeNull());
-  test("unknown user agent → landing page", () =>
-    expect(resolveStoreRedirect("???", URLS)).toBeNull());
-  test("missing config → landing page instead of a broken redirect", () => {
-    expect(resolveStoreRedirect(IPHONE, { ios: null, android: URLS.android })).toBeNull();
-    expect(resolveStoreRedirect(ANDROID, { ios: URLS.ios, android: null })).toBeNull();
-  });
-});
-
 describe("validStoreUrl", () => {
   test("accepts https", () => expect(validStoreUrl(URLS.ios)).toBe(URLS.ios));
   test.each([undefined, "", "   ", "not a url", "http://apps.apple.com/x", "javascript:alert(1)"])(
@@ -60,34 +28,59 @@ describe("validStoreUrl", () => {
 describe("/download through the proxy", () => {
   afterEach(() => vi.unstubAllEnvs());
 
-  const request = (ua: string) =>
-    new NextRequest("https://iris.test/download", { headers: { "user-agent": ua } });
-
-  test("iPhone is redirected to the App Store, uncached", () => {
+  test.each([
+    ["iPhone", IPHONE],
+    ["iPad", IPAD],
+    ["Android", ANDROID],
+    ["desktop", DESKTOP],
+  ])("%s lands on the localized page, never a store", (_name, ua) => {
     vi.stubEnv("NEXT_PUBLIC_APP_STORE_URL", URLS.ios);
-    const res = proxy(request(IPHONE));
-    expect(res.status).toBe(302);
-    expect(res.headers.get("location")).toBe(URLS.ios);
-    expect(res.headers.get("cache-control")).toBe("no-store");
-    expect(res.headers.get("vary")).toMatch(/user-agent/i);
-  });
-
-  test("Android is redirected to Google Play", () => {
     vi.stubEnv("NEXT_PUBLIC_PLAY_STORE_URL", URLS.android);
-    expect(proxy(request(ANDROID)).headers.get("location")).toBe(URLS.android);
+    const request = new NextRequest("https://iris.test/download", {
+      headers: { "user-agent": ua },
+    });
+    expect(proxy(request).headers.get("location") ?? "").toMatch(/\/(ar|en)\/download$/);
+  });
+});
+
+describe("language through the proxy", () => {
+  const visit = (path: string, headers: Record<string, string> = {}) =>
+    proxy(new NextRequest(`https://iris.test${path}`, { headers }));
+
+  test.each([
+    ["Arabic browser", { "accept-language": "ar-SA,ar;q=0.9" }, "/ar/download"],
+    ["English browser", { "accept-language": "en-US,en;q=0.9" }, "/en/download"],
+    ["unsupported language falls back to Arabic", { "accept-language": "fr-FR" }, "/ar/download"],
+    ["no language header falls back to Arabic", {}, "/ar/download"],
+    [
+      "a saved language beats the browser's",
+      { "accept-language": "ar-SA", cookie: "Next-Locale=en" },
+      "/en/download",
+    ],
+  ])("%s", (_name, headers, expected) => {
+    expect(visit("/download", headers).headers.get("location")).toMatch(new RegExp(`${expected}$`));
   });
 
-  test("desktop is sent to the localized landing page, not a store", () => {
-    vi.stubEnv("NEXT_PUBLIC_APP_STORE_URL", URLS.ios);
-    const location = proxy(request(DESKTOP)).headers.get("location") ?? "";
-    expect(location).toMatch(/\/(ar|en)\/download$/);
+  test("the query string survives the language redirect", () => {
+    expect(visit("/download?utm_source=qr").headers.get("location")).toMatch(
+      /\/ar\/download\?utm_source=qr$/,
+    );
   });
 
-  test("a phone with no configured store falls through to the landing page", () => {
-    vi.stubEnv("NEXT_PUBLIC_APP_STORE_URL", "");
-    const location = proxy(request(IPHONE)).headers.get("location") ?? "";
-    expect(location).toMatch(/\/(ar|en)\/download$/);
+  test("a page with a language in its URL isn't redirected", () => {
+    expect(visit("/en/download").headers.get("location")).toBeNull();
   });
+
+  test.each(["/download", "/en/download"])(
+    "%s saves the language in a cookie that survives outside links and restarts",
+    (path) => {
+      const cookie = visit(path).headers.get("set-cookie") ?? "";
+      expect(cookie).toMatch(/Next-Locale=(ar|en)/);
+      expect(cookie).toMatch(/SameSite=lax/i);
+      expect(cookie).toMatch(/Max-Age=31536000/i);
+      expect(cookie.match(/Next-Locale=/g)).toHaveLength(1);
+    },
+  );
 });
 
 describe("getStoreUrls", () => {

@@ -9,17 +9,22 @@ import styles from "./DownloadSection.module.css";
 export default async function DownloadSection() {
   const t = await getScopedI18n("download");
   const stores = getStoreUrls();
-  // One permanent code for both stores: /download picks the store per device, so it never changes.
+  // One permanent code for both stores: it opens the /download page, so it never changes.
   const downloadUrl = `${AppConfig.baseUrl}/download`;
 
   return (
-    <section className="section" id="download">
+    <section className={clsx("section", styles.section)} id="download">
       <div className="container">
-        <div className={clsx(styles.panel, "animate-in")}>
+        <div className={styles.panel}>
           <div className={styles.content}>
             <span className="label">{t("label")}</span>
-            <h2 className={clsx("heading-2", styles.title)}>{t("title")}</h2>
-            <p className="body-lg">{t("description")}</p>
+            {/* The page is static, so the "scan" and phone wording both ship and CSS picks one. */}
+            <h1 className={clsx("heading-2", styles.title)}>
+              <span className={styles.desktopCopy}>{t("title")}</span>
+              <span className={styles.mobileCopy}>{t("mobileTitle")}</span>
+            </h1>
+            <p className={clsx("body-lg", styles.desktopCopy)}>{t("description")}</p>
+            <p className={clsx("body-md", styles.mobileCopy)}>{t("mobileDescription")}</p>
 
             <div className={styles.buttons}>
               <StoreButton
@@ -38,10 +43,10 @@ export default async function DownloadSection() {
           </div>
 
           <div className={styles.qrSide}>
-            <a href={downloadUrl} className={styles.qr}>
+            <div className={styles.qr}>
               <QrCode value={downloadUrl} label={t("qrAlt")} />
               <span className={styles.scanLine} aria-hidden="true" />
-            </a>
+            </div>
             <p className={clsx("body-sm", styles.caption)}>{t("scan")}</p>
           </div>
         </div>

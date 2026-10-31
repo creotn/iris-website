@@ -1,5 +1,3 @@
-export type StorePlatform = "ios" | "android";
-
 export interface StoreUrls {
   ios: string | null;
   android: string | null;
@@ -22,24 +20,4 @@ export function getStoreUrls(): StoreUrls {
     ios: validStoreUrl(process.env.NEXT_PUBLIC_APP_STORE_URL),
     android: validStoreUrl(process.env.NEXT_PUBLIC_PLAY_STORE_URL),
   };
-}
-
-/**
- * iPadOS 13+ Safari sends a desktop-Mac user agent, so it can't be told apart here; those
- * visitors get the landing page and `IpadRedirect` sends them on from the client.
- */
-export function detectPlatform(userAgent: string | null | undefined): StorePlatform | null {
-  if (!userAgent) return null;
-  if (/Android/i.test(userAgent)) return "android";
-  if (/iPhone|iPad|iPod/i.test(userAgent)) return "ios";
-  return null;
-}
-
-/** The store to send this visitor to, or null when they should see the landing page instead. */
-export function resolveStoreRedirect(
-  userAgent: string | null | undefined,
-  urls: StoreUrls = getStoreUrls(),
-): string | null {
-  const platform = detectPlatform(userAgent);
-  return platform ? urls[platform] : null;
 }
