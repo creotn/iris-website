@@ -1,10 +1,8 @@
 import Link from "next/link";
-import { IconCheck } from "@tabler/icons-react";
+import { IconCheck, IconCloudOff } from "@tabler/icons-react";
 import type { CSSProperties } from "react";
 import { fetchMembershipPlans } from "@/api/PricingAPI";
 import { getScopedI18n } from "@/locales/server";
-import PricingTabs from "./PricingTabs";
-import { addOnPrices, carSizes, singleWashes } from "./pricing.content";
 import SectionHeader from "../shared/SectionHeader";
 import SpotlightGrid from "../shared/SpotlightGrid";
 import styles from "./PricingSection.module.css";
@@ -58,14 +56,23 @@ export default async function PricingSection({ locale }: { locale: Locale }) {
 
   const memberships = (
     <>
-      {plans.length === 0 && <p className={styles.empty}>{t("unavailable")}</p>}
+      {plans.length === 0 && (
+        <div className={styles.empty}>
+          <IconCloudOff size={28} stroke={1.75} aria-hidden="true" />
+          <p>{t("unavailable")}</p>
+          <Link href={`/${locale}/book/wash`} className="btn btn-primary btn-sm">
+            {t("unavailableCta")}
+          </Link>
+        </div>
+      )}
 
       {plans.length > 0 && (
         <>
           <SpotlightGrid className={styles.grid}>
             {plans.map((plan, index) => {
               const name = pick(plan.name, locale);
-              const isFeatured = index === 1;
+              // The plan the API badges, else the one with the lowest price per wash.
+              const isFeatured = index === featured;
               const badge = plan.badgeLabel || (isFeatured ? t("bestValue") : "");
               const description = pick(plan.description, locale);
               const lines = [
@@ -127,26 +134,11 @@ export default async function PricingSection({ locale }: { locale: Locale }) {
     </>
   );
 
-  const rows = singleWashes.map((wash) => ({
-    id: wash.id,
-    name: wash.name[locale],
-    desc: wash.desc[locale],
-    prices: carSizes.map((size) => String(wash.prices[size])),
-  }));
-
   return (
-    <section className="section" id="pricing">
+    <section className={`section ${styles.section}`} id="pricing">
       <div className="container">
-        <SectionHeader label={t("label")} title={t("title")} description={t("description")} />
-
-        <PricingTabs
-          singleLabel={t("tabSingle")}
-          membershipsLabel={t("tabMemberships")}
-          sizes={[t("sizeSedan"), t("sizeSuv"), t("sizeVan")]}
-          rows={rows}
-          addOns={t("addOns", { engine: addOnPrices.engineBay, headlight: addOnPrices.headlight })}
-          memberships={memberships}
-        />
+        <SectionHeader title={t("title")} description={t("description")} />
+        {memberships}
       </div>
     </section>
   );

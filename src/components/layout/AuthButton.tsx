@@ -15,16 +15,36 @@ const subscribe = (onChange: () => void) => {
 export default function AuthButton({
   locale,
   labels,
+  textClassName,
 }: {
   locale: Locale;
   labels: AccountMenuLabels & { signIn: string };
+  /** When set, signed-out visitors see the words "Sign in" with this class instead of the icon. */
+  textClassName?: string;
 }) {
   const signedIn = useSyncExternalStore(subscribe, () => getAccessToken() !== null, () => false);
+
+  if (!signedIn && textClassName) {
+    return (
+      <Link href={`/${locale}/sign-in`} className={textClassName}>
+        {labels.signIn}
+      </Link>
+    );
+  }
 
   if (!signedIn) {
     return (
       <Link href={`/${locale}/sign-in`} className={styles.signIn} aria-label={labels.signIn} title={labels.signIn}>
         <IconUser size={18} stroke={2} aria-hidden="true" />
+      </Link>
+    );
+  }
+
+  // In the header, "My account" is a plain link to the profile page, with no dropdown.
+  if (textClassName) {
+    return (
+      <Link href={`/${locale}/account`} className={textClassName}>
+        {labels.account}
       </Link>
     );
   }

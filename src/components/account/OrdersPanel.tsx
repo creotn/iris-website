@@ -24,7 +24,8 @@ function useOrderText(order: Order) {
   const when = order.scheduledAt
     ? t("scheduledFor", { date: formatDateTime(order.scheduledAt, locale) })
     : t("bookedAsap", { date: formatDateTime(order.createdAt, locale) });
-  return { title: title + quantity, meta, when, amount: formatMoney(order.amountPaid ?? order.amountDue, locale) };
+  const car = order.vehicle ? `${order.vehicle.make}, ${order.vehicle.model}` : "";
+  return { title: title + quantity, meta, car, when, amount: formatMoney(order.amountPaid ?? order.amountDue, locale) };
 }
 
 export function PaymentCard({ order, index }: { order: Order; index: number }) {
@@ -163,5 +164,70 @@ export function OrderHistory({ firstPage }: { firstPage: OrderPage }) {
         </button>
       )}
     </>
+  );
+}
+
+/** Live orders as table rows, each with Track and Details links to the order page. */
+export function LiveOrdersTable({ orders }: { orders: Order[] }) {
+  const t = useScopedI18n("account");
+  return (
+    <div className={styles.tableWrap}>
+      <table className={styles.ordersTable}>
+        <thead>
+          <tr>
+            <th scope="col">{t("colOrder")}</th>
+            <th scope="col">{t("colWhen")}</th>
+            <th scope="col">{t("colStatus")}</th>
+            <th scope="col" className={styles.numCol}>
+              {t("colPrice")}
+            </th>
+            <th scope="col">
+              <span className={styles.srOnly}>{t("colActions")}</span>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {orders.map((order) => (
+            <OrderRow key={order.pubkey} order={order} />
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+function OrderRow({ order }: { order: Order }) {
+  const t = useScopedI18n("account");
+  const locale = useCurrentLocale();
+  const { title, car, when, amount } = useOrderText(order);
+  const href = `/${locale}/account/orders/${order.pubkey}`;
+
+  return (
+    <tr>
+      <td>
+        <span className={styles.cellStack}>
+          <b>{title}</b>
+          {car && (
+            <span className={styles.muted} dir="auto">
+              {car}
+            </span>
+          )}
+          <span className={styles.subtle}>#{orderNumber(order.pubkey)}</span>
+        </span>
+      </td>
+      <td className={styles.whenCell}>{when}</td>
+      <td>
+        <StatusBadge status={order.status} />
+      </td>
+      <td className={`${styles.numCol} ${styles.amount}`}>{amount}</td>
+      <td className={styles.actionsCell}>
+        <Link href={`${href}#tracking`} className={styles.darkBtn}>
+          {t("track")}
+        </Link>
+        <Link href={href} className={styles.ghostBtn}>
+          {t("details")}
+        </Link>
+      </td>
+    </tr>
   );
 }

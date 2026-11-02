@@ -1,4 +1,8 @@
 export type FaqContent = {
+  description: string;
+  stillAsking: string;
+  panelText: string;
+  contact: string;
   label: string;
   title: string;
   items: { question: string; answer: string }[];
@@ -6,6 +10,10 @@ export type FaqContent = {
 
 export const faqContent: Record<"ar" | "en", FaqContent> = {
   en: {
+    description: "Everything you need to know about booking, payment and the service.",
+    stillAsking: "Still have questions?",
+    panelText: "Can't find the answer you're looking for? Chat with our friendly team.",
+    contact: "Get in touch",
     label: "FAQ",
     title: "Frequently asked questions",
     items: [
@@ -47,6 +55,10 @@ export const faqContent: Record<"ar" | "en", FaqContent> = {
     ],
   },
   ar: {
+    description: "كل ما تحتاج معرفته عن الحجز والدفع والخدمة.",
+    stillAsking: "لديك أسئلة أخرى؟",
+    panelText: "لم تجد الإجابة التي تبحث عنها؟ تحدث مع فريقنا اللطيف.",
+    contact: "تواصل معنا",
     label: "الأسئلة الشائعة",
     title: "أسئلة شائعة",
     items: [

@@ -2,11 +2,11 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useId, useRef, useState, useSyncExternalStore } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore, type CSSProperties } from "react";
 import type { HowItWorksContent } from "./howItWorks.content";
 import styles from "./HowItWorksSection.module.css";
 
-const STEP_SECONDS = 6;
+const STEP_MS = 6000;
 
 const reducedMotionQuery = "(prefers-reduced-motion: reduce)";
 const subscribeReducedMotion = (onChange: () => void) => {
@@ -15,12 +15,16 @@ const subscribeReducedMotion = (onChange: () => void) => {
   return () => query.removeEventListener("change", onChange);
 };
 
-export default function HowItWorksShowcase({ content, bookHref }: { content: HowItWorksContent; bookHref: string }) {
-  const baseId = useId();
+export default function HowItWorksShowcase({
+  content,
+  bookHref,
+}: {
+  content: HowItWorksContent;
+  bookHref: string;
+}) {
   const rootRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
   const [inView, setInView] = useState(false);
-  const [userPicked, setUserPicked] = useState(false);
   const reduced = useSyncExternalStore(
     subscribeReducedMotion,
     () => window.matchMedia(reducedMotionQuery).matches,
@@ -30,94 +34,76 @@ export default function HowItWorksShowcase({ content, bookHref }: { content: How
   useEffect(() => {
     const el = rootRef.current;
     if (!el) return;
-    const observer = new IntersectionObserver(([entry]) => setInView(entry.isIntersecting), { threshold: 0.35 });
+    const observer = new IntersectionObserver(
+      ([entry]) => setInView(entry.isIntersecting),
+      { threshold: 0.35 },
+    );
     observer.observe(el);
     return () => observer.disconnect();
   }, []);
 
-  const autoplay = !reduced && !userPicked;
+  const count = content.steps.length;
+  // Loops through the steps for as long as the section is on screen. A tap jumps to a step,
+  // and the loop carries on from there.
+  const autoplay = !reduced && inView;
+  useEffect(() => {
+    if (!autoplay) return;
+    const timer = setTimeout(() => setActive((a) => (a + 1) % count), STEP_MS);
+    return () => clearTimeout(timer);
+  }, [autoplay, active, count]);
+
   const lines = content.title.split("\n");
 
   return (
     <div className={`container ${styles.layout}`} ref={rootRef}>
-      <div className={styles.copy}>
-        <p className={styles.eyebrow}>
-          <span>{content.label}</span>
-        </p>
-
+      <div className={styles.aside}>
         <h2 className={styles.title}>
-          {lines.map((line, i) => (
-            <span key={line} className={styles.titleLine} style={{ "--l": i } as React.CSSProperties}>
+          {lines.map((line) => (
+            <span key={line} className={styles.titleLine}>
               {line}
             </span>
           ))}
         </h2>
-
-        <ol className={styles.steps} data-paused={!inView}>
-          {content.steps.map((step, i) => {
-            const open = i === active;
-            return (
-              <li key={step.title} className={styles.step} data-active={open} data-passed={i < active} style={{ "--s": i } as React.CSSProperties}>
-                <span className={styles.dot} aria-hidden="true">
-                  <svg className={styles.dotCheck} width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.4" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="m5 12.5 4.5 4.5L19 7.5" />
-                  </svg>
-                </span>
-                <button
-                  type="button"
-                  className={styles.stepButton}
-                  aria-expanded={open}
-                  aria-controls={`${baseId}-${i}`}
-                  onClick={() => {
-                    setActive(i);
-                    setUserPicked(true);
-                  }}
-                >
-                  <span className={styles.stepTitle}>{step.title}</span>
-                </button>
-
-                <div id={`${baseId}-${i}`} className={styles.stepPanel} role="region" aria-hidden={!open}>
-                  <p className={styles.stepDesc}>{step.desc}</p>
-                </div>
-
-                {open && (
-                  <span
-                    key={`${active}-${autoplay}`}
-                    className={autoplay ? styles.progress : styles.progressStatic}
-                    style={{ "--dur": `${STEP_SECONDS}s` } as React.CSSProperties}
-                    onAnimationEnd={() => autoplay && setActive((a) => (a + 1) % content.steps.length)}
-                  />
-                )}
-              </li>
-            );
-          })}
-        </ol>
-
         <Link href={bookHref} className={styles.cta}>
           {content.cta}
-          <svg className={styles.ctaArrow} width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
         </Link>
       </div>
 
-      <div className={styles.stage} aria-hidden="true">
-        <span className={styles.disc} />
-        <div className={styles.phone}>
-          {content.steps.map((step, i) => (
-            <div key={step.image} className={styles.shot} data-active={i === active}>
-              <Image
-                src={step.image}
-                alt=""
-                fill
-                sizes="300px"
-                priority={i === 0}
-                className={styles.shotImage}
-              />
-            </div>
-          ))}
-        </div>
-      </div>
+      <ol className={styles.sheet} style={{ "--step-ms": `${STEP_MS}ms` } as CSSProperties}>
+        {content.steps.map((step, i) => {
+          const on = i === active;
+          return (
+            <li key={step.title} className={styles.item} data-active={on}>
+              <button
+                type="button"
+                className={styles.shotButton}
+                aria-pressed={on}
+                aria-label={step.title}
+                onClick={() => setActive(i)}
+              >
+                <span className={styles.phone}>
+                  <Image
+                    src={step.image}
+                    alt=""
+                    fill
+                    sizes="(max-width: 900px) 70vw, 260px"
+                    className={styles.shotImage}
+                  />
+                </span>
+              </button>
+              <div className={styles.caption}>
+                <h3 className={styles.stepTitle}>
+                  <span className={styles.num}>{i + 1}</span>
+                  {step.title}
+                </h3>
+                <p className={styles.stepDesc}>{step.desc}</p>
+                {on && autoplay && <span key={active} className={styles.progress} aria-hidden="true" />}
+              </div>
+            </li>
+          );
+        })}
+      </ol>
+      <p className={styles.swipeHint}>{content.swipeHint}</p>
     </div>
   );
 }

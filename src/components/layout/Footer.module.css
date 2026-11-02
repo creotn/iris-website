@@ -19,7 +19,7 @@
 
 .grid {
   display: grid;
-  grid-template-columns: minmax(0, 1.8fr) repeat(2, minmax(140px, 1fr));
+  grid-template-columns: minmax(0, 1.8fr) repeat(3, minmax(140px, 0.6fr));
   gap: var(--space-2xl) var(--space-3xl);
   margin-block-end: var(--space-2xl);
 }
@@ -42,9 +42,9 @@
 
 .description {
   max-width: 340px;
-  font-size: 0.95rem;
+  font-size: var(--fs-md);
   line-height: 1.75;
-  color: var(--text-muted);
+  color: var(--text-secondary);
 }
 
 .cta {
@@ -54,12 +54,12 @@
   height: 46px;
   margin-block-start: var(--space-xs);
   padding-inline: 22px;
-  border-radius: var(--radius-full);
+  border-radius: 8px;
   background: var(--accent);
   color: var(--text-on-accent);
-  font-size: 0.92rem;
+  font-size: var(--fs-md);
   font-weight: 600;
-  box-shadow: 0 8px 24px -8px var(--accent-shadow-hover);
+  box-shadow: var(--shadow-accent-lg);
   transition:
     background var(--transition-normal),
     box-shadow var(--transition-normal),
@@ -69,7 +69,7 @@
 .cta:hover {
   color: var(--text-on-accent);
   background: var(--accent-light);
-  box-shadow: 0 12px 30px -8px var(--accent-shadow-hover);
+  box-shadow: var(--shadow-accent-lg);
   translate: 0 -2px;
 }
 
@@ -91,19 +91,23 @@
 
 .heading {
   margin-block-end: var(--space-md);
-  font-size: 0.78rem;
+  font-size: var(--fs-xs);
   font-weight: 700;
   color: var(--text-primary);
   text-transform: uppercase;
   letter-spacing: 0.1em;
 }
 
+:global(html[dir="rtl"]) .heading {
+  letter-spacing: 0;
+}
+
 .link {
   display: inline-block;
   padding-block: 7px;
   background: linear-gradient(var(--accent-light), var(--accent-light)) left bottom / 0 1px no-repeat;
-  color: var(--text-muted);
-  font-size: 0.95rem;
+  color: var(--text-secondary);
+  font-size: var(--fs-md);
   transition:
     color var(--transition-normal),
     background-size 0.35s ease;
@@ -144,7 +148,7 @@
   padding-block-start: var(--space-lg);
   border-block-start: 1px solid var(--border);
   color: var(--text-muted);
-  font-size: 0.85rem;
+  font-size: var(--fs-sm);
 }
 
 .top {
@@ -171,7 +175,7 @@
   border-color: var(--accent);
   background: var(--accent);
   color: var(--text-on-accent);
-  box-shadow: 0 10px 24px -8px var(--accent-shadow-hover);
+  box-shadow: var(--shadow-accent-lg);
   scale: 1.08;
 }
 

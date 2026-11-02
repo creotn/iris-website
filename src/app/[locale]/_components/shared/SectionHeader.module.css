@@ -1,8 +1,17 @@
 .header {
-  max-width: 680px;
+  max-width: 850px;
   margin-inline: auto;
   margin-block-end: var(--space-2xl);
   text-align: center;
+}
+
+.title {
+  margin: 0 0 var(--space-md);
+  font-size: clamp(2.4rem, 4vw, 4rem);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.045em;
+  color: var(--text-primary);
 }
 
 .label {
@@ -10,6 +19,3 @@
   margin-block-end: var(--space-md);
 }
 
-.title {
-  margin-block-end: var(--space-md);
-}

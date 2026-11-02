@@ -11,13 +11,13 @@
 }
 
 .groupLabel {
-  font-size: 0.85rem;
+  font-size: var(--fs-sm);
   font-weight: 600;
   color: var(--text-primary);
 }
 
 .hint {
-  font-size: 0.78rem;
+  font-size: var(--fs-xs);
   color: var(--text-muted);
 }
 
@@ -34,7 +34,7 @@
   border-radius: var(--radius-full);
   color: var(--text-primary);
   font: inherit;
-  font-size: 0.85rem;
+  font-size: var(--fs-sm);
   cursor: pointer;
   transition:
     background var(--transition-fast),
@@ -109,18 +109,18 @@
 }
 
 .text b {
-  font-size: 0.95rem;
+  font-size: var(--fs-md);
 }
 
 .text small {
-  font-size: 0.78rem;
+  font-size: var(--fs-xs);
   color: var(--text-muted);
 }
 
 .price {
   flex: none;
   font-weight: 800;
-  font-size: 0.92rem;
+  font-size: var(--fs-md);
   color: var(--text-accent);
 }
 
@@ -136,7 +136,7 @@
 }
 
 .markBox {
-  border-radius: 6px;
+  border-radius: var(--radius-xs);
 }
 
 .markOn {
@@ -158,7 +158,7 @@
   display: flex;
   justify-content: space-between;
   gap: var(--space-md);
-  font-size: 0.9rem;
+  font-size: var(--fs-md);
   color: var(--text-secondary);
 }
 
@@ -166,7 +166,7 @@
   padding-block-start: var(--space-sm);
   border-block-start: 1px dashed var(--border);
   color: var(--text-primary);
-  font-size: 1.05rem;
+  font-size: var(--fs-lg);
   font-weight: 800;
 }
 
@@ -182,7 +182,7 @@
   background: var(--accent-subtle);
   border: 1px solid var(--border-accent);
   border-radius: var(--radius-md);
-  font-size: 0.85rem;
+  font-size: var(--fs-sm);
   line-height: 1.5;
   color: var(--text-primary);
 }
@@ -212,7 +212,7 @@
   border-radius: var(--radius-sm);
   color: var(--text-secondary);
   font: inherit;
-  font-size: 0.9rem;
+  font-size: var(--fs-md);
   font-weight: 600;
   cursor: pointer;
 }
@@ -239,7 +239,7 @@
   align-items: center;
   justify-content: space-between;
   gap: var(--space-md);
-  font-size: 0.9rem;
+  font-size: var(--fs-md);
 }
 
 .switch {
@@ -288,7 +288,7 @@
   background: none;
   border: 0;
   color: var(--text-primary);
-  font-size: 1.1rem;
+  font-size: var(--fs-lg);
   cursor: pointer;
 }
 
@@ -417,7 +417,7 @@
   display: flex;
   gap: var(--space-md);
   padding-block-end: 14px;
-  font-size: 0.88rem;
+  font-size: var(--fs-sm);
   color: var(--text-muted);
 }
 
@@ -481,7 +481,7 @@
   background: var(--accent-subtle);
   border: 1px solid var(--border-accent);
   border-radius: var(--radius-full);
-  font-size: 0.85rem;
+  font-size: var(--fs-sm);
   font-weight: 600;
   color: var(--text-primary);
 }
@@ -530,11 +530,11 @@
   outline: 0;
   color: var(--text-primary);
   font: inherit;
-  font-size: 0.9rem;
+  font-size: var(--fs-md);
 }
 
 .count {
-  font-size: 0.82rem;
+  font-size: var(--fs-xs);
   color: var(--text-muted);
 }
 
@@ -559,7 +559,7 @@
   border-block-end: 2px solid transparent;
   color: var(--text-muted);
   font: inherit;
-  font-size: 0.92rem;
+  font-size: var(--fs-md);
   font-weight: 600;
   white-space: nowrap;
   cursor: pointer;
@@ -588,7 +588,7 @@
   padding: 20px;
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 20px;
+  border-radius: var(--radius-lg);
   color: var(--text-primary);
   font: inherit;
   text-align: start;
@@ -603,7 +603,7 @@
 .serviceCard:focus-visible {
   outline: 0;
   border-color: var(--accent);
-  box-shadow: 0 12px 32px var(--accent-shadow);
+  box-shadow: var(--shadow-lg);
   translate: 0 -3px;
 }
 
@@ -618,7 +618,7 @@
   inline-size: 48px;
   block-size: 48px;
   background: linear-gradient(135deg, var(--accent-subtle), var(--bg-tertiary));
-  border-radius: 14px;
+  border-radius: var(--radius-md);
 }
 
 .duration {
@@ -628,7 +628,7 @@
   padding: 6px 10px;
   background: var(--bg-tertiary);
   border-radius: var(--radius-full);
-  font-size: 0.75rem;
+  font-size: var(--fs-xs);
   font-weight: 600;
   color: var(--text-secondary);
 }
@@ -640,7 +640,7 @@
 }
 
 .serviceTitle {
-  font-size: 1.1rem;
+  font-size: var(--fs-lg);
   line-height: 1.3;
 }
 
@@ -649,7 +649,7 @@
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
-  font-size: 0.85rem;
+  font-size: var(--fs-sm);
   line-height: 1.5;
   color: var(--text-muted);
 }
@@ -677,14 +677,14 @@
 }
 
 .priceValue {
-  font-size: 1.25rem;
+  font-size: var(--fs-xl);
   font-weight: 800;
   line-height: 1.2;
   color: var(--text-primary);
 }
 
 .priceNote {
-  font-size: 0.85rem;
+  font-size: var(--fs-sm);
   font-weight: 600;
   color: var(--text-muted);
 }
@@ -697,7 +697,7 @@
   background: var(--accent-subtle);
   border-radius: var(--radius-full);
   color: var(--accent);
-  font-size: 0.85rem;
+  font-size: var(--fs-sm);
   font-weight: 700;
   transition:
     background var(--transition-fast),
@@ -742,12 +742,12 @@ html[dir="rtl"] .serviceArrow {
   background: var(--accent);
   border-radius: var(--radius-full);
   color: var(--text-on-accent);
-  font-size: 0.8rem;
+  font-size: var(--fs-xs);
   font-weight: 800;
 }
 
 .groupHead .groupLabel {
-  font-size: 1.1rem;
+  font-size: var(--fs-lg);
 }
 
 .choiceGrid {
@@ -766,7 +766,7 @@ html[dir="rtl"] .serviceArrow {
   min-block-size: 150px;
   background: var(--bg-card);
   border: 1.5px solid var(--border);
-  border-radius: 20px;
+  border-radius: var(--radius-lg);
   color: var(--text-primary);
   font: inherit;
   text-align: start;
@@ -786,7 +786,7 @@ html[dir="rtl"] .serviceArrow {
 .choiceOn {
   border-color: var(--accent);
   background: var(--accent-subtle);
-  box-shadow: 0 8px 28px var(--accent-shadow);
+  box-shadow: var(--shadow-md);
 }
 
 .choiceIcon {
@@ -795,7 +795,7 @@ html[dir="rtl"] .serviceArrow {
   inline-size: 48px;
   block-size: 48px;
   background: var(--bg-tertiary);
-  border-radius: 14px;
+  border-radius: var(--radius-md);
   color: var(--accent);
 }
 
@@ -813,11 +813,11 @@ html[dir="rtl"] .serviceArrow {
 .choiceName {
   margin-block-start: auto;
   padding-inline-end: 28px;
-  font-size: 1.05rem;
+  font-size: var(--fs-lg);
 }
 
 .choicePrice {
-  font-size: 1.15rem;
+  font-size: var(--fs-lg);
   font-weight: 800;
   color: var(--text-accent);
 }
@@ -835,7 +835,7 @@ html[dir="rtl"] .serviceArrow {
   background: color-mix(in srgb, var(--bg-card) 88%, transparent);
   backdrop-filter: blur(14px);
   border: 1px solid var(--border-accent);
-  border-radius: 22px;
+  border-radius: var(--radius-lg);
   box-shadow: 0 16px 48px rgb(0 0 0 / 0.28);
 }
 
@@ -847,12 +847,12 @@ html[dir="rtl"] .serviceArrow {
 }
 
 .checkoutInfo small {
-  font-size: 0.78rem;
+  font-size: var(--fs-xs);
   color: var(--text-muted);
 }
 
 .checkoutTotal {
-  font-size: 1.5rem;
+  font-size: var(--fs-2xl);
   font-weight: 800;
   line-height: 1.15;
 }
@@ -949,7 +949,7 @@ html[dir="rtl"] .serviceArrow {
 .stepLabel {
   max-inline-size: 100%;
   overflow: hidden;
-  font-size: 0.78rem;
+  font-size: var(--fs-xs);
   font-weight: 600;
   text-align: center;
   text-overflow: ellipsis;
@@ -1021,7 +1021,7 @@ html[dir="rtl"] .serviceArrow {
   padding: 24px;
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 22px;
+  border-radius: var(--radius-lg);
 }
 
 .side .card {
@@ -1037,7 +1037,7 @@ html[dir="rtl"] .serviceArrow {
   padding: 24px;
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 22px;
+  border-radius: var(--radius-lg);
 }
 
 .narrow {
@@ -1065,7 +1065,7 @@ html[dir="rtl"] .serviceArrow {
 
 .panelTitle {
   margin: 0;
-  font-size: 1.1rem;
+  font-size: var(--fs-lg);
   font-weight: 800;
 }
 
@@ -1083,7 +1083,7 @@ html[dir="rtl"] .serviceArrow {
   padding: 18px;
   background: var(--bg-tertiary);
   border: 1.5px solid transparent;
-  border-radius: 18px;
+  border-radius: var(--radius-lg);
   color: var(--text-primary);
   font: inherit;
   text-align: start;
@@ -1109,7 +1109,7 @@ html[dir="rtl"] .serviceArrow {
   inline-size: 46px;
   block-size: 46px;
   background: var(--bg-card);
-  border-radius: 14px;
+  border-radius: var(--radius-md);
   color: var(--accent);
 }
 
@@ -1127,7 +1127,7 @@ html[dir="rtl"] .serviceArrow {
 }
 
 .modeText small {
-  font-size: 0.78rem;
+  font-size: var(--fs-xs);
   line-height: 1.4;
   color: var(--text-muted);
 }
@@ -1146,7 +1146,7 @@ html[dir="rtl"] .serviceArrow {
   padding: 12px 6px;
   background: var(--bg-tertiary);
   border: 1.5px solid transparent;
-  border-radius: 16px;
+  border-radius: var(--radius-md);
   color: var(--text-primary);
   font: inherit;
   cursor: pointer;
@@ -1195,10 +1195,10 @@ html[dir="rtl"] .serviceArrow {
   padding: 14px 10px;
   background: var(--bg-tertiary);
   border: 1.5px solid transparent;
-  border-radius: 14px;
+  border-radius: var(--radius-md);
   color: var(--text-primary);
   font: inherit;
-  font-size: 0.9rem;
+  font-size: var(--fs-md);
   font-weight: 600;
   cursor: pointer;
   transition:
@@ -1233,7 +1233,7 @@ html[dir="rtl"] .serviceArrow {
   display: flex;
   padding: 4px;
   background: var(--bg-tertiary);
-  border-radius: 14px;
+  border-radius: var(--radius-md);
 }
 
 .seg {
@@ -1241,10 +1241,10 @@ html[dir="rtl"] .serviceArrow {
   padding: 11px 8px;
   background: none;
   border: 0;
-  border-radius: 10px;
+  border-radius: var(--radius-sm);
   color: var(--text-secondary);
   font: inherit;
-  font-size: 0.85rem;
+  font-size: var(--fs-sm);
   font-weight: 600;
   cursor: pointer;
   transition:
@@ -1267,8 +1267,8 @@ html[dir="rtl"] .serviceArrow {
   gap: var(--space-md);
   padding: 14px 16px;
   background: var(--bg-tertiary);
-  border-radius: 16px;
-  font-size: 0.9rem;
+  border-radius: var(--radius-md);
+  font-size: var(--fs-md);
 }
 
 .toggleCard > span:nth-child(2) {
@@ -1281,7 +1281,7 @@ html[dir="rtl"] .serviceArrow {
   inline-size: 38px;
   block-size: 38px;
   background: var(--bg-card);
-  border-radius: 12px;
+  border-radius: var(--radius-md);
   color: var(--accent);
 }
 
@@ -1314,7 +1314,7 @@ html[dir="rtl"] .serviceArrow {
   justify-content: flex-end;
   min-block-size: 320px;
   padding: 32px;
-  border-radius: 28px;
+  border-radius: var(--radius-xl);
   overflow: hidden;
 }
 
@@ -1378,7 +1378,7 @@ html[dir="rtl"] .serviceArrow {
 .doneSub {
   margin: 0;
   max-inline-size: 34ch;
-  font-size: 0.95rem;
+  font-size: var(--fs-md);
   line-height: 1.5;
   color: var(--text-secondary);
 }
@@ -1395,7 +1395,7 @@ html[dir="rtl"] .serviceArrow {
   align-items: center;
   justify-content: space-between;
   font-family: var(--font-mono), monospace;
-  font-size: 0.75rem;
+  font-size: var(--fs-xs);
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--accent);
@@ -1415,13 +1415,13 @@ html[dir="rtl"] .serviceArrow {
 }
 
 .doneRows dt {
-  font-size: 0.9rem;
+  font-size: var(--fs-md);
   color: var(--text-muted);
 }
 
 .doneRows dd {
   margin: 0;
-  font-size: 1.05rem;
+  font-size: var(--fs-lg);
   font-weight: 700;
   text-align: end;
 }
@@ -1680,7 +1680,7 @@ html[dir="rtl"] .barNow .bar::after {
   gap: 14px;
   padding: 16px 18px;
   background: var(--accent-subtle);
-  border-radius: 16px;
+  border-radius: var(--radius-md);
 }
 
 .nowRow .live {
@@ -1694,7 +1694,7 @@ html[dir="rtl"] .barNow .bar::after {
 
 .nowRow p {
   margin: 4px 0 0;
-  font-size: 0.85rem;
+  font-size: var(--fs-sm);
   line-height: 1.5;
   color: var(--text-muted);
 }
@@ -1745,7 +1745,7 @@ html[dir="rtl"] .barNow .bar::after {
   background: var(--bg-primary);
   border: 2px solid var(--border);
   border-radius: var(--radius-full);
-  font-size: 0.8rem;
+  font-size: var(--fs-xs);
   font-weight: 700;
   color: var(--text-muted);
 }
@@ -1780,7 +1780,7 @@ html[dir="rtl"] .barNow .bar::after {
   gap: 14px;
   padding: 14px 16px;
   background: var(--accent-subtle);
-  border-radius: 14px;
+  border-radius: var(--radius-md);
 }
 
 .railDetail .live {
@@ -1790,11 +1790,11 @@ html[dir="rtl"] .barNow .bar::after {
 
 .railDetail b {
   display: block;
-  font-size: 0.98rem;
+  font-size: var(--fs-md);
 }
 
 .railDetail span {
-  font-size: 0.85rem;
+  font-size: var(--fs-sm);
   color: var(--text-muted);
 }
 
@@ -1830,7 +1830,7 @@ html[dir="rtl"] .barNow .bar::after {
 
 .doneRefTag {
   font-family: var(--font-mono), monospace;
-  font-size: 0.8rem;
+  font-size: var(--fs-xs);
   letter-spacing: 0.14em;
   color: var(--accent);
 }
@@ -1873,7 +1873,7 @@ html[dir="rtl"] .barNow .bar::after {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-size: 0.9rem;
+  font-size: var(--fs-md);
   color: var(--text-muted);
 }
 
@@ -1902,7 +1902,7 @@ html[dir="rtl"] .statusHeadline svg {
 }
 
 .stageRows dt {
-  font-size: 0.95rem;
+  font-size: var(--fs-md);
 }
 
 .stageRows dd {
@@ -1953,12 +1953,12 @@ html[dir="rtl"] .statusHeadline svg {
 .doneHead .doneTitle {
   font-size: clamp(2.4rem, 6vw, 4rem);
   line-height: 1.02;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.02em;
 }
 
 .doneHead .doneSub {
   margin: 0;
-  font-size: 1.05rem;
+  font-size: var(--fs-lg);
 }
 
 .stageSpin {
@@ -1978,7 +1978,7 @@ html[dir="rtl"] .statusHeadline svg {
 
 .choiceMeta {
   padding-inline-end: 8px;
-  font-size: 0.82rem;
+  font-size: var(--fs-xs);
   line-height: 1.4;
   color: var(--text-muted);
 }
@@ -2005,7 +2005,7 @@ html[dir="rtl"] .statusHeadline svg {
   border: 0;
   color: var(--text-secondary);
   font: inherit;
-  font-size: 0.9rem;
+  font-size: var(--fs-md);
   cursor: pointer;
 }
 
@@ -2057,7 +2057,7 @@ html[dir="rtl"] .linkBack svg {
   padding: 16px;
   background: var(--bg-card);
   border: 1.5px solid var(--border);
-  border-radius: 16px;
+  border-radius: var(--radius-md);
   color: var(--text-muted);
   font: inherit;
   font-weight: 600;
@@ -2114,7 +2114,7 @@ html[dir="rtl"] .linkBack svg {
   block-size: clamp(300px, 46vh, 460px);
   background: var(--map-bg);
   border: 1px solid var(--border);
-  border-radius: 20px;
+  border-radius: var(--radius-lg);
 }
 
 .noticeLine {
@@ -2122,8 +2122,8 @@ html[dir="rtl"] .linkBack svg {
   padding: 12px 14px;
   background: var(--warning-subtle);
   border: 1px solid var(--warning-border);
-  border-radius: 12px;
-  font-size: 0.88rem;
+  border-radius: var(--radius-md);
+  font-size: var(--fs-sm);
 }
 
 .carToolbar {
@@ -2141,10 +2141,10 @@ html[dir="rtl"] .linkBack svg {
   padding: 11px 18px;
   background: var(--accent-subtle);
   border: 1px solid var(--border-accent);
-  border-radius: var(--radius-full);
+  border-radius: 8px;
   color: var(--accent);
   font: inherit;
-  font-size: 0.9rem;
+  font-size: var(--fs-md);
   font-weight: 700;
   cursor: pointer;
   transition:
@@ -2176,7 +2176,7 @@ html[dir="rtl"] .linkBack svg {
   padding: 12px 16px 12px 12px;
   background: var(--bg-card);
   border: 1.5px solid var(--border);
-  border-radius: 16px;
+  border-radius: var(--radius-md);
   color: var(--text-primary);
   font: inherit;
   text-align: start;
@@ -2202,7 +2202,7 @@ html[dir="rtl"] .linkBack svg {
   inline-size: 44px;
   block-size: 44px;
   background: var(--bg-tertiary);
-  border-radius: 12px;
+  border-radius: var(--radius-md);
   color: var(--accent);
 }
 
@@ -2221,14 +2221,14 @@ html[dir="rtl"] .linkBack svg {
 
 .carInfo b {
   overflow: hidden;
-  font-size: 0.98rem;
+  font-size: var(--fs-md);
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 .carInfo small {
   overflow: hidden;
-  font-size: 0.78rem;
+  font-size: var(--fs-xs);
   text-overflow: ellipsis;
   white-space: nowrap;
   color: var(--text-muted);
@@ -2241,7 +2241,7 @@ html[dir="rtl"] .linkBack svg {
   padding: 4px 10px;
   background: var(--bg-tertiary);
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
   font-family: var(--font-mono), monospace;
   font-size: 0.72rem;
   letter-spacing: 0.06em;
@@ -2283,7 +2283,7 @@ html[dir="rtl"] .linkBack svg {
   padding: 28px;
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 24px;
+  border-radius: var(--radius-xl);
 }
 
 .previewAvatar {
@@ -2292,7 +2292,7 @@ html[dir="rtl"] .linkBack svg {
   inline-size: 72px;
   block-size: 72px;
   background: var(--accent);
-  border-radius: 20px;
+  border-radius: var(--radius-lg);
   color: var(--text-on-accent);
 }
 
@@ -2339,7 +2339,7 @@ html[dir="rtl"] .linkBack svg {
   border-block-end: 2px solid transparent;
   color: var(--text-muted);
   font: inherit;
-  font-size: 0.92rem;
+  font-size: var(--fs-md);
   font-weight: 600;
   white-space: nowrap;
   cursor: pointer;
@@ -2403,7 +2403,7 @@ html[dir="rtl"] .linkBack svg {
 }
 
 .carLineMeta {
-  font-size: 0.85rem;
+  font-size: var(--fs-sm);
   color: var(--text-muted);
 }
 
@@ -2435,10 +2435,10 @@ html[dir="rtl"] .linkBack svg {
   padding-inline: 8px;
   background: none;
   border: 1px solid var(--border);
-  border-radius: 10px;
+  border-radius: var(--radius-sm);
   color: var(--text-secondary);
   font: inherit;
-  font-size: 0.88rem;
+  font-size: var(--fs-sm);
   font-weight: 600;
   cursor: pointer;
   transition:
@@ -2569,7 +2569,7 @@ html[dir="rtl"] .pageBtn svg {
   min-block-size: 46px;
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: var(--radius-md);
   color: var(--accent);
   cursor: pointer;
   transition:
@@ -2595,9 +2595,9 @@ html[dir="rtl"] .pageBtn svg {
   inset-inline-end: 0;
   padding: 6px 10px;
   background: var(--text-primary);
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
   color: var(--bg-primary);
-  font-size: 0.75rem;
+  font-size: var(--fs-xs);
   font-weight: 600;
   white-space: nowrap;
   opacity: 0;
@@ -2628,10 +2628,10 @@ html[dir="rtl"] .pageBtn svg {
   padding-inline: 16px 14px;
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: var(--radius-md);
   color: var(--text-primary);
   font: inherit;
-  font-size: 0.9rem;
+  font-size: var(--fs-md);
   font-weight: 600;
   white-space: nowrap;
   cursor: pointer;
@@ -2674,7 +2674,7 @@ html[dir="rtl"] .pageBtn svg {
   list-style: none;
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 16px;
+  border-radius: var(--radius-md);
   box-shadow: 0 18px 44px rgb(0 0 0 / 0.3);
 }
 
@@ -2686,7 +2686,7 @@ html[dir="rtl"] .pageBtn svg {
   padding: 10px 12px;
   background: none;
   border: 0;
-  border-radius: 12px;
+  border-radius: var(--radius-md);
   color: var(--text-primary);
   font: inherit;
   text-align: start;
@@ -2707,7 +2707,7 @@ html[dir="rtl"] .pageBtn svg {
   inline-size: 38px;
   block-size: 38px;
   background: var(--bg-tertiary);
-  border-radius: 10px;
+  border-radius: var(--radius-sm);
   color: var(--accent);
 }
 
@@ -2721,13 +2721,13 @@ html[dir="rtl"] .pageBtn svg {
 
 .savedItemText b {
   overflow: hidden;
-  font-size: 0.92rem;
+  font-size: var(--fs-md);
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 .savedItemText small {
-  font-size: 0.78rem;
+  font-size: var(--fs-xs);
   color: var(--text-muted);
 }
 
@@ -2744,7 +2744,7 @@ html[dir="rtl"] .pageBtn svg {
   padding: 22px;
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 22px;
+  border-radius: var(--radius-lg);
   color: var(--text-primary);
   font: inherit;
   text-align: start;
@@ -2786,12 +2786,12 @@ html[dir="rtl"] .pageBtn svg {
   flex: none;
   align-items: center;
   gap: 5px;
-  font-size: 0.78rem;
+  font-size: var(--fs-xs);
   color: var(--text-muted);
 }
 
 .svcTitle {
-  font-size: 1.25rem;
+  font-size: var(--fs-xl);
   line-height: 1.25;
   letter-spacing: -0.01em;
 }
@@ -2801,7 +2801,7 @@ html[dir="rtl"] .pageBtn svg {
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
-  font-size: 0.88rem;
+  font-size: var(--fs-sm);
   line-height: 1.55;
   color: var(--text-muted);
 }
@@ -2818,7 +2818,7 @@ html[dir="rtl"] .pageBtn svg {
 .svcPrice {
   display: flex;
   flex-direction: column;
-  font-size: 1.5rem;
+  font-size: var(--fs-2xl);
   font-weight: 800;
   line-height: 1.1;
   letter-spacing: -0.02em;
@@ -2840,7 +2840,7 @@ html[dir="rtl"] .pageBtn svg {
   inline-size: 42px;
   block-size: 42px;
   background: var(--bg-tertiary);
-  border-radius: var(--radius-full);
+  border-radius: 8px;
   color: var(--text-secondary);
   transition:
     background var(--transition-fast),

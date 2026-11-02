@@ -1,157 +1,236 @@
-.layout {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.12fr);
-  gap: clamp(32px, 5vw, 64px);
+/* ---- The map covers the whole section; the question sits on a panel laid over it ---- */
+
+.section {
+  position: relative;
+  display: flex;
   align-items: center;
+  min-height: clamp(640px, 92svh, 880px);
+  overflow: hidden;
 }
 
-.copy {
-  --dir: 1;
+.layout {
+  position: relative;
+  z-index: 1;
+  pointer-events: none;
 }
 
-:global([dir="rtl"]) .copy {
-  --dir: -1;
+
+.ask {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: min(100%, 460px);
+  box-sizing: border-box;
+  padding: 32px;
+  border: var(--border-width) solid var(--border);
+  border-radius: 22px;
+  background: var(--bg-card);
+  box-shadow: var(--shadow-xl);
+  pointer-events: auto;
+}
+
+.head {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .title {
-  max-width: 520px;
-  margin-block-end: var(--space-md);
-  font-size: clamp(1.9rem, 3.4vw, 2.6rem);
-  font-weight: 700;
-  line-height: 1.12;
-  letter-spacing: -0.025em;
+  margin: 0;
+  font-size: clamp(1.75rem, 2.4vw, 2.125rem);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.035em;
+  color: var(--text-primary);
 }
 
 :global([dir="rtl"]) .title {
-  line-height: 1.3;
+  line-height: 1.4;
   letter-spacing: 0;
 }
 
-.accent {
-  color: var(--text-accent);
+.subtitle {
+  margin: 0;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: var(--text-secondary);
 }
 
-.areas li:nth-child(even) {
-  --side: 1;
+/* Search field with the magnifier inside it. */
+.search {
+  position: relative;
 }
 
-.description {
-  max-width: 480px;
-  margin-block-end: var(--space-lg);
+.searchIcon {
+  position: absolute;
+  inset-block-start: 50%;
+  inset-inline-start: 16px;
+  translate: 0 -50%;
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+.input {
+  width: 100%;
+  height: 52px;
+  box-sizing: border-box;
+  padding-inline: 44px 16px;
+  border: 1.5px solid var(--border-strong);
+  border-radius: 14px;
+  background: var(--bg-input, var(--bg-card));
+  color: var(--text-primary);
+  font: inherit;
   font-size: 1rem;
-  line-height: 1.7;
+  transition:
+    border-color var(--transition-normal),
+    box-shadow var(--transition-normal);
+}
+
+.input::placeholder {
   color: var(--text-muted);
 }
 
-.missing {
-  margin-block-start: var(--space-lg);
-  max-width: 480px;
-  font-size: 0.95rem;
-  color: var(--text-muted);
+.input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px var(--accent-subtle);
 }
 
-.areas {
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* The answer: green for yes, neutral for not yet. */
+.answer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px 16px;
+  padding: 14px 16px;
+  border-radius: 14px;
+  background: var(--bg-secondary);
+}
+
+.answer[data-state="yes"] {
+  background: var(--success-subtle);
+}
+
+.result {
+  margin: 0;
+  font-size: 0.9375rem;
+  line-height: 1.45;
+  color: var(--text-primary);
+}
+
+.yes {
+  color: var(--success);
+}
+
+.muted {
+  color: var(--text-secondary);
+}
+
+.cta {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 18px;
+  border-radius: 12px;
+  background: var(--accent);
+  color: var(--text-on-accent);
+  font-size: 0.9375rem;
+  font-weight: 700;
+  transition: background var(--transition-normal);
+}
+
+.cta:hover {
+  color: var(--text-on-accent);
+  background: var(--accent-light);
+}
+
+.cta:focus-visible {
+  outline: 2px solid var(--accent-light);
+  outline-offset: 3px;
+}
+
+/* All districts in two columns; the chosen one is highlighted, the ones that don't match fade. */
+.districts {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 8px;
+  gap: 2px 8px;
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-.areas li:last-child:nth-child(odd) {
-  grid-column: 1 / -1;
-}
-
-@media (min-width: 1101px) {
-  .areas {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-
-  .areas li:last-child:nth-child(odd) {
-    grid-column: auto;
-  }
-
-  .area {
-    font-size: 0.88rem;
-  }
-}
-
-.area {
-  position: relative;
+.district {
   display: flex;
   align-items: center;
   gap: 10px;
   width: 100%;
-  height: 44px;
-  padding-inline: 8px 12px;
-  overflow: hidden;
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  background: var(--bg-card);
-  color: var(--text-primary);
-  font-size: 0.95rem;
+  min-height: 44px;
+  padding-inline: 10px;
+  border: 0;
+  border-radius: 10px;
+  background: none;
+  color: var(--text-secondary);
+  font: inherit;
+  font-size: 0.9375rem;
   font-weight: 500;
   text-align: start;
   cursor: pointer;
   transition:
-    border-color 0.3s ease,
-    background 0.3s ease,
-    translate 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
-    box-shadow 0.4s ease;
+    background var(--transition-normal),
+    color var(--transition-normal),
+    opacity var(--transition-normal);
 }
 
-.area:hover {
-  translate: 0 -2px;
-  border-color: var(--border-accent);
+.pin {
+  flex: none;
+  color: var(--text-muted);
 }
 
-.area:focus-visible {
+.district:hover {
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+}
+
+.district[data-state="active"] {
+  background: var(--accent-subtle);
+  color: var(--text-accent);
+  font-weight: 700;
+}
+
+:global(:root[data-theme="dark"]) .district[data-state="active"] {
+  color: var(--iris-light);
+}
+
+.district[data-state="active"] .pin {
+  color: var(--accent);
+}
+
+.district[data-state="miss"] {
+  opacity: 0.45;
+}
+
+.district:focus-visible {
   outline: 2px solid var(--accent-light);
   outline-offset: 2px;
 }
 
-.areaIcon {
-  display: grid;
-  flex: none;
-  place-items: center;
-  width: 32px;
-  height: 32px;
-  border-radius: 10px;
-  background: var(--accent-subtle);
-  color: var(--text-accent);
-  transition:
-    background 0.3s ease,
-    color 0.3s ease,
-    scale 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-.areaName {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.area[data-active="true"] {
-  border-color: var(--accent);
-  background: color-mix(in srgb, var(--accent) 10%, var(--bg-card));
-  box-shadow: 0 10px 26px -14px var(--accent-shadow-hover);
-}
-
-.area[data-active="true"] .areaIcon {
-  scale: 1.1;
-  background: var(--accent);
-  color: var(--text-on-accent);
-}
-
+/* Edge to edge, behind the panel. */
 .map {
-  position: relative;
-  height: clamp(340px, 62svh, 480px);
-  overflow: hidden;
-  border: 1px solid var(--border);
-  border-radius: 28px;
-  background: var(--bg-card);
-  box-shadow: var(--shadow-lg);
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: var(--bg-secondary);
   direction: ltr;
 }
 
@@ -163,35 +242,35 @@
   position: absolute;
   inset: 0;
   z-index: 0;
-  background: var(--bg-card);
   font: inherit;
 }
 
-.leaflet :global(.leaflet-tile-pane) {
-  filter: saturate(0.6) contrast(0.96) brightness(1.02);
+/* Leaflet paints its own grey behind the tiles; use the page surface while they load. */
+.map :global(.leaflet-container) {
+  background: var(--bg-secondary);
 }
 
+/* The map is shown as it comes, only turned down a little in the dark theme. */
 :global(:root[data-theme="dark"]) .leaflet :global(.leaflet-tile-pane) {
-  filter: invert(1) hue-rotate(185deg) saturate(0.55) brightness(0.88)
-    contrast(0.92);
+  filter: invert(1) hue-rotate(180deg) saturate(0.55) brightness(0.9) contrast(0.95);
 }
 
-.map :global(.leaflet-control-attribution) {
+.map :global(.leaflet-container .leaflet-control-attribution) {
   padding: 2px 8px;
   background: color-mix(in srgb, var(--bg-card) 82%, transparent);
   font-size: 10px;
   color: var(--text-muted);
 }
 
-.map :global(.leaflet-control-attribution a) {
+.map :global(.leaflet-container .leaflet-control-attribution a) {
   color: var(--text-accent);
 }
 
 .map :global(.leaflet-bar) {
   overflow: hidden;
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  box-shadow: var(--shadow-md);
+  border: var(--border-width) solid var(--border);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-sm);
 }
 
 .map :global(.leaflet-bar a) {
@@ -208,20 +287,24 @@
   color: var(--text-accent);
 }
 
+/* The active district service area. */
 .zone {
   fill: var(--accent);
-  fill-opacity: 0.06;
+  fill-opacity: 0;
   stroke: var(--accent);
-  stroke-opacity: 0.25;
+  stroke-opacity: 0;
+  stroke-dasharray: 4 6;
   transition:
     fill-opacity 0.6s ease,
     stroke-opacity 0.6s ease;
 }
 
 .zone[data-active="true"] {
-  fill-opacity: 0.22;
-  stroke-opacity: 0.9;
+  fill-opacity: 0.12;
+  stroke-opacity: 0.75;
 }
+
+/* ---- Pins ---- */
 
 .pin {
   cursor: pointer;
@@ -235,32 +318,39 @@
 
 .pin:focus-visible {
   outline: 2px solid var(--accent-light);
-  outline-offset: 2px;
-  border-radius: 12px;
+  outline-offset: 4px;
+  border-radius: var(--radius-sm);
 }
 
+/* The pin tip sits on the bottom edge of the marker box, the point Leaflet anchors to the coordinate. */
 .glyph {
   position: absolute;
-  inset-inline-start: 50%;
+  inset-inline: 0;
   inset-block-end: 0;
-  width: 26px;
-  height: 26px;
-  rotate: -45deg;
-  border-radius: 50% 50% 50% 0;
-  background: var(--accent);
-  box-shadow: 0 6px 14px -2px var(--accent-shadow-hover);
-  transform-origin: 0 100%;
-  transition:
-    scale 0.45s cubic-bezier(0.34, 1.56, 0.64, 1),
-    background 0.3s ease;
+  display: block;
+  width: 34px;
+  height: 44px;
+  margin-inline: auto;
+  overflow: visible;
+  transform-origin: 50% 100%;
+  filter: drop-shadow(0 4px 5px rgba(16, 24, 40, 0.35));
+  transition: scale 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-.glyph::after {
-  content: "";
-  position: absolute;
-  inset: 8px;
-  border-radius: 50%;
-  background: #fff;
+.pinBody {
+  fill: var(--accent);
+  stroke: #fff;
+  stroke-width: 1.5;
+  transition: fill 0.3s ease;
+}
+
+.pinShine {
+  fill: #fff;
+  opacity: 0.22;
+}
+
+.pinCore {
+  fill: #fff;
 }
 
 .pin:hover .glyph {
@@ -268,81 +358,151 @@
 }
 
 .pin[data-active="true"] .glyph {
-  scale: 1.3;
-  background: var(--accent-light);
+  scale: 1.28;
   animation: drop 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
+.pin[data-active="true"] .pinBody {
+  fill: var(--accent-dark);
+}
+
+/* A soft contact shadow under the tip, and a ripple that spreads from it when the pin is active. */
+.halo,
 .ping {
   position: absolute;
-  inset-inline-start: 50%;
-  inset-block-end: 0;
-  width: 14px;
-  height: 14px;
-  margin-inline-start: -7px;
-  margin-block-end: -7px;
-  border: 2px solid var(--accent);
+  inset-inline: 0;
+  inset-block-end: -3px;
+  margin-inline: auto;
   border-radius: 50%;
+}
+
+.halo {
+  width: 18px;
+  height: 7px;
+  background: radial-gradient(closest-side, rgba(16, 24, 40, 0.35), transparent);
+}
+
+.ping {
+  width: 16px;
+  height: 7px;
+  border: 1.5px solid var(--accent);
   opacity: 0;
 }
 
 .pin[data-active="true"] .ping {
-  animation: ping 1.8s ease-out infinite;
+  animation: ripple 1.9s ease-out infinite;
 }
+
+.layout[data-inview="false"] .ping {
+  animation-play-state: paused;
+}
+
+/* ---- Place card ---- */
 
 .card {
   position: absolute;
   display: grid;
-  gap: 2px;
-  min-width: max-content;
-  padding: 10px 14px;
-  border: 1px solid var(--border-accent);
-  border-radius: 14px;
+  justify-items: center;
+  gap: 3px;
+  min-width: 168px;
+  padding: 14px 18px;
+  border: var(--border-width) solid var(--border);
+  border-radius: var(--radius-lg);
   background: var(--bg-card);
-  box-shadow: var(--shadow-lg);
-  text-align: start;
+  box-shadow: var(--shadow-xl);
+  text-align: center;
   direction: var(--text-dir, ltr);
+  white-space: nowrap;
   opacity: 0;
-  scale: 0.9;
+  scale: 0.92;
   pointer-events: none;
   transition:
     opacity 0.25s ease,
-    scale 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    scale 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.cardIcon {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  margin-block-end: 4px;
+  border-radius: 50%;
+  background: var(--accent-subtle);
+  color: var(--accent);
 }
 
 .card strong {
-  font-size: 0.92rem;
-  font-weight: 700;
+  font-size: var(--fs-md);
+  font-weight: var(--fw-semibold);
   color: var(--text-primary);
 }
 
-.card small {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 0.76rem;
-  color: var(--success);
+.region {
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
 }
 
-.pin[data-x="start"] .card {
-  left: 50%;
-  margin-left: -16px;
-  transform-origin: 16px 100%;
-}
 
-.pin[data-x="end"] .card {
-  right: 50%;
-  margin-right: -16px;
-  transform-origin: calc(100% - 16px) 100%;
+
+/* The pointer toward the pin. */
+.card::after {
+  content: "";
+  position: absolute;
+  inset-inline-start: 50%;
+  width: 12px;
+  height: 12px;
+  margin-inline-start: -6px;
+  border: var(--border-width) solid var(--border);
+  background: var(--bg-card);
+  rotate: 45deg;
 }
 
 .pin[data-y="above"] .card {
-  bottom: calc(100% + 8px);
+  bottom: calc(100% + 6px);
+  transform-origin: 50% 100%;
+}
+
+.pin[data-y="above"] .card::after {
+  inset-block-end: -7px;
+  border-block-start: 0;
+  border-inline-start: 0;
 }
 
 .pin[data-y="below"] .card {
   top: calc(100% + 10px);
-  transform-origin: 16px 0;
+  transform-origin: 50% 0;
+}
+
+.pin[data-y="below"] .card::after {
+  inset-block-start: -7px;
+  border-block-end: 0;
+  border-inline-end: 0;
+}
+
+.pin[data-x="center"] .card {
+  left: 50%;
+  translate: -50% 0;
+}
+
+.pin[data-x="start"] .card {
+  left: 50%;
+  margin-left: -18px;
+}
+
+.pin[data-x="start"] .card::after {
+  inset-inline-start: 18px;
+}
+
+.pin[data-x="end"] .card {
+  right: 50%;
+  margin-right: -18px;
+}
+
+.pin[data-x="end"] .card::after {
+  inset-inline-start: auto;
+  inset-inline-end: 18px;
+  margin-inline: 0 -6px;
 }
 
 .pin[data-active="true"] .card {
@@ -350,9 +510,11 @@
   scale: 1;
 }
 
-@keyframes ping {
+/* ---- Keyframes ---- */
+
+@keyframes ripple {
   0% {
-    scale: 0.6;
+    scale: 0.5;
     opacity: 0.9;
   }
   100% {
@@ -363,7 +525,7 @@
 
 @keyframes drop {
   0% {
-    translate: 0 -14px;
+    translate: 0 -16px;
   }
   60% {
     translate: 0 2px;
@@ -373,179 +535,41 @@
   }
 }
 
-@keyframes lineIn {
-  from {
-    opacity: 0;
-    translate: 0 40%;
-    filter: blur(8px);
-  }
-}
-
-@keyframes slideChip {
-  from {
-    opacity: 0;
-    translate: calc(var(--dir) * var(--side, -1) * 36px) 0;
-    scale: 0.9;
-  }
-}
-
-@keyframes popIn {
-  from {
-    opacity: 0;
-    translate: 0 14px;
-    scale: 0.85;
-  }
-}
-
-@keyframes mapIn {
-  from {
-    opacity: 0;
-    translate: 0 50px;
-    scale: 0.95;
-  }
-}
-
-@keyframes copySlide {
-  from {
-    translate: calc(var(--dir) * -48px) 0;
-  }
-}
-
-@keyframes mapReveal {
-  from {
-    clip-path: inset(14% 10% 14% 10% round 28px);
-  }
-}
-
-@keyframes mapDrift {
-  from {
-    transform: translateY(24px);
-  }
-  to {
-    transform: translateY(-24px);
-  }
-}
-
-@keyframes iconSpring {
-  from {
-    opacity: 0;
-    scale: 0.4;
-    rotate: -30deg;
-  }
-}
-
-@keyframes pinIn {
-  from {
-    opacity: 0;
-    scale: 0;
-  }
-}
-
-@supports (animation-timeline: view()) {
-  .copy {
-    animation: copySlide linear both;
-    animation-timeline: view();
-    animation-range: entry 0% entry 70%;
+/* Phones: the panel comes first, the map below it at full width. */
+@media (max-width: 768px) {
+  .section {
+    flex-direction: column;
+    align-items: stretch;
+    min-height: 0;
+    padding-block-end: 0;
   }
 
-  .areaIcon {
-    animation: iconSpring linear both;
-    animation-timeline: view();
-    animation-range: entry 30% entry 100%;
+  .ask {
+    width: 100%;
+    padding: 0;
+    border: 0;
+    background: none;
+    backdrop-filter: none;
+    box-shadow: none;
   }
 
-  .title,
-  .description {
-    animation: lineIn linear both;
-    animation-timeline: view();
-    animation-range: entry 0% entry 60%;
-  }
-
-  .missing {
-    animation: lineIn linear both;
-    animation-timeline: view();
-    animation-range: entry 40% entry 100%;
-  }
-
-  .areas li {
-    animation: slideChip linear both;
-    animation-timeline: view();
-    animation-range: entry calc(20% + var(--i) * 3%) entry
-      calc(65% + var(--i) * 3%);
-  }
-
+  /* The map comes after the question on phones. */
   .map {
-    animation:
-      mapIn linear both,
-      mapReveal linear both,
-      mapDrift linear both;
-    animation-timeline: view(), view(), view();
-    animation-range:
-      entry 0% entry 60%,
-      entry 0% entry 80%,
-      cover 0% cover 100%;
-  }
-
-  .glyph {
-    animation: pinIn linear both;
-    animation-timeline: view();
-    animation-range: entry calc(30% + var(--i) * 4%) entry
-      calc(75% + var(--i) * 4%);
-  }
-}
-
-@media (max-width: 960px) {
-  .map {
-    height: auto;
-    aspect-ratio: 600 / 540;
-  }
-
-  .layout {
-    grid-template-columns: minmax(0, 1fr);
-    gap: var(--space-2xl);
-  }
-
-  .title,
-  .description {
-    max-width: none;
-  }
-}
-
-@media (max-width: 640px) {
-  .map {
-    border-radius: 22px;
-  }
-
-  .areas {
-    gap: 8px;
-  }
-
-  .area {
-    height: 46px;
-    gap: 8px;
-    padding-inline: 7px 8px;
-    font-size: 0.85rem;
-  }
-
-  .areaIcon {
-    width: 28px;
-    height: 28px;
-    border-radius: 8px;
+    position: relative;
+    inset: auto;
+    order: 1;
+    height: 70svh;
+    margin-block-start: var(--space-xl);
   }
 
   .card {
-    padding: 8px 12px;
+    min-width: 140px;
+    padding: 12px 14px;
   }
 }
 
-@media (max-width: 340px) {
-  .areas {
-    grid-template-columns: 1fr;
-  }
-}
-
-@media (hover: none) {
-  .area:hover {
-    translate: none;
+@media (prefers-reduced-motion: reduce) {
+  .ping {
+    animation: none;
   }
 }

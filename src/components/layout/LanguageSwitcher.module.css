@@ -4,17 +4,17 @@
   padding: 3px;
   background: color-mix(in srgb, var(--bg-card) 70%, transparent);
   border: 1px solid var(--border);
-  border-radius: var(--radius-full);
+  border-radius: 8px;
 }
 
 .button {
   height: 32px;
   padding: 0 18px;
   border: none;
-  border-radius: var(--radius-full);
+  border-radius: 8px;
   background: transparent;
   color: var(--text-muted);
-  font-size: 0.82rem;
+  font-size: var(--fs-xs);
   font-weight: 600;
   letter-spacing: 0.02em;
   transition:
@@ -30,6 +30,6 @@
 .active {
   background: var(--accent);
   color: var(--text-on-accent);
-  box-shadow: 0 4px 14px -4px var(--accent-shadow-hover);
+  box-shadow: var(--shadow-sm);
   cursor: default;
 }

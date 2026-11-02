@@ -1,8 +1,8 @@
 import Link from "next/link";
-import { IconArrowRight } from "@tabler/icons-react";
 import { getScopedI18n } from "@/locales/server";
 import FooterBackToTop from "./FooterBackToTop";
 import FooterMascot from "./FooterMascot";
+import { CONTACT } from "@/app/[locale]/(info)/_components/contact.config";
 import Logo from "./Logo";
 import styles from "./Footer.module.css";
 
@@ -19,6 +19,8 @@ export default async function Footer({ locale }: { locale: Locale }) {
         { label: t("services"), href: `/${locale}#features` },
         { label: t("howItWorks"), href: `/${locale}#how-it-works` },
         { label: t("pricing"), href: `/${locale}#pricing` },
+        { label: t("coverage"), href: `/${locale}#coverage` },
+        { label: t("faq"), href: `/${locale}#faq` },
       ],
     },
     {
@@ -27,6 +29,10 @@ export default async function Footer({ locale }: { locale: Locale }) {
         { label: t("privacy"), href: `/${locale}/privacy` },
         { label: t("terms"), href: `/${locale}/terms` },
       ],
+    },
+    {
+      heading: t("contact"),
+      links: [{ label: CONTACT.email, href: `mailto:${CONTACT.email}` }],
     },
   ];
 
@@ -43,7 +49,6 @@ export default async function Footer({ locale }: { locale: Locale }) {
             <p className={styles.description}>{t("description")}</p>
             <Link href={`/${locale}/book/wash`} className={styles.cta}>
               {t("book")}
-              <IconArrowRight className={styles.ctaArrow} size={18} stroke={2} aria-hidden="true" />
             </Link>
           </div>
 
@@ -65,7 +70,7 @@ export default async function Footer({ locale }: { locale: Locale }) {
 
         <div className={styles.bottom}>
           <span>
-            <bdi dir="ltr">© {year} reup.sa.</bdi> {t("rights")}
+            <bdi dir="ltr">© {year} IRIS, reup.sa.</bdi> {t("rights")}
           </span>
           <FooterBackToTop label={t("backToTop")} />
         </div>

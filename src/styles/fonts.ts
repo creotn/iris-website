@@ -12,7 +12,7 @@ const ArabicFont = localFont({
 });
 
 const LatinFont = localFont({
-  src: "./fonts/Roboto-latin.woff2",
+  src: "./fonts/Inter-latin.woff2",
   weight: "100 900",
   display: "swap",
   variable: "--font-en",

@@ -73,7 +73,7 @@
 
 .lead {
   max-width: 32ch;
-  font-size: 0.9rem;
+  font-size: var(--fs-md);
   color: var(--text-muted);
 }
 
@@ -85,7 +85,7 @@
   padding: var(--space-sm) 0 0;
   list-style: none;
   border-block-start: 1px solid var(--border);
-  font-size: 0.8rem;
+  font-size: var(--fs-xs);
   color: var(--text-primary);
 }
 

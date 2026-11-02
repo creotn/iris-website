@@ -8,11 +8,11 @@
   border-block-end: 1px solid var(--border);
 }
 
+/* Logo and sections on the start side, the actions on the end side. */
 .inner {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: var(--space-xl);
+  gap: 56px;
   height: var(--header-height);
 }
 
@@ -27,10 +27,15 @@
   width: auto;
 }
 
+.inner > nav {
+  flex: 1;
+  min-width: 0;
+}
+
 .links {
   display: flex;
   align-items: center;
-  gap: 40px;
+  gap: 32px;
   list-style: none;
   margin: 0;
   padding: 0;
@@ -40,8 +45,8 @@
   position: relative;
   display: block;
   padding-block: 8px;
-  color: var(--text-muted);
-  font-size: 0.95rem;
+  color: var(--text-secondary);
+  font-size: 0.9375rem;
   font-weight: 500;
   white-space: nowrap;
   transition: color var(--transition-normal);
@@ -54,7 +59,7 @@
   inset-block-end: 0;
   height: 2px;
   border-radius: 1px;
-  background: var(--accent);
+  background: var(--video-hero-accent, var(--accent));
   transform: scaleX(0);
   transform-origin: 0 50%;
   transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
@@ -65,45 +70,104 @@
 }
 
 .link:hover,
-.link:focus-visible {
+.link:focus-visible,
+.link[aria-current="true"] {
   color: var(--text-primary);
 }
 
+.link[aria-current="true"] {
+  font-weight: 600;
+}
+
 .link:hover::after,
-.link:focus-visible::after {
+.link:focus-visible::after,
+.link[aria-current="true"]::after {
   transform: scaleX(1);
 }
 
 .actions {
   display: flex;
   align-items: center;
-  gap: var(--space-md);
+  gap: 22px;
+  margin-inline-start: auto;
 }
 
+@media (min-width: 1025px) {
+  .actions > .desktopOnly {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+  }
+}
+
+/* Language and sign in are words, not round icon buttons. */
+.textAction {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 4px;
+  border: 0;
+  background: none;
+  color: var(--text-secondary);
+  font: inherit;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color var(--transition-normal);
+}
+
+.textAction:lang(ar) {
+  font-family: var(--font-ar), sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.textAction:hover {
+  color: var(--text-primary);
+}
+
+.textAction:focus-visible {
+  outline: 2px solid var(--accent-light);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+/* Two classes, so it wins over the round button the toggle draws elsewhere. */
+.actions .plainIcon {
+  width: 44px;
+  height: 44px;
+  border: 0;
+  background: none;
+  box-shadow: none;
+  color: var(--text-secondary);
+}
+
+.actions .plainIcon:hover {
+  background: none;
+  color: var(--text-primary);
+  scale: 1;
+}
+
+/* The one filled button in the header. */
 .download {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  height: 47px;
-  padding-inline: 24px;
-  border-radius: var(--radius-md);
+  height: 46px;
+  padding-inline: 22px;
+  border-radius: 12px;
   background: var(--accent);
   color: var(--text-on-accent);
-  font-size: 0.95rem;
-  font-weight: 600;
+  font-size: 0.9375rem;
+  font-weight: 700;
   white-space: nowrap;
-  box-shadow: 0 6px 24px -6px var(--accent-shadow-hover);
-  transition:
-    background var(--transition-normal),
-    box-shadow var(--transition-normal),
-    translate var(--transition-normal);
+  transition: background var(--transition-normal);
 }
 
 .download:hover {
   color: var(--text-on-accent);
   background: var(--accent-light);
-  box-shadow: 0 10px 30px -6px var(--accent-shadow-hover);
-  translate: 0 -2px;
 }
 
 .download:focus-visible,
@@ -208,7 +272,7 @@
   padding-block: var(--space-md);
   border-block-end: 1px solid var(--border);
   color: var(--text-primary);
-  font-size: 1.05rem;
+  font-size: var(--fs-lg);
   font-weight: 600;
 }
 
@@ -248,7 +312,7 @@
   color: var(--text-on-accent);
   font-size: 1rem;
   font-weight: 600;
-  box-shadow: 0 8px 24px -8px var(--accent-shadow-hover);
+  box-shadow: var(--shadow-accent-lg);
 }
 
 .drawerDownload:hover {
@@ -257,4 +321,20 @@
 
 .drawerLanguage {
   margin-block-start: auto;
+}
+
+.drawerLanguageLink {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 52px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  background: none;
+  color: var(--text-primary);
+  font: inherit;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
 }

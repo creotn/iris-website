@@ -1,39 +1,28 @@
 "use client";
 
-import clsx from "clsx";
 import { useChangeLocale, useCurrentLocale } from "@/locales/client";
-import styles from "./LanguageSwitcher.module.css";
 
+/** Names the other language in its own script ("العربية" on the English site, "English" on the Arabic one). */
 export default function LanguageSwitcher({
   labels,
+  className,
 }: {
   labels: { en: string; ar: string };
+  className?: string;
 }) {
   const currentLocale = useCurrentLocale();
   const changeLocale = useChangeLocale({ preserveSearchParams: true });
+  const next = currentLocale === "ar" ? "en" : "ar";
 
   return (
-    <div className={styles.toggle}>
-      <button
-        type="button"
-        onClick={() => changeLocale("en")}
-        className={clsx(styles.button, currentLocale === "en" && styles.active)}
-        disabled={currentLocale === "en"}
-        aria-label={labels.en}
-        title={labels.en}
-      >
-        EN
-      </button>
-      <button
-        type="button"
-        onClick={() => changeLocale("ar")}
-        className={clsx(styles.button, currentLocale === "ar" && styles.active)}
-        disabled={currentLocale === "ar"}
-        aria-label={labels.ar}
-        title={labels.ar}
-      >
-        AR
-      </button>
-    </div>
+    <button
+      type="button"
+      onClick={() => changeLocale(next)}
+      className={className}
+      lang={next}
+      title={labels[next]}
+    >
+      {next === "ar" ? "العربية" : "English"}
+    </button>
   );
 }

@@ -1,19 +1,25 @@
 export type HowItWorksContent = {
   label: string;
   title: string;
+  intro: string;
   cta: string;
+  /** Shown under the swipeable row of screens on phones and tablets. */
+  swipeHint: string;
   steps: { title: string; desc: string; image: string }[];
 };
+
 
 export const howItWorksContent: Record<"ar" | "en", HowItWorksContent> = {
   en: {
     label: "How it works",
     title: "Four steps\nto a spotless car.",
-    cta: "Book your first wash",
+    intro: "Every screen here is the real app. Tap one to see what happens at that step.",
+    cta: "Book a wash",
+    swipeHint: "Swipe to see all four steps",
     steps: [
       {
         title: "Pin your car",
-        desc: "Search the address or use your location, and tell us how the technician gets the key: from you, from the guard, or the car is unlocked.",
+        desc: "Search the address or use your location, then choose how the technician gets the key.",
         image: "/images/how-it-works/visit-place.png",
       },
       {
@@ -23,12 +29,12 @@ export const howItWorksContent: Record<"ar" | "en", HowItWorksContent> = {
       },
       {
         title: "Pay your way",
-        desc: "By card (mada, Visa, Mastercard), from your balance, from your membership washes, or in cash to the technician.",
+        desc: "Pay by card, balance, membership washes, or cash to the technician.",
         image: "/images/how-it-works/payment-card.jpg",
       },
       {
         title: "Track and receive",
-        desc: "Follow the technician live, get before-and-after photos when done, then rate the visit.",
+        desc: "Track the technician live, get before-and-after photos, and rate the visit.",
         image: "/images/how-it-works/visit-tracking.jpg",
       },
     ],
@@ -36,26 +42,28 @@ export const howItWorksContent: Record<"ar" | "en", HowItWorksContent> = {
   ar: {
     label: "كيف يعمل",
     title: "أربع خطوات\nوسيارتك لامعة.",
-    cta: "احجز أول غسلة",
+    intro: "كل شاشة هنا من التطبيق نفسه. اضغط على أي منها لترى ما يحدث في تلك الخطوة.",
+    cta: "احجز غسلة",
+    swipeHint: "اسحب لترى الخطوات الأربع",
     steps: [
       {
         title: "حدّد موقع سيارتك",
-        desc: "ابحث عن العنوان أو استخدم موقعك، وأخبرنا كيف يصل الفني للمفتاح: معك، أو مع الحارس، أو السيارة مفتوحة.",
+        desc: "ابحث عن العنوان أو استخدم موقعك، ثم حدّد كيف سيحصل الفني على المفتاح.",
         image: "/images/how-it-works/visit-place.png",
       },
       {
         title: "اختر الخدمة والوقت",
-        desc: "حدّد حجم سيارتك والخدمة والإضافات ودرجة العطر، ثم احجز الآن أو في موعد يناسبك.",
+        desc: "حدّد حجم سيارتك والخدمة والإضافات ودرجة العطر، ثم احجز الآن أو لاحقاً.",
         image: "/images/how-it-works/membership.jpg",
       },
       {
         title: "ادفع بطريقتك",
-        desc: "بالبطاقة (مدى، فيزا، ماستركارد)، أو من رصيدك، أو من غسلات عضويتك، أو نقداً للفني عند الزيارة.",
+        desc: "ادفع بالبطاقة، أو من رصيدك، أو بغسلات عضويتك، أو نقداً للفني.",
         image: "/images/how-it-works/payment-card.jpg",
       },
       {
         title: "تابع واستلم",
-        desc: "تابع الفني مباشرة، واستلم صور قبل وبعد عند الانتهاء، ثم قيّم الزيارة.",
+        desc: "تابع الفني مباشرة، واستلم صور قبل وبعد، ثم قيّم الزيارة.",
         image: "/images/how-it-works/visit-tracking.jpg",
       },
     ],

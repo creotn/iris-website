@@ -1,21 +1,22 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useId, useRef, useState, type KeyboardEvent, type ReactNode } from "react";
+import { useEffect, useId, useRef, useState, type CSSProperties, type KeyboardEvent } from "react";
 import styles from "./HeroSection.module.css";
 
-type Option = { value: string; label: string };
+type Option = { value: string; label: string; price?: string };
 
 type Field = {
   id: string;
   label: string;
-  icon: ReactNode;
   options: Option[];
 };
 
 type Props = {
   bookHref: string;
   bookLabel: string;
+  groupLabel: string;
+  priceLabel: string;
   fields: Field[];
 };
 
@@ -61,9 +62,6 @@ function Dropdown({ field, value, onChange }: { field: Field; value: string; onC
 
   return (
     <div ref={rootRef} className={styles.field} data-open={open}>
-      <span className={styles.fieldIcon} aria-hidden="true">
-        {field.icon}
-      </span>
       <button
         type="button"
         className={styles.trigger}
@@ -111,14 +109,23 @@ function Dropdown({ field, value, onChange }: { field: Field; value: string; onC
   );
 }
 
-export default function HeroBookingBar({ bookHref, bookLabel, fields }: Props) {
+export default function HeroBookingBar({ bookHref, bookLabel, groupLabel, priceLabel, fields }: Props) {
   const [values, setValues] = useState<Record<string, string>>(() =>
     Object.fromEntries(fields.map((f) => [f.id, f.options[0].value])),
   );
 
+  // The price of the chosen service, shown in its own column.
+  const priced = fields.find((f) => f.options.some((o) => o.price));
+  const price = priced?.options.find((o) => o.value === values[priced.id])?.price;
+
   return (
     <>
-      <div className={styles.bar} role="group">
+      <div
+        className={styles.bar}
+        role="group"
+        aria-label={groupLabel}
+        style={{ "--fields": fields.length + (price ? 1 : 0) } as CSSProperties}
+      >
         {fields.map((field) => (
           <Dropdown
             key={field.id}
@@ -128,11 +135,19 @@ export default function HeroBookingBar({ bookHref, bookLabel, fields }: Props) {
           />
         ))}
 
+        {price && (
+          <div className={styles.field}>
+            <span className={styles.fieldText}>
+              <span className={styles.fieldLabel}>{priceLabel}</span>
+              <span className={styles.fieldValue} aria-live="polite">
+                {price}
+              </span>
+            </span>
+          </div>
+        )}
+
         <Link href={bookHref} className={styles.bookBtn}>
           {bookLabel}
-          <svg className={styles.arrow} width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
         </Link>
       </div>
     </>

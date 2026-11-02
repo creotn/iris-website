@@ -17,8 +17,16 @@ export type CoverageContent = {
   titleAccent: string;
   description: string;
   mapLabel: string;
-  available: string;
-   
+  question: string;
+  subtitle: string;
+  inputLabel: string;
+  placeholder: string;
+  hint: string;
+  yes: string;
+  yesText: string;
+  book: string;
+  no: string;
+  noText: string;
 };
 
 export const coverageContent: Record<"ar" | "en", CoverageContent> = {
@@ -27,13 +35,31 @@ export const coverageContent: Record<"ar" | "en", CoverageContent> = {
     titleAccent: "Riyadh",
     description: "Tap any district to see it on the map. Check that your district is covered before you book, and we keep adding districts.",
     mapLabel: "Map of the Riyadh neighbourhoods we serve",
-    available: "Available"
+    question: "Do we cover your district?",
+    subtitle: "We keep adding districts across Riyadh.",
+    inputLabel: "Your district",
+    placeholder: "Type your district",
+    hint: "Type your district, or pick it from the list.",
+    yes: "Yes,",
+    yesText: "we come to {name}.",
+    book: "Book a wash",
+    no: "Not yet.",
+    noText: "We keep adding districts, so check again soon."
   },
   ar: {
     title: "نأتي إليك في",
     titleAccent: "الرياض",
     description: "اضغط على أي حي لتراه على الخريطة. تأكد من أن حيّك ضمن مناطق خدمتنا قبل الحجز، ونضيف أحياء جديدة باستمرار.",
     mapLabel: "خريطة أحياء الرياض التي نخدمها",
-    available: "الخدمة متاحة"
+    question: "هل نصل إلى حيّك؟",
+    subtitle: "نضيف أحياء جديدة في الرياض باستمرار.",
+    inputLabel: "حيّك",
+    placeholder: "اكتب اسم حيّك",
+    hint: "اكتب اسم حيّك أو اختره من القائمة.",
+    yes: "نعم،",
+    yesText: "نأتي إليك في {name}.",
+    book: "احجز غسلة",
+    no: "ليس بعد.",
+    noText: "نضيف أحياء جديدة باستمرار، تحقّق مرة أخرى قريباً."
   }
 };

@@ -4,6 +4,7 @@ import { getScopedI18n } from "@/locales/server";
 import LanguageSwitcher from "./LanguageSwitcher";
 import Logo from "./Logo";
 import MobileMenu from "./MobileMenu";
+import SectionNav from "./SectionNav";
 import ThemeToggle from "./ThemeToggle";
 import styles from "./Header.module.css";
 
@@ -37,24 +38,17 @@ export default async function Header({ locale }: { locale: Locale }) {
         </Link>
 
         <nav aria-label={t("menu")} className={styles.desktopOnly}>
-          <ul className={styles.links}>
-            {links.map((link) => (
-              <li key={link.href}>
-                <Link href={link.href} className={styles.link}>
-                  {link.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
+          <SectionNav links={links} className={styles.links} linkClassName={styles.link} />
         </nav>
 
         <div className={styles.actions}>
           <div className={styles.desktopOnly}>
-            <ThemeToggle label={t("toggleTheme")} />
+            <LanguageSwitcher labels={languageLabels} className={styles.textAction} />
+            <ThemeToggle label={t("toggleTheme")} className={styles.plainIcon} />
+            <AuthButton locale={locale} labels={authLabels} textClassName={styles.textAction} />
           </div>
-          <AuthButton locale={locale} labels={authLabels} />
-          <div className={styles.desktopOnly}>
-            <LanguageSwitcher labels={languageLabels} />
+          <div className={styles.mobileOnly}>
+            <AuthButton locale={locale} labels={authLabels} />
           </div>
           <Link href={downloadHref} className={`${styles.download} ${styles.desktopOnly}`}>
             {t("downloadApp")}
@@ -78,7 +72,7 @@ export default async function Header({ locale }: { locale: Locale }) {
                 {t("downloadApp")}
               </Link>
               <div className={styles.drawerLanguage}>
-                <LanguageSwitcher labels={languageLabels} />
+                <LanguageSwitcher labels={languageLabels} className={styles.drawerLanguageLink} />
               </div>
             </MobileMenu>
           </div>

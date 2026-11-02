@@ -1,7 +1,21 @@
 .empty {
-  margin-block-start: var(--space-xl);
+  display: grid;
+  justify-items: center;
+  gap: var(--space-md);
+  max-width: 520px;
+  margin: var(--space-xl) auto 0;
+  padding: var(--space-xl) var(--space-lg);
+  border: var(--border-width) dashed var(--border-accent);
+  border-radius: var(--radius-lg);
+  background: var(--accent-subtle);
   text-align: center;
-  color: var(--text-muted);
+  line-height: 1.7;
+  text-wrap: balance;
+  color: var(--text-secondary);
+}
+
+.empty svg {
+  color: var(--text-accent);
 }
 
 .grid {
@@ -31,7 +45,7 @@
 
 .card {
   padding: 28px;
-  border-radius: 28px;
+  border-radius: var(--radius-xl);
 }
 
 .card:hover {
@@ -99,7 +113,7 @@
 }
 
 .name {
-  font-size: 1.4rem;
+  font-size: var(--fs-2xl);
   font-weight: 700;
   line-height: 1.2;
 }
@@ -110,14 +124,14 @@
   border-radius: var(--radius-full);
   background: var(--accent);
   color: var(--text-on-accent);
-  font-size: 0.75rem;
+  font-size: var(--fs-xs);
   font-weight: 600;
   white-space: nowrap;
 }
 
 .desc {
   margin-block: 10px 20px;
-  font-size: 0.95rem;
+  font-size: var(--fs-md);
   line-height: 1.6;
   color: var(--text-muted);
 }
@@ -142,7 +156,7 @@
   font-size: clamp(2.6rem, 3.6vw, 3.25rem);
   font-weight: 700;
   line-height: 1;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.02em;
   font-variant-numeric: tabular-nums;
 }
 
@@ -153,7 +167,7 @@
 }
 
 .minutes {
-  font-size: 0.95rem;
+  font-size: var(--fs-md);
   color: var(--text-muted);
 }
 
@@ -200,7 +214,7 @@
   align-items: center;
   gap: 12px;
   min-height: 20px;
-  font-size: 0.95rem;
+  font-size: var(--fs-md);
   color: var(--text-primary);
 }
 
@@ -219,7 +233,7 @@
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
   background: var(--bg-input);
-  font-size: 0.95rem;
+  font-size: var(--fs-md);
   font-weight: 600;
   color: var(--text-primary);
   transition:
@@ -240,14 +254,14 @@
   border-color: var(--accent);
   background: var(--accent);
   color: var(--text-on-accent);
-  box-shadow: 0 10px 30px var(--accent-shadow);
+  box-shadow: var(--shadow-accent);
 }
 
 .ctaPrimary:hover {
   color: var(--text-on-accent);
   background: var(--accent-light);
   border-color: var(--accent-light);
-  box-shadow: 0 14px 38px var(--accent-shadow-hover);
+  box-shadow: var(--shadow-accent-lg);
 }
 
 .cta:focus-visible {
@@ -311,7 +325,7 @@
 @media (max-width: 640px) {
   .card {
     padding: var(--space-lg);
-    border-radius: 24px;
+    border-radius: var(--radius-xl);
   }
 
 }
@@ -346,7 +360,7 @@
   border-radius: var(--radius-full);
   background: transparent;
   font: inherit;
-  font-size: 0.95rem;
+  font-size: var(--fs-md);
   font-weight: 600;
   color: var(--text-muted);
   cursor: pointer;
@@ -369,7 +383,7 @@
   overflow-x: auto;
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 28px;
+  border-radius: var(--radius-xl);
 }
 
 .table {
@@ -387,7 +401,7 @@
 }
 
 .table thead th {
-  font-size: 0.85rem;
+  font-size: var(--fs-sm);
   font-weight: 600;
   color: var(--text-muted);
 }
@@ -397,7 +411,7 @@
 }
 
 .table td {
-  font-size: 1.15rem;
+  font-size: var(--fs-lg);
   font-weight: 700;
 }
 
@@ -416,7 +430,7 @@
 .serviceDesc {
   display: block;
   margin-block-start: 4px;
-  font-size: 0.875rem;
+  font-size: var(--fs-sm);
   font-weight: 400;
   line-height: 1.5;
   color: var(--text-muted);
@@ -426,7 +440,7 @@
 .note {
   margin-block-start: var(--space-lg);
   text-align: center;
-  font-size: 0.95rem;
+  font-size: var(--fs-md);
   color: var(--text-muted);
 }
 
@@ -445,7 +459,7 @@
   align-items: center;
   justify-content: center;
   height: 40px;
-  font-size: 0.9rem;
+  font-size: var(--fs-md);
   font-weight: 600;
   color: var(--text-accent);
 }
@@ -459,4 +473,14 @@
   .table td {
     padding: 14px 12px;
   }
+}
+
+/* The extra pseudo-class outranks the `.alternating-sections > section:nth-child()` rule. */
+.section[id="pricing"]:nth-child(n) {
+  --section-bg: #f7f5ff;
+  background: var(--section-bg);
+}
+
+:global(:root[data-theme="dark"]) .section[id="pricing"]:nth-child(n) {
+  --section-bg: #111315;
 }
