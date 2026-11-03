@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { APP_STORE_URL, PRO_APP_STORE_URL } from "@/config/stores";
 import { getScopedI18n } from "@/locales/server";
 import FooterBackToTop from "./FooterBackToTop";
 import FooterMascot from "./FooterMascot";
@@ -6,7 +7,8 @@ import { CONTACT } from "@/app/[locale]/(info)/_components/contact.config";
 import Logo from "./Logo";
 import styles from "./Footer.module.css";
 
-type FooterLink = { label: string; href: string };
+// External links (the app stores) open in a new tab.
+type FooterLink = { label: string; href: string; external?: boolean };
 
 export default async function Footer({ locale }: { locale: Locale }) {
   const t = await getScopedI18n("footer");
@@ -21,6 +23,13 @@ export default async function Footer({ locale }: { locale: Locale }) {
         { label: t("pricing"), href: `/${locale}#pricing` },
         { label: t("coverage"), href: `/${locale}#coverage` },
         { label: t("faq"), href: `/${locale}#faq` },
+      ],
+    },
+    {
+      heading: t("product"),
+      links: [
+        { label: t("customerApp"), href: `${APP_STORE_URL}?l=${locale}`, external: true },
+        { label: t("proApp"), href: `${PRO_APP_STORE_URL}?l=${locale}`, external: true },
       ],
     },
     {
@@ -58,9 +67,15 @@ export default async function Footer({ locale }: { locale: Locale }) {
               <ul className={styles.links}>
                 {column.links.map((link) => (
                   <li key={link.href}>
-                    <Link href={link.href} className={styles.link}>
-                      {link.label}
-                    </Link>
+                    {link.external ? (
+                      <a href={link.href} className={styles.link} target="_blank" rel="noopener noreferrer">
+                        {link.label}
+                      </a>
+                    ) : (
+                      <Link href={link.href} className={styles.link}>
+                        {link.label}
+                      </Link>
+                    )}
                   </li>
                 ))}
               </ul>

@@ -19,7 +19,7 @@
 
 .grid {
   display: grid;
-  grid-template-columns: minmax(0, 1.8fr) repeat(3, minmax(140px, 0.6fr));
+  grid-template-columns: minmax(0, 1.6fr) repeat(4, minmax(130px, 0.55fr));
   gap: var(--space-2xl) var(--space-3xl);
   margin-block-end: var(--space-2xl);
 }

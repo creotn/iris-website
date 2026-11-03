@@ -4,14 +4,20 @@ import { IconMoon, IconSun } from "@tabler/icons-react";
 import { THEME_STORAGE_KEY } from "@/config/theme";
 import styles from "./ThemeToggle.module.css";
 
+let switchingTimer: ReturnType<typeof setTimeout> | undefined;
+
 export default function ThemeToggle({ label, className }: { label: string; className?: string }) {
   const toggle = () => {
     const root = document.documentElement;
     const next = root.dataset.theme === "dark" ? "light" : "dark";
+    root.dataset.themeSwitching = "";
     root.dataset.theme = next;
+    clearTimeout(switchingTimer);
+    switchingTimer = setTimeout(() => delete root.dataset.themeSwitching, 300);
     try {
       localStorage.setItem(THEME_STORAGE_KEY, next);
     } catch {
+      // Private mode / blocked storage: the switch still applies for this visit.
     }
   };
 

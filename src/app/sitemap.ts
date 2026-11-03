@@ -1,33 +1,28 @@
 import AppConfig from "@/config/Base";
 import { MetadataRoute } from "next";
 
-const PAGES = ["privacy", "terms"];
+const LOCALES = ["ar", "en"] as const;
+
+// Every page is listed once per language, each pointing at its other-language twin.
+const PAGES: { path: string; changeFrequency: "daily" | "monthly"; priority: number }[] = [
+  { path: "", changeFrequency: "daily", priority: 1 },
+  { path: "/privacy", changeFrequency: "monthly", priority: 0.5 },
+  { path: "/terms", changeFrequency: "monthly", priority: 0.5 },
+];
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  return [
-    {
-      url: `${AppConfig.baseUrl}/ar`,
+  return PAGES.flatMap(({ path, changeFrequency, priority }) =>
+    LOCALES.map((locale) => ({
+      url: `${AppConfig.baseUrl}/${locale}${path}`,
       lastModified: new Date(),
-      changeFrequency: "daily",
-      priority: 1,
+      changeFrequency,
+      priority,
       alternates: {
         languages: {
-          ar: `${AppConfig.baseUrl}/ar`,
-          en: `${AppConfig.baseUrl}/en`,
-        },
-      },
-    },
-    ...PAGES.map((page) => ({
-      url: `${AppConfig.baseUrl}/ar/${page}`,
-      lastModified: new Date(),
-      changeFrequency: "monthly" as const,
-      priority: 0.5,
-      alternates: {
-        languages: {
-          ar: `${AppConfig.baseUrl}/ar/${page}`,
-          en: `${AppConfig.baseUrl}/en/${page}`,
+          ar: `${AppConfig.baseUrl}/ar${path}`,
+          en: `${AppConfig.baseUrl}/en${path}`,
         },
       },
     })),
-  ];
+  );
 }

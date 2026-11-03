@@ -199,12 +199,13 @@
   }
 }
 
+/* 44px: the smallest comfortable touch target. */
 .menuButton {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   background: color-mix(in srgb, var(--bg-card) 70%, transparent);
   border: 1px solid var(--border);
   border-radius: 50%;

@@ -83,6 +83,7 @@
   --lime-hover: #ffffff;
   --on-lime: var(--iris-ink);
   --backdrop: rgba(17, 19, 21, 0.45);
+  --focus-ring: var(--text-accent);
 
   --video-hero-base: #0e0e12;
   --video-hero-tint: #7a4fe0;
@@ -237,6 +238,16 @@ body * {
     box-shadow 0.3s ease;
 }
 
+/* While the theme toggles, colours ease across instead of snapping (ThemeToggle sets the attribute for 300ms). */
+@media (prefers-reduced-motion: no-preference) {
+  :root[data-theme-switching] * {
+    transition:
+      background-color 0.3s ease,
+      color 0.3s ease,
+      border-color 0.3s ease !important;
+  }
+}
+
 *,
 *::before,
 *::after {
@@ -318,6 +329,28 @@ html[dir="rtl"] body {
   flex: 1;
   display: flex;
   flex-direction: column;
+}
+
+/* "Skip to content": hidden above the page until a keyboard user tabs to it. */
+.skip-link {
+  position: fixed;
+  inset-block-start: var(--space-sm);
+  inset-inline-start: var(--space-sm);
+  z-index: 200;
+  padding: var(--space-sm) var(--space-md);
+  background: var(--bg-card);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-md);
+  color: var(--text-primary);
+  translate: 0 -200%;
+}
+
+.skip-link:focus {
+  translate: 0 0;
+}
+
+#root:focus {
+  outline: none;
 }
 
 a {

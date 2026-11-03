@@ -92,6 +92,8 @@ jobs:
           docker build \
             --build-arg NEXT_PUBLIC_API_URL=${{ vars.NEXT_PUBLIC_API_URL }} \
             --build-arg NEXT_PUBLIC_URL=${{ vars.NEXT_PUBLIC_URL }} \
+            --build-arg "NEXT_PUBLIC_APP_STORE_URL=${{ vars.NEXT_PUBLIC_APP_STORE_URL }}" \
+            --build-arg "NEXT_PUBLIC_PLAY_STORE_URL=${{ vars.NEXT_PUBLIC_PLAY_STORE_URL }}" \
             -t ${{ env.PROJECT_NAME }}:$COMMIT .
           docker tag $PROJECT_NAME:$COMMIT $ECR_REGISTRY/$PROJECT_NAME:$COMMIT
           docker tag $PROJECT_NAME:$COMMIT $ECR_REGISTRY/$PROJECT_NAME:latest
