@@ -19,7 +19,9 @@ export default async function Header({ locale }: { locale: Locale }) {
     { href: `/${locale}#faq`, label: t("faq") },
   ];
 
-  const downloadHref = `/${locale}#get-started`;
+  // Sends the visitor straight to their store (see proxy.ts). A plain <a>, not <Link>: Link would
+  // prefetch a URL that redirects off-site.
+  const downloadHref = "/download";
 
   const authLabels = {
     signIn: t("signIn"),
@@ -50,9 +52,9 @@ export default async function Header({ locale }: { locale: Locale }) {
           <div className={styles.mobileOnly}>
             <AuthButton locale={locale} labels={authLabels} />
           </div>
-          <Link href={downloadHref} className={`${styles.download} ${styles.desktopOnly}`}>
+          <a href={downloadHref} className={`${styles.download} ${styles.desktopOnly}`}>
             {t("downloadApp")}
-          </Link>
+          </a>
 
           <div className={styles.mobileOnly}>
             <ThemeToggle label={t("toggleTheme")} />
@@ -68,9 +70,9 @@ export default async function Header({ locale }: { locale: Locale }) {
                   ))}
                 </ul>
               </nav>
-              <Link href={downloadHref} className={styles.drawerDownload}>
+              <a href={downloadHref} className={styles.drawerDownload}>
                 {t("downloadApp")}
-              </Link>
+              </a>
               <div className={styles.drawerLanguage}>
                 <LanguageSwitcher labels={languageLabels} className={styles.drawerLanguageLink} />
               </div>

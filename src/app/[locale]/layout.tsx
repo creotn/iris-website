@@ -9,7 +9,6 @@ import Footer from "@/components/layout/Footer";
 import PrePaintScript from "@/components/layout/PrePaintScript";
 import { I18nProviderClient } from "@/components/providers/I18nProviderClient";
 import AppConfig from "@/config/Base";
-import { platformInitScript } from "@/config/stores";
 import { themeInitScript } from "@/config/theme";
 import { resolveLocale } from "@/locales/resolveLocale";
 import { getScopedI18n, getStaticParams } from "@/locales/server";
@@ -49,7 +48,6 @@ export default async function LocaleLayout({
     >
       <head>
         <PrePaintScript code={themeInitScript} />
-        <PrePaintScript code={platformInitScript} />
       </head>
       <body suppressHydrationWarning>
         <I18nProviderClient locale={safeLocale}>
