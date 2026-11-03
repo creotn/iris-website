@@ -1,17 +1,12 @@
+import { APP_STORE_URL, PLAY_STORE_URL } from "@/config/stores";
+
 export interface StoreUrls {
-  ios: string | null;
-  android: string | null;
+  ios: string;
+  android: string;
 }
 
-export type StorePlatform = keyof StoreUrls;
-
-/** iPadOS 13+ Safari reports a desktop Mac user agent, so a "Mac" with a touch screen is an iPad. */
-export function detectPlatform(userAgent: string, maxTouchPoints = 0): StorePlatform | null {
-  if (/Android/i.test(userAgent)) return "android";
-  if (/iPhone|iPad|iPod/i.test(userAgent)) return "ios";
-  if (/Macintosh/.test(userAgent) && maxTouchPoints > 1) return "ios";
-  return null;
-}
+/** The download link, plus its old per-language addresses so links already shared keep working. */
+export const DOWNLOAD_PATH = /^\/(?:(?:ar|en)\/)?download\/?$/;
 
 /** A store link is only usable if it parses and is https; anything else counts as "not configured". */
 export function validStoreUrl(raw: string | undefined | null): string | null {
@@ -24,11 +19,11 @@ export function validStoreUrl(raw: string | undefined | null): string | null {
   }
 }
 
-/** Read per call, not at import, so tests can change the env. Next inlines the NEXT_PUBLIC_* values at build. */
+/** Read per call, not at import, so tests can change the env. A missing or invalid value uses the built-in link. */
 export function getStoreUrls(): StoreUrls {
   return {
-    ios: validStoreUrl(process.env.NEXT_PUBLIC_APP_STORE_URL),
-    android: validStoreUrl(process.env.NEXT_PUBLIC_PLAY_STORE_URL),
+    ios: validStoreUrl(process.env.NEXT_PUBLIC_APP_STORE_URL) ?? APP_STORE_URL,
+    android: validStoreUrl(process.env.NEXT_PUBLIC_PLAY_STORE_URL) ?? PLAY_STORE_URL,
   };
 }
 
@@ -36,13 +31,7 @@ export function getStoreUrls(): StoreUrls {
 // Macintosh also covers iPads, which ask for desktop sites by default and report a Mac user agent.
 const APPLE_DEVICE = /iPhone|iPad|iPod|Macintosh|AppleTV|Apple Watch/i;
 
-/**
- * Where `/download` sends a visitor: Apple devices to the App Store, everything else to Google Play.
- * Null if that store isn't configured, so they get the page rather than a broken link or the wrong store.
- */
-export function resolveStoreRedirect(
-  userAgent: string | null | undefined,
-  urls: StoreUrls = getStoreUrls(),
-): string | null {
+/** Where `/download` sends a visitor: Apple devices to the App Store, everything else to Google Play. */
+export function resolveStoreRedirect(userAgent: string | null | undefined, urls: StoreUrls = getStoreUrls()): string {
   return APPLE_DEVICE.test(userAgent ?? "") ? urls.ios : urls.android;
 }

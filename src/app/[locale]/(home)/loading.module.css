@@ -1,47 +1,289 @@
-/* Shimmer tones that read on the violet stage. */
-.stage {
-  --bg-secondary: var(--hero-border);
-  --bg-tertiary: var(--hero-card);
+/* Layout the real section classes don't provide. Sizes follow the real components. */
 
-  background: var(--hero-bg);
-  border-end-start-radius: var(--radius-lg);
-  border-end-end-radius: var(--radius-lg);
+/* Title-sized lines: the parent carries the real heading font, so em gaps match its leading. */
+.lines {
+  display: flex;
+  flex-direction: column;
+  gap: 0.18em;
 }
 
-.hero {
-  display: grid;
-  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
-  gap: clamp(var(--space-2xl), 6vw, var(--space-4xl));
+/* Paragraph lines, same idea at body size. */
+.textLines {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6em;
+}
+
+.centered {
   align-items: center;
-  padding-block: clamp(var(--space-2xl), 7vw, var(--space-4xl));
 }
 
-.text {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-lg);
+.flat {
+  border-radius: 0 !important;
 }
 
-.stack {
+/* ---- Hero booking strip ---- */
+
+.bookButton {
+  justify-self: end;
+}
+
+@media (max-width: 1024px) {
+  .bookButton {
+    grid-column: 1 / -1;
+    width: 100% !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .bookButton {
+    margin-block-start: 8px;
+  }
+}
+
+/* ---- Features ---- */
+
+.feature {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: var(--space-sm);
+  padding: var(--space-2xl) var(--space-2xl) var(--space-xl);
 }
 
-.ticket {
-  width: min(100%, 22rem);
-  margin-block-start: var(--space-3xl);
-  justify-self: center;
+/* Holds the same 72px box as the real icon. */
+.featureIcon {
+  margin-block: 12px calc(12px + var(--space-md) - var(--space-sm));
+}
+
+.featureDesc {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  width: min(100%, 34ch);
+}
+
+@media (max-width: 1024px) {
+  .feature {
+    padding-inline: var(--space-lg);
+  }
+}
+
+@media (max-width: 640px) {
+  .feature {
+    padding: var(--space-xl) var(--space-md);
+  }
+}
+
+/* ---- How it works ---- */
+
+.howTitle {
+  flex: 1;
+}
+
+.howCta {
+  flex: none;
+}
+
+.phone {
+  width: min(100%, calc(var(--ph) * 9 / 19)) !important;
+  aspect-ratio: 9 / 19;
+  border-radius: 38px !important;
+}
+
+/* Only the active step shows its description on wide screens. */
+.stepDesc {
+  display: none;
+}
+
+.step:first-child .stepDesc {
+  display: flex;
+}
+
+.swipeHint {
+  display: none;
 }
 
 @media (max-width: 900px) {
-  .hero {
-    grid-template-columns: 1fr;
+  .phone {
+    width: 100% !important;
+  }
+
+  .stepDesc {
+    display: flex;
+    align-items: flex-start;
+  }
+
+  .swipeHint {
+    display: block;
+    margin-block-start: 14px;
   }
 }
 
-@media (max-width: 480px) {
-  .ticket {
-    width: 100%;
+@media (max-width: 640px) {
+  .howCta {
+    width: 130px !important;
+    height: 46px !important;
   }
+
+  .phone {
+    border-radius: 32px !important;
+  }
+}
+
+@media (max-width: 420px) {
+  .howCta {
+    width: 100% !important;
+  }
+}
+
+/* ---- Pricing ---- */
+
+.plan {
+  display: flex;
+  flex-direction: column;
+  padding: 28px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  background: var(--bg-card);
+}
+
+.plan[data-featured="true"] {
+  margin-block-start: calc(var(--space-md) * -1);
+  padding-block: calc(28px + var(--space-sm));
+  border-color: var(--accent);
+}
+
+.planTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  min-height: 32px;
+}
+
+.planDesc {
+  align-items: flex-start;
+  width: 100%;
+  margin-block: 14px 24px;
+}
+
+.priceRow {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--space-sm);
+  padding-block-end: 26px;
+  border-block-end: 1px solid var(--border);
+}
+
+.planLines {
+  display: grid;
+  gap: 12px;
+  margin: 28px 0 20px;
+  padding: 0;
+  list-style: none;
+}
+
+.planLines li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.planActions {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-sm);
+  margin-block-start: auto;
+}
+
+/* The gift link is 40px tall; its text sits in the middle. */
+.planActions > :last-child {
+  margin-block: 13px;
+}
+
+.note {
+  margin: var(--space-lg) auto 0;
+}
+
+@media (max-width: 960px) {
+  .plan[data-featured="true"] {
+    margin-block-start: 0;
+    padding-block: var(--space-xl);
+  }
+}
+
+@media (max-width: 640px) {
+  .plan {
+    padding: var(--space-lg);
+  }
+}
+
+/* ---- Coverage ---- */
+
+.district {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  padding-inline: 10px;
+}
+
+/* ---- FAQ ---- */
+
+.faq {
+  margin-block: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.faqRow + .faqRow {
+  border-block-start: 1px solid var(--border);
+}
+
+.faqHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-lg);
+  padding-block: 30px;
+}
+
+.faqAnswer {
+  align-items: flex-start;
+  width: auto;
+  max-width: 64ch;
+  margin-block-start: -8px;
+  padding-block-end: 32px;
+  padding-inline-end: 48px;
+}
+
+@media (max-width: 640px) {
+  .faqHead {
+    padding-block: 24px;
+  }
+
+  .faqAnswer {
+    padding-inline-end: 0;
+    padding-block-end: 22px;
+  }
+}
+
+/* ---- CTA ---- */
+
+/* The description above already carries the gap. */
+.ctaButton {
+  display: block;
+}
+
+@media (max-width: 520px) {
+  .ctaButton {
+    width: 100% !important;
+  }
+}
+
+/* The real portrait wears a paper-coloured ring. */
+.portrait {
+  box-shadow: 0 0 0 6px var(--iris-paper);
 }

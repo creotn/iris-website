@@ -1,6 +1,7 @@
 import type { ButtonHTMLAttributes, ReactNode } from "react";
 import { IconArrowRight } from "@tabler/icons-react";
 import formStyles from "@/components/forms/SignInForm.module.css";
+import { useScopedI18n } from "@/locales/client";
 import styles from "./Wash.module.css";
 
 export function Heading({ title, subtitle }: { title: string; subtitle?: string }) {
@@ -8,6 +9,36 @@ export function Heading({ title, subtitle }: { title: string; subtitle?: string 
     <div className={formStyles.heading}>
       <h1 className={formStyles.title}>{title}</h1>
       {subtitle && <p className={formStyles.subtitle}>{subtitle}</p>}
+    </div>
+  );
+}
+
+/** How many steps the booking has: car, location, service, review & pay, confirmation. */
+export const STEP_TOTAL = 5;
+
+/** Every step opens the same way: "Step N of 5", the title, the subtitle, and optionally something on the side. */
+export function StepHeading({ step, title, subtitle, aside }: { step: number; title: string; subtitle?: string; aside?: ReactNode }) {
+  const t = useScopedI18n("wash");
+  return (
+    <div className={styles.stepHead}>
+      <div>
+        <p className={styles.eyebrowStep}>{t("step", { current: step, total: STEP_TOTAL })}</p>
+        <Heading title={title} subtitle={subtitle} />
+      </div>
+      {aside}
+    </div>
+  );
+}
+
+/** Every step closes the same way: a line, what was chosen so far (or a hint), and the button to go on. */
+export function StepFooter({ label, value, hint, children }: { label: string; value?: ReactNode; hint: string; children: ReactNode }) {
+  return (
+    <div className={styles.stepFooter}>
+      <span className={styles.stepSummary} role="status">
+        <small>{label}</small>
+        {value ? <b dir="auto">{value}</b> : <span>{hint}</span>}
+      </span>
+      {children}
     </div>
   );
 }

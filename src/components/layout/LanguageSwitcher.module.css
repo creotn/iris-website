@@ -2,20 +2,25 @@
   display: inline-flex;
   gap: 2px;
   padding: 3px;
-  background: var(--bg-card);
+  background: color-mix(in srgb, var(--bg-card) 70%, transparent);
   border: 1px solid var(--border);
-  border-radius: var(--radius-full);
+  border-radius: 8px;
 }
 
 .button {
-  padding: 6px 16px;
+  height: 32px;
+  padding: 0 18px;
   border: none;
-  border-radius: var(--radius-full);
+  border-radius: 8px;
   background: transparent;
   color: var(--text-muted);
-  font-size: 0.8rem;
+  font-size: var(--fs-xs);
   font-weight: 600;
-  transition: all var(--transition-fast);
+  letter-spacing: 0.02em;
+  transition:
+    background var(--transition-normal),
+    color var(--transition-fast),
+    box-shadow var(--transition-normal);
 }
 
 .button:hover:not(:disabled) {
@@ -25,6 +30,7 @@
 .active {
   background: var(--accent);
   color: var(--text-on-accent);
+  box-shadow: var(--shadow-sm);
   cursor: default;
 }
 

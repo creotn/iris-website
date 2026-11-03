@@ -3,7 +3,7 @@
 import { useState, useSyncExternalStore } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { IconArrowRight, IconLock, IconMail } from "@tabler/icons-react";
+import { IconArrowRight, IconLock, IconMail, IconShieldCheck } from "@tabler/icons-react";
 import { signIn } from "@/api/AuthAPI";
 import { stepPath } from "@/config/booking";
 import { SubmitButton } from "@/components/buttons/SubmitButton";
@@ -26,8 +26,6 @@ function SignInFields() {
   const router = useRouter();
   const [failure, setFailure] = useState<string | null>(null);
 
-  // Read off the URL rather than `useSearchParams`, which would force this static route to client
-  // rendering and a Suspense boundary. The server snapshot is null, so hydration stays consistent.
   const reason = useSyncExternalStore(subscribeNever, readReason, () => null);
   const notice = useSyncExternalStore(subscribeNever, readNotice, () => null);
 
@@ -89,6 +87,12 @@ function SignInFields() {
         {t("submit")}
         <IconArrowRight className={styles.arrow} size={18} stroke={2} aria-hidden />
       </SubmitButton>
+
+      <p className={styles.secure}>
+        <IconShieldCheck size={16} stroke={1.75} aria-hidden />
+        {t("secure")}
+      </p>
+      <p className={styles.footnote}>{t("newToIris")}</p>
     </form>
   );
 }
@@ -105,6 +109,7 @@ export default function SignInForm() {
   return (
     <div className={styles.form}>
       <div className={styles.heading}>
+        <span className={styles.eyebrow}>{t("eyebrow")}</span>
         <h1 className={styles.title}>
           {mode === "signin" ? t("welcomeTitle") : t("registerTitle")}
         </h1>

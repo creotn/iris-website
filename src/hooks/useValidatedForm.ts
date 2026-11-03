@@ -19,10 +19,6 @@ export const numberInRange =
     return value.trim() !== "" && Number.isFinite(n) && n >= min && n <= max ? null : error;
   };
 
-/**
- * Controlled form state with per-field rules: an error shows once its field has been blurred, and
- * `isValid` (over all rules, touched or not) is what keeps the submit button disabled.
- */
 export function useValidatedForm<K extends string>(rules: Record<K, Rule>, initial?: Partial<Record<K, string>>) {
   const keys = Object.keys(rules) as K[];
   const [values, setValues] = useState(

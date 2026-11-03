@@ -5,7 +5,6 @@ import type { CardPayment } from "@/api/BookingAPI";
 import { useCurrentLocale } from "@/locales/client";
 import styles from "./Wash.module.css";
 
-// Moyasar's hosted payment form renders the card fields, so this site never touches card numbers.
 const MOYASAR_VERSION = "1.14.0";
 const BASE = `https://cdn.moyasar.com/mpf/${MOYASAR_VERSION}`;
 const ELEMENT = ".mysr-form";
@@ -43,7 +42,6 @@ export default function MoyasarForm({
   onLoadFailed,
 }: {
   payment: CardPayment;
-  /** Where Moyasar sends the customer back after a 3-D Secure challenge. */
   callbackUrl: string;
   onCompleted: (moyasarPaymentId: string) => void;
   onLoadFailed: () => void;

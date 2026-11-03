@@ -5,10 +5,6 @@ import { IconX } from "@tabler/icons-react";
 import { useScopedI18n } from "@/locales/client";
 import styles from "./Account.module.css";
 
-/**
- * A native modal `<dialog>`: the browser traps focus, closes it on Escape and restores focus after.
- * The content only mounts while open, so every opening starts with a fresh form.
- */
 export default function Dialog({
   open,
   onClose,
@@ -39,7 +35,6 @@ export default function Dialog({
       className={styles.dialog}
       aria-labelledby={titleId}
       onClose={onClose}
-      // A click on the dialog element itself, not its body, is a click on the backdrop.
       onClick={(event) => event.target === ref.current && onClose()}
     >
       {open && (

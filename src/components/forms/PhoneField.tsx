@@ -6,7 +6,6 @@ import { IconChevronDown } from "@tabler/icons-react";
 import { useScopedI18n } from "@/locales/client";
 import styles from "./PhoneField.module.css";
 
-// Flags are images, not emoji: Windows ships no flag emoji glyphs, so they render as bare letters.
 const COUNTRIES = [
   { code: "sa", dial: "966", name: { ar: "السعودية", en: "Saudi Arabia" } },
   { code: "tn", dial: "216", name: { ar: "تونس", en: "Tunisia" } },
@@ -21,7 +20,6 @@ const COUNTRIES = [
 
 const toDigits = (value: string) => value.replace(/\D/g, "").replace(/^0+/, "");
 
-// Saudi mobiles are exactly 9 digits starting with 5; elsewhere only a sane length is checked.
 const isValid = (code: string, digits: string) =>
   code === "sa" ? /^5\d{8}$/.test(digits) : /^\d{6,12}$/.test(digits);
 
@@ -38,7 +36,6 @@ export default function PhoneField({ label, locale }: { label: string; locale: "
   return (
     <div className={styles.field}>
       <span className={styles.label}>{label}</span>
-      {/* Phone numbers read left to right in either page direction. */}
       <div className={styles.control} dir="ltr">
         <div className={styles.picker}>
           <button

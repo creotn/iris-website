@@ -5,23 +5,23 @@ import {
   IconCalendar,
   IconCar,
   IconHash,
-  IconMotorbike,
   IconPalette,
   IconPencil,
   IconPlus,
   IconTrash,
-  IconTruck,
 } from "@tabler/icons-react";
 import { addVehicle, deleteVehicle, updateVehicle, type Vehicle } from "@/api/BookingAPI";
 import AuthField from "@/components/forms/AuthField";
 import formStyles from "@/components/forms/SignInForm.module.css";
-import { Skeleton } from "@/components/skeleton/Skeleton";
+import { CarsSkeleton } from "./AccountSkeletons";
 import { numberInRange, optional, required, useValidatedForm } from "@/hooks/useValidatedForm";
 import { useCurrentLocale, useScopedI18n } from "@/locales/client";
+import { CarColor, Pager, Plate, SortHeader, VehicleMark } from "@/components/table/TableParts";
+import table from "@/components/table/DataTable.module.css";
+import { useTableView } from "@/components/table/useTableView";
 import { translateError } from "@/utils/error";
 import Dialog from "./Dialog";
 import ErrorRow from "./ErrorRow";
-import { stagger } from "./order";
 import styles from "./Account.module.css";
 
 const CAR_TYPES = ["SEDAN", "SUV", "TRUCK", "MOTORCYCLE"] as const;
@@ -30,21 +30,35 @@ const noRule = () => null;
 
 const carName = (vehicle: Vehicle) => `${vehicle.make} ${vehicle.model}`;
 
-/** `"new"` is the add dialog, a car its edit dialog. */
 type Editing = null | "new" | Vehicle;
 
+const PAGE_SIZE = 8;
+
+type SortKey = "car" | "type" | "color" | "year" | "plate";
+const SORT_VALUE: Record<SortKey, (vehicle: Vehicle) => string | number> = {
+  car: (vehicle) => carName(vehicle).toLowerCase(),
+  type: (vehicle) => CAR_TYPES.indexOf(vehicle.type as CarType),
+  color: (vehicle) => (vehicle.color ?? "").toLowerCase(),
+  year: (vehicle) => Number(vehicle.year) || 0,
+  plate: (vehicle) => vehicle.plateNumber ?? "",
+};
+
 export default function VehiclesPanel({
+  title,
   vehicles,
   error,
   reload,
 }: {
+  title: string;
   vehicles: Vehicle[] | null;
   error: string;
   reload: () => void;
 }) {
   const t = useScopedI18n("account");
+  const tb = useScopedI18n("book");
   const [editing, setEditing] = useState<Editing>(null);
   const [removing, setRemoving] = useState<Vehicle | null>(null);
+  const view = useTableView(vehicles ?? [], SORT_VALUE, PAGE_SIZE);
 
   const closeAndReload = () => {
     setEditing(null);
@@ -52,18 +66,32 @@ export default function VehiclesPanel({
     reload();
   };
 
+  const typeName = (type: string) => (CAR_TYPES.includes(type as CarType) ? tb(`type${type as CarType}`) : type);
+
+  const head = (
+    <div className={styles.mainHead}>
+      <h1 className={styles.mainTitle}>{title}</h1>
+      {vehicles && vehicles.length > 0 && (
+        <button type="button" className={table.addBtn} onClick={() => setEditing("new")}>
+          <IconPlus size={16} stroke={2} aria-hidden />
+          {t("addCar")}
+        </button>
+      )}
+    </div>
+  );
+
   if (!vehicles) {
-    if (error) return <ErrorRow message={error} onRetry={reload} />;
     return (
-      <div className={styles.carGrid} aria-busy="true">
-        <Skeleton height="190px" radius="lg" />
-        <Skeleton height="190px" radius="lg" />
-      </div>
+      <>
+        {head}
+        {error ? <ErrorRow message={error} onRetry={reload} /> : <CarsSkeleton />}
+      </>
     );
   }
 
   return (
     <>
+      {head}
       {error && <ErrorRow message={error} onRetry={reload} />}
 
       {vehicles.length === 0 ? (
@@ -79,28 +107,63 @@ export default function VehiclesPanel({
           </button>
         </div>
       ) : (
-        <div className={styles.carGrid}>
-          {vehicles.map((vehicle, index) => (
-            <VehicleCard
-              key={vehicle.pubkey}
-              vehicle={vehicle}
-              index={index}
-              onEdit={() => setEditing(vehicle)}
-              onRemove={() => setRemoving(vehicle)}
-            />
-          ))}
-          <button
-            type="button"
-            className={`${styles.addCard} ${styles.reveal}`}
-            style={stagger(vehicles.length)}
-            onClick={() => setEditing("new")}
-          >
-            <span className={styles.emptyIcon}>
-              <IconPlus size={24} stroke={2} aria-hidden />
-            </span>
-            {t("addCar")}
-          </button>
-        </div>
+        <>
+          <table className={`${table.table} ${table.clickable}`}>
+            <thead>
+              <tr>
+                <SortHeader column="car" label={t("car")} sort={view.sort} onSort={view.toggleSort} />
+                <SortHeader column="type" label={tb("type")} sort={view.sort} onSort={view.toggleSort} className={table.hideMd} />
+                <SortHeader column="color" label={tb("color")} sort={view.sort} onSort={view.toggleSort} className={table.hideMd} />
+                <SortHeader column="year" label={tb("year")} sort={view.sort} onSort={view.toggleSort} className={table.hideMd} />
+                <SortHeader column="plate" label={tb("plate")} sort={view.sort} onSort={view.toggleSort} className={table.hideSm} />
+                <th scope="col" className={table.actions}>
+                  <span className={styles.srOnly}>{t("colActions")}</span>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {view.shown.map((vehicle) => (
+                <tr key={vehicle.pubkey} onClick={() => setEditing(vehicle)}>
+                  <td className={table.grow}>
+                    <span className={table.cell}>
+                      <VehicleMark type={vehicle.type} />
+                      <span className={table.cellText}>
+                        <b dir="auto">{carName(vehicle)}</b>
+                        <span className={table.cellMeta} dir="auto">
+                          {[typeName(vehicle.type), vehicle.color, vehicle.year, vehicle.plateNumber].filter(Boolean).join(", ")}
+                        </span>
+                      </span>
+                    </span>
+                  </td>
+                  <td className={table.hideMd}>{typeName(vehicle.type)}</td>
+                  <td className={table.hideMd} dir="auto">
+                    <CarColor color={vehicle.color} />
+                  </td>
+                  <td className={table.hideMd}>{vehicle.year || <span className={table.none}>–</span>}</td>
+                  <td className={table.hideSm}>
+                    <Plate number={vehicle.plateNumber} />
+                  </td>
+                  <td className={table.actions} onClick={(event) => event.stopPropagation()}>
+                    <span>
+                      <button type="button" className={table.iconBtn} onClick={() => setEditing(vehicle)} aria-label={`${t("edit")} ${carName(vehicle)}`}>
+                        <IconPencil size={17} stroke={1.75} aria-hidden />
+                      </button>
+                      <button
+                        type="button"
+                        className={`${table.iconBtn} ${table.iconBtnDanger}`}
+                        onClick={() => setRemoving(vehicle)}
+                        aria-label={`${t("remove")} ${carName(vehicle)}`}
+                      >
+                        <IconTrash size={17} stroke={1.75} aria-hidden />
+                      </button>
+                    </span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <Pager page={view.page} pages={view.pages} onPage={view.setPage} label={title} previous={t("previousPage")} next={t("nextPage")} />
+        </>
       )}
 
       <Dialog open={editing !== null} onClose={() => setEditing(null)} title={editing && editing !== "new" ? t("editCar") : t("addCar")}>
@@ -116,52 +179,6 @@ export default function VehiclesPanel({
         {removing && <RemoveVehicle vehicle={removing} onRemoved={closeAndReload} onCancel={() => setRemoving(null)} />}
       </Dialog>
     </>
-  );
-}
-
-function CarIcon({ type }: { type: string }) {
-  if (type === "MOTORCYCLE") return <IconMotorbike size={22} stroke={1.75} />;
-  if (type === "TRUCK") return <IconTruck size={22} stroke={1.75} />;
-  return <IconCar size={22} stroke={1.75} />;
-}
-
-function VehicleCard({ vehicle, index, onEdit, onRemove }: { vehicle: Vehicle; index: number; onEdit: () => void; onRemove: () => void }) {
-  const t = useScopedI18n("account");
-  const tb = useScopedI18n("book");
-  const type = CAR_TYPES.includes(vehicle.type as CarType) ? tb(`type${vehicle.type as CarType}`) : vehicle.type;
-  const details = [vehicle.year, vehicle.color, type].filter(Boolean).join(" · ");
-
-  return (
-    <div className={`${styles.card} ${styles.carCard} ${styles.reveal}`} style={stagger(index)}>
-      <div className={styles.carHead}>
-        <span className={styles.tileIcon} aria-hidden>
-          <CarIcon type={vehicle.type} />
-        </span>
-        <span className={styles.carName}>
-          <b dir="auto" className={styles.ellipsis}>
-            {carName(vehicle)}
-          </b>
-          <span className={styles.muted} dir="auto">
-            {details}
-          </span>
-        </span>
-      </div>
-      {vehicle.plateNumber && (
-        <span className={styles.plate} dir="ltr" aria-label={tb("plate")}>
-          {vehicle.plateNumber}
-        </span>
-      )}
-      <div className={styles.carActions}>
-        <button type="button" className={styles.button} onClick={onEdit}>
-          <IconPencil size={16} stroke={1.75} aria-hidden />
-          {t("edit")}
-        </button>
-        <button type="button" className={`${styles.button} ${styles.danger}`} onClick={onRemove}>
-          <IconTrash size={16} stroke={1.75} aria-hidden />
-          {t("remove")}
-        </button>
-      </div>
-    </div>
   );
 }
 

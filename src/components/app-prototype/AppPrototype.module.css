@@ -1,4 +1,3 @@
-/* Section + tabs */
 .demo {
   position: relative;
   padding-block: 80px;
@@ -68,8 +67,6 @@
   box-shadow: 0 2px 8px rgba(106, 79, 182, 0.3);
 }
 
-/* `zoom` (not `transform`) so the layout box shrinks too and clicks still land. The shorter
-   frame just scrolls its screen, like a smaller phone. */
 @media (min-width: 481px) {
   .compact .frame {
     zoom: 0.75;
@@ -77,7 +74,6 @@
   }
 }
 
-/* Autoplay countdown on the active tab */
 .tabProgress {
   position: absolute;
   inset-inline-start: 0;
@@ -103,7 +99,6 @@ html[dir="rtl"] .tabProgress {
   }
 }
 
-/* Phone frame */
 .frame {
   --app-green: #00c853;
   --app-red: #ff5252;
@@ -138,7 +133,6 @@ html[dir="rtl"] .tabProgress {
     0 20px 40px rgba(0, 0, 0, 0.12);
 }
 
-/* The in-phone "Appearance" switch forces the light palette inside the frame only. */
 .appLight {
   --phone-bg: #fafaf8;
   --text-primary: #111315;
@@ -230,7 +224,6 @@ html[dir="rtl"] .tabProgress {
   }
 }
 
-/* Bottom tab bar */
 .tabBar {
   position: relative;
   z-index: 10;
@@ -306,7 +299,6 @@ html[dir="rtl"] .tabProgress {
   border-radius: 0 0 3px 3px;
 }
 
-/* In-app primitives */
 .headerBar {
   display: flex;
   align-items: center;
@@ -597,7 +589,6 @@ html[dir="rtl"] .backIcon {
   stroke-width: 1.5;
 }
 
-/* Map */
 .map {
   position: relative;
   height: 180px;
@@ -658,7 +649,6 @@ html[dir="rtl"] .backIcon {
   box-shadow: 0 0 12px rgba(106, 79, 182, 0.4);
 }
 
-/* Steps */
 .steps {
   display: flex;
   flex-direction: column;
@@ -724,7 +714,6 @@ html[dir="rtl"] .backIcon {
   color: var(--text-muted);
 }
 
-/* Avatar */
 .avatar {
   display: flex;
   align-items: center;
@@ -740,7 +729,6 @@ html[dir="rtl"] .backIcon {
   color: #ffffff;
 }
 
-/* Stats */
 .stats {
   display: flex;
   margin: 0 14px 14px;
@@ -774,7 +762,6 @@ html[dir="rtl"] .backIcon {
   color: var(--text-muted);
 }
 
-/* Menu */
 .menu {
   margin: 0 14px 14px;
   overflow: hidden;
@@ -847,7 +834,6 @@ html[dir="rtl"] .chevron {
   transform: scaleX(-1);
 }
 
-/* Switches */
 .switch {
   position: relative;
   flex-shrink: 0;

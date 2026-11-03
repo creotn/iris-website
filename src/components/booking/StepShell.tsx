@@ -7,14 +7,22 @@ import { BOOKING_STEPS, type BookingStep } from "@/config/booking";
 import { useScopedI18n } from "@/locales/client";
 import styles from "./StepShell.module.css";
 
-export default function StepShell({ step, children }: { step: BookingStep; children: ReactNode }) {
+export default function StepShell({
+  step,
+  wide = false,
+  children,
+}: {
+  step: BookingStep;
+  wide?: boolean;
+  children: ReactNode;
+}) {
   const t = useScopedI18n("book");
   const router = useRouter();
   const current = BOOKING_STEPS.indexOf(step) + 1;
   const total = BOOKING_STEPS.length;
 
   return (
-    <div className={styles.shell}>
+    <div className={`${styles.shell} ${wide ? styles.wide : ""}`}>
       <div className={styles.bar}>
         {current > 1 && (
           <button type="button" className={styles.back} onClick={() => router.back()}>

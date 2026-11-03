@@ -1,0 +1,516 @@
+/* ---- The map covers the whole section; the question sits on a panel laid over it ---- */
+
+.section {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: clamp(640px, 92svh, 880px);
+  overflow: hidden;
+}
+
+.layout {
+  position: relative;
+  z-index: 1;
+  pointer-events: none;
+}
+
+
+.ask {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: min(100%, 460px);
+  box-sizing: border-box;
+  padding: 32px;
+  border: var(--border-width) solid var(--border);
+  border-radius: 22px;
+  background: var(--bg-card);
+  box-shadow: var(--shadow-xl);
+  pointer-events: auto;
+}
+
+.head {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.title {
+  margin: 0;
+  font-size: clamp(1.75rem, 2.4vw, 2.125rem);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.035em;
+  color: var(--text-primary);
+}
+
+:global([dir="rtl"]) .title {
+  line-height: 1.4;
+  letter-spacing: 0;
+}
+
+.subtitle {
+  margin: 0;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: var(--text-secondary);
+}
+
+/* Search field with the magnifier inside it. */
+.search {
+  position: relative;
+}
+
+.searchIcon {
+  position: absolute;
+  inset-block-start: 50%;
+  inset-inline-start: 16px;
+  translate: 0 -50%;
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+.input {
+  width: 100%;
+  height: 52px;
+  box-sizing: border-box;
+  padding-inline: 44px 16px;
+  border: 1.5px solid var(--border-strong);
+  border-radius: 14px;
+  background: var(--bg-input, var(--bg-card));
+  color: var(--text-primary);
+  font: inherit;
+  font-size: 1rem;
+  transition:
+    border-color var(--transition-normal),
+    box-shadow var(--transition-normal);
+}
+
+.input::placeholder {
+  color: var(--text-muted);
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px var(--accent-subtle);
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* The answer: green for yes, neutral for not yet. */
+.answer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px 16px;
+  padding: 14px 16px;
+  border-radius: 14px;
+  background: var(--bg-secondary);
+}
+
+.answer[data-state="yes"] {
+  background: var(--success-subtle);
+}
+
+.result {
+  margin: 0;
+  font-size: 0.9375rem;
+  line-height: 1.45;
+  color: var(--text-primary);
+}
+
+.yes {
+  color: var(--success);
+}
+
+.muted {
+  color: var(--text-secondary);
+}
+
+.cta {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 18px;
+  border-radius: 12px;
+  background: var(--accent);
+  color: var(--text-on-accent);
+  font-size: 0.9375rem;
+  font-weight: 700;
+  transition: background var(--transition-normal);
+}
+
+.cta:hover {
+  color: var(--text-on-accent);
+  background: var(--accent-light);
+}
+
+.cta:focus-visible {
+  outline: 2px solid var(--accent-light);
+  outline-offset: 3px;
+}
+
+/* All districts in two columns; the chosen one is highlighted, the ones that don't match fade. */
+.districts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 2px 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.district {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 44px;
+  padding-inline: 10px;
+  border: 0;
+  border-radius: 10px;
+  background: none;
+  color: var(--text-secondary);
+  font: inherit;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  text-align: start;
+  cursor: pointer;
+  transition:
+    background var(--transition-normal),
+    color var(--transition-normal),
+    opacity var(--transition-normal);
+}
+
+.pin {
+  flex: none;
+  color: var(--text-muted);
+}
+
+.district:hover {
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+}
+
+.district[data-state="active"] {
+  background: var(--accent-subtle);
+  color: var(--text-accent);
+  font-weight: 700;
+}
+
+:global(:root[data-theme="dark"]) .district[data-state="active"] {
+  color: var(--iris-light);
+}
+
+.district[data-state="active"] .pin {
+  color: var(--accent);
+}
+
+.district[data-state="miss"] {
+  opacity: 0.45;
+}
+
+.district:focus-visible {
+  outline: 2px solid var(--accent-light);
+  outline-offset: 2px;
+}
+
+/* Edge to edge, behind the panel. */
+.map {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: var(--bg-secondary);
+  direction: ltr;
+}
+
+:global([dir="rtl"]) .map {
+  --text-dir: rtl;
+}
+
+.canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  font: inherit;
+}
+
+/* ---- Pins ---- */
+
+.pin {
+  cursor: pointer;
+  background: none;
+  border: 0;
+}
+
+.pin[data-active="true"] {
+  z-index: 5;
+}
+
+.pin:focus-visible {
+  outline: 2px solid var(--accent-light);
+  outline-offset: 4px;
+  border-radius: var(--radius-sm);
+}
+
+/* The pin tip sits on the bottom edge of the marker box, the point Leaflet anchors to the coordinate. */
+.glyph {
+  position: absolute;
+  inset-inline: 0;
+  inset-block-end: 0;
+  display: block;
+  width: 34px;
+  height: 44px;
+  margin-inline: auto;
+  overflow: visible;
+  transform-origin: 50% 100%;
+  filter: drop-shadow(0 4px 5px rgba(16, 24, 40, 0.35));
+  transition: scale 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.pinBody {
+  fill: var(--accent);
+  stroke: #fff;
+  stroke-width: 1.5;
+  transition: fill 0.3s ease;
+}
+
+.pinShine {
+  fill: #fff;
+  opacity: 0.22;
+}
+
+.pinCore {
+  fill: #fff;
+}
+
+.pin:hover .glyph {
+  scale: 1.12;
+}
+
+.pin[data-active="true"] .glyph {
+  scale: 1.28;
+  animation: drop 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.pin[data-active="true"] .pinBody {
+  fill: var(--accent-dark);
+}
+
+/* A soft contact shadow under the tip, and a ripple that spreads from it when the pin is active. */
+.halo,
+.ping {
+  position: absolute;
+  inset-inline: 0;
+  inset-block-end: -3px;
+  margin-inline: auto;
+  border-radius: 50%;
+}
+
+.halo {
+  width: 18px;
+  height: 7px;
+  background: radial-gradient(closest-side, rgba(16, 24, 40, 0.35), transparent);
+}
+
+.ping {
+  width: 16px;
+  height: 7px;
+  border: 1.5px solid var(--accent);
+  opacity: 0;
+}
+
+.pin[data-active="true"] .ping {
+  animation: ripple 1.9s ease-out infinite;
+}
+
+.layout[data-inview="false"] .ping {
+  animation-play-state: paused;
+}
+
+/* ---- Place card ---- */
+
+.card {
+  position: absolute;
+  display: grid;
+  justify-items: center;
+  gap: 3px;
+  min-width: 168px;
+  padding: 14px 18px;
+  border: var(--border-width) solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--bg-card);
+  box-shadow: var(--shadow-xl);
+  text-align: center;
+  direction: var(--text-dir, ltr);
+  white-space: nowrap;
+  opacity: 0;
+  scale: 0.92;
+  pointer-events: none;
+  transition:
+    opacity 0.25s ease,
+    scale 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.cardIcon {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  margin-block-end: 4px;
+  border-radius: 50%;
+  background: var(--accent-subtle);
+  color: var(--accent);
+}
+
+.card strong {
+  font-size: var(--fs-md);
+  font-weight: var(--fw-semibold);
+  color: var(--text-primary);
+}
+
+.region {
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+}
+
+
+
+/* The pointer toward the pin. */
+.card::after {
+  content: "";
+  position: absolute;
+  inset-inline-start: 50%;
+  width: 12px;
+  height: 12px;
+  margin-inline-start: -6px;
+  border: var(--border-width) solid var(--border);
+  background: var(--bg-card);
+  rotate: 45deg;
+}
+
+.pin[data-y="above"] .card {
+  bottom: calc(100% + 6px);
+  transform-origin: 50% 100%;
+}
+
+.pin[data-y="above"] .card::after {
+  inset-block-end: -7px;
+  border-block-start: 0;
+  border-inline-start: 0;
+}
+
+.pin[data-y="below"] .card {
+  top: calc(100% + 10px);
+  transform-origin: 50% 0;
+}
+
+.pin[data-y="below"] .card::after {
+  inset-block-start: -7px;
+  border-block-end: 0;
+  border-inline-end: 0;
+}
+
+.pin[data-x="center"] .card {
+  left: 50%;
+  translate: -50% 0;
+}
+
+.pin[data-x="start"] .card {
+  left: 50%;
+  margin-left: -18px;
+}
+
+.pin[data-x="start"] .card::after {
+  inset-inline-start: 18px;
+}
+
+.pin[data-x="end"] .card {
+  right: 50%;
+  margin-right: -18px;
+}
+
+.pin[data-x="end"] .card::after {
+  inset-inline-start: auto;
+  inset-inline-end: 18px;
+  margin-inline: 0 -6px;
+}
+
+.pin[data-active="true"] .card {
+  opacity: 1;
+  scale: 1;
+}
+
+/* ---- Keyframes ---- */
+
+@keyframes ripple {
+  0% {
+    scale: 0.5;
+    opacity: 0.9;
+  }
+  100% {
+    scale: 4.2;
+    opacity: 0;
+  }
+}
+
+@keyframes drop {
+  0% {
+    translate: 0 -16px;
+  }
+  60% {
+    translate: 0 2px;
+  }
+  100% {
+    translate: 0 0;
+  }
+}
+
+/* Phones: the panel comes first, the map below it at full width. */
+@media (max-width: 768px) {
+  .section {
+    flex-direction: column;
+    align-items: stretch;
+    min-height: 0;
+    padding-block-end: 0;
+  }
+
+  .ask {
+    width: 100%;
+    padding: 0;
+    border: 0;
+    background: none;
+    backdrop-filter: none;
+    box-shadow: none;
+  }
+
+  /* The map comes after the question on phones. */
+  .map {
+    position: relative;
+    inset: auto;
+    order: 1;
+    height: 70svh;
+    margin-block-start: var(--space-xl);
+  }
+
+  .card {
+    min-width: 140px;
+    padding: 12px 14px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ping {
+    animation: none;
+  }
+}

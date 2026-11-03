@@ -24,7 +24,6 @@ export default function ForgotPasswordForm() {
   const [error, setError] = useState("");
   const [email, setEmail] = useState("");
 
-  // One field per stage, validated on blur; the button stays disabled until the field is valid.
   const emailForm = useValidatedForm({
     email: (value) => (/^\S+@\S+\.\S+$/.test(value.trim()) ? null : "errEmail"),
   });

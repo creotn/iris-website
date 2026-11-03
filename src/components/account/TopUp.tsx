@@ -14,14 +14,12 @@ import styles from "./Account.module.css";
 
 const QUICK_AMOUNTS = [50, 100, 200, 500];
 
-/** Riyals with at most two decimals, inside the API's limits. */
 function validAmount(value: string, balance: Balance) {
   if (!/^\d+(\.\d{1,2})?$/.test(value.trim())) return false;
   const amount = Number(value);
   return amount >= Number(balance.topUpMin) && amount <= Number(balance.topUpMax);
 }
 
-/** Where Moyasar sends the customer back after a 3-D Secure challenge; the account page verifies it. */
 export const topUpCallbackUrl = (locale: string, topUpPubkey: string, transactionPubkey: string) =>
   `${location.origin}/${locale}/account?topup=${topUpPubkey}&tx=${transactionPubkey}`;
 

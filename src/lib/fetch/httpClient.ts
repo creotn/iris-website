@@ -6,17 +6,6 @@ type HttpMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
 
 const MAX_BACKOFF_MS = 10_000;
 
-/**
- * Decide whether a failed attempt is safe to retry.
- *
- * GET: retries timeouts, connection failures and 5xx. 4xx (including 429) is returned as-is.
- *
- * Mutations (POST/PUT/PATCH/DELETE): a 5xx or a timeout both mean "may have already committed" —
- * retrying either risks a duplicate write (double-booking, double-charge — see docs/payments/AUDIT.md).
- * Only a failure that never reached the server at all (a pre-send connection error) is safe to retry.
- * In practice this path is only reachable when a caller explicitly opts into `retries > 0` alongside an
- * `idempotencyKey` — every current write call site keeps the default of 0 and never hits this branch.
- */
 function isRetryableError(
   method: HttpMethod,
   status: number | undefined,
@@ -25,8 +14,6 @@ function isRetryableError(
   isTimeout: boolean,
 ): boolean {
   if (method === "GET") {
-    // undici surfaces a dropped connection as "fetch failed" and our abort as "This operation was
-    // aborted", so sniffing the message never matched — key off what the attempt observed instead.
     return isTimeout || !reachedServer || (status !== undefined && status >= 500);
   }
 
@@ -37,22 +24,12 @@ function delay(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-/**
- * Exponential backoff with jitter (to avoid synchronized retry storms) and a hard cap.
- */
 function getBackoffDelay(attempt: number, baseDelay: number): number {
   const exponential = baseDelay * Math.pow(2, attempt);
   const jitter = Math.random() * baseDelay;
   return Math.min(exponential + jitter, MAX_BACKOFF_MS);
 }
 
-/**
- * Pull the API's own error code out of a parsed error body.
- *
- * This API (NestJS) shapes errors as `{ statusCode, message: "some_code" | string[], error: "Bad
- * Request" }` — the domain code lives in `message`; `error` is just the generic HTTP reason phrase
- * and is deliberately NOT part of this precedence chain (it's never a key in errorsMap).
- */
 function extractErrorCode(errorBody: unknown, statusCode?: number): string {
   const body = errorBody as
     | { message?: string | string[]; errorCode?: string }
@@ -71,9 +48,6 @@ function extractErrorCode(errorBody: unknown, statusCode?: number): string {
   return "network_error";
 }
 
-/**
- * Build the bilingual (English-default) display message for an error code.
- */
 function getErrorMessage(errorCode: string, customMessage?: string): string {
   if (customMessage) return customMessage;
   if (Object.hasOwn(errorsMap, errorCode)) {
@@ -82,10 +56,6 @@ function getErrorMessage(errorCode: string, customMessage?: string): string {
   return "An unexpected error occurred";
 }
 
-/**
- * Shared core behind every httpClient* export: auth injection, headers, the retry/timeout loop, and
- * turning a fetch Response into an ApiResponse with the real API error code attached.
- */
 async function executeRequest<T>(
   method: HttpMethod,
   url: string,
@@ -147,8 +117,6 @@ async function executeRequest<T>(
     };
   }
 
-  // Caller headers go in first so the four below always win — a caller cannot break auth or the
-  // content type by passing one of those names.
   const headers: Record<string, string> = {
     ...options.headers,
     Accept: "application/json",
@@ -157,10 +125,6 @@ async function executeRequest<T>(
   if (token) headers["Authorization"] = `Bearer ${token}`;
   if (idempotencyKey) headers["Idempotency-Key"] = idempotencyKey;
 
-  // Mutations are never cached, and an authenticated GET is never cached — `requiresAuth` wins over
-  // an explicit `revalidate`/`tags` rather than losing to it. The incremental cache is shared across
-  // replicas, so a per-user response that reached it would be served to a different customer, not
-  // merely held longer than intended.
   const cacheOptions: RequestInit = isMutation || requiresAuth
     ? { cache: "no-store" }
     : revalidate !== undefined || tags !== undefined
@@ -177,17 +141,12 @@ async function executeRequest<T>(
   let lastErrorBody: unknown = null;
 
   for (let attempt = 0; attempt <= retries; attempt++) {
-    // Armed outside the try and cleared in `finally` so the ceiling covers the body read too — clearing
-    // it the moment `fetch` resolves only bounds the headers phase, letting a stalled body run to
-    // undici's 300s default instead of this timeout.
     const abortController = new AbortController();
     let timedOut = false;
     const timeoutId = setTimeout(() => {
       timedOut = true;
       abortController.abort();
     }, timeout);
-    // Must not carry over from a previous attempt — this attempt's retryability decision depends only
-    // on what this attempt observed.
     lastStatusCode = undefined;
     lastErrorBody = null;
 
@@ -240,8 +199,6 @@ async function executeRequest<T>(
           duration,
         });
 
-        // `headers.get()` folds multiple Set-Cookie lines into one comma-joined string that can't be
-        // split safely (Expires values contain commas too) — getSetCookie() is the only safe read.
         if (onSetCookie) onSetCookie(response.headers.getSetCookie());
 
         return {
@@ -254,8 +211,6 @@ async function executeRequest<T>(
         };
       }
 
-      // Parse the body for 4xx AND 5xx (the API's domain error code can ride on either) before
-      // deciding whether this is a terminal 4xx or a throw into the retry loop below.
       const errorData = await response.json().catch(() => null);
       lastErrorBody = errorData;
 
@@ -277,8 +232,6 @@ async function executeRequest<T>(
           error: getErrorMessage(code, errorMessage),
           errorCode: code,
           errorBody: errorData,
-          // Gated on requiresAuth so the sign-in endpoint's own 401 (wrong credentials) is never
-          // read as a lapsed session — that would bounce a failed sign-in back to sign-in.
           ...(requiresAuth && response.status === 401
             ? { sessionRejected: true }
             : {}),
@@ -323,9 +276,6 @@ async function executeRequest<T>(
         continue;
       }
 
-      // Timeout: the request may or may not have landed — distinct from network_error (never reached
-      // the server) so the UI can give different guidance. Reached the server (exhausted 5xx retries,
-      // or a non-retryable status): pull whatever domain code came back. Otherwise: a pure network miss.
       const code = timedOut
         ? "request_timeout"
         : reachedServer
@@ -361,7 +311,6 @@ async function executeRequest<T>(
     }
   }
 
-  // Unreachable (the loop always returns), but keeps the function's return type total.
   return {
     success: false,
     data: null,
@@ -373,9 +322,6 @@ async function executeRequest<T>(
   };
 }
 
-/**
- * GET with retry/backoff, auth-token injection, and Next.js cache/tag support.
- */
 export async function httpClient<T = unknown>(
   url: string,
   options: HttpClientOptions = {},
@@ -383,10 +329,6 @@ export async function httpClient<T = unknown>(
   return executeRequest<T>("GET", url, undefined, options);
 }
 
-/**
- * POST for Server Actions / Route Handlers. Defaults to a single attempt (no retry) — see
- * isRetryableError's rationale for why mutations don't retry on 5xx/timeout by default.
- */
 export async function httpClientPost<T = unknown>(
   url: string,
   body: object | FormData,

@@ -1,6 +1,5 @@
 import { apiRequest, type ApiResult } from "@/lib/api/client";
 
-/** Optional form fields arrive as empty strings; the API wants them absent. */
 const blankToUndefined = (value: string) => (value.trim() === "" ? undefined : value.trim());
 
 export type VehicleInput = {
@@ -50,8 +49,6 @@ export async function saveAddress(input: {
   return { ok: true, data: { covered: result.data?.area != null } };
 }
 
-// ---------- the wash flow: catalog → quote → booking → payment ----------
-
 export type L10n = { en?: string; ar?: string; ur?: string } | null;
 
 export type Variable = {
@@ -97,7 +94,6 @@ export type BookingItem = {
 };
 
 export type Quote = {
-  /** Tax-exclusive sum. */
   total: string;
   tax: { currency: string; taxableAmount: string; taxAmount: string; amountDue: string; amountDueMinor: number };
 };
@@ -105,7 +101,6 @@ export type Quote = {
 export const requestQuote = (lines: BookingItem[]) =>
   apiRequest<Quote>("/catalog/quote", {
     method: "POST",
-    // The quote DTO has no `dimension` field and would strip it anyway.
     body: { lines: lines.map(({ dimension: _dimension, ...line }) => line) },
   });
 
@@ -127,7 +122,6 @@ export async function fetchVehicles(): Promise<ApiResult<Vehicle[]>> {
 
 export type SavedAddress = {
   address: { pubkey: string; address: string; latitude: number | null; longitude: number | null } | null;
-  /** Null with an address present means the address is outside coverage. */
   area: { pubkey: string; city: string } | null;
 };
 
@@ -189,7 +183,6 @@ export const createInstantBooking = (input: BookingInput) =>
     body: { ...bookingBody(input), bookingType: "INSTANT", source: "WEB" },
   });
 
-/** A scheduled wash must reserve a slot, which `POST /bookings` with SCHEDULED does not do. */
 export async function createScheduledBooking(
   input: BookingInput & { areaPubkey: string; date: string; timeSlot: string },
 ): Promise<ApiResult<Booking>> {
@@ -252,7 +245,6 @@ export const payWithBalance = (pubkey: string) =>
 export const payWithCash = (pubkey: string) =>
   apiRequest(`/bookings/mine/${pubkey}/payment/cash`, { method: "POST", auth: true });
 
-/** The server confirms with the gateway itself; the client-reported status is never trusted. */
 export const verifyCardPayment = (pubkey: string, transactionPubkey: string, moyasarPaymentId: string) =>
   apiRequest(`/bookings/mine/${pubkey}/payment/verify`, {
     method: "POST",

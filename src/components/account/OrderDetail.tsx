@@ -1,16 +1,16 @@
 "use client";
 
-import { useCallback, useEffect, useState, useTransition, type ReactNode } from "react";
+import { useCallback, useEffect, useState, useTransition } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { IconArrowLeft, IconCheck, IconCreditCard, IconRefresh, IconStarFilled, IconX } from "@tabler/icons-react";
 import { fetchOrder, fileUrl, rateOrder, type Order } from "@/api/AccountAPI";
 import { cancelBooking } from "@/api/BookingAPI";
-import { Skeleton } from "@/components/skeleton/Skeleton";
 import { formatMoney } from "@/components/booking/wash/draft";
 import { useCurrentLocale, useScopedI18n } from "@/locales/client";
 import { translateError } from "@/utils/error";
+import { OrderDetailSkeleton } from "./AccountSkeletons";
 import Dialog from "./Dialog";
 import ErrorRow from "./ErrorRow";
 import {
@@ -32,7 +32,6 @@ import {
 import StatusBadge from "./StatusBadge";
 import styles from "./Account.module.css";
 
-/** How often an order still on its way is re-read, so the tracker follows the technician. */
 const POLL_MS = 15_000;
 
 type State = { status: "loading" } | { status: "failed"; message: string } | { status: "ready"; order: Order; at: number };
@@ -49,7 +48,6 @@ export default function OrderDetail({ pubkey }: { pubkey: string }) {
     setRefreshing(false);
     if (result.ok) return setState({ status: "ready", order: result.data, at: Date.now() });
     if (result.error === "user_not_authenticated") return router.replace(`/${locale}/sign-in`);
-    // A failed background refresh keeps the order on screen rather than blanking it.
     setState((prev) => (prev.status === "ready" ? prev : { status: "failed", message: translateError(result.error, locale) }));
   }, [pubkey, locale, router]);
 
@@ -73,7 +71,6 @@ export default function OrderDetail({ pubkey }: { pubkey: string }) {
     return () => clearInterval(timer);
   }, [live, load]);
 
-  // "Track" links here with #tracking; the card only exists once the order has loaded.
   const ready = state.status === "ready";
   useEffect(() => {
     if (ready && window.location.hash) document.getElementById(window.location.hash.slice(1))?.scrollIntoView({ behavior: "smooth" });
@@ -86,7 +83,7 @@ export default function OrderDetail({ pubkey }: { pubkey: string }) {
     </Link>
   );
 
-  if (state.status === "loading") return <OrderSkeleton back={back} />;
+  if (state.status === "loading") return <OrderDetailSkeleton back={back} />;
   if (state.status === "failed") {
     return (
       <div className={styles.page}>
@@ -195,7 +192,6 @@ function Tracker({ order, at, refreshing, onRefresh }: { order: Order; at: numbe
 
       <ol className={styles.tracker}>
         {STAGES.map((stage, index) => {
-          // A stopped order shows only the stages it actually reached.
           const passed = current === -1 ? Boolean(times[stage]) : index < current || (index === current && done);
           const isCurrent = index === current && !done;
           const time = times[stage];
@@ -431,21 +427,5 @@ function CancelOrder({ pubkey, onCancelled }: { pubkey: string; onCancelled: () 
         </div>
       </Dialog>
     </>
-  );
-}
-
-function OrderSkeleton({ back }: { back: ReactNode }) {
-  return (
-    <div className={styles.page} aria-busy="true">
-      {back}
-      <Skeleton width="55%" height="40px" />
-      <div className={styles.detailGrid}>
-        <Skeleton height="420px" radius="lg" />
-        <div className={styles.column}>
-          <Skeleton height="220px" radius="lg" />
-          <Skeleton height="200px" radius="lg" />
-        </div>
-      </div>
-    </div>
   );
 }

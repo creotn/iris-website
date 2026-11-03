@@ -1,0 +1,341 @@
+/* The FAQ sits on plain white, as in the mockup, whatever its place in the alternating sections. */
+/* The extra pseudo-class outranks the `.alternating-sections > section:nth-child()` rule. */
+.section[id="faq"]:nth-child(n) {
+  --section-bg: var(--bg-primary);
+  background: var(--section-bg);
+  --d: 1;
+}
+
+:global([dir="rtl"]) .section[id="faq"] {
+  --d: -1;
+}
+
+.wrap {
+  max-width: 770px;
+  margin-inline: auto;
+}
+
+/* ---- Accordion: hairline rows, no cards ---- */
+
+.list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item {
+  position: relative;
+}
+
+/* The divider draws itself in from the reading edge as the row enters. */
+.item + .item::before {
+  content: "";
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline: 0;
+  height: var(--border-width);
+  background: var(--border);
+  transform-origin: 0 50%;
+}
+
+:global([dir="rtl"]) .item + .item::before {
+  transform-origin: 100% 50%;
+}
+
+.heading {
+  margin: 0;
+  font: inherit;
+  letter-spacing: 0;
+}
+
+.trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-lg);
+  width: 100%;
+  padding-block: 28px;
+  background: none;
+  border: 0;
+  text-align: start;
+  color: var(--text-primary);
+  cursor: pointer;
+}
+
+.trigger:focus-visible {
+  outline: 2px solid var(--accent-light);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+.question {
+  font-size: var(--fs-lg);
+  font-weight: var(--fw-medium);
+  line-height: 1.5;
+  color: var(--text-primary);
+  transition: translate 0.4s var(--ease-out);
+}
+
+.trigger:hover .question {
+  translate: calc(var(--d) * 4px) 0;
+}
+
+/* Outlined circle: the plus loses its vertical bar to become a minus. */
+.icon {
+  position: relative;
+  flex: none;
+  width: 24px;
+  height: 24px;
+  border: 1.5px solid var(--accent);
+  border-radius: 50%;
+  color: var(--accent);
+  transition:
+    background-color 0.3s ease,
+    box-shadow 0.4s var(--ease-out),
+    scale 0.2s var(--ease-out);
+}
+
+.icon i {
+  position: absolute;
+  inset: 0;
+  width: 10px;
+  height: 1.5px;
+  margin: auto;
+  border-radius: 1px;
+  background: currentColor;
+  transition:
+    scale 0.4s var(--ease-out),
+    rotate 0.5s var(--ease-out);
+}
+
+.icon i:last-child {
+  rotate: 90deg;
+}
+
+.trigger:hover .icon {
+  background: var(--accent-subtle);
+  box-shadow: 0 0 0 4px var(--accent-subtle);
+}
+
+.trigger:active .icon {
+  scale: 0.92;
+}
+
+.item[data-open="true"] .icon {
+  background: var(--accent-subtle);
+}
+
+.item[data-open="true"] .icon i:last-child {
+  rotate: 180deg;
+  scale: 0 1;
+}
+
+.panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.5s var(--ease-out);
+}
+
+.item[data-open="true"] .panel {
+  grid-template-rows: 1fr;
+}
+
+.panelInner {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.answer {
+  max-width: 64ch;
+  margin: 0;
+  padding-block-end: 32px;
+  padding-inline-end: 48px;
+  font-size: var(--fs-base);
+  line-height: 1.5;
+  color: var(--text-secondary);
+  opacity: 0;
+  translate: 0 -8px;
+  transition:
+    opacity 0.3s ease,
+    translate 0.5s var(--ease-out);
+}
+
+.item[data-open="true"] .answer {
+  opacity: 1;
+  translate: 0 0;
+  transition-delay: 0.12s;
+}
+
+/* ---- Support panel ---- */
+
+.support {
+  margin-block-start: var(--space-2xl);
+  padding: var(--space-xl) var(--space-lg) var(--space-2xl);
+  background: var(--bg-secondary);
+  border-radius: var(--radius-xl);
+  text-align: center;
+}
+
+.avatars {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-block-end: var(--space-lg);
+}
+
+.avatar {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border: 3px solid var(--bg-secondary);
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--accent) 16%, var(--bg-card));
+  color: var(--accent);
+  transition: translate 0.4s var(--ease-out);
+}
+
+.avatar + .avatar {
+  margin-inline-start: -14px;
+}
+
+.avatarMain {
+  position: relative;
+  z-index: 1;
+  width: 56px;
+  height: 56px;
+  background: color-mix(in srgb, var(--accent) 24%, var(--bg-card));
+}
+
+.support:hover .avatar {
+  translate: 0 -4px;
+}
+
+.support:hover .avatar:first-child {
+  transition-delay: 0.05s;
+}
+
+.support:hover .avatarMain {
+  transition-delay: 0s;
+}
+
+.support:hover .avatar:last-child {
+  transition-delay: 0.1s;
+}
+
+.supportTitle {
+  margin-block-end: var(--space-sm);
+  font-size: var(--fs-xl);
+  font-weight: var(--fw-medium);
+}
+
+.supportText {
+  max-width: 46ch;
+  margin-inline: auto;
+  margin-block-end: var(--space-lg);
+  font-size: var(--fs-lg);
+  color: var(--text-muted);
+}
+
+.supportCta {
+  min-width: 0;
+  padding: 10px 18px;
+  font-size: var(--fs-base);
+  font-weight: var(--fw-medium);
+}
+
+/* ---- Entrance: scroll-driven, so unsupported browsers just show everything ---- */
+
+@keyframes rowIn {
+  from {
+    opacity: 0;
+    translate: 0 20px;
+  }
+}
+
+@keyframes lineIn {
+  from {
+    scale: 0 1;
+  }
+}
+
+@keyframes panelIn {
+  from {
+    opacity: 0;
+    translate: 0 32px;
+    scale: 0.98;
+  }
+}
+
+@keyframes fanOut {
+  from {
+    translate: calc(var(--shift) * var(--d) * 1px) 0;
+    scale: 0.85;
+    opacity: 0;
+  }
+}
+
+@supports (animation-timeline: view()) {
+  .item {
+    animation: rowIn linear both;
+    animation-timeline: view();
+    animation-range: entry calc(var(--i) * 3%) entry calc(60% + var(--i) * 3%);
+  }
+
+  .item + .item::before {
+    animation: lineIn linear both;
+    animation-timeline: view();
+    animation-range: entry calc(var(--i) * 3%) entry calc(70% + var(--i) * 3%);
+  }
+
+  .support {
+    animation: panelIn linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 70%;
+  }
+
+  .avatar {
+    --shift: 0;
+    animation: fanOut linear both;
+    animation-timeline: view();
+    animation-range: entry 20% entry 90%;
+  }
+
+  .avatar:first-child {
+    --shift: 52;
+  }
+
+  .avatar:last-child {
+    --shift: -52;
+  }
+}
+
+@media (max-width: 640px) {
+  .trigger {
+    padding-block: 22px;
+  }
+
+  .question {
+    font-size: var(--fs-base);
+  }
+
+  .answer {
+    padding-inline-end: 0;
+    padding-block-end: 22px;
+  }
+
+  .support {
+    margin-block-start: var(--space-2xl);
+    padding-block: var(--space-xl);
+  }
+}
+
+@media (hover: none) {
+  .trigger:hover .question {
+    translate: none;
+  }
+
+  .support:hover .avatar {
+    translate: none;
+  }
+}

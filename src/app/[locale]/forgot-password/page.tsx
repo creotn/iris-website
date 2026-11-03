@@ -3,7 +3,7 @@ import { setStaticParamsLocale } from "next-international/server";
 import ForgotPasswordForm from "@/components/forms/ForgotPasswordForm";
 import { resolveLocale } from "@/locales/resolveLocale";
 import { getScopedI18n } from "@/locales/server";
-import styles from "../sign-in/page.module.css";
+import styles from "./page.module.css";
 
 export const revalidate = false;
 

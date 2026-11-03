@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Car step v2</title>
+<style>
+@font-face { font-family: "Inter"; src: url("Inter-latin.woff2") format("woff2"); font-weight: 100 900; }
+
+.light {
+  --bg: #ffffff; --ink: #101828; --ink2: #344054; --muted: #667085; --line: #eaecf0; --input-line: #d0d5dd;
+  --hover: #f9fafb; --sel: rgba(106, 79, 182, 0.05); --accent: #6a4fb6; --scrim: rgba(16, 24, 40, 0.45);
+  --input-bg: #ffffff; --shadow: 0 1px 2px rgba(16, 24, 40, 0.05); --modal-shadow: 0 20px 24px -4px rgba(16,24,40,.08), 0 8px 8px -4px rgba(16,24,40,.03);
+}
+.dark {
+  --bg: #111315; --ink: #ffffff; --ink2: #cecfd2; --muted: #8b909c; --line: rgba(241, 243, 246, 0.1); --input-line: rgba(241, 243, 246, 0.18);
+  --hover: #17191d; --sel: rgba(106, 79, 182, 0.12); --accent: #6a4fb6; --scrim: rgba(0, 0, 0, 0.6);
+  --input-bg: #1e2127; --shadow: 0 1px 2px rgba(0, 0, 0, 0.4); --modal-shadow: 0 24px 48px -16px rgba(0,0,0,.7);
+}
+.dark .modal { background: #1c1f24; }
+
+* { box-sizing: border-box; }
+body { margin: 0; background: #e9e9ec; font-family: "Inter", system-ui, sans-serif; color: #101828; }
+.page { max-width: 1320px; margin: 0 auto; padding: 40px 24px 96px; }
+.page > h1 { font-size: 28px; letter-spacing: -0.02em; margin: 0 0 6px; }
+.page > p { margin: 0 0 32px; color: #475467; max-width: 75ch; line-height: 1.5; }
+.cap { font-size: 13px; font-weight: 600; color: #667085; margin: 0 0 6px; }
+.block { margin-block-end: 40px; }
+
+svg.i { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+
+/* ---------- Screen ---------- */
+.screen { position: relative; background: var(--bg); color: var(--ink); border-radius: 12px; padding: 48px 56px 40px; overflow: hidden; }
+.head { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; margin-block-end: 28px; }
+.head h2 { margin: 0; font-size: 24px; font-weight: 700; letter-spacing: -0.02em; }
+.head p { margin: 6px 0 0; color: var(--muted); font-size: 15px; }
+.add { display: inline-flex; align-items: center; gap: 8px; height: 40px; padding: 0 14px; background: var(--input-bg); color: var(--ink2);
+  border: 1px solid var(--input-line); border-radius: 8px; box-shadow: var(--shadow); font: inherit; font-size: 14px; font-weight: 600; }
+
+table { width: 100%; border-collapse: collapse; font-size: 14px; }
+th { text-align: start; font-weight: 400; color: var(--muted); padding: 0 12px 18px; white-space: nowrap; }
+th .sort { display: inline-flex; align-items: center; gap: 10px; }
+th .sort svg { width: 12px; height: 12px; }
+td { padding: 18px 12px; border-top: 1px solid var(--line); white-space: nowrap; color: var(--ink2); }
+tr:last-child td { border-bottom: 1px solid var(--line); }
+th:first-child, td:first-child { padding-inline-start: 4px; width: 36px; }
+tr.on td { background: var(--sel); }
+.radio { width: 18px; height: 18px; border-radius: 50%; border: 1px solid var(--input-line); display: block; background: var(--input-bg); }
+.radio.on { border: 5px solid var(--accent); background: #fff; }
+.car { display: flex; align-items: center; gap: 12px; color: var(--ink); font-weight: 600; }
+.logo { width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; color: #fff; font-size: 13px; font-weight: 700; flex: none; }
+.dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-inline-end: 10px; box-shadow: inset 0 0 0 1px rgba(0,0,0,.2); vertical-align: 1px; }
+.plate { font-variant-numeric: tabular-nums; letter-spacing: 0.04em; color: var(--ink); }
+.more { color: var(--muted); text-align: end; letter-spacing: 2px; font-weight: 700; }
+.foot { display: flex; justify-content: flex-end; margin-top: 28px; }
+.btn { height: 48px; min-width: 200px; padding: 0 24px; background: var(--accent); color: #fff; border: 0; border-radius: 8px; font: inherit; font-size: 15px; font-weight: 600; box-shadow: var(--shadow); }
+
+/* ---------- Popup ---------- */
+.screen:has(.scrim) { min-height: 800px; }
+.scrim { position: absolute; inset: 0; background: var(--scrim); display: grid; place-items: center; padding: 32px; }
+.modal { position: relative; width: 100%; max-width: 560px; background: var(--bg); color: var(--ink); border-radius: 12px; padding: 40px 40px 32px; box-shadow: var(--modal-shadow); }
+.x { position: absolute; top: 16px; inset-inline-end: 16px; width: 36px; height: 36px; display: grid; place-items: center; color: var(--muted); }
+.x svg { width: 20px; height: 20px; }
+.modal h3 { margin: 0; text-align: center; font-size: 26px; font-weight: 600; letter-spacing: -0.02em; }
+.modal .lead { margin: 10px 0 32px; text-align: center; color: var(--muted); font-size: 16px; }
+.grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 24px; }
+.full { grid-column: 1 / -1; }
+.f label { display: block; font-size: 14px; font-weight: 500; color: var(--ink2); margin-block-end: 6px; }
+.in { height: 44px; display: flex; align-items: center; gap: 8px; padding: 0 14px; background: var(--input-bg); border: 1px solid var(--input-line); border-radius: 8px;
+  box-shadow: var(--shadow); font-size: 16px; color: var(--ink); }
+.in.ph { color: var(--muted); }
+.in.focus { border-color: #bca7e8; box-shadow: var(--shadow), 0 0 0 4px rgba(106, 79, 182, 0.14); }
+.in .chev { margin-inline-start: auto; color: var(--muted); }
+.in .split { display: flex; align-items: center; gap: 8px; padding-inline-end: 12px; color: var(--ink); }
+.in .rest { color: var(--muted); }
+.modal .btn { width: 100%; margin-top: 32px; }
+.hint { margin: 6px 0 0; font-size: 14px; color: var(--muted); }
+
+/* Phone */
+.phones { display: grid; grid-template-columns: repeat(2, 390px); gap: 24px; }
+.phone { width: 390px; padding: 28px 16px 24px; border-radius: 24px; }
+.phone .head { flex-direction: column; align-items: stretch; }
+.phone .head h2 { font-size: 22px; }
+.rows { list-style: none; margin: 0; padding: 0; }
+.rows li { display: flex; align-items: center; gap: 12px; padding: 14px 4px; border-top: 1px solid var(--line); }
+.rows li:last-child { border-bottom: 1px solid var(--line); }
+.rows li.on { background: var(--sel); }
+.rows .meta { flex: 1; min-width: 0; }
+.rows .meta strong { display: block; font-size: 15px; }
+.rows .meta span { font-size: 13px; color: var(--muted); }
+.phone .foot .btn { width: 100%; }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute">
+  <symbol id="sort" viewBox="0 0 24 24"><path d="m7 9 5-5 5 5M7 15l5 5 5-5"/></symbol>
+  <symbol id="plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="chev" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+  <symbol id="x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+</svg>
+
+<main class="page">
+  <h1>Car step v2: table and popup</h1>
+  <p>The car list follows your Sales table: sortable columns, thin row lines, a round brand mark, a color dot. "Add a car" opens a 560px popup with inputs styled like your contact form. Sample cars are made up.</p>
+
+  <div class="block"><p class="cap">Car list, light</p><div class="screen light" id="list"></div></div>
+  <div class="block"><p class="cap">Car list, dark</p><div class="screen dark" data-copy="list"></div></div>
+  <div class="block"><p class="cap">Add a car popup, light</p><div class="screen light" id="popup"></div></div>
+  <div class="block"><p class="cap">Add a car popup, dark</p><div class="screen dark" data-copy="popup"></div></div>
+  <div class="block"><p class="cap">Phone, light and dark (the table turns into rows)</p>
+    <div class="phones"><div class="screen phone light" id="phone"></div><div class="screen phone dark" data-copy="phone"></div></div>
+  </div>
+</main>
+
+<script>
+const ic = (id) => `<svg class="i"><use href="#${id}"/></svg>`;
+const cars = [
+  { make: "Toyota", model: "Camry", logo: "#eb0a1e", type: "Sedan", color: "White", hex: "#f4f4f2", year: 2021, plate: "4211 RBA", on: true },
+  { make: "Hyundai", model: "Tucson", logo: "#002c5f", type: "SUV", color: "Silver", hex: "#c3c7cc", year: 2019, plate: "7730 HDN" },
+  { make: "Kia", model: "Sorento", logo: "#05141f", type: "SUV", color: "Red", hex: "#b3261e", year: 2015, plate: "9102 KSD" },
+  { make: "Nissan", model: "Patrol", logo: "#c3002f", type: "SUV", color: "Black", hex: "#1a1a1a", year: 2023, plate: "1185 NJR" },
+  { make: "Ford", model: "F-150", logo: "#1c396d", type: "Truck", color: "Grey", hex: "#7a7f87", year: 2020, plate: "6604 AHB" },
+];
+const sortTh = (label) => `<th><span class="sort">${label}${ic("sort")}</span></th>`;
+const head = (btn = true) => `<div class="head"><div><h2>Which car are we washing?</h2><p>Pick one of your saved cars or add a new one</p></div>${btn ? `<button class="add">${ic("plus")} Add a car</button>` : ""}</div>`;
+const table = `<table>
+  <thead><tr><th></th>${sortTh("Car")}${sortTh("Type")}${sortTh("Color")}${sortTh("Year")}${sortTh("Plate")}<th></th></tr></thead>
+  <tbody>${cars.map((c) => `<tr class="${c.on ? "on" : ""}">
+    <td><span class="radio ${c.on ? "on" : ""}"></span></td>
+    <td><span class="car"><span class="logo" style="background:${c.logo}">${c.make[0]}</span>${c.make} ${c.model}</span></td>
+    <td>${c.type}</td>
+    <td><span class="dot" style="background:${c.hex}"></span>${c.color}</td>
+    <td>${c.year}</td>
+    <td><span class="plate">${c.plate}</span></td>
+    <td class="more">···</td></tr>`).join("")}</tbody></table>`;
+
+document.getElementById("list").innerHTML = `${head()}${table}<div class="foot"><button class="btn">Continue</button></div>`;
+
+document.getElementById("popup").innerHTML = `${head()}${table}<div class="foot"><button class="btn">Continue</button></div>
+  <div class="scrim"><div class="modal">
+    <span class="x">${ic("x")}</span>
+    <h3>Add a new car</h3>
+    <p class="lead">We use the car type to price your wash.</p>
+    <div class="grid">
+      <div class="f full"><label>Car type</label><div class="in">Sedan<span class="chev">${ic("chev")}</span></div></div>
+      <div class="f"><label>Make</label><div class="in">Toyota</div></div>
+      <div class="f"><label>Model</label><div class="in focus">Camry</div></div>
+      <div class="f"><label>Year</label><div class="in ph">2021</div></div>
+      <div class="f"><label>Color</label><div class="in ph">White</div></div>
+      <div class="f full"><label>Plate number</label><div class="in ph">1234 ABC</div><p class="hint">Helps the professional find your car.</p></div>
+    </div>
+    <button class="btn">Save car</button>
+  </div></div>`;
+
+document.getElementById("phone").innerHTML = `${head(false)}
+  <ul class="rows">${cars.slice(0, 4).map((c) => `<li class="${c.on ? "on" : ""}"><span class="radio ${c.on ? "on" : ""}"></span><span class="logo" style="background:${c.logo}">${c.make[0]}</span>
+    <span class="meta"><strong>${c.make} ${c.model}</strong><span><span class="dot" style="background:${c.hex}"></span>${c.color}, ${c.year}</span></span><span class="plate">${c.plate}</span></li>`).join("")}</ul>
+  <div class="foot" style="flex-direction:column;gap:12px"><button class="add" style="justify-content:center">${ic("plus")} Add a car</button><button class="btn">Continue</button></div>`;
+
+document.querySelectorAll("[data-copy]").forEach((el) => { el.innerHTML = document.getElementById(el.dataset.copy).innerHTML; });
+</script>
+</body>
+</html>

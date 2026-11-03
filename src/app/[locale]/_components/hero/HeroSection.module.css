@@ -1,0 +1,414 @@
+/* ---- The video covers the whole hero; the title sits on it, the booking strip is glued to the bottom ---- */
+
+.hero {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: max(640px, calc(100svh - var(--header-height)));
+  z-index: 2;
+  isolation: isolate;
+  background: var(--video-hero-base);
+  color: var(--hero-text);
+}
+
+.media {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  background: var(--video-hero-base) url("/videos/hero-poster.jpg") center / cover no-repeat;
+}
+
+.video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 40%;
+  filter: grayscale(0.4);
+  opacity: 0;
+  animation:
+    videoIn 1.4s ease 0.1s forwards,
+    videoSettle 18s ease-out both;
+}
+
+/* One flat shade, so the white title reads on the light foam. */
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: color-mix(in srgb, var(--video-hero-base) 62%, transparent);
+}
+
+@keyframes videoIn {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes videoSettle {
+  from {
+    scale: 1.12;
+  }
+  to {
+    scale: 1;
+  }
+}
+
+.inner {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: center;
+  gap: clamp(20px, 3svh, 32px);
+  padding-block: clamp(48px, 8svh, 96px);
+}
+
+.title {
+  max-width: 16ch;
+  margin: 0;
+  font-size: clamp(3rem, min(8vw, 11svh), 7.25rem);
+  font-weight: 800;
+  line-height: 0.95;
+  letter-spacing: -0.05em;
+  text-wrap: balance;
+}
+
+.titleEnd {
+  color: var(--video-hero-accent);
+}
+
+/* Arabic letters join; any tracking breaks the connections. */
+:global([dir="rtl"]) .title {
+  max-width: 12ch;
+  line-height: 1.25;
+  letter-spacing: 0;
+}
+
+/* ---- Headline entrance: words rise out of a blur one after another, then the accent catches the light ---- */
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.word {
+  display: inline-block;
+  animation: wordIn 0.9s var(--ease-out) calc(0.25s + var(--i) * 90ms) both;
+}
+
+@keyframes wordIn {
+  from {
+    opacity: 0;
+    translate: 0 0.35em;
+    filter: blur(12px);
+  }
+}
+
+/* Each accent word carries its own gradient: a parent clip would miss text inside animated children. */
+.titleEnd .word {
+  --shine-from: 100% 0;
+  --shine-to: 0 0;
+  background: linear-gradient(
+      100deg,
+      var(--video-hero-accent) 40%,
+      color-mix(in srgb, var(--video-hero-accent) 35%, white) 50%,
+      var(--video-hero-accent) 60%
+    )
+    var(--shine-to) / 300% 100%;
+  background-clip: text;
+  color: transparent;
+  animation:
+    wordIn 0.9s var(--ease-out) calc(0.25s + var(--i) * 90ms) both,
+    shine 1.3s ease-in-out calc(1.05s + var(--i) * 110ms) both;
+}
+
+/* The shine follows the reading direction. */
+:global([dir="rtl"]) .titleEnd .word {
+  --shine-from: 0 0;
+  --shine-to: 100% 0;
+}
+
+@keyframes shine {
+  from {
+    background-position: var(--shine-from);
+  }
+  to {
+    background-position: var(--shine-to);
+  }
+}
+
+@keyframes riseIn {
+  from {
+    opacity: 0;
+    translate: 0 12px;
+  }
+}
+
+.description {
+  max-width: 62ch;
+  margin: 0;
+  animation: riseIn 0.8s var(--ease-out) 0.75s both;
+  font-size: clamp(1rem, 1.4vw, 1.15rem);
+  line-height: 1.6;
+  text-wrap: pretty;
+  color: var(--hero-muted);
+}
+
+/* ---- Booking strip ---- */
+
+.strip {
+  position: relative;
+  background: var(--video-hero-base);
+  border-block-start: 1px solid var(--video-hero-panel-border);
+}
+
+.stripInner {
+  position: relative;
+}
+
+/* The mascot sits on the strip, near the booking button. */
+.mascot {
+  position: absolute;
+  inset-block-end: calc(100% - 14px);
+  inset-inline-end: clamp(140px, 14vw, 220px);
+  width: clamp(96px, 10vw, 150px);
+  height: auto;
+  rotate: -4deg;
+  pointer-events: none;
+}
+
+:global([dir="rtl"]) .mascot {
+  scale: -1 1;
+  rotate: 4deg;
+}
+
+.bar {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) repeat(calc(var(--fields, 2) - 1), minmax(0, 1fr)) auto;
+  align-items: center;
+  min-height: 124px;
+  padding-block: 20px;
+}
+
+.field {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  padding-inline: 32px;
+}
+
+.field:first-child {
+  padding-inline-start: 0;
+}
+
+.field + .field {
+  border-inline-start: 1px solid var(--video-hero-panel-border);
+}
+
+.fieldText {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.fieldLabel {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--hero-muted);
+}
+
+.fieldValue {
+  overflow: hidden;
+  font-size: 1.25rem;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--hero-text);
+}
+
+.chevron {
+  flex: none;
+  color: var(--hero-muted);
+  transition: rotate var(--transition-normal);
+}
+
+.trigger {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: var(--space-md);
+  min-width: 0;
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: start;
+  cursor: pointer;
+}
+
+.trigger::after {
+  content: "";
+  position: absolute;
+  inset: -12px 0;
+}
+
+.trigger:focus-visible {
+  outline: none;
+}
+
+.field:focus-within {
+  outline: 2px solid var(--video-hero-accent);
+  outline-offset: 6px;
+  border-radius: 4px;
+}
+
+.field[data-open="true"] .chevron {
+  rotate: 180deg;
+}
+
+/* The strip is at the bottom of the hero, so the menu opens upwards. */
+.menu {
+  position: absolute;
+  inset-inline: 16px;
+  inset-block-end: calc(100% + 20px);
+  z-index: 10;
+  display: grid;
+  gap: 2px;
+  margin: 0;
+  padding: 6px;
+  list-style: none;
+  background: var(--video-hero-base);
+  border: 1px solid var(--video-hero-panel-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-xl);
+  animation: menuIn 0.16s ease-out;
+}
+
+.field:first-child .menu {
+  inset-inline-start: -16px;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  padding: 12px 14px;
+  border-radius: var(--radius-md);
+  font-size: var(--fs-md);
+  font-weight: 600;
+  color: var(--hero-text);
+  cursor: pointer;
+}
+
+.option[data-highlight="true"] {
+  background: color-mix(in srgb, var(--accent) 24%, transparent);
+}
+
+.option[aria-selected="true"] {
+  color: var(--video-hero-accent);
+}
+
+@keyframes menuIn {
+  from {
+    opacity: 0;
+    translate: 0 6px;
+  }
+}
+
+.bookBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 200px;
+  min-height: 64px;
+  padding: 0 32px;
+  border-radius: var(--radius-lg);
+  background: var(--accent);
+  color: var(--text-on-accent);
+  font-size: 1.125rem;
+  font-weight: 700;
+  transition:
+    background var(--transition-normal),
+    scale 120ms var(--ease-out);
+}
+
+.bookBtn:hover {
+  color: var(--text-on-accent);
+  background: var(--accent-light);
+}
+
+.bookBtn:active {
+  scale: 0.98;
+}
+
+.bookBtn:focus-visible {
+  outline: 2px solid var(--video-hero-accent);
+  outline-offset: 3px;
+}
+
+/* Tablet: two fields per row, the button on its own row. */
+@media (max-width: 1024px) {
+  .bar {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    row-gap: 20px;
+  }
+
+  .field:nth-child(odd) {
+    padding-inline-start: 0;
+    border-inline-start: 0;
+  }
+
+  .bookBtn {
+    grid-column: 1 / -1;
+  }
+}
+
+/* Phone: one field per row. */
+@media (max-width: 640px) {
+  .hero {
+    min-height: auto;
+  }
+
+  .bar {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 0;
+    padding-block: 12px 20px;
+  }
+
+  .field,
+  .field:first-child {
+    padding: 14px 0;
+    border-inline-start: 0;
+  }
+
+  .field + .field {
+    border-block-start: 1px solid var(--video-hero-panel-border);
+  }
+
+  .bookBtn {
+    margin-block-start: 8px;
+  }
+
+  .mascot {
+    inset-inline-end: 8px;
+    width: 88px;
+  }
+}
+
+/* With animation off the entrance never runs, so the content must start visible. */
+@media (prefers-reduced-motion: reduce) {
+  .video {
+    display: none;
+  }
+}
