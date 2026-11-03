@@ -11,17 +11,19 @@ export function Skeleton({
   width = "100%",
   height,
   radius = "md",
+  tone = "default",
   className,
 }: {
   width?: string;
   height: string;
   radius?: Radius;
+  tone?: "default" | "onDark" | "onAccent";
   className?: string;
 }) {
   return (
     <span
       aria-hidden="true"
-      className={clsx(styles.block, className)}
+      className={clsx(styles.block, tone !== "default" && styles[tone], className)}
       style={{
         inlineSize: width,
         blockSize: height,
@@ -31,11 +33,6 @@ export function Skeleton({
   );
 }
 
-/**
- * Wraps a page-shaped skeleton and announces the loading state to assistive technology. A client
- * component on purpose: a `loading.tsx` is prerendered with its page, before any `setStaticParamsLocale`
- * could run, so the label comes from the layout's i18n provider instead of the server lookup.
- */
 export function SkeletonScreen({
   children,
   className,

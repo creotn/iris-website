@@ -1,17 +1,8 @@
 import { revalidatePath, revalidateTag } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 
-// Paths whose rendered HTML lives in the Full Route Cache and so needs an explicit path purge on
-// top of the tag purge. `revalidateTag` alone only drops the Data Cache entries.
 const PROJECT_PATHS: [string, "page" | "layout"][] = [["/[locale]", "page"]];
 
-/**
- * Cache purge hook called by the API after a mutation commits.
- *
- * Guarded by a shared secret: without it this is an unauthenticated full-site purge that anyone on
- * the internet can trigger (the proxy's matcher excludes `/api`, so nothing else gates it). The
- * check is skipped only when CACHE_REVALIDATE_SECRET is unset, to keep local dev frictionless.
- */
 export async function POST(request: NextRequest) {
   const secret = process.env.CACHE_REVALIDATE_SECRET;
   if (secret && request.headers.get("x-cache-secret") !== secret) {

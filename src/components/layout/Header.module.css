@@ -2,53 +2,185 @@
   position: sticky;
   inset-block-start: 0;
   z-index: 100;
-  padding-block: var(--space-md);
-  background: var(--nav-bg);
+  background: var(--header-bg);
   backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   border-block-end: 1px solid var(--border);
 }
 
+/* Logo and sections on the start side, the actions on the end side. */
 .inner {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: var(--space-md);
+  gap: 56px;
+  height: var(--header-height);
+}
+
+.brand {
+  display: flex;
+  flex: none;
+  align-items: center;
 }
 
 .logo {
-  height: 32px;
+  height: 26px;
   width: auto;
+}
+
+.inner > nav {
+  flex: 1;
+  min-width: 0;
 }
 
 .links {
   display: flex;
   align-items: center;
-  gap: var(--space-xl);
+  gap: 32px;
   list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
 .link {
+  position: relative;
+  display: block;
+  padding-block: 8px;
   color: var(--text-secondary);
-  font-size: 0.9rem;
+  font-size: 0.9375rem;
   font-weight: 500;
   white-space: nowrap;
+  transition: color var(--transition-normal);
 }
 
-.link:hover {
+.link::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  inset-block-end: 0;
+  height: 2px;
+  border-radius: 1px;
+  background: var(--video-hero-accent, var(--accent));
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+:global(html[dir="rtl"]) .link::after {
+  transform-origin: 100% 50%;
+}
+
+.link:hover,
+.link:focus-visible,
+.link[aria-current="true"] {
   color: var(--text-primary);
+}
+
+.link[aria-current="true"] {
+  font-weight: 600;
+}
+
+.link:hover::after,
+.link:focus-visible::after,
+.link[aria-current="true"]::after {
+  transform: scaleX(1);
 }
 
 .actions {
   display: flex;
   align-items: center;
-  gap: var(--space-md);
+  gap: 22px;
+  margin-inline-start: auto;
+}
+
+@media (min-width: 1025px) {
+  .actions > .desktopOnly {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+  }
+}
+
+/* Language and sign in are words, not round icon buttons. */
+.textAction {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 4px;
+  border: 0;
+  background: none;
+  color: var(--text-secondary);
+  font: inherit;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color var(--transition-normal);
+}
+
+.textAction:lang(ar) {
+  font-family: var(--font-ar), sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.textAction:hover {
+  color: var(--text-primary);
+}
+
+.textAction:focus-visible {
+  outline: 2px solid var(--accent-light);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+/* Two classes, so it wins over the round button the toggle draws elsewhere. */
+.actions .plainIcon {
+  width: 44px;
+  height: 44px;
+  border: 0;
+  background: none;
+  box-shadow: none;
+  color: var(--text-secondary);
+}
+
+.actions .plainIcon:hover {
+  background: none;
+  color: var(--text-primary);
+  scale: 1;
+}
+
+/* The one filled button in the header. */
+.download {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 46px;
+  padding-inline: 22px;
+  border-radius: 12px;
+  background: var(--accent);
+  color: var(--text-on-accent);
+  font-size: 0.9375rem;
+  font-weight: 700;
+  white-space: nowrap;
+  transition: background var(--transition-normal);
+}
+
+.download:hover {
+  color: var(--text-on-accent);
+  background: var(--accent-light);
+}
+
+.download:focus-visible,
+.link:focus-visible {
+  outline: 2px solid var(--accent-light);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
 }
 
 .mobileOnly {
   display: none;
 }
 
-/* Below this the links and actions no longer fit on one line. Keep in sync with MobileMenu.tsx. */
 @media (max-width: 1024px) {
   .desktopOnly {
     display: none;
@@ -57,30 +189,28 @@
   .mobileOnly {
     display: contents;
   }
-}
 
-@media (max-width: 360px) {
-  .inner,
   .actions {
     gap: var(--space-sm);
   }
+
+  .logo {
+    height: 24px;
+  }
 }
 
-/* ---- Mobile drawer ---- */
-
+/* 44px: the smallest comfortable touch target. */
 .menuButton {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
-  background: var(--bg-card);
+  width: 44px;
+  height: 44px;
+  background: color-mix(in srgb, var(--bg-card) 70%, transparent);
   border: 1px solid var(--border);
   border-radius: 50%;
   color: var(--text-primary);
-  transition:
-    background-color var(--transition-normal),
-    border-color var(--transition-normal);
+  transition: all var(--transition-normal);
 }
 
 .menuButton:hover {
@@ -143,16 +273,12 @@
   padding-block: var(--space-md);
   border-block-end: 1px solid var(--border);
   color: var(--text-primary);
-  font-size: 1.05rem;
+  font-size: var(--fs-lg);
   font-weight: 600;
 }
 
 .drawerLink:hover {
   color: var(--text-accent);
-}
-
-.drawerBook {
-  width: 100%;
 }
 
 @keyframes drawer-in {
@@ -177,26 +303,39 @@
   }
 }
 
+.drawerDownload {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 52px;
+  border-radius: var(--radius-md);
+  background: var(--accent);
+  color: var(--text-on-accent);
+  font-size: 1rem;
+  font-weight: 600;
+  box-shadow: var(--shadow-accent-lg);
+}
+
+.drawerDownload:hover {
+  color: var(--text-on-accent);
+}
+
 .drawerLanguage {
   margin-block-start: auto;
 }
 
-/* Finger-sized controls wherever the drawer is in use; the slimmer padding keeps the bar's height. */
-@media (max-width: 1024px) {
-  .header {
-    padding-block: 12px;
-  }
-
-  .menuButton {
-    width: 44px;
-    height: 44px;
-  }
-}
-
-/* The logo, sign-in and both round buttons only fit the smallest phones with tighter gaps. */
-@media (max-width: 480px) {
-  .inner,
-  .actions {
-    gap: var(--space-sm);
-  }
+.drawerLanguageLink {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 52px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  background: none;
+  color: var(--text-primary);
+  font: inherit;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
 }

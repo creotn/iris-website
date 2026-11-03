@@ -1,0 +1,97 @@
+/* ---- Hero, table of contents and article come from the real legal page styles; these are the placeholders inside ---- */
+
+.lines {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.title {
+  margin-block: 2px;
+}
+
+.toc {
+  position: sticky;
+  inset-block-start: calc(var(--header-height) + 24px);
+}
+
+.tocLabel {
+  margin-block-end: var(--space-md);
+}
+
+.tocList {
+  display: grid;
+  gap: 2px;
+  margin: 0;
+  padding: 0;
+  border-inline-start: 1px solid var(--border);
+  list-style: none;
+}
+
+.tocItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+}
+
+.partHead {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.list {
+  display: grid;
+  gap: 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.listItem {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding-inline-start: 4px;
+}
+
+/* Below 960px the table of contents becomes a row of pills under the header. */
+@media (max-width: 960px) {
+  .toc {
+    inset-block-start: var(--header-height);
+    z-index: 5;
+    margin-inline: calc(var(--space-lg) * -1);
+    padding: var(--space-sm) var(--space-lg);
+    overflow: hidden;
+    background: var(--header-bg);
+    border-block-end: 1px solid var(--border);
+  }
+
+  .tocLabel,
+  .tocNumber {
+    display: none;
+  }
+
+  .tocList {
+    display: flex;
+    gap: 8px;
+    border-inline-start: 0;
+  }
+
+  .tocItem {
+    flex: none;
+    width: 120px;
+    padding: 11px 14px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-full);
+    background: var(--bg-card);
+  }
+}
+
+@media (max-width: 640px) {
+  .toc {
+    margin-inline: calc(var(--space-md) * -1);
+    padding-inline: var(--space-md);
+  }
+}

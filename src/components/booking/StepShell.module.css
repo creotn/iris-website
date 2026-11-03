@@ -6,6 +6,10 @@
   gap: var(--space-md);
 }
 
+.wide {
+  max-width: 1080px;
+}
+
 .bar {
   display: flex;
   align-items: center;
@@ -22,7 +26,7 @@
   border: 0;
   color: var(--text-secondary);
   font: inherit;
-  font-size: 0.9rem;
+  font-size: var(--fs-md);
   cursor: pointer;
 }
 
@@ -30,14 +34,13 @@
   color: var(--text-primary);
 }
 
-/* The arrow points back, which flips with the page direction. */
 html[dir="rtl"] .backIcon {
   scale: -1 1;
 }
 
 .count {
   margin-inline-start: auto;
-  font-size: 0.8rem;
+  font-size: var(--fs-xs);
   color: var(--text-muted);
 }
 

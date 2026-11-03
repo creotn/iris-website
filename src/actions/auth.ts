@@ -31,8 +31,6 @@ const registerSchema = z.object({
   password: z.string().min(6, { error: "password_too_short" }),
 });
 
-// Network/timeout failures (or a malformed error body) carry no parsed errorBody — reconstruct the
-// same generic shape a thrown request would have produced.
 function toRequestError(response: ApiResponse): RequestError {
   return (
     (response.errorBody as RequestError) ?? {
@@ -78,8 +76,6 @@ export async function SignInAction(
     httpOnly: true,
   });
 
-  // The body's `refresh_token` is deliberately ignored — the session is relayed from the
-  // API's own Set-Cookie instead, so the credential never passes through the browser.
   await relayApiSessionCookie(apiSetCookie);
   cookieStore.delete(LEGACY_REFRESH_COOKIE);
 
@@ -92,8 +88,6 @@ export async function SignInAction(
   return data;
 }
 
-// Registration issues no tokens: the account can't sign in until its phone number is proved, so
-// success hands back the email the OTP step will verify.
 export async function RegisterAction(
   previousState: unknown,
   formData: FormData,
@@ -121,8 +115,6 @@ export async function RegisterAction(
 
   if (!response.success) return toRequestError(response);
 
-  // Registering sends nothing: the code that proves the phone is issued by send-otp. A failed send
-  // isn't fatal — the verify step has a resend button.
   await httpClientPost(`${process.env.API_URL}/v1/api/auth/send-otp`, {
     identifier: parsed.data.email,
   });
@@ -135,8 +127,6 @@ export async function SignOutAction() {
   const legacy = cookieStore.get(LEGACY_REFRESH_COOKIE)?.value;
 
   if (session || legacy) {
-    // Not `requiresAuth`: that would 401 without calling the API once the access token is gone,
-    // skipping the revocation this action exists for. The bearer is attached by hand instead.
     const accessToken = cookieStore.get("access_token")?.value;
     await httpClientPost(
       `${process.env.API_URL}/v1/api/auth/signout`,
@@ -150,7 +140,6 @@ export async function SignOutAction() {
     );
   }
 
-  // Unconditional: the visitor asked to leave, so an unreachable API must not leave them signed in.
   await clearSessionCookie();
   cookieStore.delete("access_token");
   cookieStore.delete(LEGACY_REFRESH_COOKIE);

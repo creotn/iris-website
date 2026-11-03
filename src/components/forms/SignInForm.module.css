@@ -13,6 +13,31 @@
   margin-block-end: var(--space-sm);
 }
 
+.eyebrow {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.secure {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+}
+
+.secure svg {
+  color: var(--accent);
+}
+
+.footnote {
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+}
+
 .title {
   margin: 0;
   font-size: clamp(2rem, 5vw, 3rem);
@@ -36,7 +61,7 @@
   font-family: inherit;
   padding-block: 10px;
   border-block-end: 2px solid transparent;
-  font-size: 0.95rem;
+  font-size: var(--fs-md);
   font-weight: 600;
   color: var(--text-muted);
 }
@@ -62,7 +87,7 @@
   padding: 12px 14px;
   background: var(--accent-subtle);
   border-radius: var(--radius-md);
-  font-size: 0.85rem;
+  font-size: var(--fs-sm);
   color: var(--text-primary);
 }
 
@@ -73,7 +98,7 @@
 }
 
 .forgot {
-  font-size: 0.8rem;
+  font-size: var(--fs-xs);
   color: var(--accent);
 }
 
@@ -104,7 +129,7 @@
 }
 
 .label {
-  font-size: 0.85rem;
+  font-size: var(--fs-sm);
   font-weight: 600;
   color: var(--text-primary);
 }
@@ -140,7 +165,6 @@
     background 0.2s ease;
 }
 
-/* The input is LTR (email/password) but the icons follow the page, so in RTL text hugs the right. */
 html[dir="rtl"] .input {
   text-align: right;
 }
@@ -168,11 +192,11 @@ html[dir="rtl"] .input {
   width: 100%;
   margin-block-start: var(--space-xs);
   padding: 18px var(--space-md);
-  background: var(--iris-ink);
-  color: var(--iris-paper);
+  background: var(--accent);
+  color: #fff;
   border: 0;
   border-radius: var(--radius-md);
-  box-shadow: 0 4px 15px var(--accent-shadow);
+  box-shadow: var(--shadow-accent);
   font-size: 1rem;
   font-weight: 700;
   transition:
@@ -182,12 +206,12 @@ html[dir="rtl"] .input {
 }
 
 .submit:hover:not(:disabled) {
-  box-shadow: 0 6px 25px var(--accent-shadow-hover);
+  box-shadow: var(--shadow-accent-lg);
   translate: 0 -2px;
 }
 
 .arrow {
-  color: var(--iris-light);
+  color: inherit;
 }
 
 html[dir="rtl"] .arrow {
@@ -195,7 +219,7 @@ html[dir="rtl"] .arrow {
 }
 
 .fieldError {
-  font-size: 0.8rem;
+  font-size: var(--fs-xs);
   color: var(--error);
 }
 

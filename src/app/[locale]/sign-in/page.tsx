@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import { setStaticParamsLocale } from "next-international/server";
 import SignInForm from "@/components/forms/SignInForm";
+import SplitLayout from "@/components/layout/SplitLayout";
 import { resolveLocale } from "@/locales/resolveLocale";
 import { getScopedI18n } from "@/locales/server";
-import styles from "./page.module.css";
 
 export const revalidate = false;
 
@@ -20,8 +20,8 @@ export default async function SignIn({
   setStaticParamsLocale(resolveLocale((await params).locale));
 
   return (
-    <main className={`container ${styles.main}`}>
+    <SplitLayout>
       <SignInForm />
-    </main>
+    </SplitLayout>
   );
 }

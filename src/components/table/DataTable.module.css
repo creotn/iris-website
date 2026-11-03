@@ -1,0 +1,420 @@
+/* ---- Data table: flat rows on the page, light sortable headers, one look for every list ---- */
+
+.table {
+  inline-size: 100%;
+  border-collapse: collapse;
+  font-size: var(--fs-sm);
+}
+
+/* The header sits on its own tinted strip with a line under it, so it stands apart in light mode too. */
+.table th {
+  padding: 12px;
+  background: var(--bg-secondary);
+  border-block-end: 1px solid var(--border-strong);
+  font-weight: 500;
+  text-align: start;
+  white-space: nowrap;
+}
+
+:global(:root[data-theme="dark"]) .table th {
+  background: none;
+  border-block-end-color: var(--border);
+}
+
+.table th:first-child {
+  border-start-start-radius: var(--radius-sm);
+}
+
+.table th:last-child {
+  border-start-end-radius: var(--radius-sm);
+}
+
+/* The first row already has the header line above it. */
+.table tbody tr:first-child td {
+  border-block-start: 0;
+}
+
+.table td {
+  padding: 18px 12px;
+  border-block-start: 1px solid var(--border);
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+.table tbody tr:last-child td {
+  border-block-end: 1px solid var(--border);
+}
+
+.table tbody tr:hover td {
+  background: var(--bg-card-hover);
+}
+
+/* Rows that open something on click. */
+.clickable td {
+  cursor: pointer;
+}
+
+.table tbody tr.selected td {
+  background: var(--accent-subtle);
+}
+
+/* A row reached with the keyboard (its radio is hidden) lights up like a hovered one. */
+.table tbody tr:has(input[type="radio"]:focus-visible) td {
+  background: var(--bg-card-hover);
+}
+
+/* Taller rows for lists the user picks from. */
+.roomy td {
+  padding-block: 22px;
+}
+
+.num {
+  text-align: end !important;
+  font-variant-numeric: tabular-nums;
+}
+
+.sortBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0;
+  background: none;
+  border: 0;
+  color: var(--text-muted);
+  font: inherit;
+  cursor: pointer;
+}
+
+.sortBtn:hover,
+.table th[aria-sort] .sortBtn {
+  color: var(--text-primary);
+}
+
+.num .sortBtn {
+  flex-direction: row-reverse;
+}
+
+.headLabel {
+  color: var(--text-muted);
+}
+
+/* The main cell: a round mark, a bold name, and a line that takes over hidden columns on small screens. */
+.cell {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-inline-size: 0;
+}
+
+.cellText {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-inline-size: 0;
+}
+
+.cellText b,
+.cellText a {
+  overflow: hidden;
+  color: var(--text-primary);
+  font-weight: 600;
+  text-decoration: none;
+  text-overflow: ellipsis;
+}
+
+.cellText a:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.cellSub {
+  overflow: hidden;
+  color: var(--text-muted);
+  font-size: var(--fs-xs);
+  text-overflow: ellipsis;
+}
+
+.cellMeta {
+  display: none;
+  overflow: hidden;
+  color: var(--text-muted);
+  font-size: var(--fs-xs);
+  text-overflow: ellipsis;
+}
+
+.mark {
+  display: grid;
+  place-items: center;
+  flex: none;
+  inline-size: 30px;
+  block-size: 30px;
+  border-radius: var(--radius-full);
+  background: var(--iris-deep);
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.colorDot {
+  display: inline-block;
+  inline-size: 14px;
+  block-size: 14px;
+  margin-inline-end: 10px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-full);
+  vertical-align: -2px;
+}
+
+.typeMark {
+  display: grid;
+  place-items: center;
+  flex: none;
+  inline-size: 40px;
+  block-size: 40px;
+  background: var(--bg-tertiary);
+  border-radius: var(--radius-sm);
+  color: var(--text-accent);
+}
+
+.cellText .cellName {
+  font-size: 1rem;
+}
+
+/* A plate tag in the theme colours: an outlined chip with the number in monospace. */
+.plate {
+  display: inline-block;
+  padding: 4px 10px;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+}
+
+/* The chosen row tints its plate with the accent. */
+.selected .plate {
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--border-strong));
+}
+
+.menuRoot {
+  position: relative;
+  display: inline-flex;
+}
+
+.menu {
+  position: absolute;
+  z-index: 20;
+  inset-block-start: calc(100% + 4px);
+  inset-inline-end: 0;
+  display: flex;
+  flex-direction: column;
+  min-inline-size: 150px;
+  padding: 6px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-xl);
+}
+
+.menuItem {
+  padding: 9px 12px;
+  background: none;
+  border: 0;
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font: inherit;
+  font-size: var(--fs-sm);
+  text-align: start;
+  cursor: pointer;
+}
+
+.menuItem:hover,
+.menuItem:focus-visible {
+  outline: none;
+  background: var(--accent-subtle);
+}
+
+.menuDanger {
+  color: var(--error);
+}
+
+.mono {
+  color: var(--text-primary);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.04em;
+}
+
+.strong {
+  color: var(--text-primary);
+  font-weight: 700;
+}
+
+.none {
+  color: var(--text-muted);
+}
+
+/* Row actions sit at the end and never trigger the row's own click. */
+.actions {
+  inline-size: 1%;
+}
+
+.actions > span {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.actionBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  block-size: 34px;
+  padding-inline: 12px;
+  background: var(--bg-input);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font: inherit;
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background var(--transition-fast);
+}
+
+.actionBtn:hover {
+  background: var(--bg-card-hover);
+}
+
+.iconBtn {
+  display: grid;
+  place-items: center;
+  inline-size: 34px;
+  block-size: 34px;
+  padding: 0;
+  background: none;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition:
+    background var(--transition-fast),
+    color var(--transition-fast);
+}
+
+.iconBtn:hover {
+  background: var(--bg-card-hover);
+  color: var(--text-primary);
+}
+
+.iconBtnDanger:hover {
+  color: var(--error);
+}
+
+.addBtn {
+  display: inline-flex;
+  align-items: center;
+  flex: none;
+  gap: 8px;
+  block-size: 40px;
+  padding-inline: 14px;
+  background: var(--bg-input);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-xs);
+  color: var(--text-secondary);
+  font: inherit;
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background var(--transition-fast);
+}
+
+.addBtn:hover {
+  background: var(--bg-card-hover);
+}
+
+/* ---- Pages ---- */
+
+.pager {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.pageBtn {
+  display: grid;
+  place-items: center;
+  min-inline-size: 38px;
+  block-size: 38px;
+  padding-inline: 8px;
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  font: inherit;
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    border-color var(--transition-fast),
+    background var(--transition-fast);
+}
+
+.pageBtn:hover:not(:disabled) {
+  border-color: var(--accent);
+}
+
+.pageBtn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.pageOn {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--text-on-accent);
+}
+
+html[dir="rtl"] .pageBtn svg {
+  scale: -1 1;
+}
+
+/* Tablets: secondary columns fold into the line under the name. */
+@media (max-width: 720px) {
+  .hideMd {
+    display: none;
+  }
+
+  .cellMeta {
+    display: block;
+  }
+
+  .table td.grow {
+    inline-size: 100%;
+    white-space: normal;
+  }
+}
+
+/* Phones: the rows speak for themselves without headers. */
+@media (max-width: 520px) {
+  .table thead {
+    display: none;
+  }
+
+  .table td {
+    padding-inline: 8px;
+  }
+
+  .hideSm {
+    display: none;
+  }
+}

@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Car step mockups</title>
+<style>
+@font-face {
+  font-family: "Inter";
+  src: url("Inter-latin.woff2") format("woff2");
+  font-weight: 100 900;
+}
+
+/* IRIS tokens, copied from src/app/globals.css */
+.light {
+  --bg: #ffffff; --bg2: #f9fafb; --card: #ffffff; --tone: #f2f4f7; --tone2: #eaecf0;
+  --ink: #101828; --ink2: #475467; --muted: #667085;
+  --border: #eaecf0; --border-strong: #d0d5dd;
+  --accent: #6a4fb6; --accent-ink: #5a3e92; --accent-subtle: rgba(106, 79, 182, 0.08); --accent-soft: rgba(106, 79, 182, 0.16);
+}
+.dark {
+  --bg: #111315; --bg2: #17191d; --card: #1c1f24; --tone: #1c1f24; --tone2: #2a2e37;
+  --ink: #ffffff; --ink2: #cecfd2; --muted: #8b909c;
+  --border: rgba(241, 243, 246, 0.1); --border-strong: rgba(241, 243, 246, 0.2);
+  --accent: #6a4fb6; --accent-ink: #bca7e8; --accent-subtle: rgba(106, 79, 182, 0.14); --accent-soft: rgba(106, 79, 182, 0.28);
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; background: #e9e9ec; color: #101828; font-family: "Inter", system-ui, sans-serif; }
+.page { max-width: 1480px; margin: 0 auto; padding: 40px 24px 96px; }
+.page > h1 { font-size: 32px; letter-spacing: -0.02em; margin: 0 0 8px; }
+.page > p { margin: 0 0 40px; color: #475467; max-width: 70ch; line-height: 1.5; }
+
+.option { margin-block-end: 80px; }
+.option > h2 { font-size: 24px; letter-spacing: -0.02em; margin: 0 0 6px; }
+.option > p { margin: 0 0 20px; color: #475467; max-width: 80ch; line-height: 1.5; }
+.pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-block-end: 16px; }
+.cap { font-size: 13px; font-weight: 600; color: #667085; margin: 0 0 6px; }
+@media (max-width: 1100px) { .pair { grid-template-columns: minmax(0, 1fr); } }
+
+/* A frame is one screen of the booking step */
+.frame { background: var(--bg); color: var(--ink); border-radius: 14px; padding: 32px 32px 28px; overflow: hidden; }
+.steps { display: flex; gap: 6px; margin-block-end: 28px; }
+.steps span { flex: 1; height: 4px; border-radius: 2px; background: var(--tone2); }
+.steps span.on { background: var(--accent); }
+.stepname { font-size: 13px; color: var(--muted); margin: 0 0 6px; }
+.frame h3 { font-size: 30px; line-height: 1.05; letter-spacing: -0.03em; font-weight: 800; margin: 0 0 8px; }
+.sub { color: var(--ink2); margin: 0 0 24px; font-size: 15px; }
+
+svg.i { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 52px; padding: 0 28px; min-width: 200px;
+  background: var(--accent); color: #fff; border: 0; border-radius: 10px; font: inherit; font-weight: 700; font-size: 16px; }
+.btn.off { opacity: 0.45; }
+.link { display: inline-flex; align-items: center; gap: 8px; background: none; border: 0; color: var(--ink2); font: inherit; font-size: 15px; padding: 0; }
+.bar { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-block-start: 24px; }
+.bar.end { justify-content: flex-end; }
+
+/* The plate: a physical object, so it stays white in both themes */
+.plate { display: inline-flex; align-items: stretch; flex: none; background: #fff; color: #111; border: 2px solid #111; border-radius: 6px;
+  font-weight: 700; font-variant-numeric: tabular-nums; letter-spacing: 0.06em; font-size: 14px; line-height: 1; overflow: hidden; }
+.plate b { padding: 7px 10px; font-weight: 700; white-space: nowrap; }
+.plate i { font-style: normal; display: grid; place-items: center; padding: 0 5px; border-inline-start: 2px solid #111; font-size: 8px; letter-spacing: 0.04em; writing-mode: vertical-rl; }
+.plate.big { font-size: 26px; border-width: 3px; border-radius: 9px; }
+.plate.big b { padding: 14px 18px; }
+.plate.big i { font-size: 12px; padding: 0 8px; border-inline-start-width: 3px; }
+.plate.empty { color: #9aa0ab; }
+
+.sw { display: inline-block; width: 12px; height: 12px; border-radius: 50%; box-shadow: inset 0 0 0 1px rgba(0,0,0,.18); vertical-align: -1px; }
+.mark { width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--border-strong); display: grid; place-items: center; flex: none; }
+.mark.on { background: var(--accent); border-color: var(--accent); color: #fff; }
+.mark svg { width: 14px; height: 14px; stroke-width: 3; }
+
+/* Fields */
+.fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.full { grid-column: 1 / -1; }
+.f label { display: block; font-size: 14px; font-weight: 600; margin-block-end: 8px; }
+.f label em { font-style: normal; font-weight: 400; color: var(--muted); }
+.input { height: 50px; display: flex; align-items: center; padding: 0 16px; background: var(--card); border: 1px solid var(--border-strong); border-radius: 10px; color: var(--ink); font-size: 15px; }
+.input.ph { color: var(--muted); }
+.input.focus { border-color: var(--accent); box-shadow: 0 0 0 4px var(--accent-subtle); }
+.swatches { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { display: inline-flex; align-items: center; gap: 8px; height: 40px; padding: 0 14px 0 10px; border-radius: 999px; background: var(--tone); color: var(--ink); font-size: 14px; border: 2px solid transparent; }
+.dark .chip { background: var(--tone2); }
+.chip .sw { width: 18px; height: 18px; }
+.chip.on { border-color: var(--accent); background: var(--accent-subtle); }
+
+/* ---------- Option A: plate list ---------- */
+.a-tabs { display: flex; gap: 6px; margin-block-end: 16px; }
+.a-tabs span { padding: 8px 14px; border-radius: 999px; font-size: 14px; font-weight: 600; color: var(--ink2); background: var(--tone); }
+.dark .a-tabs span { background: var(--tone2); }
+.a-tabs span.on { background: var(--ink); color: var(--bg); }
+.a-list { display: flex; flex-direction: column; gap: 8px; }
+.a-row { display: flex; align-items: center; gap: 16px; padding: 16px 18px; border-radius: 12px; background: var(--tone); border: 2px solid transparent; }
+.a-row.on { background: var(--accent-subtle); border-color: var(--accent); }
+.a-row .ic { color: var(--muted); }
+.a-row.on .ic { color: var(--accent); }
+.a-name { flex: 1; min-width: 0; }
+.a-name strong { display: block; font-size: 17px; font-weight: 700; }
+.a-name span { display: flex; gap: 14px; font-size: 13px; color: var(--muted); margin-top: 4px; }
+.a-add { display: flex; align-items: center; gap: 12px; padding: 18px; border-radius: 12px; color: var(--accent-ink); font-weight: 700; background: transparent; box-shadow: inset 0 0 0 2px var(--tone2); }
+.a-types { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin-block-end: 24px; }
+.a-type { display: flex; align-items: center; gap: 10px; height: 56px; padding: 0 14px; border-radius: 10px; background: var(--tone); color: var(--ink2); font-weight: 600; font-size: 15px; border: 2px solid transparent; }
+.dark .a-type { background: var(--tone2); }
+.a-type.on { background: var(--accent-subtle); border-color: var(--accent); color: var(--ink); }
+.a-type.on svg { color: var(--accent); }
+.a-plate-row { display: flex; align-items: center; gap: 16px; }
+.a-plate-row .input { flex: 1; }
+
+/* ---------- Option B: list + live summary ---------- */
+.b-split { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 20px; align-items: stretch; }
+.b-list { display: flex; flex-direction: column; }
+.b-row { display: flex; align-items: center; gap: 14px; padding: 14px 4px; }
+.b-row + .b-row { box-shadow: 0 -1px 0 var(--border); }
+.b-row strong { flex: 1; font-size: 16px; font-weight: 600; }
+.b-row.on strong { color: var(--accent-ink); font-weight: 700; }
+.b-row small { color: var(--muted); font-size: 13px; }
+.b-add { display: flex; align-items: center; gap: 10px; padding: 14px 4px; color: var(--accent-ink); font-weight: 700; box-shadow: 0 -1px 0 var(--border); }
+.b-panel { background: var(--bg2); border-radius: 14px; padding: 22px; display: flex; flex-direction: column; gap: 16px; }
+.dark .b-panel { background: var(--card); }
+.b-panel .ic-big { width: 64px; height: 64px; color: var(--accent); stroke-width: 1.3; }
+.b-panel h4 { margin: 0; font-size: 22px; letter-spacing: -0.02em; }
+.b-facts { display: grid; grid-template-columns: auto 1fr; gap: 8px 16px; font-size: 14px; margin: 0; }
+.b-facts dt { color: var(--muted); }
+.b-facts dd { margin: 0; font-weight: 600; }
+.b-price { margin-top: auto; padding-top: 14px; box-shadow: 0 -1px 0 var(--border); font-size: 14px; color: var(--ink2); }
+.b-price strong { color: var(--ink); }
+.b-types { display: flex; gap: 8px; flex-wrap: wrap; margin-block-end: 20px; }
+
+/* ---------- Option C: sorted by size ---------- */
+.c-group { margin-block-end: 18px; }
+.c-head { display: flex; align-items: center; gap: 10px; color: var(--ink2); font-size: 14px; font-weight: 600; margin-block-end: 8px; }
+.c-head small { color: var(--muted); font-weight: 400; }
+.c-cars { display: flex; gap: 10px; flex-wrap: wrap; }
+.c-car { display: flex; flex-direction: column; gap: 12px; width: 230px; padding: 16px; border-radius: 12px; background: var(--tone); border: 2px solid transparent; }
+.dark .c-car { background: var(--tone2); }
+.c-car.on { background: var(--accent-subtle); border-color: var(--accent); }
+.c-car .top { display: flex; justify-content: space-between; align-items: flex-start; }
+.c-car strong { font-size: 16px; }
+.c-car small { color: var(--muted); font-size: 13px; display: flex; gap: 10px; }
+.c-car.add { justify-content: center; align-items: center; color: var(--accent-ink); font-weight: 700; background: transparent; box-shadow: inset 0 0 0 2px var(--tone2); min-height: 120px; flex-direction: row; gap: 8px; }
+.c-size { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin-block-end: 26px; }
+.c-s { display: flex; flex-direction: column; align-items: flex-start; gap: 18px; padding: 16px; border-radius: 12px; background: var(--tone); border: 2px solid transparent; }
+.dark .c-s { background: var(--tone2); }
+.c-s svg { width: 40px; height: 40px; stroke-width: 1.3; color: var(--muted); }
+.c-s strong { font-size: 15px; }
+.c-s small { display: block; color: var(--muted); font-size: 13px; margin-top: 2px; font-weight: 400; }
+.c-s.on { background: var(--accent-subtle); border-color: var(--accent); }
+.c-s.on svg { color: var(--accent); }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute">
+  <symbol id="sedan" viewBox="0 0 24 24"><path d="M5 17H3.5a.5.5 0 0 1-.5-.5V13l2-4.5A1.5 1.5 0 0 1 6.4 7.5h9.4a1.5 1.5 0 0 1 1.2.6L20 12l1 .8V16.5a.5.5 0 0 1-.5.5H19M9 17h6M3 12h18"/><circle cx="7" cy="17" r="2"/><circle cx="17" cy="17" r="2"/></symbol>
+  <symbol id="suv" viewBox="0 0 24 24"><path d="M5 17H3V10l2-4h11l3 4h1.5a.5.5 0 0 1 .5.5V17h-2M9 17h6M3 10h18M10 6v4"/><circle cx="7" cy="17" r="2"/><circle cx="17" cy="17" r="2"/></symbol>
+  <symbol id="truck" viewBox="0 0 24 24"><path d="M5 17H3V6h11v11M14 9h4l3 4v4h-2M9 17h6"/><circle cx="7" cy="17" r="2"/><circle cx="17" cy="17" r="2"/></symbol>
+  <symbol id="moto" viewBox="0 0 24 24"><circle cx="5" cy="16" r="3"/><circle cx="19" cy="16" r="3"/><path d="M7.5 14h5l2-5h-3M14.5 9 19 16M10 9h3"/></symbol>
+  <symbol id="plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="check" viewBox="0 0 24 24"><path d="m5 12 5 5 9-10"/></symbol>
+  <symbol id="arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="back" viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></symbol>
+</svg>
+
+<main class="page">
+  <h1>Car step: three directions</h1>
+  <p>Each direction shows the saved-car picker and the add-a-car form, in light and dark mode, using IRIS's real violet, Inter and theme colors. Sample cars are made up. Pick one (or mix parts) and I'll build it.</p>
+
+  <!-- ================= OPTION A ================= -->
+  <section class="option">
+    <h2>A. Plate list</h2>
+    <p>Each saved car is a soft row you tap, with its licence plate drawn as a real plate. Filters show only when you own more than one type. "Add a new car" is the last row. The form puts car type in one row at the top, uses color swatches instead of typing, and previews the plate as you type.</p>
+
+    <div class="pair">
+      <div><p class="cap">Picker, light</p><div class="frame light" id="a-pick"></div></div>
+      <div><p class="cap">Picker, dark</p><div class="frame dark" data-copy="a-pick"></div></div>
+    </div>
+    <div class="pair">
+      <div><p class="cap">Add a car, light</p><div class="frame light" id="a-form"></div></div>
+      <div><p class="cap">Add a car, dark</p><div class="frame dark" data-copy="a-form"></div></div>
+    </div>
+  </section>
+
+  <!-- ================= OPTION B ================= -->
+  <section class="option">
+    <h2>B. List with a car summary</h2>
+    <p>A plain list on the left; the panel on the right shows the chosen car with its big plate and the size it's priced as. In the form the same panel fills in live while you type, so you see exactly what will be saved.</p>
+    <div class="pair">
+      <div><p class="cap">Picker, light</p><div class="frame light" id="b-pick"></div></div>
+      <div><p class="cap">Picker, dark</p><div class="frame dark" data-copy="b-pick"></div></div>
+    </div>
+    <div class="pair">
+      <div><p class="cap">Add a car, light</p><div class="frame light" id="b-form"></div></div>
+      <div><p class="cap">Add a car, dark</p><div class="frame dark" data-copy="b-form"></div></div>
+    </div>
+  </section>
+
+  <!-- ================= OPTION C ================= -->
+  <section class="option">
+    <h2>C. Sorted by size</h2>
+    <p>Price depends on the car's size, so size leads. Saved cars are grouped under Sedan, SUV, Truck instead of tabs, as small tiles. The form opens with big size choices and what each covers, then the details.</p>
+    <div class="pair">
+      <div><p class="cap">Picker, light</p><div class="frame light" id="c-pick"></div></div>
+      <div><p class="cap">Picker, dark</p><div class="frame dark" data-copy="c-pick"></div></div>
+    </div>
+    <div class="pair">
+      <div><p class="cap">Add a car, light</p><div class="frame light" id="c-form"></div></div>
+      <div><p class="cap">Add a car, dark</p><div class="frame dark" data-copy="c-form"></div></div>
+    </div>
+  </section>
+</main>
+
+<script>
+const ic = (id, cls = "") => `<svg class="i ${cls}"><use href="#${id}"/></svg>`;
+const plate = (text, big) => `<span class="plate ${big ? "big" : ""} ${text ? "" : "empty"}"><b>${text || "1234 ABC"}</b><i>KSA</i></span>`;
+const steps = `<div class="steps"><span class="on"></span>${"<span></span>".repeat(7)}</div><p class="stepname">Step 1 of 8 · Car</p>`;
+const mark = (on) => `<span class="mark ${on ? "on" : ""}">${on ? ic("check") : ""}</span>`;
+const cars = [
+  { name: "Toyota Camry", type: "sedan", label: "Sedan", color: "White", hex: "#f4f4f2", year: 2021, plate: "4211 RBA", on: true },
+  { name: "Hyundai Tucson", type: "suv", label: "SUV", color: "Silver", hex: "#c3c7cc", year: 2019, plate: "7730 HDN" },
+  { name: "Kia Sorento", type: "truck", label: "Truck", color: "Red", hex: "#b3261e", year: 2015, plate: "9102 KSD" },
+];
+const colors = [["White", "#f4f4f2"], ["Black", "#1a1a1a"], ["Silver", "#c3c7cc"], ["Grey", "#7a7f87"], ["Beige", "#d8c7a3"], ["Red", "#b3261e"], ["Blue", "#1f4e9c"], ["Brown", "#6b4a32"]];
+const swatches = (on) => `<div class="swatches">${colors.map(([n, h]) => `<span class="chip ${n === on ? "on" : ""}"><span class="sw" style="background:${h}"></span>${n}</span>`).join("")}<span class="chip">Other</span></div>`;
+const types = [["sedan", "Sedan", "Most cars"], ["suv", "SUV", "Crossovers, 4x4"], ["truck", "Truck", "Pickups, vans"], ["moto", "Motorcycle", "Any bike"]];
+
+document.getElementById("a-pick").innerHTML = `${steps}
+  <h3>Which car are we washing?</h3><p class="sub">Pick a saved car or add a new one</p>
+  <div class="a-tabs"><span class="on">All 3</span><span>Sedan 1</span><span>SUV 1</span><span>Truck 1</span></div>
+  <div class="a-list">
+    ${cars.map((c) => `<div class="a-row ${c.on ? "on" : ""}">${mark(c.on)}${ic(c.type, "ic")}
+      <div class="a-name"><strong>${c.name}</strong><span><span><span class="sw" style="background:${c.hex}"></span> ${c.color}</span><span>${c.year}</span><span>${c.label}</span></span></div>
+      ${plate(c.plate)}</div>`).join("")}
+    <div class="a-add">${ic("plus")} Add a new car</div>
+  </div>
+  <div class="bar end"><button class="btn">Continue ${ic("arrow")}</button></div>`;
+
+document.getElementById("a-form").innerHTML = `${steps}
+  <h3>Add a new car</h3><p class="sub">We use the type to price your wash</p>
+  <div class="f"><label>Car type</label></div>
+  <div class="a-types">${types.map(([id, n], i) => `<span class="a-type ${i === 0 ? "on" : ""}">${ic(id)}${n}</span>`).join("")}</div>
+  <div class="fields">
+    <div class="f"><label>Make</label><div class="input">Toyota</div></div>
+    <div class="f"><label>Model</label><div class="input focus">Camry</div></div>
+    <div class="f"><label>Year <em>optional</em></label><div class="input ph">2021</div></div>
+    <div class="f"><label>Plate number <em>optional</em></label><div class="a-plate-row"><div class="input">4211 RBA</div></div></div>
+    <div class="f full"><label>Color <em>optional</em></label>${swatches("White")}</div>
+    <div class="f full"><label>Your plate</label>${plate("4211 RBA", true)}</div>
+  </div>
+  <div class="bar"><button class="link">${ic("back")} Choose a saved car</button><button class="btn">Save car</button></div>`;
+
+document.getElementById("b-pick").innerHTML = `${steps}
+  <h3>Which car are we washing?</h3><p class="sub">Pick a saved car or add a new one</p>
+  <div class="b-split">
+    <div class="b-list">
+      ${cars.map((c) => `<div class="b-row ${c.on ? "on" : ""}">${mark(c.on)}<strong>${c.name}</strong><small>${c.year}</small></div>`).join("")}
+      <div class="b-add">${ic("plus")} Add a new car</div>
+    </div>
+    <div class="b-panel">
+      ${ic("sedan", "ic-big")}
+      <h4>Toyota Camry</h4>
+      ${plate("4211 RBA", true)}
+      <dl class="b-facts"><dt>Color</dt><dd><span class="sw" style="background:#f4f4f2"></span> White</dd><dt>Year</dt><dd>2021</dd></dl>
+      <div class="b-price">Priced as a <strong>Sedan</strong></div>
+    </div>
+  </div>
+  <div class="bar end"><button class="btn">Continue ${ic("arrow")}</button></div>`;
+
+document.getElementById("b-form").innerHTML = `${steps}
+  <h3>Add a new car</h3><p class="sub">We use the type to price your wash</p>
+  <div class="b-split">
+    <div>
+      <div class="f"><label>Car type</label></div>
+      <div class="b-types">${types.map(([id, n], i) => `<span class="chip ${i === 1 ? "on" : ""}">${ic(id)}${n}</span>`).join("")}</div>
+      <div class="fields">
+        <div class="f"><label>Make</label><div class="input">Hyundai</div></div>
+        <div class="f"><label>Model</label><div class="input focus">Tucson</div></div>
+        <div class="f"><label>Year <em>optional</em></label><div class="input">2019</div></div>
+        <div class="f"><label>Plate <em>optional</em></label><div class="input ph">1234 ABC</div></div>
+        <div class="f full"><label>Color <em>optional</em></label>${swatches("Silver")}</div>
+      </div>
+    </div>
+    <div class="b-panel">
+      ${ic("suv", "ic-big")}
+      <h4>Hyundai Tucson</h4>
+      ${plate("", true)}
+      <dl class="b-facts"><dt>Color</dt><dd><span class="sw" style="background:#c3c7cc"></span> Silver</dd><dt>Year</dt><dd>2019</dd></dl>
+      <div class="b-price">Will be priced as an <strong>SUV</strong></div>
+    </div>
+  </div>
+  <div class="bar"><button class="link">${ic("back")} Choose a saved car</button><button class="btn">Save car</button></div>`;
+
+const cTile = (c) => `<div class="c-car ${c.on ? "on" : ""}"><div class="top"><div><strong>${c.name}</strong><small><span><span class="sw" style="background:${c.hex}"></span> ${c.color}</span><span>${c.year}</span></small></div>${mark(c.on)}</div>${plate(c.plate)}</div>`;
+document.getElementById("c-pick").innerHTML = `${steps}
+  <h3>Which car are we washing?</h3><p class="sub">Pick a saved car or add a new one</p>
+  ${cars.map((c) => `<div class="c-group"><div class="c-head">${ic(c.type)} ${c.label}s <small>1 car</small></div><div class="c-cars">${cTile(c)}${c.type === "truck" ? `<div class="c-car add">${ic("plus")} Add a new car</div>` : ""}</div></div>`).join("")}
+  <div class="bar end"><button class="btn">Continue ${ic("arrow")}</button></div>`;
+
+document.getElementById("c-form").innerHTML = `${steps}
+  <h3>Add a new car</h3><p class="sub">Start with its size, it sets the price</p>
+  <div class="c-size">${types.map(([id, n, d], i) => `<div class="c-s ${i === 2 ? "on" : ""}">${ic(id)}<strong>${n}<small>${d}</small></strong></div>`).join("")}</div>
+  <div class="fields">
+    <div class="f"><label>Make</label><div class="input">Kia</div></div>
+    <div class="f"><label>Model</label><div class="input focus">Sorento</div></div>
+    <div class="f"><label>Year <em>optional</em></label><div class="input">2015</div></div>
+    <div class="f"><label>Plate number <em>optional</em></label><div class="input">9102 KSD</div></div>
+    <div class="f full"><label>Color <em>optional</em></label>${swatches("Red")}</div>
+  </div>
+  <div class="bar"><button class="link">${ic("back")} Choose a saved car</button><button class="btn off">Save car</button></div>`;
+
+document.querySelectorAll("[data-copy]").forEach((el) => { el.innerHTML = document.getElementById(el.dataset.copy).innerHTML; });
+</script>
+</body>
+</html>

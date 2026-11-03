@@ -6,7 +6,7 @@ import styles from "./ThemeToggle.module.css";
 
 let switchingTimer: ReturnType<typeof setTimeout> | undefined;
 
-export default function ThemeToggle({ label }: { label: string }) {
+export default function ThemeToggle({ label, className }: { label: string; className?: string }) {
   const toggle = () => {
     const root = document.documentElement;
     const next = root.dataset.theme === "dark" ? "light" : "dark";
@@ -24,7 +24,7 @@ export default function ThemeToggle({ label }: { label: string }) {
   return (
     <button
       type="button"
-      className={styles.toggle}
+      className={className ? `${styles.toggle} ${className}` : styles.toggle}
       onClick={toggle}
       aria-label={label}
       title={label}

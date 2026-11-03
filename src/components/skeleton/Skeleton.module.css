@@ -12,6 +12,16 @@
   animation: shimmer 1.4s ease-in-out infinite;
 }
 
+.block.onDark {
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.07) 0%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.07) 100%);
+  background-size: 200% 100%;
+}
+
+.block.onAccent {
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.32) 50%, rgba(255, 255, 255, 0.16) 100%);
+  background-size: 200% 100%;
+}
+
 @keyframes shimmer {
   from {
     background-position: 100% 0;
