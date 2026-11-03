@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { IconCheck, IconChevronDown, IconCircleCheck, IconCurrentLocation, IconHome, IconLoader2, IconMapPinOff } from "@tabler/icons-react";
+import { IconCheck, IconChevronDown, IconCurrentLocation, IconHome, IconLoader2 } from "@tabler/icons-react";
 import { fetchAddress, saveAddress, type SavedAddress } from "@/api/BookingAPI";
 import accountStyles from "@/components/account/Account.module.css";
 import LocationMap, { type Point } from "@/components/account/LocationMap";
@@ -9,7 +9,7 @@ import PlaceSearch from "@/components/account/PlaceSearch";
 import { usePlaceName } from "@/components/account/usePlaceName";
 import { useCurrentLocale, useScopedI18n } from "@/locales/client";
 import { translateError } from "@/utils/error";
-import { Cta, Heading } from "./ui";
+import { Cta, StepFooter, StepHeading } from "./ui";
 import styles from "./Wash.module.css";
 
 export type Place = { address: NonNullable<SavedAddress["address"]>; area: NonNullable<SavedAddress["area"]> };
@@ -122,7 +122,7 @@ export default function AddressStep({
 
   return (
     <div className={styles.stack}>
-      <Heading title={t("addressStepTitle")} subtitle={t("addressStepSubtitle")} />
+      <StepHeading step={2} title={t("addressStepTitle")} subtitle={t("addressStepSubtitle")} />
 
       <div className={styles.locToolbar}>
         {saved && (
@@ -185,15 +185,11 @@ export default function AddressStep({
         {error}
       </p>
 
-      <div className={styles.carFooter}>
-        <p className={`${accountStyles.pinState} ${point ? accountStyles.pinOk : ""}`} role="status">
-          {point ? <IconCircleCheck size={16} stroke={2} aria-hidden /> : <IconMapPinOff size={16} stroke={2} aria-hidden />}
-          <span dir="auto">{point ? address : ta("mapHint")}</span>
-        </p>
+      <StepFooter label={t("where")} hint={ta("mapHint")} value={point ? address : null}>
         <Cta disabled={!point || busy} onClick={next}>
           {busy ? t("saving") : t("continue")}
         </Cta>
-      </div>
+      </StepFooter>
     </div>
   );
 }

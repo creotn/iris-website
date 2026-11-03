@@ -5,10 +5,10 @@ import Link from "next/link";
 import { IconAlertCircle, IconCircleCheck, IconSparkles } from "@tabler/icons-react";
 import { fetchBalance, fetchCustomer, fetchOrders, verifyTopUp, type Customer } from "@/api/AccountAPI";
 import { fetchAddress, fetchVehicles } from "@/api/BookingAPI";
-import { Skeleton } from "@/components/skeleton/Skeleton";
 import { formatMoney } from "@/components/booking/wash/draft";
 import { useCurrentLocale, useScopedI18n } from "@/locales/client";
 import { translateError } from "@/utils/error";
+import { HistorySkeleton, LiveOrdersSkeleton, ProfileSkeleton } from "./AccountSkeletons";
 import AddressPanel from "./AddressPanel";
 import Dialog from "./Dialog";
 import ErrorRow from "./ErrorRow";
@@ -77,7 +77,7 @@ export default function AccountView({ initialView }: { initialView: View }) {
     <div className={`${styles.page} ${styles.shell}`}>
       {/* ---- Side menu: who you are, the booking button, the sections ---- */}
       <aside className={styles.side}>
-        {customer.data ? <Profile customer={customer.data} /> : <Skeleton width="80%" height="44px" radius="full" />}
+        {customer.data ? <Profile customer={customer.data} /> : <ProfileSkeleton />}
 
         <Link href={`/${locale}/book/wash`} className={styles.sideBook}>
           {t("book")}
@@ -125,7 +125,7 @@ export default function AccountView({ initialView }: { initialView: View }) {
             ))}
 
             {orders.error && <ErrorRow message={orders.error} onRetry={orders.reload} />}
-            {!orders.data && !orders.error && <Skeleton height="260px" radius="lg" />}
+            {!orders.data && !orders.error && <LiveOrdersSkeleton />}
             {orders.data &&
               (live.length > 0 ? (
                 <LiveOrdersTable orders={live} />
@@ -147,8 +147,7 @@ export default function AccountView({ initialView }: { initialView: View }) {
 
         {view === "cars" && (
           <>
-            <h1 className={styles.mainTitle}>{t("tileCars")}</h1>
-            <VehiclesPanel vehicles={vehicles.data} error={vehicles.error} reload={vehicles.reload} />
+            <VehiclesPanel title={t("tileCars")} vehicles={vehicles.data} error={vehicles.error} reload={vehicles.reload} />
           </>
         )}
 
@@ -162,7 +161,7 @@ export default function AccountView({ initialView }: { initialView: View }) {
         {view === "history" && (
           <>
             <h1 className={styles.mainTitle}>{t("history")}</h1>
-            {orders.data ? <OrderHistory firstPage={orders.data} /> : <Skeleton height="220px" radius="lg" />}
+            {orders.data ? <OrderHistory firstPage={orders.data} /> : <HistorySkeleton />}
           </>
         )}
       </main>

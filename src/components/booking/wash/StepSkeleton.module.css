@@ -1,0 +1,85 @@
+/* ---- Booking loading screen: the layout comes from the real step classes, these only shape the placeholders ---- */
+
+.dot {
+  --dot: 46px;
+}
+
+.now .dot {
+  box-shadow: 0 0 0 5px var(--accent-subtle);
+}
+
+.heading {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.summary {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cta {
+  min-inline-size: 200px;
+}
+
+.grow {
+  flex: 1;
+}
+
+.tabs {
+  display: flex;
+  gap: 28px;
+  padding-block-end: 14px;
+  border-block-end: 1px solid var(--border);
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+/* Service card placeholders keep the card's box but not its hover. */
+.card {
+  pointer-events: none;
+}
+
+.static {
+  position: static;
+}
+
+.lines {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+@media (max-width: 640px) {
+  .dot {
+    --dot: 38px;
+  }
+
+  /* Only the current step keeps its label on phones, under the rail. */
+  .label {
+    display: none;
+  }
+
+  .now .label {
+    display: block;
+    position: absolute;
+    inset-block-start: 56px;
+  }
+
+  .tabs {
+    overflow: hidden;
+  }
+}
+
+@media (max-width: 520px) {
+  .cta {
+    inline-size: 100%;
+  }
+}

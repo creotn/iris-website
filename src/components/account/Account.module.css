@@ -398,54 +398,6 @@
   font-weight: 800;
 }
 
-.liveGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr));
-  gap: var(--space-md);
-}
-
-.liveCard {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-md);
-  padding: 22px;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  transition:
-    translate var(--transition-normal),
-    box-shadow var(--transition-normal);
-}
-
-.liveCard:hover {
-  translate: 0 -3px;
-  box-shadow: var(--shadow-lg);
-}
-
-.liveTop {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: var(--space-md);
-}
-
-.liveTitle {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  min-inline-size: 0;
-}
-
-.liveTitle b,
-.amount {
-  font-size: var(--fs-lg);
-  font-weight: 800;
-}
-
-.amount {
-  white-space: nowrap;
-}
-
 .statusBox {
   display: flex;
   align-items: center;
@@ -507,12 +459,6 @@
   50% {
     box-shadow: 0 0 0 8px var(--accent-subtle);
   }
-}
-
-.btnRow {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px;
 }
 
 .button {
@@ -595,57 +541,6 @@
   rotate: 90deg;
 }
 
-.historyList {
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-}
-
-.historyRow {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto;
-  align-items: center;
-  gap: var(--space-md);
-  padding: 16px 20px;
-  color: var(--text-primary);
-  transition: background var(--transition-fast);
-}
-
-.historyRow + .historyRow {
-  border-block-start: 1px solid var(--border);
-}
-
-.historyRow:hover {
-  background: var(--bg-card-hover);
-}
-
-.rowIcon {
-  display: grid;
-  place-items: center;
-  inline-size: 42px;
-  block-size: 42px;
-  background: var(--bg-input);
-  border-radius: var(--radius-md);
-  color: var(--accent);
-}
-
-.rowText {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-  min-inline-size: 0;
-}
-
-.rowAside {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 6px;
-}
-
 .badge {
   display: inline-flex;
   align-items: center;
@@ -679,20 +574,6 @@
 .badge_muted {
   background: var(--bg-tertiary);
   color: var(--text-muted);
-}
-
-.liveDot {
-  inline-size: 7px;
-  block-size: 7px;
-  background: currentColor;
-  border-radius: var(--radius-full);
-  animation: blink 1.6s ease-in-out infinite;
-}
-
-@keyframes blink {
-  50% {
-    opacity: 0.25;
-  }
 }
 
 .empty {
@@ -738,84 +619,6 @@
   border: 1px solid var(--warning-border);
   border-radius: var(--radius-md);
   font-size: var(--fs-md);
-}
-
-.carGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr));
-  gap: var(--space-md);
-}
-
-.carCard {
-  transition:
-    translate var(--transition-normal),
-    box-shadow var(--transition-normal);
-}
-
-.carCard:hover {
-  translate: 0 -3px;
-  box-shadow: var(--shadow-md);
-}
-
-.carHead {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
-
-.carName {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  min-inline-size: 0;
-}
-
-.carName b {
-  font-size: var(--fs-lg);
-  text-transform: capitalize;
-}
-
-.plate {
-  align-self: flex-start;
-  padding: 5px 12px;
-  background: var(--bg-input);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  font-family: var(--font-mono), monospace;
-  font-size: var(--fs-sm);
-  letter-spacing: 0.08em;
-}
-
-.carActions {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--space-sm);
-  margin-block-start: auto;
-}
-
-.addCard {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-sm);
-  min-block-size: 190px;
-  padding: var(--space-lg);
-  background: none;
-  border: 1.5px dashed var(--border-accent);
-  border-radius: var(--radius-lg);
-  color: var(--text-accent);
-  font: inherit;
-  font-weight: 700;
-  cursor: pointer;
-  transition:
-    background var(--transition-fast),
-    border-color var(--transition-fast);
-}
-
-.addCard:hover {
-  background: var(--accent-subtle);
-  border-color: var(--accent);
 }
 
 .select {
@@ -876,43 +679,82 @@
   border-radius: var(--radius-md);
 }
 
-.leafletMap {
+/* ---- Location picker: Google map with a pin fixed at its centre ---- */
+
+.locationMap {
+  position: relative;
   inline-size: 100%;
   block-size: 100%;
-  z-index: 0;
+  min-block-size: 0;
   background: var(--map-bg);
+}
+
+.mapCanvas {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
   font: inherit;
 }
 
-.leafletMap:focus-visible {
+.mapCanvas:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: -2px;
 }
 
-:global(:root[data-theme="dark"]) .leafletMap :global(.leaflet-tile-pane) {
-  filter: invert(0.9) hue-rotate(180deg) brightness(0.95);
+/* The pin's tip sits exactly on the map centre (physical, the same in both directions); its shadow stays on the ground. */
+.centerPin {
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  left: 50%;
+  translate: -50% -100%;
+  pointer-events: none;
+  filter: drop-shadow(0 6px 8px rgb(0 0 0 / 0.3));
+  transition:
+    translate 0.2s var(--ease-out),
+    opacity 0.2s ease;
 }
 
-.pin span {
+.centerPin svg {
   display: block;
-  inline-size: 30px;
-  block-size: 30px;
-  margin: 1px;
-  background: var(--accent);
-  border: 3px solid var(--bg-card);
-  border-radius: 50% 50% 50% 0;
-  box-shadow: var(--shadow-md);
-  transform: rotate(-45deg);
 }
 
-.pin span::after {
+.centerPin path {
+  fill: var(--accent);
+  stroke: var(--bg-card);
+  stroke-width: 2;
+}
+
+.centerPin circle {
+  fill: var(--bg-card);
+}
+
+.centerPin::after {
   content: "";
-  display: block;
-  inline-size: 8px;
-  block-size: 8px;
-  margin: 8px;
-  background: var(--bg-card);
-  border-radius: var(--radius-full);
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  inline-size: 12px;
+  block-size: 5px;
+  translate: -50% -50%;
+  border-radius: 50%;
+  background: rgb(0 0 0 / 0.35);
+  transition: scale 0.2s var(--ease-out);
+}
+
+/* No spot chosen yet: the pin waits, a little faded. */
+.centerPin[data-placed="false"] {
+  opacity: 0.7;
+}
+
+/* While the map moves the pin lifts, and drops back when it stops. */
+.centerPin[data-moving="true"] {
+  translate: -50% calc(-100% - 12px);
+}
+
+.centerPin[data-moving="true"]::after {
+  translate: -50% calc(-50% + 12px);
+  scale: 0.6;
 }
 
 .mapEmpty {
@@ -953,17 +795,25 @@
   gap: 10px;
   padding-inline: 14px;
   background: var(--bg-input);
-  border: 1px solid transparent;
+  border: 1px solid var(--border-strong);
   border-radius: var(--radius-md);
+  box-shadow: var(--shadow-xs);
   color: var(--text-muted);
   transition:
     border-color var(--transition-fast),
-    background var(--transition-fast);
+    box-shadow var(--transition-fast);
 }
 
+.searchField:hover {
+  border-color: var(--iris-light);
+}
+
+/* The same focus ring as the other inputs. */
 .searchField:focus-within {
-  background: var(--bg-card);
-  border-color: var(--accent);
+  border-color: var(--iris-light);
+  box-shadow:
+    var(--shadow-xs),
+    0 0 0 4px var(--accent-subtle);
 }
 
 .searchField input {
@@ -1629,8 +1479,7 @@ html[dir="rtl"] .back svg {
   color: var(--iris-light);
 }
 
-.sideItem:focus-visible,
-.ghostBtn:focus-visible {
+.sideItem:focus-visible {
   outline: 2px solid var(--accent-light);
   outline-offset: 2px;
 }
@@ -1690,90 +1539,6 @@ html[dir="rtl"] .back svg {
 
 /* ---- Orders table ---- */
 
-.tableWrap {
-  overflow-x: auto;
-  border: 1px solid var(--border);
-  border-radius: 18px;
-  background: var(--bg-card);
-}
-
-.ordersTable {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 0.875rem;
-}
-
-.ordersTable th {
-  padding: 14px 20px;
-  font-size: 0.8125rem;
-  font-weight: 600;
-  text-align: start;
-  color: var(--text-muted);
-  white-space: nowrap;
-}
-
-.ordersTable td {
-  padding: 18px 20px;
-  border-block-start: 1px solid var(--border-subtle);
-  vertical-align: middle;
-  color: var(--text-secondary);
-}
-
-.ordersTable .numCol {
-  text-align: end;
-  white-space: nowrap;
-}
-
-.cellStack {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-}
-
-.cellStack b {
-  font-size: 0.9375rem;
-  color: var(--text-primary);
-}
-
-.subtle {
-  font-size: 0.75rem;
-  font-weight: 500;
-  color: var(--text-muted);
-}
-
-.whenCell {
-  min-width: 170px;
-}
-
-.actionsCell {
-  text-align: end;
-  white-space: nowrap;
-}
-
-.actionsCell .darkBtn {
-  padding: 10px 16px;
-}
-
-.ghostBtn {
-  display: inline-flex;
-  align-items: center;
-  margin-inline-start: 6px;
-  padding: 9px 12px;
-  border: 1px solid transparent;
-  border-radius: var(--radius-md);
-  background: none;
-  color: var(--text-secondary);
-  font: inherit;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-.ghostBtn:hover {
-  border-color: var(--border-accent);
-  background: var(--accent-subtle);
-  color: var(--text-primary);
-}
-
 .srOnly {
   position: absolute;
   width: 1px;
@@ -1782,7 +1547,6 @@ html[dir="rtl"] .back svg {
   clip: rect(0 0 0 0);
   white-space: nowrap;
 }
-
 
 /* Tablet: the menu goes on top as a scrollable row. */
 @media (max-width: 960px) {
@@ -1808,40 +1572,3 @@ html[dir="rtl"] .back svg {
 }
 
 /* Phone: the table becomes stacked rows, the stages a vertical list. */
-@media (max-width: 640px) {
-  .ordersTable thead {
-    display: none;
-  }
-
-  .ordersTable,
-  .ordersTable tbody,
-  .ordersTable tr,
-  .ordersTable td {
-    display: block;
-  }
-
-  .ordersTable tr {
-    padding: 16px;
-    border-block-start: 1px solid var(--border-subtle);
-  }
-
-  .ordersTable tr:first-child {
-    border-block-start: 0;
-  }
-
-  .ordersTable td {
-    padding: 4px 0;
-    border: 0;
-  }
-
-  .ordersTable .numCol,
-  .actionsCell {
-    text-align: start;
-  }
-
-  .actionsCell {
-    padding-block-start: 10px;
-  }
-
-
-}

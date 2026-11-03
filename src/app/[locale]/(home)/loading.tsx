@@ -1,55 +1,68 @@
+import Image from "next/image";
+import type { CSSProperties } from "react";
 import { Skeleton, SkeletonScreen } from "@/components/skeleton/Skeleton";
+import coverage from "../_components/coverage/CoverageSection.module.css";
+import cta from "../_components/cta/CtaSection.module.css";
+import faq from "../_components/faq/FaqSection.module.css";
+import features from "../_components/features/FeaturesSection.module.css";
+import hero from "../_components/hero/HeroSection.module.css";
+import how from "../_components/how-it-works/HowItWorksSection.module.css";
+import pricing from "../_components/pricing/PricingSection.module.css";
+import header from "../_components/shared/SectionHeader.module.css";
 import styles from "./loading.module.css";
 
+// The sections reuse their real layout classes (and ids, which carry their backgrounds),
+// so the skeleton sits exactly where the content will land, at every breakpoint.
 export default function Loading() {
   return (
     <SkeletonScreen>
       <div className="alternating-sections">
-        <section className={styles.hero}>
-          <div className={`container ${styles.heroInner}`}>
-            <div className={styles.heroCopy}>
-              <div className={styles.stack}>
-                <Skeleton width="78%" height="60px" tone="onDark" />
-                <Skeleton width="62%" height="60px" tone="onDark" />
-              </div>
-              <div className={styles.lines}>
-                <Skeleton height="16px" tone="onDark" />
-                <Skeleton width="94%" height="16px" tone="onDark" />
-                <Skeleton width="68%" height="16px" tone="onDark" />
-              </div>
-              <div className={styles.row}>
-                <Skeleton width="172px" height="54px" tone="onDark" />
-                <Skeleton width="150px" height="54px" tone="onDark" />
-              </div>
-            </div>
+        <section className={hero.hero}>
+          <div className={hero.media} aria-hidden="true">
+            <div className={hero.overlay} />
+          </div>
 
-            <div className={styles.bar}>
-              {[0, 1, 2].map((i) => (
-                <div key={i} className={styles.barField}>
-                  <Skeleton width="44px" height="44px" radius="md" tone="onDark" />
-                  <div className={styles.barText}>
-                    <Skeleton width="48px" height="10px" tone="onDark" />
-                    <Skeleton width="120px" height="16px" tone="onDark" />
+          <div className={`container ${hero.inner}`}>
+            {/* em sizes follow the real title and description fonts. */}
+            <div className={`${hero.title} ${styles.lines}`}>
+              <Skeleton width="92%" height="0.8em" tone="onDark" />
+              <Skeleton width="64%" height="0.8em" tone="onDark" />
+            </div>
+            <div className={`${hero.description} ${styles.textLines}`}>
+              <Skeleton height="1em" tone="onDark" />
+              <Skeleton width="86%" height="1em" tone="onDark" />
+            </div>
+          </div>
+
+          <div className={hero.strip}>
+            <div className={`container ${hero.stripInner}`}>
+              <Image src="/brand/mascot/thumbs-up.svg" alt="" aria-hidden="true" width={143} height={116} className={hero.mascot} />
+              <div className={hero.bar} style={{ "--fields": 3 } as CSSProperties}>
+                {["70%", "55%", "45%"].map((w, i) => (
+                  <div key={i} className={hero.field}>
+                    <div className={hero.fieldText}>
+                      <Skeleton width="56px" height="13px" tone="onDark" />
+                      <Skeleton width={w} height="20px" tone="onDark" />
+                    </div>
                   </div>
-                </div>
-              ))}
-              <Skeleton width="220px" height="64px" radius="lg" tone="onDark" className={styles.barButton} />
+                ))}
+                <Skeleton width="200px" height="64px" radius="lg" tone="onDark" className={styles.bookButton} />
+              </div>
             </div>
           </div>
         </section>
 
-        <section className="section">
+        <section className={`section ${features.section}`} id="features">
           <div className="container">
-            <SectionHead lines={2} />
-            <ul className={styles.features}>
-              {Array.from({ length: 6 }, (_, i) => (
-                <li key={i} className={styles.featureCard}>
-                  <div className={styles.featureMedia}>
-                    <Skeleton height="100%" radius="sm" className={styles.flat} />
-                  </div>
-                  <div className={styles.featureBody}>
-                    <Skeleton width="48px" height="48px" radius="md" />
-                    <Skeleton width="55%" height="18px" />
+            <SectionHead />
+            <ul className={features.grid}>
+              {[0, 1, 2].map((i) => (
+                <li key={i} className={styles.feature}>
+                  <Skeleton width="48px" height="48px" radius="md" className={styles.featureIcon} />
+                  <Skeleton width="62%" height="22px" />
+                  <div className={styles.featureDesc}>
+                    <Skeleton height="14px" />
+                    <Skeleton width="72%" height="14px" />
                   </div>
                 </li>
               ))}
@@ -57,117 +70,132 @@ export default function Loading() {
           </div>
         </section>
 
-        <section className="section">
-          <div className={`container ${styles.how}`}>
-            <div className={styles.howCopy}>
-              <Skeleton width="110px" height="12px" />
-              <div className={styles.stack}>
-                <Skeleton width="85%" height="48px" />
-                <Skeleton width="62%" height="48px" />
+        <section className={`section ${how.section}`} id="how-it-works">
+          <div className="container">
+            <div className={how.aside}>
+              <div className={`${how.title} ${styles.lines} ${styles.howTitle}`}>
+                <Skeleton width="min(520px, 100%)" height="0.85em" />
+                <Skeleton width="min(380px, 72%)" height="0.85em" />
               </div>
+              <Skeleton width="160px" height="54px" radius="sm" className={styles.howCta} />
+            </div>
 
-              <ol className={styles.steps}>
-                {[true, false, false, false].map((open, i) => (
-                  <li key={i} className={styles.step} data-open={open}>
-                    <Skeleton width="20px" height="20px" radius="circle" />
-                    <div className={styles.stepText}>
-                      <Skeleton width={open ? "55%" : `${48 + i * 6}%`} height="22px" />
-                      {open && <Skeleton width="85%" height="14px" />}
+            <ol className={how.sheet}>
+              {[0, 1, 2, 3].map((i) => (
+                <li key={i} className={`${how.item} ${styles.step}`}>
+                  <Skeleton height="auto" className={styles.phone} />
+                  <div className={how.caption}>
+                    <Skeleton width={`${58 + i * 6}%`} height="20px" />
+                    <div className={`${styles.stepDesc} ${styles.featureDesc}`}>
+                      <Skeleton height="13px" />
+                      <Skeleton width="70%" height="13px" />
                     </div>
-                  </li>
-                ))}
-              </ol>
-
-              <Skeleton width="320px" height="58px" radius="full" />
-            </div>
-
-            <div className={styles.stage}>
-              <Skeleton width="min(520px, 100%)" height="520px" radius="circle" className={styles.disc} />
-              <Skeleton width="300px" height="640px" radius="lg" className={styles.phone} />
-            </div>
+                  </div>
+                </li>
+              ))}
+            </ol>
+            <Skeleton width="180px" height="14px" className={styles.swipeHint} />
           </div>
         </section>
 
-        <section className="section">
+        <section className={`section ${pricing.section}`} id="pricing">
           <div className="container">
-            <SectionHead lines={1} />
-            <ul className={styles.plans}>
+            <SectionHead />
+            <ul className={pricing.grid}>
               {[0, 1, 2].map((i) => (
                 <li key={i} className={styles.plan} data-featured={i === 2}>
-                  <Skeleton width="45%" height="24px" />
-                  <Skeleton width="80%" height="14px" />
-                  <Skeleton width="62%" height="58px" className={styles.price} />
-                  <span className={styles.divider} />
-                  <div className={styles.lines}>
-                    <Skeleton width="70%" height="16px" />
-                    <Skeleton width="58%" height="16px" />
-                    <Skeleton width="64%" height="16px" />
+                  <div className={styles.planTop}>
+                    <Skeleton width="45%" height="26px" />
+                    {i === 2 && <Skeleton width="84px" height="24px" radius="full" />}
                   </div>
-                  <Skeleton height="48px" radius="md" />
+                  <div className={`${styles.featureDesc} ${styles.planDesc}`}>
+                    <Skeleton height="14px" />
+                    <Skeleton width="64%" height="14px" />
+                  </div>
+                  <div className={styles.priceRow}>
+                    <Skeleton width="38%" height="52px" />
+                    <Skeleton width="26%" height="16px" />
+                  </div>
+                  <ul className={styles.planLines}>
+                    {[62, 54, 70, 48].map((w) => (
+                      <li key={w}>
+                        <Skeleton width="18px" height="18px" radius="circle" />
+                        <Skeleton width={`${w}%`} height="15px" />
+                      </li>
+                    ))}
+                  </ul>
+                  <div className={styles.planActions}>
+                    <Skeleton height="48px" radius="md" />
+                    <Skeleton width="72px" height="14px" />
+                  </div>
                 </li>
               ))}
             </ul>
+            <Skeleton width="min(420px, 80%)" height="15px" className={styles.note} />
           </div>
         </section>
 
-        <section className="section">
-          <div className={`container ${styles.coverage}`}>
-            <div className={styles.coverageCopy}>
-              <div className={styles.stack}>
-                <Skeleton width="92%" height="46px" />
-                <Skeleton width="40%" height="46px" />
+        <section className={`section ${coverage.section}`} id="coverage">
+          <div className={coverage.map}>
+            <Skeleton height="100%" className={styles.flat} />
+          </div>
+          <div className={`container ${coverage.layout}`}>
+            <div className={coverage.ask}>
+              <div className={coverage.head}>
+                <Skeleton width="86%" height="34px" />
+                <Skeleton width="70%" height="15px" />
               </div>
-              <div className={styles.lines}>
-                <Skeleton width="90%" height="16px" />
-                <Skeleton width="60%" height="16px" />
-              </div>
-              <ul className={styles.areas}>
+              <Skeleton height="52px" radius="md" />
+              <ul className={coverage.districts}>
                 {Array.from({ length: 9 }, (_, i) => (
-                  <li key={i} className={styles.area}>
-                    <Skeleton width="32px" height="32px" radius="md" />
-                    <Skeleton width={`${46 + ((i * 11) % 30)}%`} height="14px" />
+                  <li key={i} className={styles.district}>
+                    <Skeleton width="16px" height="16px" radius="circle" />
+                    <Skeleton width={`${46 + ((i * 11) % 34)}%`} height="14px" />
                   </li>
                 ))}
               </ul>
             </div>
-            <Skeleton height="100%" radius="lg" className={styles.map} />
           </div>
         </section>
 
-        <section className="section">
+        <section className={`section ${faq.section}`} id="faq">
           <div className="container">
-            <SectionHead lines={1} withDescription={false} />
-            <ul className={styles.faq}>
-              {[62, 48, 36, 54, 46].map((w, i) => (
-                <li key={i} className={styles.faqRow} data-open={i === 0}>
+            <SectionHead />
+            <ul className={`${faq.wrap} ${styles.faq}`}>
+              {[62, 48, 56, 40, 66, 52, 44].map((w, i) => (
+                <li key={i} className={styles.faqRow}>
                   <div className={styles.faqHead}>
                     <Skeleton width={`${w}%`} height="20px" />
-                    <Skeleton width="16px" height="16px" radius="sm" />
+                    <Skeleton width="24px" height="24px" radius="circle" />
                   </div>
-                  {i === 0 && <Skeleton width="86%" height="14px" />}
+                  {i === 0 && (
+                    <div className={`${styles.featureDesc} ${styles.faqAnswer}`}>
+                      <Skeleton width="88%" height="15px" />
+                      <Skeleton width="60%" height="15px" />
+                    </div>
+                  )}
                 </li>
               ))}
             </ul>
           </div>
         </section>
 
-        <section className={`section ${styles.ctaSection}`}>
+        <section className={`section ${cta.section}`}>
           <div className="container">
-            <div className={styles.cta}>
-              <div className={styles.ctaCopy}>
-                <div className={styles.stack}>
-                  <Skeleton width="80%" height="64px" tone="onAccent" />
-                  <Skeleton width="64%" height="64px" tone="onAccent" />
+            <div className={cta.card}>
+              <div className={cta.copy}>
+                <div className={`${cta.title} ${styles.lines}`}>
+                  <Skeleton width="min(520px, 92%)" height="0.85em" tone="onAccent" />
+                  <Skeleton width="min(460px, 80%)" height="0.85em" tone="onAccent" />
                 </div>
-                <div className={styles.lines}>
-                  <Skeleton width="90%" height="14px" tone="onAccent" />
-                  <Skeleton width="72%" height="14px" tone="onAccent" />
+                <div className={`${cta.description} ${styles.textLines}`}>
+                  <Skeleton width="min(440px, 100%)" height="1em" tone="onAccent" />
                 </div>
-                <div className={styles.row}>
-                  <Skeleton width="180px" height="52px" radius="full" tone="onAccent" />
-                </div>
+                <Skeleton width="170px" height="48px" radius="sm" tone="onAccent" className={styles.ctaButton} />
               </div>
-              <Skeleton width="260px" height="260px" radius="circle" className={styles.portrait} />
+              <div className={cta.art}>
+                <Skeleton width="var(--portrait)" height="var(--portrait)" radius="circle" className={styles.portrait} />
+              </div>
             </div>
           </div>
         </section>
@@ -176,15 +204,17 @@ export default function Loading() {
   );
 }
 
-function SectionHead({ lines, withDescription = true }: { lines: 1 | 2; withDescription?: boolean }) {
+/** The shared header: a two-line title and a short description, centred. */
+function SectionHead() {
   return (
-    <div className={styles.head}>
-      <Skeleton width="80px" height="12px" />
-      <div className={styles.headTitle}>
-        <Skeleton width={lines === 2 ? "min(520px, 80%)" : "min(560px, 86%)"} height="44px" />
-        {lines === 2 && <Skeleton width="min(360px, 56%)" height="44px" />}
+    <div className={header.header}>
+      <div className={`${header.title} ${styles.lines} ${styles.centered}`}>
+        <Skeleton width="min(720px, 92%)" height="0.85em" />
+        <Skeleton width="min(420px, 60%)" height="0.85em" />
       </div>
-      {withDescription && <Skeleton width="min(440px, 80%)" height="16px" />}
+      <div className={`body-lg ${styles.textLines} ${styles.centered}`}>
+        <Skeleton width="min(640px, 90%)" height="1em" />
+      </div>
     </div>
   );
 }

@@ -1,51 +1,13 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { followTheme, loadGoogleMaps, themeStyles } from "@/utils/googleMaps";
 import { cardSide, markerHtml, markerStyles as styles, MARKER_SIZE, overlayInset, ZONE_RADIUS, type MapProps } from "./markup";
 
-const KEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY ?? "";
-const READY = "__irisGoogleMapsReady";
 const MAX_ZOOM = 14;
 const FOCUS_ZOOM = 13;
 
-const LIGHT_STYLE: google.maps.MapTypeStyle[] = [
-  { featureType: "poi", stylers: [{ visibility: "off" }] },
-  { featureType: "transit", stylers: [{ visibility: "off" }] },
-];
-
-const DARK_STYLE: google.maps.MapTypeStyle[] = [
-  { elementType: "geometry", stylers: [{ color: "#1d2330" }] },
-  { elementType: "labels.text.stroke", stylers: [{ color: "#1d2330" }] },
-  { elementType: "labels.text.fill", stylers: [{ color: "#8a93a6" }] },
-  { featureType: "administrative", elementType: "geometry", stylers: [{ color: "#2c3446" }] },
-  { featureType: "road", elementType: "geometry", stylers: [{ color: "#2c3446" }] },
-  { featureType: "road", elementType: "geometry.stroke",  stylers: [{ color: "#1d2330" }] },
-  { featureType: "road.highway", elementType: "geometry", stylers: [{ color: "#3b4660" }] },
-  { featureType: "water", elementType: "geometry", stylers: [{ color: "#0f1420" }] },
-  ...LIGHT_STYLE,
-];
-
-let loading: Promise<void> | null = null;
-
-function loadGoogleMaps(language: string) {
-  if (typeof google !== "undefined" && google.maps?.Map) return Promise.resolve();
-  loading ??= new Promise<void>((resolve, reject) => {
-    (window as unknown as Record<string, () => void>)[READY] = resolve;
-    const script = document.createElement("script");
-    script.src = `https://maps.googleapis.com/maps/api/js?key=${KEY}&v=weekly&language=${language}&region=SA&callback=${READY}`;
-    script.async = true;
-    script.onerror = () => {
-      loading = null;
-      reject(new Error("The Google Maps script failed to load"));
-    };
-    document.head.append(script);
-  });
-  return loading;
-}
-
-const isDark = () => document.documentElement.dataset.theme === "dark";
-
-// A marker is an HTML overlay, so it can reuse the pin and place card the Leaflet map draws.
+// A marker is an HTML overlay, so it can use the same pin and place card markup as the rest of the section.
 function createMarkerClass() {
   return class HtmlMarker extends google.maps.OverlayView {
     readonly el = document.createElement("div");
@@ -131,10 +93,10 @@ export default function GoogleCoverageMap({ points, active, onSelect, label, reg
 
   useEffect(() => {
     let cancelled = false;
-    let themeObserver: MutationObserver | undefined;
+    let stopTheme: (() => void) | undefined;
     let resizeObserver: ResizeObserver | undefined;
 
-    loadGoogleMaps(document.documentElement.lang === "ar" ? "ar" : "en")
+    loadGoogleMaps()
       .then(() => {
         if (cancelled || !container.current) return;
 
@@ -149,7 +111,7 @@ export default function GoogleCoverageMap({ points, active, onSelect, label, reg
           },
           gestureHandling: "cooperative",
           clickableIcons: false,
-          styles: isDark() ? DARK_STYLE : LIGHT_STYLE,
+          styles: themeStyles(),
         });
 
         const bounds = new google.maps.LatLngBounds();
@@ -199,8 +161,7 @@ export default function GoogleCoverageMap({ points, active, onSelect, label, reg
         light(activeRef.current);
         map.current = instance;
 
-        themeObserver = new MutationObserver(() => instance.setOptions({ styles: isDark() ? DARK_STYLE : LIGHT_STYLE }));
-        themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+        stopTheme = followTheme(instance);
       })
       .catch(() => {});
 
@@ -213,7 +174,7 @@ export default function GoogleCoverageMap({ points, active, onSelect, label, reg
 
     return () => {
       cancelled = true;
-      themeObserver?.disconnect();
+      stopTheme?.();
       resizeObserver?.disconnect();
       markers.current.forEach((marker) => marker.setMap(null));
       zones.current.forEach((zone) => zone.setMap(null));
@@ -244,5 +205,5 @@ export default function GoogleCoverageMap({ points, active, onSelect, label, reg
     }
   }, [active, points]);
 
-  return <div ref={container} className={styles.leaflet} role="application" aria-label={label} />;
+  return <div ref={container} className={styles.canvas} role="application" aria-label={label} />;
 }

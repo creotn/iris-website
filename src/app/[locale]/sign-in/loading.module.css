@@ -1,0 +1,59 @@
+/* ---- Placeholders for the auth forms; the form column and split layout come from the real styles ---- */
+
+/* Forgot password has no side panel; the form sits centred on the page. */
+.centered {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-block: var(--space-2xl);
+}
+
+.submit {
+  margin-block-start: var(--space-xs);
+}
+
+/* The "back to sign in" link: 12px padding around one line of text. */
+.ghost {
+  margin: 12px auto;
+}
+
+.tabs {
+  display: flex;
+  gap: var(--space-lg);
+  margin-block-end: var(--space-sm);
+  border-block-end: 1px solid var(--border);
+}
+
+.tab {
+  padding-block: 12px;
+}
+
+.tabOn {
+  margin-block-end: -1px;
+  border-block-end: 2px solid var(--border-accent);
+}
+
+.labelRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.error {
+  block-size: 1.25em;
+  font-size: var(--fs-body-sm);
+}
+
+.secure {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* The image panel is only shown from 960px, like the real one. */
+.panelCover {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+}

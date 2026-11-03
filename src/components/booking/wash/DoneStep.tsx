@@ -6,6 +6,7 @@ import type { Booking } from "@/api/BookingAPI";
 import formStyles from "@/components/forms/SignInForm.module.css";
 import { useCurrentLocale, useScopedI18n } from "@/locales/client";
 import { formatMoney, joinNames, pick } from "./draft";
+import { STEP_TOTAL } from "./ui";
 import styles from "./Wash.module.css";
 
 const TIMELINE = ["tlConfirmed", "tlAssigned", "tlOnTheWay", "tlInProgress", "tlDone"] as const;
@@ -35,13 +36,8 @@ export default function DoneStep({ booking, onAnother }: { booking: Booking; onA
   return (
     <div className={styles.doneFull}>
       <header className={styles.doneHead}>
-        <div className={styles.doneTitleRow}>
-          <svg className={styles.doneCheck} viewBox="0 0 52 52" aria-hidden>
-            <circle cx="26" cy="26" r="24" />
-            <path d="M15 27l8 8 15-17" />
-          </svg>
-          <h1 className={styles.doneTitle}>{cash ? t("bookingConfirmed") : t("paymentSuccessful")}</h1>
-        </div>
+        <p className={styles.eyebrowStep}>{t("step", { current: STEP_TOTAL, total: STEP_TOTAL })}</p>
+        <h1 className={styles.doneTitle}>{cash ? t("bookingConfirmed") : t("paymentSuccessful")}</h1>
         <p className={styles.doneSub}>{booking.scheduledAt ? t("scheduledNote") : t("matchingNote")}</p>
       </header>
 
@@ -65,7 +61,7 @@ export default function DoneStep({ booking, onAnother }: { booking: Booking; onA
               <div key={key} className={index === 0 ? styles.stageDone : index === 1 ? styles.stageNow : undefined}>
                 <dt>{t(key)}</dt>
                 <dd aria-hidden>
-                  {index === 0 ? <IconCheck size={14} stroke={3} /> : index === 1 ? <span className={styles.stageSpin} /> : <span className={styles.stageEmpty} />}
+                  {index === 0 ? <IconCheck size={14} stroke={3} /> : index === 1 ? <span className={styles.stagePulse} /> : <span className={styles.stageEmpty} />}
                 </dd>
               </div>
             ))}

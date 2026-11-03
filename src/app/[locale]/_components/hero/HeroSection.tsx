@@ -2,6 +2,7 @@ import Image from "next/image";
 import { getScopedI18n } from "@/locales/server";
 import { fetchBookableServices } from "@/api/PricingAPI";
 import HeroBookingBar from "./HeroBookingBar";
+import HeroTitle from "./HeroTitle";
 import HeroVideo from "./HeroVideo";
 import styles from "./HeroSection.module.css";
 
@@ -46,9 +47,7 @@ export default async function HeroSection({ locale }: { locale: Locale }) {
       </div>
 
       <div className={`container ${styles.inner}`}>
-        <h1 className={styles.title}>
-          {t("titleStart")} <span className={styles.titleEnd}>{t("titleEnd")}</span>
-        </h1>
+        <HeroTitle start={t("titleStart")} end={t("titleEnd")} />
         <p className={styles.description}>{t("description")}</p>
       </div>
 

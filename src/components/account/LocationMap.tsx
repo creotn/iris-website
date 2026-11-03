@@ -1,15 +1,23 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import type { Map as LeafletMap, Marker } from "leaflet";
-import "leaflet/dist/leaflet.css";
+import { useEffect, useRef, useState } from "react";
+import { followTheme, loadGoogleMaps, RIYADH, themeStyles } from "@/utils/googleMaps";
 import styles from "./Account.module.css";
 
 export type Point = { latitude: number; longitude: number };
 
-const DEFAULT_VIEW = { center: [24.7136, 46.6753] as [number, number], zoom: 11 };
+const CITY_ZOOM = 11;
 const PINNED_ZOOM = 16;
 
+const toLatLng = ({ latitude, longitude }: Point) => ({ lat: latitude, lng: longitude });
+const samePoint = (a: Point, b: google.maps.LatLng) =>
+  Math.abs(a.latitude - b.lat()) < 1e-7 && Math.abs(a.longitude - b.lng()) < 1e-7;
+
+/**
+ * A Google map with a pin fixed at its centre: the user moves the map under the pin, or taps a
+ * spot to bring it there. Whatever sits under the pin when the map stops is the picked point.
+ * Without `onPick` the map is read-only and just shows `value`.
+ */
 export default function LocationMap({
   value,
   onPick,
@@ -22,11 +30,10 @@ export default function LocationMap({
   wheelZoom?: boolean;
 }) {
   const container = useRef<HTMLDivElement>(null);
-  const map = useRef<LeafletMap | null>(null);
-  const marker = useRef<Marker | null>(null);
-  const placeRef = useRef<((point: Point) => void) | null>(null);
+  const map = useRef<google.maps.Map | null>(null);
   const valueRef = useRef(value);
   const pickRef = useRef(onPick);
+  const [moving, setMoving] = useState(false);
   const picking = Boolean(onPick);
 
   useEffect(() => {
@@ -36,64 +43,83 @@ export default function LocationMap({
 
   useEffect(() => {
     let cancelled = false;
+    let stopTheme: (() => void) | undefined;
+    // Set by a drag or a tap, so the first pick only ever comes from the user.
+    let userMoved = false;
 
-    import("leaflet").then((L) => {
-      if (cancelled || !container.current) return;
-      const start = valueRef.current;
-      const instance = L.map(container.current, { scrollWheelZoom: wheelZoom, zoomControl: false }).setView(
-        start ? [start.latitude, start.longitude] : DEFAULT_VIEW.center,
-        start ? PINNED_ZOOM : DEFAULT_VIEW.zoom,
-      );
-      const rtl = document.documentElement.dir === "rtl";
-      L.control.zoom({ position: rtl ? "topleft" : "topright" }).addTo(instance);
-      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        maxZoom: 19,
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>',
-      }).addTo(instance);
+    loadGoogleMaps()
+      .then(() => {
+        if (cancelled || !container.current) return;
+        const start = valueRef.current;
+        const rtl = document.documentElement.dir === "rtl";
 
-      const icon = L.divIcon({ className: styles.pin, html: "<span></span>", iconSize: [32, 40], iconAnchor: [16, 39] });
+        const instance = new google.maps.Map(container.current, {
+          center: start ? toLatLng(start) : RIYADH,
+          zoom: start ? PINNED_ZOOM : CITY_ZOOM,
+          disableDefaultUI: true,
+          zoomControl: true,
+          zoomControlOptions: {
+            position: rtl ? google.maps.ControlPosition.LEFT_TOP : google.maps.ControlPosition.RIGHT_TOP,
+          },
+          gestureHandling: picking ? (wheelZoom ? "greedy" : "cooperative") : "none",
+          clickableIcons: false,
+          styles: themeStyles(),
+        });
 
-      placeRef.current = ({ latitude, longitude }) => {
-        if (marker.current) marker.current.setLatLng([latitude, longitude]);
-        else {
-          marker.current = L.marker([latitude, longitude], { icon, draggable: picking, keyboard: false }).addTo(instance);
-          marker.current.on("dragend", () => {
-            const { lat, lng } = marker.current!.getLatLng();
-            pickRef.current?.({ latitude: lat, longitude: lng });
+        if (picking) {
+          instance.addListener("dragstart", () => setMoving(true));
+          instance.addListener("dragend", () => (userMoved = true));
+          instance.addListener("click", ({ latLng }: google.maps.MapMouseEvent) => {
+            if (!latLng) return;
+            userMoved = true;
+            instance.panTo(latLng);
+          });
+          // Zooming around the cursor also moves the centre, so once a spot is set it follows the pin too.
+          instance.addListener("idle", () => {
+            setMoving(false);
+            const center = instance.getCenter();
+            const current = valueRef.current;
+            if (!center || (!userMoved && !current) || (current && samePoint(current, center))) return;
+            pickRef.current?.({ latitude: center.lat(), longitude: center.lng() });
           });
         }
-      };
 
-      if (start) placeRef.current(start);
-      if (picking) {
-        instance.on("click", ({ latlng }) => {
-          placeRef.current?.({ latitude: latlng.lat, longitude: latlng.lng });
-          pickRef.current?.({ latitude: latlng.lat, longitude: latlng.lng });
-        });
-      }
-
-      map.current = instance;
-      setTimeout(() => instance.invalidateSize(), 320);
-    });
+        map.current = instance;
+        stopTheme = followTheme(instance);
+      })
+      .catch(() => {});
 
     return () => {
       cancelled = true;
-      map.current?.remove();
+      stopTheme?.();
+      if (map.current) google.maps.event.clearInstanceListeners(map.current);
       map.current = null;
-      marker.current = null;
-      placeRef.current = null;
     };
   }, [picking, wheelZoom]);
 
+  // A point chosen outside the map (search, saved address, current location) moves the map to it.
   const latitude = value?.latitude;
   const longitude = value?.longitude;
   useEffect(() => {
-    if (latitude == null || longitude == null || !map.current) return;
-    placeRef.current?.({ latitude, longitude });
-    if (!map.current.getBounds().contains([latitude, longitude])) {
-      map.current.setView([latitude, longitude], Math.max(map.current.getZoom(), PINNED_ZOOM));
-    }
+    const instance = map.current;
+    if (latitude == null || longitude == null || !instance) return;
+    const center = instance.getCenter();
+    if (center && samePoint({ latitude, longitude }, center)) return;
+    instance.panTo({ lat: latitude, lng: longitude });
+    if ((instance.getZoom() ?? 0) < PINNED_ZOOM) instance.setZoom(PINNED_ZOOM);
   }, [latitude, longitude]);
 
-  return <div ref={container} className={styles.leafletMap} dir="ltr" role="application" aria-label={label} />;
+  return (
+    <div className={styles.locationMap}>
+      <div ref={container} className={styles.mapCanvas} role="application" aria-label={label} />
+      {(picking || value) && (
+        <span className={styles.centerPin} data-moving={moving} data-placed={Boolean(value)} aria-hidden="true">
+          <svg viewBox="0 0 32 42" width="32" height="42">
+            <path d="M16 1C7.7 1 1 7.6 1 15.8 1 26.6 16 41 16 41s15-14.4 15-25.2C31 7.6 24.3 1 16 1Z" />
+            <circle cx="16" cy="15.5" r="5.5" />
+          </svg>
+        </span>
+      )}
+    </div>
+  );
 }

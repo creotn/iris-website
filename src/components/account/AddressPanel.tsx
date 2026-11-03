@@ -13,7 +13,7 @@ import { saveAddress, type SavedAddress } from "@/api/BookingAPI";
 import type { Place } from "@/api/GeoAPI";
 import AuthField from "@/components/forms/AuthField";
 import formStyles from "@/components/forms/SignInForm.module.css";
-import { Skeleton } from "@/components/skeleton/Skeleton";
+import { AddressSkeleton } from "./AccountSkeletons";
 import { numberInRange, required, useValidatedForm } from "@/hooks/useValidatedForm";
 import { useCurrentLocale, useScopedI18n } from "@/locales/client";
 import { translateError } from "@/utils/error";
@@ -44,7 +44,7 @@ export default function AddressPanel({
 
   if (!saved) {
     if (error) return <ErrorRow message={error} onRetry={reload} />;
-    return <Skeleton height="360px" radius="lg" />;
+    return <AddressSkeleton />;
   }
 
   const { address } = saved;

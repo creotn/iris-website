@@ -1,0 +1,21 @@
+/* Skeleton blocks don't follow text-align, so the price column pushes them to the end itself. */
+.end {
+  margin-inline-start: auto;
+}
+
+.actions {
+  display: inline-flex;
+  gap: 6px;
+}
+
+/* The map placeholder runs edge to edge, like the real map. */
+.flat {
+  border-radius: 0 !important;
+}
+
+/* Phone: the table stacks and its cells align to the start, as in the real rows. */
+@media (max-width: 640px) {
+  .end {
+    margin-inline-start: 0;
+  }
+}

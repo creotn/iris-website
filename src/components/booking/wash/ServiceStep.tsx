@@ -1,11 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { IconArrowRight, IconCar, IconChevronLeft, IconChevronRight, IconClock, IconMapPin, IconSearch } from "@tabler/icons-react";
-import type { CatalogCategory, CatalogService, SavedAddress, Vehicle } from "@/api/BookingAPI";
+import { IconArrowRight, IconCheck, IconClock } from "@tabler/icons-react";
+import type { CatalogCategory, CatalogService } from "@/api/BookingAPI";
+import { Pager } from "@/components/table/TableParts";
 import { useCurrentLocale, useScopedI18n } from "@/locales/client";
 import { formatMoney, pick, sorted } from "./draft";
-import { Heading } from "./ui";
+import { Cta, StepFooter, StepHeading } from "./ui";
 import styles from "./Wash.module.css";
 
 const PAGE_SIZE = 6;
@@ -13,28 +14,23 @@ const PAGE_SIZE = 6;
 export default function ServiceStep({
   categories,
   services,
-  vehicle,
-  address,
+  selected,
   onPick,
+  onContinue,
 }: {
   categories: CatalogCategory[];
   services: CatalogService[];
-  vehicle: Vehicle;
-  address: SavedAddress;
+  selected: CatalogService | null;
   onPick: (service: CatalogService) => void;
+  /** Reopens the popup for the chosen service. */
+  onContinue: () => void;
 }) {
   const t = useScopedI18n("wash");
   const locale = useCurrentLocale();
   const [category, setCategory] = useState<string | null>(null);
-  const [query, setQuery] = useState("");
   const [page, setPage] = useState(1);
 
-  const needle = query.trim().toLowerCase();
-  const visible = sorted(services).filter(
-    (service) =>
-      (!category || service.categoryPubkey === category) &&
-      (!needle || pick(service.title, locale).toLowerCase().includes(needle)),
-  );
+  const visible = sorted(services).filter((service) => !category || service.categoryPubkey === category);
 
   const pages = Math.max(1, Math.ceil(visible.length / PAGE_SIZE));
   const current = Math.min(page, pages);
@@ -46,41 +42,12 @@ export default function ServiceStep({
 
   return (
     <div className={styles.stack}>
-      <div className={styles.serviceHead}>
-        <Heading title={t("serviceTitle")} subtitle={t("serviceSubtitle")} />
-        <div className={styles.context}>
-          <span className={styles.contextItem}>
-            <IconCar size={16} stroke={1.75} aria-hidden />
-            {vehicle.make} {vehicle.model}
-          </span>
-          {address.address && (
-            <span className={styles.contextItem}>
-              <IconMapPin size={16} stroke={1.75} aria-hidden />
-              {address.area?.city ?? address.address.address}
-            </span>
-          )}
-        </div>
-      </div>
+      <StepHeading
+        step={3}
+        title={t("serviceTitle")}
+        subtitle={t("serviceSubtitle")}
+      />
 
-      <div className={styles.toolbar}>
-        <label className={styles.searchBox}>
-          <IconSearch size={18} stroke={1.75} aria-hidden />
-          <input
-            type="search"
-            dir="auto"
-            value={query}
-            placeholder={t("searchServices")}
-            aria-label={t("searchServices")}
-            onChange={(event) => {
-              setQuery(event.target.value);
-              setPage(1);
-            }}
-          />
-        </label>
-        <span className={styles.count} role="status">
-          {t("servicesCount", { count: visible.length })}
-        </span>
-      </div>
 
       {categories.length > 0 && (
         <div className={styles.catTabs} role="group" aria-label={t("categories")}>
@@ -106,7 +73,7 @@ export default function ServiceStep({
         </div>
       )}
 
-      {visible.length === 0 && <p className={styles.empty}>{needle ? t("noMatch") : t("noServices")}</p>}
+      {visible.length === 0 && <p className={styles.empty}>{t("noServices")}</p>}
 
       <div className={styles.serviceGrid}>
         {shown.map((service) => {
@@ -115,8 +82,15 @@ export default function ServiceStep({
           const from = raw && raw > 0 ? raw : null;
           const description = pick(service.description, locale);
           const group = categoryName(service.categoryPubkey);
+          const on = service.pubkey === selected?.pubkey;
           return (
-            <button key={service.pubkey} type="button" className={styles.svcCard} onClick={() => onPick(service)}>
+            <button
+              key={service.pubkey}
+              type="button"
+              className={`${styles.svcCard} ${on ? styles.svcCardOn : ""}`}
+              aria-pressed={on}
+              onClick={() => onPick(service)}
+            >
               <span className={styles.svcMeta}>
                 <span className={styles.svcGroup}>{group}</span>
                 {service.estimatedMinutes != null && (
@@ -138,7 +112,7 @@ export default function ServiceStep({
                   <span className={styles.priceNote}>{t("priceOnSelection")}</span>
                 )}
                 <span className={styles.svcGo} aria-hidden>
-                  <IconArrowRight size={18} stroke={2} />
+                  {on ? <IconCheck size={18} stroke={2.5} /> : <IconArrowRight size={18} stroke={2} />}
                 </span>
               </span>
             </button>
@@ -146,27 +120,13 @@ export default function ServiceStep({
         })}
       </div>
 
-      {pages > 1 && (
-        <nav className={styles.pager} aria-label={t("serviceTitle")}>
-          <button type="button" className={styles.pageBtn} disabled={current === 1} onClick={() => setPage(current - 1)} aria-label={t("back")}>
-            <IconChevronLeft size={18} stroke={2} aria-hidden />
-          </button>
-          {Array.from({ length: pages }, (_, index) => index + 1).map((number) => (
-            <button
-              key={number}
-              type="button"
-              className={`${styles.pageBtn} ${number === current ? styles.pageOn : ""}`}
-              aria-current={number === current ? "page" : undefined}
-              onClick={() => setPage(number)}
-            >
-              {number}
-            </button>
-          ))}
-          <button type="button" className={styles.pageBtn} disabled={current === pages} onClick={() => setPage(current + 1)} aria-label={t("continue")}>
-            <IconChevronRight size={18} stroke={2} aria-hidden />
-          </button>
-        </nav>
-      )}
+      <Pager page={current} pages={pages} onPage={setPage} label={t("serviceTitle")} previous={t("back")} next={t("continue")} />
+
+      <StepFooter label={t("stepService")} hint={t("pickServiceHint")} value={selected && pick(selected.title, locale)}>
+        <Cta disabled={!selected} onClick={onContinue}>
+          {t("continue")}
+        </Cta>
+      </StepFooter>
     </div>
   );
 }

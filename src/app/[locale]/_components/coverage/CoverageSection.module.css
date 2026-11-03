@@ -238,70 +238,11 @@
   --text-dir: rtl;
 }
 
-.leaflet {
+.canvas {
   position: absolute;
   inset: 0;
   z-index: 0;
   font: inherit;
-}
-
-/* Leaflet paints its own grey behind the tiles; use the page surface while they load. */
-.map :global(.leaflet-container) {
-  background: var(--bg-secondary);
-}
-
-/* The map is shown as it comes, only turned down a little in the dark theme. */
-:global(:root[data-theme="dark"]) .leaflet :global(.leaflet-tile-pane) {
-  filter: invert(1) hue-rotate(180deg) saturate(0.55) brightness(0.9) contrast(0.95);
-}
-
-.map :global(.leaflet-container .leaflet-control-attribution) {
-  padding: 2px 8px;
-  background: color-mix(in srgb, var(--bg-card) 82%, transparent);
-  font-size: 10px;
-  color: var(--text-muted);
-}
-
-.map :global(.leaflet-container .leaflet-control-attribution a) {
-  color: var(--text-accent);
-}
-
-.map :global(.leaflet-bar) {
-  overflow: hidden;
-  border: var(--border-width) solid var(--border);
-  border-radius: var(--radius-sm);
-  box-shadow: var(--shadow-sm);
-}
-
-.map :global(.leaflet-bar a) {
-  width: 34px;
-  height: 34px;
-  line-height: 34px;
-  background: var(--bg-card);
-  border-color: var(--border);
-  color: var(--text-primary);
-}
-
-.map :global(.leaflet-bar a:hover) {
-  background: var(--accent-subtle);
-  color: var(--text-accent);
-}
-
-/* The active district service area. */
-.zone {
-  fill: var(--accent);
-  fill-opacity: 0;
-  stroke: var(--accent);
-  stroke-opacity: 0;
-  stroke-dasharray: 4 6;
-  transition:
-    fill-opacity 0.6s ease,
-    stroke-opacity 0.6s ease;
-}
-
-.zone[data-active="true"] {
-  fill-opacity: 0.12;
-  stroke-opacity: 0.75;
 }
 
 /* ---- Pins ---- */

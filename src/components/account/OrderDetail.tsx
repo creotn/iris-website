@@ -1,16 +1,16 @@
 "use client";
 
-import { useCallback, useEffect, useState, useTransition, type ReactNode } from "react";
+import { useCallback, useEffect, useState, useTransition } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { IconArrowLeft, IconCheck, IconCreditCard, IconRefresh, IconStarFilled, IconX } from "@tabler/icons-react";
 import { fetchOrder, fileUrl, rateOrder, type Order } from "@/api/AccountAPI";
 import { cancelBooking } from "@/api/BookingAPI";
-import { Skeleton } from "@/components/skeleton/Skeleton";
 import { formatMoney } from "@/components/booking/wash/draft";
 import { useCurrentLocale, useScopedI18n } from "@/locales/client";
 import { translateError } from "@/utils/error";
+import { OrderDetailSkeleton } from "./AccountSkeletons";
 import Dialog from "./Dialog";
 import ErrorRow from "./ErrorRow";
 import {
@@ -83,7 +83,7 @@ export default function OrderDetail({ pubkey }: { pubkey: string }) {
     </Link>
   );
 
-  if (state.status === "loading") return <OrderSkeleton back={back} />;
+  if (state.status === "loading") return <OrderDetailSkeleton back={back} />;
   if (state.status === "failed") {
     return (
       <div className={styles.page}>
@@ -427,21 +427,5 @@ function CancelOrder({ pubkey, onCancelled }: { pubkey: string; onCancelled: () 
         </div>
       </Dialog>
     </>
-  );
-}
-
-function OrderSkeleton({ back }: { back: ReactNode }) {
-  return (
-    <div className={styles.page} aria-busy="true">
-      {back}
-      <Skeleton width="55%" height="40px" />
-      <div className={styles.detailGrid}>
-        <Skeleton height="420px" radius="lg" />
-        <div className={styles.column}>
-          <Skeleton height="220px" radius="lg" />
-          <Skeleton height="200px" radius="lg" />
-        </div>
-      </div>
-    </div>
   );
 }
