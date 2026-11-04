@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { IconArrowRight, IconLock, IconMail, IconUser } from "@tabler/icons-react";
 import { register } from "@/api/AuthAPI";
 import { SubmitButton } from "@/components/buttons/SubmitButton";
 import { useCurrentLocale, useScopedI18n } from "@/locales/client";
@@ -37,21 +36,20 @@ export default function RegisterForm() {
   return (
     <form className={styles.fields} action={submit}>
       <div className={styles.row}>
-        <AuthField label={t("firstName")} icon={<IconUser size={18} stroke={1.75} />} name="firstName" autoComplete="given-name" />
-        <AuthField label={t("lastName")} icon={<IconUser size={18} stroke={1.75} />} name="lastName" autoComplete="family-name" />
+        <AuthField label={t("firstName")} name="firstName" autoComplete="given-name" />
+        <AuthField label={t("lastName")} name="lastName" autoComplete="family-name" />
       </div>
-      <PhoneField label={t("phone")} locale={locale} />
-      <AuthField label={t("email")} icon={<IconMail size={18} stroke={1.75} />} type="email" name="email" placeholder="name@example.com" autoComplete="email" />
-      <AuthField label={t("password")} icon={<IconLock size={18} stroke={1.75} />} type="password" name="password" placeholder="••••••••" autoComplete="new-password" minLength={6} />
+      <div className={styles.row}>
+        <PhoneField label={t("phone")} locale={locale} />
+        <AuthField label={t("email")} type="email" name="email" placeholder="name@example.com" autoComplete="email" />
+      </div>
+      <AuthField label={t("password")} type="password" name="password" placeholder="••••••••" autoComplete="new-password" minLength={6} />
 
       <p className="errorMessage" role="alert">
         {error}
       </p>
 
-      <SubmitButton className={styles.submit}>
-        {t("registerSubmit")}
-        <IconArrowRight className={styles.arrow} size={18} stroke={2} aria-hidden />
-      </SubmitButton>
+      <SubmitButton className={styles.submit}>{t("registerSubmit")}</SubmitButton>
     </form>
   );
 }

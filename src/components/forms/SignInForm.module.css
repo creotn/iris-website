@@ -21,23 +21,6 @@
   color: var(--accent);
 }
 
-.secure {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: var(--fs-xs);
-  color: var(--text-muted);
-}
-
-.secure svg {
-  color: var(--accent);
-}
-
-.footnote {
-  font-size: var(--fs-sm);
-  color: var(--text-muted);
-}
-
 .title {
   margin: 0;
   font-size: clamp(2rem, 5vw, 3rem);
@@ -81,6 +64,13 @@
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--space-md);
+}
+
+/* The register card is wide enough for pairs; a phone gets one field per line. */
+@media (max-width: 560px) {
+  .row {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }
 
 .notice {
@@ -245,4 +235,63 @@ html[dir="rtl"] .arrow {
 .ghost:disabled {
   cursor: default;
   opacity: 0.6;
+}
+
+.switch {
+  margin-block-start: 6px;
+  padding-block-start: 22px;
+  border-block-start: 1px solid var(--border);
+  font-size: var(--fs-sm);
+  color: var(--text-secondary);
+  text-align: center;
+}
+
+/* 44px tall tap target; the negative margin keeps the line at its text height. */
+.switchButton {
+  margin-block: -12px;
+  padding: 12px 2px;
+  background: none;
+  border: 0;
+  color: var(--text-accent);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.switchButton:hover {
+  text-decoration: underline;
+}
+
+/* AuthField without an icon (the sign-in card). */
+.inputPlain {
+  height: 46px;
+  padding-block: 0;
+  padding-inline-start: 14px;
+  border-color: var(--border-strong);
+  border-radius: var(--radius-sm);
+  font-size: 15px;
+}
+
+.inputPlain:focus {
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 18%, transparent);
+}
+
+/* Keep Chrome's autofill from painting the field blue. */
+.inputPlain:-webkit-autofill {
+  -webkit-text-fill-color: var(--text-primary);
+  box-shadow: 0 0 0 100px var(--bg-input) inset;
+}
+
+.inputPlain:-webkit-autofill:focus {
+  box-shadow:
+    0 0 0 100px var(--bg-input) inset,
+    0 0 0 3px color-mix(in srgb, var(--accent) 18%, transparent);
+}
+
+.inputPlain ~ .toggle {
+  inset-inline-end: 1px;
+  justify-content: center;
+  align-items: center;
+  width: 44px;
+  height: 44px;
 }

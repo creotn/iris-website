@@ -12,6 +12,7 @@ import {
   REFRESH_ATTEMPTED_MAX_AGE,
 } from "@/lib/fetch/refreshMarker";
 import { LEGACY_REFRESH_COOKIE } from "@/lib/fetch/sessionCookieName";
+import AppConfig from "@/config/Base";
 
 function safeReturnPath(raw: string | null): string {
   if (!raw || !raw.startsWith("/")) return "/";
@@ -44,7 +45,7 @@ export async function GET(request: NextRequest) {
 
   let apiSetCookie: string[] = [];
   const response = await httpClientPost<AuthRefreshResponse>(
-    `${process.env.API_URL}/v1/api/auth/refresh-token`,
+    `${AppConfig.apiUrl}/v1/api/auth/refresh-token`,
     legacyValue ? { refresh_token: legacyValue } : {},
     {
       headers: sessionValue

@@ -108,3 +108,20 @@
   font-size: var(--fs-xs);
   color: var(--error);
 }
+
+/* In the sign-in card's Create account form, match the 46px plain AuthFields beside it. */
+:global([data-mode="register"]) .control {
+  height: 46px;
+  border-color: var(--border-strong);
+  border-radius: var(--radius-sm);
+}
+
+:global([data-mode="register"]) .control:focus-within {
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 18%, transparent);
+}
+
+:global([data-mode="register"]) .country,
+:global([data-mode="register"]) .input {
+  padding-block: 0;
+  font-size: 15px;
+}

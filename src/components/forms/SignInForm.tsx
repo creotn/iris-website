@@ -3,7 +3,6 @@
 import { useState, useSyncExternalStore } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { IconArrowRight, IconLock, IconMail, IconShieldCheck } from "@tabler/icons-react";
 import { signIn } from "@/api/AuthAPI";
 import { stepPath } from "@/config/booking";
 import { SubmitButton } from "@/components/buttons/SubmitButton";
@@ -58,7 +57,6 @@ function SignInFields() {
 
       <AuthField
         label={t("email")}
-        icon={<IconMail size={18} stroke={1.75} />}
         type="email"
         name="identifier"
         placeholder="name@example.com"
@@ -67,7 +65,6 @@ function SignInFields() {
 
       <AuthField
         label={t("password")}
-        icon={<IconLock size={18} stroke={1.75} />}
         type="password"
         name="password"
         placeholder="••••••••"
@@ -83,16 +80,7 @@ function SignInFields() {
         {error}
       </p>
 
-      <SubmitButton className={styles.submit}>
-        {t("submit")}
-        <IconArrowRight className={styles.arrow} size={18} stroke={2} aria-hidden />
-      </SubmitButton>
-
-      <p className={styles.secure}>
-        <IconShieldCheck size={16} stroke={1.75} aria-hidden />
-        {t("secure")}
-      </p>
-      <p className={styles.footnote}>{t("newToIris")}</p>
+      <SubmitButton className={styles.submit}>{t("submit")}</SubmitButton>
     </form>
   );
 }
@@ -100,44 +88,27 @@ function SignInFields() {
 export default function SignInForm() {
   const t = useScopedI18n("signIn");
   const [mode, setMode] = useState<"signin" | "register">("signin");
-
-  const tabs = [
-    { id: "signin", label: t("title") },
-    { id: "register", label: t("createAccount") },
-  ] as const;
+  const signingIn = mode === "signin";
 
   return (
-    <div className={styles.form}>
+    <div className={styles.form} data-mode={mode}>
       <div className={styles.heading}>
-        <span className={styles.eyebrow}>{t("eyebrow")}</span>
-        <h1 className={styles.title}>
-          {mode === "signin" ? t("welcomeTitle") : t("registerTitle")}
-        </h1>
-        <p className={styles.subtitle}>
-          {mode === "signin" ? t("subtitle") : t("registerSubtitle")}
-        </p>
+        <h1 className={styles.title}>{signingIn ? t("title") : t("registerTitle")}</h1>
+        <p className={styles.subtitle}>{signingIn ? t("subtitle") : t("registerSubtitle")}</p>
       </div>
 
-      <div className={styles.tabs} role="tablist">
-        {tabs.map((tab) => (
-          <button
-            key={tab.id}
-            type="button"
-            role="tab"
-            aria-selected={mode === tab.id}
-            className={`${styles.tab} ${mode === tab.id ? styles.tabActive : ""}`}
-            onClick={() => setMode(tab.id)}
-          >
-            {tab.label}
-          </button>
-        ))}
-      </div>
+      {signingIn ? <SignInFields /> : <RegisterForm />}
 
-      {mode === "signin" ? (
-        <SignInFields />
-      ) : (
-        <RegisterForm />
-      )}
+      <p className={styles.switch}>
+        {signingIn ? t("newToIris") : t("haveAccount")}{" "}
+        <button
+          type="button"
+          className={styles.switchButton}
+          onClick={() => setMode(signingIn ? "register" : "signin")}
+        >
+          {signingIn ? t("createAccount") : t("title")}
+        </button>
+      </p>
     </div>
   );
 }

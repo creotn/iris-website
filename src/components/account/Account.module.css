@@ -1486,6 +1486,20 @@ html[dir="rtl"] .back svg {
   outline-offset: 2px;
 }
 
+.sideSignOut {
+  color: var(--error);
+}
+
+.sideItem.sideSignOut:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--error) 8%, transparent);
+  color: var(--error);
+}
+
+.sideSignOut:disabled {
+  cursor: default;
+  opacity: 0.6;
+}
+
 .sideMeta {
   font-size: 0.8125rem;
   font-weight: 600;

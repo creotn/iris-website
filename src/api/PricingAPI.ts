@@ -1,4 +1,5 @@
 import { httpClient } from "@/lib/fetch/httpClient";
+import AppConfig from "@/config/Base";
 
 const FIVE_MINUTES_REVALIDATE = 60 * 5;
 
@@ -22,7 +23,7 @@ export type MembershipPlan = {
 
 export const fetchMembershipPlans = async (): Promise<MembershipPlan[]> => {
   const response = await httpClient<MembershipPlan[] | { data: MembershipPlan[] }>(
-    `${process.env.API_URL}/v1/api/packages`,
+    `${AppConfig.apiUrl}/v1/api/packages`,
     { revalidate: FIVE_MINUTES_REVALIDATE, tags: ["packages"] },
   );
   if (!response.success || !response.data) return [];
@@ -39,7 +40,7 @@ export type HeroService = {
 };
 
 export const fetchBookableServices = async (): Promise<HeroService[]> => {
-  const response = await httpClient<{ services?: HeroService[] }>(`${process.env.API_URL}/v1/api/catalog`, {
+  const response = await httpClient<{ services?: HeroService[] }>(`${AppConfig.apiUrl}/v1/api/catalog`, {
     revalidate: FIVE_MINUTES_REVALIDATE,
     tags: ["catalog"],
   });

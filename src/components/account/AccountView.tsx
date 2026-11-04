@@ -2,8 +2,10 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { IconAlertCircle, IconCircleCheck, IconSparkles } from "@tabler/icons-react";
+import { useRouter } from "next/navigation";
+import { IconAlertCircle, IconCircleCheck, IconLogout, IconSparkles } from "@tabler/icons-react";
 import { fetchBalance, fetchCustomer, fetchOrders, verifyTopUp, type Customer } from "@/api/AccountAPI";
+import { signOut } from "@/api/AuthAPI";
 import { fetchAddress, fetchVehicles } from "@/api/BookingAPI";
 import { formatMoney } from "@/components/booking/wash/draft";
 import { useCurrentLocale, useScopedI18n } from "@/locales/client";
@@ -24,7 +26,16 @@ const fetchFirstOrders = () => fetchOrders(0);
 export default function AccountView({ initialView }: { initialView: View }) {
   const t = useScopedI18n("account");
   const locale = useCurrentLocale();
+  const router = useRouter();
   const [view, setView] = useState(initialView);
+  const [signingOut, setSigningOut] = useState(false);
+
+  const onSignOut = async () => {
+    setSigningOut(true);
+    await signOut();
+    router.replace(`/${locale}`);
+    router.refresh();
+  };
 
   const show = (next: View) => {
     setView(next);
@@ -108,6 +119,11 @@ export default function AccountView({ initialView }: { initialView: View }) {
             {t("verifyNotice")}
           </p>
         )}
+
+        <button type="button" className={`${styles.sideItem} ${styles.sideSignOut}`} onClick={onSignOut} disabled={signingOut}>
+          <span>{t("signOut")}</span>
+          <IconLogout size={18} stroke={2} aria-hidden />
+        </button>
       </aside>
 
       <main className={styles.mainCol}>

@@ -16,7 +16,8 @@ Open http://localhost:3000 — it redirects to `/ar` (use `/en` for English).
 Create `.env` with at least:
 
 ```
-API_URL=http://localhost:5000          # backend origin (server-only)
+NEXT_PUBLIC_API_URL=http://localhost:5000  # backend origin (browser + server)
+# API_URL=                                # optional: server-only override, e.g. inside Docker
 NEXT_PUBLIC_URL=http://localhost:3000  # this site's public URL
 CACHE_REVALIDATE_SECRET=               # shared secret for POST /api/clear-cache
 ```

@@ -1,0 +1,178 @@
+/* Full-width grey page behind the card, without widening the page. */
+.main {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-block: var(--space-xl) var(--space-2xl);
+  background: var(--bg-tertiary);
+  box-shadow: 0 0 0 100vmax var(--bg-tertiary);
+  clip-path: inset(0 -100vmax);
+}
+
+.shell {
+  width: 100%;
+  max-width: 420px;
+  transition: max-width 0.3s ease;
+}
+
+/* Create account has six fields: a wider card lays them out in pairs instead of one tall column. */
+.shell:has([data-mode="register"]) {
+  max-width: 680px;
+}
+
+/* Clips the mascot so it can slide down out of sight. The card overlaps its last 14px,
+   so the mascot sits just behind the card's top edge. */
+.stage {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: flex-end;
+  height: 94px;
+  margin-block-end: -14px;
+  padding-inline-end: 28px;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.peek {
+  display: flex;
+  align-items: flex-end;
+  transition: translate 0.55s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.mascot {
+  display: block;
+  width: 150px;
+  height: auto;
+  max-width: none;
+  transform-origin: 50% 100%;
+  user-select: none;
+  animation:
+    rise 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.25s backwards,
+    sway 4.5s ease-in-out 1.1s infinite;
+}
+
+/* Typing a password: the mascot politely looks away by ducking behind the card. */
+.shell:has(input[autocomplete$="password"]:focus) .peek {
+  translate: 0 105%;
+  transition: translate 0.3s cubic-bezier(0.55, 0, 0.9, 0.45);
+}
+
+/* A visible error message: a quick head shake. */
+.shell:has(:global(.errorMessage):not(:empty)) .mascot {
+  animation:
+    shake 0.55s ease-in-out,
+    sway 4.5s ease-in-out 0.55s infinite;
+}
+
+.card {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  padding: 36px var(--space-xl) var(--space-xl);
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+}
+
+.card h1 {
+  margin-block-end: 2px;
+  font-size: 28px;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+.card h1 + p {
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--text-secondary);
+}
+
+.card label a {
+  font-weight: 500;
+  color: var(--text-accent);
+}
+
+/* The error line only takes space when there is an error. */
+.card :global(.errorMessage):empty {
+  display: none;
+}
+
+.card button[type="submit"] {
+  height: 48px;
+  margin-block-start: 6px;
+  padding-block: 0;
+  border-radius: var(--radius-sm);
+  box-shadow: none;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.card button[type="submit"]:hover:not(:disabled) {
+  background: var(--accent-dark);
+  box-shadow: none;
+  translate: none;
+}
+
+@keyframes rise {
+  from {
+    transform: translateY(105%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes sway {
+  0%,
+  100% {
+    rotate: -2deg;
+  }
+  50% {
+    rotate: 2deg;
+  }
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    rotate: 0deg;
+  }
+  20%,
+  60% {
+    rotate: -7deg;
+  }
+  40%,
+  80% {
+    rotate: 7deg;
+  }
+}
+
+@media (max-width: 560px) {
+  .main {
+    padding-block: var(--space-md) var(--space-xl);
+  }
+
+  .stage {
+    padding-inline-end: var(--space-lg);
+  }
+
+  .card {
+    padding: 28px var(--space-lg) var(--space-lg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mascot,
+  .shell:has(:global(.errorMessage):not(:empty)) .mascot {
+    animation: none;
+  }
+
+  .shell,
+  .peek,
+  .shell:has(input[autocomplete$="password"]:focus) .peek {
+    transition: none;
+  }
+}

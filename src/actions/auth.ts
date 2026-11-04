@@ -13,6 +13,7 @@ import {
   LEGACY_REFRESH_COOKIE,
   sessionCookieName,
 } from "@/lib/fetch/sessionCookieName";
+import AppConfig from "@/config/Base";
 
 const signInSchema = z.object({
   identifier: z
@@ -60,7 +61,7 @@ export async function SignInAction(
 
   let apiSetCookie: string[] = [];
   const response = await httpClientPost<AuthSignInResponse>(
-    `${process.env.API_URL}/v1/api/auth/customer-signin`,
+    `${AppConfig.apiUrl}/v1/api/auth/customer-signin`,
     parsed.data,
     { onSetCookie: (lines) => (apiSetCookie = lines) },
   );
@@ -109,13 +110,13 @@ export async function RegisterAction(
   }
 
   const response = await httpClientPost(
-    `${process.env.API_URL}/v1/api/auth/customer-register`,
+    `${AppConfig.apiUrl}/v1/api/auth/customer-register`,
     parsed.data,
   );
 
   if (!response.success) return toRequestError(response);
 
-  await httpClientPost(`${process.env.API_URL}/v1/api/auth/send-otp`, {
+  await httpClientPost(`${AppConfig.apiUrl}/v1/api/auth/send-otp`, {
     identifier: parsed.data.email,
   });
   return { registered: true, identifier: parsed.data.email };
@@ -129,7 +130,7 @@ export async function SignOutAction() {
   if (session || legacy) {
     const accessToken = cookieStore.get("access_token")?.value;
     await httpClientPost(
-      `${process.env.API_URL}/v1/api/auth/signout`,
+      `${AppConfig.apiUrl}/v1/api/auth/signout`,
       legacy ? { refresh_token: legacy } : {},
       {
         headers: {

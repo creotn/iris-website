@@ -7,7 +7,7 @@ import styles from "./SignInForm.module.css";
 
 type AuthFieldProps = ComponentProps<"input"> & {
   label: string;
-  icon: ReactNode;
+  icon?: ReactNode;
   aside?: ReactNode;
   error?: string;
 };
@@ -24,13 +24,15 @@ export default function AuthField({ label, icon, aside, error, type, required = 
         {aside}
       </span>
       <span className={styles.inputWrap}>
-        <span className={styles.icon} aria-hidden>
-          {icon}
-        </span>
+        {icon && (
+          <span className={styles.icon} aria-hidden>
+            {icon}
+          </span>
+        )}
         <input
           dir="ltr"
           {...input}
-          className={styles.input}
+          className={icon ? styles.input : `${styles.input} ${styles.inputPlain}`}
           type={isPassword && shown ? "text" : type}
           required={required}
           aria-invalid={error ? true : undefined}
