@@ -125,7 +125,16 @@ export type SavedAddress = {
   area: { pubkey: string; city: string } | null;
 };
 
-export const fetchAddress = () => apiRequest<SavedAddress>("/customers/me/address", { auth: true });
+// The API has no GET /customers/me/address; the address lives on the profile (`user.address`)
+// next to the resolved serving zone (`area`).
+export async function fetchAddress(): Promise<ApiResult<SavedAddress>> {
+  const result = await apiRequest<{ user?: { address?: SavedAddress["address"] } | null; area?: SavedAddress["area"] }>(
+    "/customers/me",
+    { auth: true },
+  );
+  if (!result.ok) return result;
+  return { ok: true, data: { address: result.data?.user?.address ?? null, area: result.data?.area ?? null } };
+}
 
 export type SlotInfo = { timeSlot: string; capacity: number; occupancy: number; available: boolean };
 
