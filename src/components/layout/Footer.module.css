@@ -188,8 +188,12 @@
   animation: nudge 2.4s ease-in-out infinite;
 }
 
-.top:hover .topArrow {
-  animation: launch 1.1s cubic-bezier(0.5, 0, 0.2, 1) infinite;
+.topArrow svg {
+  display: block;
+}
+
+.top:hover .topArrow svg {
+  animation: launch 1.2s cubic-bezier(0.5, 0, 0.2, 1) infinite;
 }
 
 @keyframes nudge {
@@ -323,7 +327,7 @@
 @media (prefers-reduced-motion: reduce) {
   .mascotImage,
   .topArrow,
-  .top:hover .topArrow {
+  .top:hover .topArrow svg {
     animation: none;
   }
 

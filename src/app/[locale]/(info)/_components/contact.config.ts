@@ -1,5 +1,5 @@
 export const CONTACT = {
-  email: "support@iris.reup.sa",
+  email: "info@iris.com.sa",
   whatsapp: "",
   phone: "",
 };

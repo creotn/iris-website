@@ -85,7 +85,7 @@ export default async function Footer({ locale }: { locale: Locale }) {
 
         <div className={styles.bottom}>
           <span>
-            <bdi dir="ltr">© {year} IRIS, reup.sa.</bdi> {t("rights")}
+            <bdi dir="ltr">© {year} IRIS, iris.com.sa</bdi> {t("rights")}
           </span>
           <FooterBackToTop label={t("backToTop")} />
         </div>

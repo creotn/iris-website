@@ -26,26 +26,39 @@ export default function StepSkeleton() {
   const step = phase ? STEP_INDEX[phase] : 1;
 
   return (
-    <div className={`${shellStyles.shell} ${shellStyles.wide}`} aria-busy="true">
-      <div className={shellStyles.bar}>{step > 1 && step < STEP_TOTAL && <Skeleton width="72px" height="20px" />}</div>
+    <div className={styles.flow} aria-busy="true">
+      <aside className={styles.flowSide}>
+        <div className={styles.sideRail}>
+          {STEP_LABELS.map((_, index) => (
+            <span key={index} className={styles.sideItem}>
+              <Skeleton width="38px" height="38px" radius="circle" />
+              {index < STEP_LABELS.length - 1 && <span style={{ blockSize: 30 }} />}
+            </span>
+          ))}
+        </div>
+      </aside>
 
-      <ol className={styles.stepper6}>
-        {STEP_LABELS.map((width, index) => (
-          <li key={index} className={`${styles.stepItem} ${index + 1 === step ? sk.now : ""}`}>
-            <Skeleton width="var(--dot)" height="var(--dot)" radius="circle" className={sk.dot} />
-            <Skeleton width={`${width}px`} height="12px" className={sk.label} />
-          </li>
-        ))}
-      </ol>
+      <div className={`${shellStyles.shell} ${styles.flowMain}`}>
+        <div className={shellStyles.bar}>{step > 1 && step < STEP_TOTAL && <Skeleton width="72px" height="20px" />}</div>
 
-      <div className={styles.stack}>
-        {phase === "done" ? <DoneHead /> : <Heading />}
-        {phase === "car" && <CarBody />}
-        {phase === "address" && <AddressBody />}
-        {phase === "service" && <ServiceBody />}
-        {phase === "checkout" && <CheckoutBody />}
-        {phase === "done" && <DoneBody />}
-        {phase === null && <Skeleton height="320px" radius="lg" />}
+        <ol className={`${styles.stepper6} ${styles.flowMobile}`}>
+          {STEP_LABELS.map((width, index) => (
+            <li key={index} className={`${styles.stepItem} ${index + 1 === step ? sk.now : ""}`}>
+              <Skeleton width="var(--dot)" height="var(--dot)" radius="circle" className={sk.dot} />
+              <Skeleton width={`${width}px`} height="12px" className={sk.label} />
+            </li>
+          ))}
+        </ol>
+
+        <div className={styles.stack}>
+          {phase === "done" ? <DoneHead /> : <Heading />}
+          {phase === "car" && <CarBody />}
+          {phase === "address" && <AddressBody />}
+          {phase === "service" && <ServiceBody />}
+          {phase === "checkout" && <CheckoutBody />}
+          {phase === "done" && <DoneBody />}
+          {phase === null && <Skeleton height="320px" radius="lg" />}
+        </div>
       </div>
     </div>
   );

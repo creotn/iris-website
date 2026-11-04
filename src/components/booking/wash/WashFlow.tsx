@@ -26,6 +26,7 @@ import AddressStep, { type Place, type SavedPlace } from "./AddressStep";
 import CarStep from "./CarStep";
 import CheckoutStep, { type Created } from "./CheckoutStep";
 import DoneStep from "./DoneStep";
+import BookingSidebar from "./BookingSidebar";
 import { buildItems, clearFlow, emptyDraft, readFlow, restoreDraft, saveFlow, STEP_SLUG, urlPhase, type Draft, type Phase, type StoredPhase } from "./draft";
 import ServiceDialog from "./ServiceDialog";
 import StepSkeleton from "./StepSkeleton";
@@ -299,8 +300,12 @@ export default function WashFlow() {
   // Once the booking exists it can only be paid or cancelled, not edited.
   const back = phase === "checkout" && bookingPubkey ? undefined : BACK[phase];
 
+  const steps = [t("stepCar"), t("stepLocation"), t("stepService"), t("stepReview"), t("stepDone")];
   return (
-    <div className={`${shellStyles.shell} ${shellStyles.wide}`}>
+    <div className={styles.flow}>
+      <BookingSidebar steps={steps} current={STEP_OF[phase]} complete={phase === "done"} />
+
+      <div className={`${shellStyles.shell} ${styles.flowMain}`}>
       <div className={shellStyles.bar}>
         {back && (
           <button type="button" className={shellStyles.back} onClick={() => goBack(back)}>
@@ -309,7 +314,9 @@ export default function WashFlow() {
           </button>
         )}
       </div>
-      <Stepper current={STEP_OF[phase]} complete={phase === "done"} steps={[t("stepCar"), t("stepLocation"), t("stepService"), t("stepReview"), t("stepDone")]} />
+      <div className={styles.flowMobile}>
+        <Stepper current={STEP_OF[phase]} complete={phase === "done"} steps={steps} />
+      </div>
 
       {error && (
         <p className="errorMessage" role="alert">
@@ -364,6 +371,7 @@ export default function WashFlow() {
         />
       )}
       {phase === "done" && booking && <DoneStep booking={booking} onAnother={reset} />}
+      </div>
     </div>
   );
 }
