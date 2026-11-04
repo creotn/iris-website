@@ -126,7 +126,7 @@ export function restoreDraft(service: CatalogService, stored: StoredFlow): Draft
     service,
     picks,
     dims,
-    qty: Math.min(Math.max(Math.round(stored.qty), 1), MAX_QTY),
+    qty: 1, // quantity is no longer user-selectable; ignore any older stored value
     when: stored.when,
     date: expired ? "" : stored.date,
     slot: expired ? null : stored.slot,

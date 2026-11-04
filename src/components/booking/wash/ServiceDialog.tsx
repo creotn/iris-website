@@ -3,7 +3,7 @@
 import { useEffect, useId, useMemo, useState } from "react";
 import { fetchSlots, type ServiceOption, type SlotInfo, type VisitDetails } from "@/api/BookingAPI";
 import { useCurrentLocale, useScopedI18n } from "@/locales/client";
-import { buildItems, dateKey, formatMoney, isConfigured, MAX_QTY, pick, slotLabel, sorted, type Draft } from "./draft";
+import { buildItems, dateKey, formatMoney, isConfigured, pick, slotLabel, sorted, type Draft } from "./draft";
 import Popup from "./Popup";
 import SelectField from "./SelectField";
 import { Banner, Cta } from "./ui";
@@ -73,6 +73,7 @@ export default function ServiceDialog({
 
   return (
     <Popup open={open} onClose={onClose} size="md" title={pick(service.title, locale)} subtitle={pick(service.description, locale) || undefined}>
+      {options.length > 0 && (
       <section className={styles.popSection} aria-label={t("yourWash")}>
         <h3 className={styles.popSectionTitle}>{t("yourWash")}</h3>
         <div className={styles.popGrid}>
@@ -149,15 +150,9 @@ export default function ServiceDialog({
               />
             );
           })}
-
-          <SelectField
-            label={t("quantity")}
-            value={String(draft.qty)}
-            onChange={(value) => setDraft((c) => ({ ...c, qty: Number(value) }))}
-            options={Array.from({ length: MAX_QTY }, (_, index) => ({ value: String(index + 1), label: String(index + 1) }))}
-          />
         </div>
       </section>
+      )}
 
       <section className={styles.popSection} aria-label={t("when")}>
         <h3 className={styles.popSectionTitle}>{t("when")}</h3>
