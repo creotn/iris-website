@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, type ReactNode } from "react";
-import { IconCar, IconClock, IconMapPin, IconPencil, IconSparkles } from "@tabler/icons-react";
+import { useState } from "react";
+import { IconPencil } from "@tabler/icons-react";
 import { checkDiscount, type Quote, type Vehicle } from "@/api/BookingAPI";
 import { useCurrentLocale, useScopedI18n } from "@/locales/client";
 import { translateError } from "@/utils/error";
@@ -12,37 +12,32 @@ import styles from "./Wash.module.css";
 
 export type Totals = { subtotal: string; onlineDiscount: string | null; vat: string; total: string; estimated: boolean };
 
-/** The checkout's right column: what is booked, the promo code, and the totals, with the pay button under them. */
+/** The checkout's order, laid out like a receipt: the service and its price, the car, place, time and visit details, then the totals. */
 export default function OrderSummary({
   draft,
-  setDraft,
   vehicle,
   place,
-  quote,
   totals,
+  discount,
   locked,
   onEdit,
-  children,
 }: {
   draft: Draft;
-  setDraft: (update: (draft: Draft) => Draft) => void;
   vehicle: Vehicle;
   place: Place;
-  quote: Quote | null;
   totals: Totals | null;
+  /** The promo discount previewed by the promo field, shown until the server's own total arrives. */
+  discount: string | null;
   /** The booking exists: nothing can change any more. */
   locked: boolean;
   onEdit: () => void;
-  children: ReactNode;
 }) {
   const t = useScopedI18n("wash");
   const locale = useCurrentLocale();
   const service = draft.service;
-  // The promo check previews the discount; the server applies it when the booking is created.
-  const [discount, setDiscount] = useState<string | null>(null);
   const money = (amount: string | number) => formatMoney(amount, locale);
 
-  // The options picked in the service popup, by name ("Large", "Wax", "Area: 12").
+  // The options picked in the service popup, by name ("Large", "Wax", "Area: 12"), then the duration.
   const choices = service
     ? sorted(service.options).flatMap((option) => {
         if (option.kind === "INPUT") return draft.dims[option.pubkey] ? [`${pick(option.title, locale)}: ${draft.dims[option.pubkey]}`] : [];
@@ -50,6 +45,7 @@ export default function OrderSummary({
         return option.variables.filter((variable) => chosen.includes(variable.pubkey)).map((variable) => pick(variable.title, locale));
       })
     : [];
+  if (service?.estimatedMinutes != null) choices.push(t("minutes", { count: service.estimatedMinutes }));
 
   const when =
     draft.when === "now"
@@ -60,9 +56,10 @@ export default function OrderSummary({
           month: "short",
         })} · ${draft.slot ? slotLabel(draft.slot) : ""}`;
 
+  // One line for the visit: access, then the scent and "don't disturb" only when chosen.
   const visit = [
-    t(`scent_${draft.visit.scent}`),
     t(`access_${draft.visit.vehicleAccess}`),
+    ...(draft.visit.scent !== "NONE" ? [`${t("scent")}: ${t(`scent_${draft.visit.scent}`)}`] : []),
     ...(draft.visit.doNotDisturb ? [t("doNotDisturb")] : []),
   ].join(" · ");
 
@@ -81,55 +78,42 @@ export default function OrderSummary({
       {/* Details come from what was filled in, so they are left out when coming back from the card provider. */}
       {service && (
         <>
-          <div className={styles.coItem}>
-            <span className={styles.coItemIcon} aria-hidden>
-              <IconSparkles size={18} stroke={1.75} />
-            </span>
-            <span className={styles.coItemText}>
+          <div className={styles.coReceiptItem}>
+            <span>
               <b>{pick(service.title, locale)}</b>
               {choices.length > 0 && <small>{choices.join(" · ")}</small>}
             </span>
-            <span className={styles.coQty}>× {draft.qty}</span>
+            {totals && <b className={styles.coReceiptPrice}>{money(totals.subtotal)}</b>}
           </div>
 
-          <dl className={styles.coDetails}>
-            <div>
-              <dt>
-                <IconCar size={16} stroke={1.75} aria-hidden />
-                {t("car")}
-              </dt>
-              <dd dir="auto">
-                {vehicle.make} {vehicle.model}
-                {vehicle.plateNumber && <span dir="ltr"> · {vehicle.plateNumber}</span>}
-              </dd>
-            </div>
-            <div>
-              <dt>
-                <IconMapPin size={16} stroke={1.75} aria-hidden />
-                {t("where")}
-              </dt>
-              <dd dir="auto">{place.address.address}</dd>
-            </div>
-            <div>
-              <dt>
-                <IconClock size={16} stroke={1.75} aria-hidden />
-                {t("when")}
-              </dt>
-              <dd>{when}</dd>
-            </div>
-            <div>
-              <dt>{t("detailsTitle")}</dt>
-              <dd>{visit}</dd>
-            </div>
+          <hr className={styles.coRule} />
+
+          <dl className={styles.coReceipt}>
+            <dt>{t("car")}</dt>
+            <dd dir="auto">
+              {vehicle.make} {vehicle.model}
+              {vehicle.plateNumber && (
+                <span className={styles.coPlate} dir="ltr">
+                  {" "}
+                  · {vehicle.plateNumber}
+                </span>
+              )}
+            </dd>
+            <dt>{t("where")}</dt>
+            <dd dir="auto">{place.address.address}</dd>
+            <dt>{t("when")}</dt>
+            <dd>{when}</dd>
+            <dt>{t("detailsTitle")}</dt>
+            <dd>{visit}</dd>
             {draft.notes && (
-              <div>
+              <>
                 <dt>{t("notes")}</dt>
                 <dd dir="auto">{draft.notes}</dd>
-              </div>
+              </>
             )}
           </dl>
 
-          {!locked && <PromoField draft={draft} setDraft={setDraft} quote={quote} onDiscount={setDiscount} />}
+          <hr className={styles.coRule} />
         </>
       )}
 
@@ -144,13 +128,13 @@ export default function OrderSummary({
         </div>
       )}
 
-      <div className={styles.coActions}>{children}</div>
-      <p className={styles.coNote}>{t("cancelNote")}</p>
+      <p className={`${styles.coNote} ${styles.coReceiptFoot}`}>{t("cancelNote")}</p>
     </aside>
   );
 }
 
-function PromoField({
+/** The promo code, in the payment column. It previews the discount; the server applies it when the booking is created. */
+export function PromoField({
   draft,
   setDraft,
   quote,
@@ -166,6 +150,8 @@ function PromoField({
   const [code, setCode] = useState(draft.promo);
   const [error, setError] = useState("");
   const [checking, setChecking] = useState(false);
+  // Most people have no code, so the field stays a link until asked for.
+  const [open, setOpen] = useState(false);
 
   const apply = async () => {
     if (!quote) return;
@@ -194,6 +180,14 @@ function PromoField({
           {t("remove")}
         </button>
       </div>
+    );
+  }
+
+  if (!open) {
+    return (
+      <button type="button" className={`${styles.coEdit} ${styles.coPromoLink}`} onClick={() => setOpen(true)}>
+        {t("havePromo")}
+      </button>
     );
   }
 

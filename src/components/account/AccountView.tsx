@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { IconAlertCircle, IconCircleCheck, IconLogout, IconSparkles } from "@tabler/icons-react";
+import { IconCircleCheck, IconLogout, IconSparkles } from "@tabler/icons-react";
 import { fetchBalance, fetchCustomer, fetchOrders, verifyTopUp, type Customer } from "@/api/AccountAPI";
 import { signOut } from "@/api/AuthAPI";
 import { fetchAddress, fetchVehicles } from "@/api/BookingAPI";
@@ -12,11 +12,10 @@ import { useCurrentLocale, useScopedI18n } from "@/locales/client";
 import { translateError } from "@/utils/error";
 import { HistorySkeleton, LiveOrdersSkeleton, ProfileSkeleton } from "./AccountSkeletons";
 import AddressPanel from "./AddressPanel";
-import Dialog from "./Dialog";
 import ErrorRow from "./ErrorRow";
+import ProfilePanel from "./ProfilePanel";
 import { awaitsPayment, isActive, type View } from "./order";
 import { LiveOrdersTable, OrderHistory, PaymentCard } from "./OrdersPanel";
-import TopUp from "./TopUp";
 import { useResource } from "./useResource";
 import VehiclesPanel from "./VehiclesPanel";
 import styles from "./Account.module.css";
@@ -46,7 +45,6 @@ export default function AccountView({ initialView }: { initialView: View }) {
   const orders = useResource(fetchFirstOrders);
   const vehicles = useResource(fetchVehicles);
   const address = useResource(fetchAddress);
-  const [toppingUp, setToppingUp] = useState(false);
   const [toast, setToast] = useState("");
 
   const reloadBalance = balance.reload;
@@ -75,13 +73,13 @@ export default function AccountView({ initialView }: { initialView: View }) {
   const live = active.filter((order) => !awaitsPayment(order));
 
   const user = customer.data?.user;
-  const unverified = !!user && ((!!user.email && !user.emailVerifiedAt) || (!!user.phone && !user.phoneVerifiedAt));
 
   const menu: { view: View; label: string; meta: string }[] = [
     { view: "live", label: t("liveOrders"), meta: orders.data ? String(active.length) : "" },
     { view: "history", label: t("tileHistory"), meta: "" },
     { view: "cars", label: t("tileCars"), meta: vehicles.data ? String(vehicles.data.length) : "" },
     { view: "address", label: t("tileAddress"), meta: "" },
+    { view: "profile", label: t("profile"), meta: "" },
   ];
 
   return (
@@ -107,18 +105,13 @@ export default function AccountView({ initialView }: { initialView: View }) {
               {item.meta && <span className={styles.sideMeta}>{item.meta}</span>}
             </button>
           ))}
-          <button type="button" className={styles.sideItem} onClick={() => setToppingUp(true)} disabled={!balance.data}>
+          {/* The balance is shown only; topping up is not offered here. */}
+          <div className={`${styles.sideItem} ${styles.sideStatic}`}>
             <span>{t("wallet")}</span>
             <span className={styles.sideMeta}>{balance.data ? formatMoney(balance.data.balance, locale) : ""}</span>
-          </button>
+          </div>
         </nav>
 
-        {unverified && (
-          <p className={styles.notice}>
-            <IconAlertCircle size={18} stroke={2} aria-hidden />
-            {t("verifyNotice")}
-          </p>
-        )}
 
         <button type="button" className={`${styles.sideItem} ${styles.sideSignOut}`} onClick={onSignOut} disabled={signingOut}>
           <span>{t("signOut")}</span>
@@ -174,6 +167,10 @@ export default function AccountView({ initialView }: { initialView: View }) {
           </>
         )}
 
+        {view === "profile" && (
+          <ProfilePanel customer={customer.data} error={customer.error} reload={customer.reload} onToast={setToast} />
+        )}
+
         {view === "history" && (
           <>
             <h1 className={styles.mainTitle}>{t("history")}</h1>
@@ -181,19 +178,6 @@ export default function AccountView({ initialView }: { initialView: View }) {
           </>
         )}
       </main>
-
-      {balance.data && (
-        <Dialog open={toppingUp} onClose={() => setToppingUp(false)} title={t("topUpTitle")}>
-          <TopUp
-            balance={balance.data}
-            onDone={(amount) => {
-              setToppingUp(false);
-              setToast(t("topUpDone", { amount }));
-              balance.reload();
-            }}
-          />
-        </Dialog>
-      )}
 
       {toast && (
         <div className={styles.toast} role="status">

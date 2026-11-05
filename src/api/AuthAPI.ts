@@ -35,6 +35,13 @@ export async function register(input: RegisterInput): Promise<ApiResult> {
 export const sendOtp = (identifier: string) =>
   apiRequest("/auth/send-otp", { method: "POST", body: { identifier: identifier.trim() } });
 
+/** Emails a fresh confirmation link to the account behind this email or phone. Always reports success. */
+export const resendEmailVerification = (identifier: string) =>
+  apiRequest("/auth/resend-verification", { method: "POST", body: { identifier: identifier.trim() } });
+
+/** Redeems the token from a confirmation email. */
+export const verifyEmail = (token: string) => apiRequest("/auth/verify-email", { method: "POST", body: { token } });
+
 export function verifyPhone(identifier: string, otp: string): Promise<ApiResult> {
   if (!/^\d{4}$/.test(otp)) return Promise.resolve({ ok: false, error: "invalid_otp" });
   return apiRequest("/auth/verify-phone", { method: "POST", body: { identifier: identifier.trim(), otp } });

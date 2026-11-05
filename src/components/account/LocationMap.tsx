@@ -52,12 +52,14 @@ export default function LocationMap({
         if (cancelled || !container.current) return;
         const start = valueRef.current;
         const rtl = document.documentElement.dir === "rtl";
+        // Phones zoom with two fingers; the map's corners hold the booking's own buttons.
+        const phone = window.matchMedia("(max-width: 600px)").matches;
 
         const instance = new google.maps.Map(container.current, {
           center: start ? toLatLng(start) : RIYADH,
           zoom: start ? PINNED_ZOOM : CITY_ZOOM,
           disableDefaultUI: true,
-          zoomControl: true,
+          zoomControl: !phone,
           zoomControlOptions: {
             position: rtl ? google.maps.ControlPosition.LEFT_TOP : google.maps.ControlPosition.RIGHT_TOP,
           },

@@ -15,14 +15,18 @@ export function Heading({ title, subtitle }: { title: string; subtitle?: string 
 
 /** How many steps the booking has: car, location, service, review & pay, confirmation. */
 export const STEP_TOTAL = 5;
+const STEP_KEYS = ["stepCar", "stepLocation", "stepService", "stepReview", "stepDone"] as const;
 
-/** Every step opens the same way: "Step N of 5", the title, the subtitle, and optionally something on the side. */
+/** Every step opens the same way: "Step N of 5 · name — next: …", the title, the subtitle, and optionally something on the side. */
 export function StepHeading({ step, title, subtitle, aside }: { step: number; title: string; subtitle?: string; aside?: ReactNode }) {
   const t = useScopedI18n("wash");
   return (
     <div className={styles.stepHead}>
       <div>
-        <p className={styles.eyebrowStep}>{t("step", { current: step, total: STEP_TOTAL })}</p>
+        <p className={styles.eyebrowStep}>
+          {t("step", { current: step, total: STEP_TOTAL })} · {t(STEP_KEYS[step - 1])}
+          {step < STEP_TOTAL && <span className={styles.eyebrowNext}> — {t("nextUp", { name: t(STEP_KEYS[step]) })}</span>}
+        </p>
         <Heading title={title} subtitle={subtitle} />
       </div>
       {aside}

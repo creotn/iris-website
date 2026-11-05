@@ -17,7 +17,7 @@ export default async function OrderPage({ params }: { params: Promise<{ locale: 
   setStaticParamsLocale(resolveLocale(locale));
 
   return (
-    <main className={`container ${styles.main}`}>
+    <main className={styles.trackMain}>
       <OrderDetail pubkey={pubkey} />
     </main>
   );

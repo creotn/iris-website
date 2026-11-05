@@ -2,7 +2,6 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { IconArrowLeft } from "@tabler/icons-react";
 import {
   cancelBooking,
   createInstantBooking,
@@ -39,6 +38,7 @@ import styles from "./Wash.module.css";
 // The service popup holds the options, time and visit details; checkout is the summary and payment on one page.
 const STEP_OF: Record<Phase, number> = { car: 1, address: 2, service: 3, checkout: 4, done: 5 };
 const BACK: Partial<Record<Phase, Phase>> = { address: "car", service: "address", checkout: "service" };
+const PHASE_AT: Phase[] = ["car", "address", "service", "checkout", "done"];
 
 type Data = {
   categories: CatalogCategory[];
@@ -301,21 +301,22 @@ export default function WashFlow() {
   const back = phase === "checkout" && bookingPubkey ? undefined : BACK[phase];
 
   const steps = [t("stepCar"), t("stepLocation"), t("stepService"), t("stepReview"), t("stepDone")];
+  const shortSteps = [t("railCar"), t("railPlace"), t("railWash"), t("railPay"), t("railDone")];
   return (
-    <div className={styles.flow}>
-      <BookingSidebar steps={steps} current={STEP_OF[phase]} complete={phase === "done"} />
+    <div className={`${styles.flow} ${phase === "car" ? styles.flowFit : ""}`}>
+      <BookingSidebar
+        steps={steps}
+        short={shortSteps}
+        current={STEP_OF[phase]}
+        complete={phase === "done"}
+        // Earlier steps can be reopened whenever Back would be offered.
+        onStep={back ? (step) => goBack(PHASE_AT[step - 1]) : undefined}
+      />
 
       <div className={`${shellStyles.shell} ${styles.flowMain}`}>
-      <div className={shellStyles.bar}>
-        {back && (
-          <button type="button" className={shellStyles.back} onClick={() => goBack(back)}>
-            <IconArrowLeft className={shellStyles.backIcon} size={18} stroke={1.75} aria-hidden />
-            {t("back")}
-          </button>
-        )}
-      </div>
+      {/* Phones: Back and the step bars in one header. On desktop the rail does both. */}
       <div className={styles.flowMobile}>
-        <Stepper current={STEP_OF[phase]} complete={phase === "done"} steps={steps} />
+        <Stepper current={STEP_OF[phase]} complete={phase === "done"} steps={steps} onBack={back ? () => goBack(back) : undefined} />
       </div>
 
       {error && (
@@ -339,7 +340,6 @@ export default function WashFlow() {
               if (service.pubkey !== draft.service?.pubkey) setDraftState({ ...emptyDraft, service });
               setConfiguring(true);
             }}
-            onContinue={() => setConfiguring(true)}
           />
           {draft.service && (
             <ServiceDialog

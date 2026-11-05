@@ -5,3 +5,16 @@
   justify-content: center;
   padding-block: var(--space-2xl);
 }
+
+/* The booking flow starts right under the header, so its rail and car list can fill the screen. */
+.mainFlow {
+  align-items: flex-start;
+  padding-block: var(--space-lg);
+}
+
+/* Phones: the step bar sits close under the header. */
+@media (max-width: 959px) {
+  .mainFlow {
+    padding-block-start: var(--space-sm);
+  }
+}

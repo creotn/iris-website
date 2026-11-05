@@ -15,6 +15,21 @@ export type Customer = {
 
 export const fetchCustomer = () => apiRequest<Customer>("/customers/me", { auth: true });
 
+export type ProfileInput = { firstName: string; lastName: string; email: string; phone: string };
+
+/** Saves the signed-in user's own name and contact details. A blank phone means "unchanged", not "cleared". */
+export const updateProfile = (input: ProfileInput) =>
+  apiRequest("/users/my-profile", {
+    method: "PATCH",
+    auth: true,
+    body: {
+      firstName: input.firstName.trim(),
+      lastName: input.lastName.trim(),
+      email: input.email.trim(),
+      ...(input.phone.trim() ? { phone: input.phone.trim() } : {}),
+    },
+  });
+
 export type Balance = { balance: string; currency: string; topUpMin: string; topUpMax: string };
 
 export const fetchBalance = () => apiRequest<Balance>("/wallet/balance", { auth: true });

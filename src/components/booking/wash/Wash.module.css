@@ -330,6 +330,21 @@
   border-block-end: 1px solid var(--border);
 }
 
+/* The service step's category tabs; the row keeps the line under them. */
+.svcBar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  border-block-end: 1px solid var(--border);
+}
+
+.svcBar .catTabs {
+  flex: 1;
+  min-inline-size: 0;
+  align-self: stretch;
+  border-block-end: 0;
+}
+
 .catTabs::-webkit-scrollbar {
   display: none;
 }
@@ -1410,12 +1425,17 @@ html[dir="rtl"] .statusHeadline svg {
   border-block-start: 1px solid var(--border);
 }
 
-/* "Step 1 of 5" above the step title. */
+/* "Step 1 of 5 · Car — Next: Location" above the step title. */
 .eyebrowStep {
   margin: 0 0 6px;
   color: var(--text-accent);
   font-size: var(--fs-sm);
   font-weight: 600;
+}
+
+.eyebrowNext {
+  color: var(--text-muted);
+  font-weight: 500;
 }
 
 /* The row above the car table: how many cars, and the add button. */
@@ -1483,6 +1503,184 @@ html[dir="rtl"] .statusHeadline svg {
 }
 
 /* ---- Car step: saved cars as a sortable table ---- */
+
+/* The saved cars sit in one card: a header with the count, search, add and continue, then the table. */
+.carPanel {
+  overflow: hidden;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-xs);
+}
+
+.carPanel .carBar {
+  flex-wrap: wrap;
+  margin: 0;
+  padding: 14px 20px;
+  border-block-end: 1px solid var(--border);
+}
+
+.carBarTitle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.countBadge {
+  padding: 2px 8px;
+  background: var(--bg-tertiary);
+  border-radius: var(--radius-full);
+  color: var(--text-muted);
+  font-size: var(--fs-xs);
+  font-weight: 500;
+}
+
+.carTools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+.carSearch {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  inline-size: 240px;
+  block-size: 40px;
+  padding-inline: 12px;
+  background: var(--bg-input);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  color: var(--text-muted);
+  transition:
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+.carSearch:focus-within {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-subtle);
+}
+
+.carSearch input {
+  flex: 1;
+  min-inline-size: 0;
+  padding: 0;
+  background: none;
+  border: 0;
+  outline: none;
+  color: var(--text-primary);
+  font: inherit;
+  font-size: var(--fs-sm);
+}
+
+/* Inside the card the header strip runs edge to edge, so it loses its own rounded corners. */
+.carPanel .carTable thead th {
+  border-radius: 0;
+}
+
+.carPanel .carTable td.pickCell,
+.carPanel .carTable th.pickCell {
+  inline-size: 1%;
+  padding-inline: 20px 4px;
+}
+
+.carPanel .carTable td:last-child,
+.carPanel .carTable th:last-child {
+  padding-inline-end: 20px;
+}
+
+/* The card's own border closes the list. */
+.carPanel .carTable tbody tr:last-child td {
+  border-block-end: 0;
+}
+
+.carRadio {
+  inline-size: 20px;
+  block-size: 20px;
+  margin: 0;
+  accent-color: var(--accent);
+  vertical-align: middle;
+  cursor: pointer;
+}
+
+.carNoMatch {
+  margin: 0;
+  padding: var(--space-lg) 20px;
+  border-block-start: 1px solid var(--border);
+  color: var(--text-muted);
+  text-align: center;
+}
+
+/* A colour is a small pill: the dot and the name. */
+.colorChip {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  color: var(--text-primary);
+  font-size: var(--fs-xs);
+  font-weight: 500;
+}
+
+.colorChip > span {
+  margin-inline-end: 6px;
+  vertical-align: 0;
+}
+
+/* Continue sits with the list's own buttons, the one filled button on the step. */
+.carContinue {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  block-size: 40px;
+  padding-inline: 18px;
+  background: var(--accent);
+  border: 1px solid var(--accent);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-xs);
+  color: var(--text-on-accent);
+  font: inherit;
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background var(--transition-fast);
+}
+
+.carContinue:hover:not(:disabled) {
+  background: var(--accent-dark);
+}
+
+.carContinue:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+html[dir="rtl"] .carContinueIcon {
+  scale: -1 1;
+}
+
+@media (max-width: 520px) {
+  .carPanel .carBar {
+    padding-inline: 14px;
+  }
+
+  .carTools,
+  .carSearch {
+    inline-size: 100%;
+  }
+
+  .carPanel .carTable td.pickCell,
+  .carPanel .carTable th.pickCell {
+    padding-inline: 14px 0;
+  }
+}
 
 .carHead {
   display: flex;
@@ -1982,6 +2180,513 @@ html[dir="rtl"] .statusHeadline svg {
   }
 }
 
+/* ---- Service popup controls: cards, segmented switches, day and time chips, pills ---- */
+
+/* A field's name when it labels a group rather than a single input. */
+.popLabel {
+  color: var(--text-secondary);
+  font-size: var(--fs-sm);
+  font-weight: 500;
+}
+
+.optGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(132px, 1fr));
+  gap: 8px;
+}
+
+.optCard {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  padding: 12px 14px;
+  background: var(--bg-card);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-lg);
+  color: var(--text-primary);
+  font: inherit;
+  text-align: start;
+  cursor: pointer;
+  transition:
+    border-color var(--transition-fast),
+    background var(--transition-fast);
+}
+
+.optCard b {
+  font-size: var(--fs-md);
+  font-weight: 600;
+}
+
+.optCard small {
+  color: var(--text-muted);
+  font-size: var(--fs-xs);
+}
+
+.optCard:hover,
+.slotChip:hover:not(:disabled),
+.dayChip:hover,
+.pill:hover {
+  border-color: var(--border-accent);
+}
+
+.optCard[aria-checked="true"],
+.dayChip[aria-checked="true"],
+.slotChip[aria-checked="true"],
+.pill[aria-checked="true"] {
+  background: var(--accent-subtle);
+  border-color: var(--accent);
+}
+
+.optCard[aria-checked="true"] small {
+  color: var(--text-accent);
+}
+
+/* Two or three choices in one rounded track; the chosen one is a raised white tab. */
+.seg {
+  display: grid;
+  grid-auto-columns: minmax(0, 1fr);
+  grid-auto-flow: column;
+  gap: 4px;
+  padding: 4px;
+  background: var(--bg-tertiary);
+  border-radius: var(--radius-lg);
+}
+
+.seg > button {
+  min-block-size: 40px;
+  padding-inline: 8px;
+  background: none;
+  border: 0;
+  border-radius: var(--radius-md);
+  color: var(--text-secondary);
+  font: inherit;
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background var(--transition-fast),
+    color var(--transition-fast);
+}
+
+.seg > button[aria-checked="true"] {
+  background: var(--bg-card);
+  box-shadow: var(--shadow-sm);
+  color: var(--text-primary);
+}
+
+.dayRow {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-block-end: 2px;
+  scrollbar-width: none;
+}
+
+.dayRow::-webkit-scrollbar {
+  display: none;
+}
+
+.dayChip {
+  display: flex;
+  flex: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  inline-size: 56px;
+  padding-block: 8px;
+  background: var(--bg-card);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-lg);
+  color: var(--text-primary);
+  font: inherit;
+  cursor: pointer;
+}
+
+.dayChip small {
+  color: var(--text-muted);
+  font-size: var(--fs-xs);
+}
+
+.dayChip b {
+  font-size: var(--fs-lg);
+  font-weight: 700;
+}
+
+.slotGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(104px, 1fr));
+  gap: 8px;
+}
+
+.slotChip {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-block-size: 44px;
+  padding: 6px 8px;
+  background: var(--bg-card);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  font: inherit;
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.slotChip:disabled {
+  color: var(--text-muted);
+  text-decoration: line-through;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.slotChip small {
+  font-size: 0.7rem;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.pillRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.pill {
+  min-block-size: 40px;
+  padding-inline: 14px;
+  background: var(--bg-card);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-full);
+  color: var(--text-primary);
+  font: inherit;
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.switchRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  min-block-size: 44px;
+  font-size: var(--fs-md);
+}
+
+/* Add-ons: whole-row cards with a round check, the chosen ones tinted. */
+.popCheck {
+  border-radius: var(--radius-lg);
+  border-width: 1.5px;
+  border-color: var(--border);
+}
+
+.popCheck input {
+  appearance: none;
+  display: grid;
+  place-items: center;
+  inline-size: 20px;
+  block-size: 20px;
+  border: 1.5px solid var(--border-strong);
+  border-radius: var(--radius-full);
+  background: var(--bg-card);
+}
+
+.popCheck input:checked {
+  background: var(--accent);
+  border-color: var(--accent);
+  box-shadow: inset 0 0 0 4px var(--bg-card);
+}
+
+.popCheck:has(input:checked) {
+  background: var(--accent-subtle);
+  border-color: var(--accent);
+}
+
+/* ---- Service popup on phones: a wizard, one question per screen with big answer cards ---- */
+.wizTop {
+  display: none;
+}
+
+@media (max-width: 600px) {
+  .wizOff {
+    display: none !important;
+  }
+
+  .wizTop {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-block-end: 8px;
+  }
+
+  .wizRow {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-block-size: 32px;
+  }
+
+  .wizBack {
+    display: grid;
+    flex: none;
+    place-items: center;
+    inline-size: 32px;
+    block-size: 32px;
+    margin-inline-start: -6px;
+    padding: 0;
+    background: var(--bg-tertiary);
+    border: 0;
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+    cursor: pointer;
+  }
+
+  .wizStep {
+    color: var(--text-muted);
+    font-size: var(--fs-sm);
+    font-weight: 600;
+  }
+
+  .wizTop .mStepBars li {
+    block-size: 4px;
+  }
+
+  .wizTop .mStepBars li.wizBarOn {
+    background: var(--accent);
+  }
+
+  /* The description makes room for the question. */
+  .popupMd:has(.wizTop) .popHead p {
+    display: none;
+  }
+
+  .popupMd .popSectionTitle {
+    display: none;
+  }
+
+  .popupMd .popBody .popSection {
+    padding-block: 4px;
+    border-block-start: 0;
+  }
+
+  /* Each screen's question, big. */
+  .popupMd .popLabel,
+  .popupMd .popField > label,
+  .popupMd .popChecks legend {
+    margin-block-end: 4px;
+    color: var(--text-primary);
+    font-size: 1.25rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    line-height: 1.25;
+  }
+
+  /* Answers: big cards in a column, a radio dot at the start and the price at the end. */
+  .popupMd .optGrid,
+  .popupMd .pillRow {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  /* More room between the questions that share the last screen. */
+  .popupMd .popBody .popSection .popGrid {
+    gap: 22px;
+  }
+
+  .popupMd .optCard,
+  .popupMd .pill {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 14px;
+    inline-size: 100%;
+    min-block-size: 56px;
+    padding: 12px 16px;
+    border-radius: 16px;
+    font-size: var(--fs-base);
+    text-align: start;
+  }
+
+  .popupMd .optCard::before,
+  .popupMd .pill::before {
+    content: "";
+    flex: none;
+    inline-size: 20px;
+    block-size: 20px;
+    box-sizing: border-box;
+    border: 1.5px solid var(--border-strong);
+    border-radius: var(--radius-full);
+  }
+
+  .popupMd .optCard[aria-checked="true"]::before,
+  .popupMd .pill[aria-checked="true"]::before {
+    border: 6px solid var(--accent);
+  }
+
+  .popupMd .optCard[aria-checked="true"],
+  .popupMd .pill[aria-checked="true"] {
+    border-width: 2px;
+  }
+
+  .popupMd .optCard b {
+    flex: 1;
+    font-size: var(--fs-lg);
+  }
+
+  .popupMd .optCard small {
+    color: var(--text-primary);
+    font-size: var(--fs-md);
+    font-weight: 600;
+  }
+
+  .popupMd .pill {
+    font-weight: 600;
+  }
+
+  .popupMd .popChecks .popCheck {
+    min-block-size: 56px;
+    padding: 12px 16px;
+    border-radius: 16px;
+    font-size: var(--fs-base);
+  }
+
+  .popupMd .popChecks .popCheck + .popCheck {
+    margin-block-start: 10px;
+  }
+
+  .popupMd .seg > button {
+    min-block-size: 48px;
+    font-size: var(--fs-md);
+  }
+
+  .popupMd .switchRow {
+    min-block-size: 56px;
+  }
+
+  .popupMd .popFoot > button {
+    inline-size: 100%;
+  }
+}
+
+/* Phones: the popup's title sits on the start side and its footer stacks the total over a full button. */
+@media (max-width: 600px) {
+  .popupMd .popHead {
+    margin-block-end: 20px;
+    padding-inline-end: 40px;
+    text-align: start;
+  }
+
+  .popupMd .popHead h2 {
+    font-size: 1.375rem;
+  }
+
+  .popupMd .popHead p {
+    display: -webkit-box;
+    margin-block-start: 6px;
+    overflow: hidden;
+    font-size: var(--fs-sm);
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+
+  .popupMd .popSection {
+    gap: 12px;
+    padding-block: 18px;
+  }
+
+  .popupMd .popFoot {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .popupMd .popTotal {
+    flex-direction: row;
+    align-items: baseline;
+    justify-content: space-between;
+  }
+
+  .popupMd .popFoot > button {
+    inline-size: 100%;
+  }
+}
+
+/* ---- Service popup on wider screens: wide and compact, so it fits a laptop screen without scrolling ---- */
+
+@media (min-width: 760px) {
+  .popupMd {
+    inline-size: min(880px, calc(100vw - 48px));
+  }
+
+  .popupMd .popBody {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+    column-gap: 40px;
+    padding: 28px 32px 24px;
+  }
+
+  .popupMd .popBody > * {
+    grid-column: 1 / -1;
+  }
+
+  /* The title sits on the start side, clear of the close button. */
+  .popupMd .popHead {
+    margin-block-end: 20px;
+    padding-inline-end: 40px;
+    text-align: start;
+  }
+
+  .popupMd .popHead h2 {
+    font-size: 1.375rem;
+  }
+
+  .popupMd .popHead p {
+    margin-block-start: 4px;
+    font-size: var(--fs-sm);
+  }
+
+  .popupMd .popSection {
+    gap: 12px;
+    padding-block: 18px;
+  }
+
+  .popupMd .popHead + .popSection {
+    padding-block-start: 0;
+  }
+
+  /* "Your wash" and "When" share the first row. */
+  .popupMd .popBody > .popHalf {
+    grid-column: auto;
+    padding-block-start: 0;
+    border-block-start: 0;
+  }
+
+  .popupMd .popGridStack {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .popupMd .popGrid {
+    gap: 14px 20px;
+  }
+
+  .popupMd .popTextarea {
+    min-block-size: 64px;
+  }
+
+  .popupMd .popFoot {
+    inset-block-end: -24px;
+    margin: 0 -32px -24px;
+    padding: 14px 32px 18px;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .popup[open] {
     animation: none;
@@ -2001,6 +2706,240 @@ html[dir="rtl"] .statusHeadline svg {
   flex: 1;
   flex-direction: column;
   min-inline-size: min(100%, 260px);
+}
+
+/* ---- Location step on phones: the map fills the step, with its controls floating on it ---- */
+
+/* Desktop and tablets: the wrappers add nothing to the layout, and the map chip is not shown. */
+.locHead,
+.locStage,
+.locSheet {
+  display: contents;
+}
+
+.locSavedChip {
+  display: none;
+}
+
+@media (max-width: 600px) {
+  /* The step fills the screen under the header and step bar; the map takes what is left. */
+  .locStep {
+    gap: 12px;
+    min-block-size: 520px;
+    block-size: calc(100dvh - var(--header-height) - 64px);
+  }
+
+  .locHead {
+    display: block;
+    min-inline-size: 0;
+  }
+
+  /* The title and its line wrap inside the screen instead of running past it. */
+  .locHead .stepHead > div {
+    flex: 1 1 100%;
+    min-inline-size: 0;
+  }
+
+  .locHead :global(p) {
+    margin-block-start: 4px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .locStage {
+    position: relative;
+    display: block;
+    flex: 1;
+    min-block-size: 0;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+  }
+
+  .locStage .mapBox {
+    position: absolute;
+    inset: 0;
+    block-size: auto;
+    border: 0;
+    border-radius: 0;
+  }
+
+  /* The search floats across the top of the map. */
+  .locStage .locToolbar {
+    display: contents;
+  }
+
+  .locStage .locToolbar .savedMenu {
+    display: none;
+  }
+
+  .locStage .locSearch {
+    position: absolute;
+    z-index: 2;
+    inset-block-start: 12px;
+    inset-inline: 12px;
+    min-inline-size: 0;
+  }
+
+  .locStage .locSearch > div > div:first-child {
+    gap: 0;
+    padding: 4px;
+    background: var(--bg-card);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .locStage .locSearch > div > div:first-child > span {
+    min-block-size: 42px;
+    padding-inline: 10px 4px;
+    background: none;
+    border: 0;
+    box-shadow: none;
+  }
+
+  .locStage .locSearch > div > div:first-child > button {
+    flex: none;
+    inline-size: 42px;
+    min-inline-size: 0;
+    min-block-size: 42px;
+    padding: 0;
+    border-radius: var(--radius-md);
+  }
+
+  .locStage .locSearch > div > div:first-child > button > svg {
+    display: block;
+  }
+
+  .locStage .locSearch > div > div:first-child > button > span {
+    display: none;
+  }
+
+  /* "Use my location" is a round button in the lower end corner. */
+  .locStage .iconBtn {
+    position: absolute;
+    z-index: 2;
+    inset-block-end: 12px;
+    inset-inline-end: 12px;
+    inline-size: 46px;
+    min-block-size: 46px;
+    background: var(--bg-card);
+    border: 0;
+    border-radius: var(--radius-full);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .locStage .iconBtn::after {
+    display: none;
+  }
+
+  /* The saved address is a chip under the map. */
+  .locSavedChip {
+    display: inline-flex;
+    align-self: flex-start;
+    align-items: center;
+    gap: 6px;
+    max-inline-size: 100%;
+    min-block-size: 40px;
+    padding-inline: 12px 14px;
+    background: var(--bg-card);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-full);
+    color: var(--text-primary);
+    font: inherit;
+    font-size: var(--fs-sm);
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .locSavedChip svg {
+    flex: none;
+    color: var(--accent);
+  }
+
+  .locSavedChip span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .locSavedChipOn {
+    background: var(--accent-subtle);
+    border-color: var(--accent);
+    color: var(--text-accent);
+  }
+
+  /* Under the map: any message, the saved address chip, then Continue. */
+  .locSheet {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .locSheet :global(.errorMessage):empty {
+    display: none;
+  }
+
+  .flow .locSheet .stepFooter {
+    position: static;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    margin: 0;
+    padding: 0;
+    background: none;
+    border: 0;
+    box-shadow: none;
+  }
+
+  /* The chosen place shows on the map itself, so only Continue stays. */
+  .flow .locSheet .stepSummary {
+    display: none;
+  }
+
+  .flow .locSheet .stepFooter > button:last-child {
+    inline-size: 100%;
+  }
+}
+
+/* Phones: smaller step titles, and the step's footer with its main button stays at the bottom of the screen. */
+@media (max-width: 600px) {
+  .flow .stepHead h1 {
+    font-size: 1.75rem;
+    line-height: 1.15;
+  }
+
+  .flow .stepFooter {
+    position: sticky;
+    inset-block-end: 0;
+    z-index: 30;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+    margin-inline: calc(50% - 50vw);
+    padding: 12px var(--space-md) calc(12px + env(safe-area-inset-bottom));
+    background: var(--bg-primary);
+    border-block-start: 1px solid var(--border);
+    box-shadow: 0 -6px 16px rgb(0 0 0 / 0.06);
+  }
+
+  .flow .stepFooter .stepSummary {
+    flex-direction: row;
+    align-items: baseline;
+    gap: 6px;
+  }
+
+  .flow .stepFooter .stepSummary b,
+  .flow .stepFooter .stepSummary > span {
+    overflow: hidden;
+    font-size: var(--fs-sm);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .flow .stepFooter > button:last-child {
+    inline-size: 100%;
+  }
 }
 
 .locSearch > div {
@@ -2337,10 +3276,12 @@ html[dir="rtl"] .svcCard:hover .svcGo {
 
 /* ---- Checkout: payment on the left, the booking summary on the right ---- */
 
+/* The order (a receipt) on the start side, the payment on the end side. */
 .checkout {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(340px, 420px);
-  align-items: start;
+  grid-template-columns: minmax(0, 1.15fr) minmax(360px, 1fr);
+  /* Both cards run the same height, like the mockup. */
+  align-items: stretch;
   gap: clamp(24px, 4vw, 48px);
 }
 
@@ -2498,6 +3439,224 @@ html[dir="rtl"] .svcCard:hover .svcGo {
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
+}
+
+/* Desktop: a tighter payment column, so the review step fits the screen without scrolling. */
+@media (min-width: 960px) {
+  .coPay {
+    gap: 12px;
+  }
+
+  .coMethods {
+    gap: 8px;
+  }
+
+  .coMethod {
+    min-block-size: 56px;
+    padding-block: 8px;
+  }
+
+  .coMethodIcon {
+    inline-size: 36px;
+    block-size: 36px;
+  }
+
+  .coPay .coPromo {
+    padding-block-start: 14px;
+  }
+
+  .coPay .coActions > button {
+    block-size: 52px;
+    min-block-size: 0;
+    padding-block: 0;
+  }
+}
+
+/* Phones: the payment column uses the full width, compact method rows, and a Pay button that stays in view. */
+@media (max-width: 600px) {
+  :global(:root) .flow .checkout .coPay,
+  :global(:root) .flow .checkout .coSummary {
+    padding: 16px;
+  }
+
+  .coPay .coMethods {
+    gap: 8px;
+  }
+
+  .coPay .coMethod {
+    gap: 12px;
+    min-block-size: 0;
+    padding: 10px 12px;
+  }
+
+  .coPay .coMethodIcon {
+    inline-size: 32px;
+    block-size: 32px;
+  }
+
+  /* One line per method: the detail is cut with an ellipsis rather than wrapping to three lines. */
+  .coPay .coMethodText b {
+    font-size: var(--fs-md);
+  }
+
+  .coPay .coMethodText small {
+    overflow: hidden;
+    font-size: var(--fs-xs);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .coPay .coActions {
+    position: sticky;
+    inset-block-end: 0;
+    z-index: 5;
+    margin-inline: -16px;
+    padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+    background: var(--bg-card);
+    border-block-start: 1px solid var(--border);
+    box-shadow: 0 -6px 16px rgb(0 0 0 / 0.06);
+  }
+
+  .coPay .coActions > button {
+    min-block-size: 52px;
+    margin: 0;
+    padding-block: 0;
+    font-size: var(--fs-md);
+  }
+}
+
+/* Phones: a compact confirmation — smaller title, tighter rows, and a total that fits the card. */
+@media (max-width: 600px) {
+  .doneHead .doneTitle {
+    font-size: 1.875rem;
+  }
+
+  .doneHead .doneSub {
+    font-size: var(--fs-sm);
+  }
+
+  :global(:root) .flow .doneColumns > dl,
+  :global(:root) .flow .doneColumns > .statusCard {
+    padding: 16px;
+  }
+
+  .doneColumns .doneRows > div {
+    gap: 12px;
+    padding-block: 12px;
+  }
+
+  .doneColumns .doneRows dt {
+    flex: none;
+    font-size: var(--fs-sm);
+  }
+
+  .doneColumns .doneRows dd {
+    min-inline-size: 0;
+    font-size: var(--fs-md);
+    font-weight: 600;
+    overflow-wrap: anywhere;
+  }
+
+  .doneColumns .doneRows .doneTotal {
+    align-items: center;
+    padding-block-start: 14px;
+  }
+
+  .doneColumns .doneRows .doneTotal dt {
+    color: var(--text-primary);
+    font-weight: 600;
+  }
+
+  .doneColumns .doneRows .doneTotal dd {
+    font-size: 1.5rem;
+    white-space: nowrap;
+  }
+}
+
+/* ---- The order as a receipt: the service and its price, dashed rules, then label / value rows ---- */
+
+.coReceiptItem {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-md);
+}
+
+.coReceiptItem > span {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-inline-size: 0;
+}
+
+.coReceiptItem b {
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.coReceiptItem small {
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+}
+
+.coReceiptItem .coReceiptPrice {
+  font-size: var(--fs-base);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.coRule {
+  margin: 0;
+  border: 0;
+  border-block-start: 1.5px dashed var(--border-strong);
+}
+
+.coReceipt {
+  display: grid;
+  grid-template-columns: 110px minmax(0, 1fr);
+  row-gap: 12px;
+  margin: 0;
+  font-size: var(--fs-md);
+}
+
+.coReceipt dt {
+  color: var(--text-muted);
+}
+
+.coReceipt dd {
+  margin: 0;
+  color: var(--text-primary);
+  font-weight: 500;
+  overflow-wrap: anywhere;
+}
+
+.coReceipt dd.coReceiptEmpty {
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+.coPlate {
+  color: var(--text-muted);
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: var(--fs-xs);
+}
+
+/* "Have a promo code?" until it is opened, under a line like the field it opens. */
+.coPay .coPromoLink {
+  align-self: flex-start;
+  padding-block-start: 14px;
+}
+
+/* The totals close the receipt, under its dashed rule. */
+.coSummary .coTotals {
+  padding-block-start: 0;
+  border-block-start: 0;
+}
+
+/* The cancellation note sits at the foot of the receipt. */
+.coReceiptFoot {
+  margin-block-start: auto;
 }
 
 .coSummaryHead {
@@ -2704,7 +3863,18 @@ html[dir="rtl"] .svcCard:hover .svcGo {
   box-shadow: var(--shadow-xs);
 }
 
-:global(:root:not([data-theme="dark"])) .coSummary,
+/* The order receipt sits on the lavender panel, the payment on the white one. */
+:global(:root:not([data-theme="dark"])) .coSummary {
+  padding: 28px;
+  background: var(--panel-side);
+  border: 1px solid var(--panel-side-border);
+  border-radius: var(--radius-lg);
+}
+
+:global(:root:not([data-theme="dark"])) .coSummary .coRule {
+  border-block-start-color: var(--panel-side-border);
+}
+
 :global(:root:not([data-theme="dark"])) .doneColumns > .statusCard {
   padding: 24px;
   background: var(--panel-side);
@@ -2793,7 +3963,73 @@ html[dir="rtl"] .svcCard:hover .svcGo {
   }
 }
 
-/* ---- Booking layout: slim step rail on desktop, the horizontal stepper on phones ---- */
+/* ---- Booking layout: a slim card of step icons on desktop, the horizontal stepper on phones ---- */
+
+/* The step header and the rail say which step this is, so the line above the title is not shown. */
+.flow .eyebrowStep {
+  display: none;
+}
+
+/* Phones: one compact line — Back, a thin bar per step, then "1/5 · name". */
+.mStep {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-block-size: 32px;
+}
+
+.mStepBack {
+  display: grid;
+  flex: none;
+  place-items: center;
+  inline-size: 32px;
+  block-size: 32px;
+  margin-inline-start: -6px;
+  padding: 0;
+  background: none;
+  border: 0;
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  cursor: pointer;
+}
+
+.mStepBack:focus-visible {
+  outline: 2px solid var(--focus-ring);
+}
+
+html[dir="rtl"] .mStepBackIcon {
+  scale: -1 1;
+}
+
+.mStepLabel {
+  flex: none;
+  color: var(--text-muted);
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.mStepBars {
+  display: grid;
+  flex: 1;
+  grid-auto-columns: minmax(0, 1fr);
+  grid-auto-flow: column;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.mStepBars li {
+  block-size: 3px;
+  background: var(--border);
+  border-radius: 2px;
+  transition: background var(--transition-normal);
+}
+
+.mStepBars li.mStepOn {
+  background: var(--text-primary);
+}
 
 .flow {
   inline-size: 100%;
@@ -2813,39 +4049,106 @@ html[dir="rtl"] .svcCard:hover .svcGo {
 
 @media (min-width: 960px) {
   .flow {
-    grid-template-columns: 38px minmax(0, 1fr);
-    gap: var(--space-xl);
+    /* The screen under the sticky header, less the page's top and bottom padding. */
+    --flow-h: max(560px, calc(100dvh - var(--header-height) - 2 * var(--space-lg)));
+    grid-template-columns: 76px minmax(0, 1fr);
+    gap: var(--space-2xl);
     align-items: start;
   }
 
+  /* The rail always runs the height of the screen and stays put while the step scrolls. */
   .flowSide {
     position: sticky;
-    inset-block-start: 24px;
-    display: block;
+    inset-block-start: calc(var(--header-height) + var(--space-lg));
+    display: flex;
+    flex-direction: column;
+    block-size: var(--flow-h);
+  }
+
+  .flowSide > .sideRail {
+    flex: 1;
   }
 
   .flowMobile {
     display: none;
   }
+
+  /* The rail already says which step this is, and its finished steps are the way back. */
+  .flow .eyebrowStep,
+  .flow .backBar {
+    display: none;
+  }
+
+  /* The car step fits the screen: the car list scrolls inside its card, the footer stays in view. */
+  .flowFit {
+    block-size: var(--flow-h);
+    grid-template-rows: minmax(0, 1fr);
+    align-items: stretch;
+  }
+
+  .flowFit > .flowMain {
+    min-block-size: 0;
+  }
+
+  .flowFit .carFit,
+  .flowFit .carListArea {
+    flex: 1;
+    min-block-size: 0;
+  }
+
+  /* The card takes all the height left under the heading; the pages sit under it. */
+  .flowFit .carPanel {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    min-block-size: 0;
+  }
+
+  .flowFit .carScroll {
+    flex: 1 1 auto;
+    min-block-size: 0;
+    overflow-y: auto;
+  }
+
+  .flowFit .carScroll thead th {
+    position: sticky;
+    inset-block-start: 0;
+    z-index: 1;
+  }
 }
 
 .sideRail {
-  display: grid;
-  justify-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   margin: 0;
-  padding: 0;
+  padding: 20px 0;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-xs);
   list-style: none;
 }
 
+/* The connectors stretch, so the steps spread over the whole rail. */
 .sideItem {
-  display: grid;
-  justify-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.sideItem:not(:last-child) {
+  flex: 1;
 }
 
 .sideItem:not(:last-child)::after {
   content: "";
+  flex: 1;
   inline-size: 2px;
-  block-size: 30px;
+  min-block-size: 20px;
+  margin-block: 2px 8px;
+  border-radius: 1px;
   background: var(--border);
   transition: background var(--transition-normal);
 }
@@ -2857,18 +4160,56 @@ html[dir="rtl"] .svcCard:hover .svcGo {
 .sideDot {
   display: grid;
   place-items: center;
-  inline-size: 38px;
-  block-size: 38px;
+  inline-size: 40px;
+  block-size: 40px;
   background: var(--bg-card);
   border: 1.5px solid var(--border);
-  border-radius: var(--radius-full);
+  border-radius: var(--radius-lg);
   color: var(--text-muted);
-  font-size: var(--fs-sm);
-  font-weight: 800;
   transition:
     background var(--transition-normal),
     border-color var(--transition-normal),
     box-shadow var(--transition-normal);
+}
+
+/* A step's icon and name; a finished step is a button back to it. */
+.sideBtn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 0;
+  background: none;
+  border: 0;
+  border-radius: var(--radius-lg);
+  font: inherit;
+}
+
+button.sideBtn {
+  cursor: pointer;
+}
+
+button.sideBtn:hover .sideDot {
+  background: var(--accent);
+  color: var(--text-on-accent);
+}
+
+button.sideBtn:hover .sideLabel {
+  color: var(--text-accent);
+}
+
+button.sideBtn:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 3px;
+}
+
+.sideLabel {
+  max-inline-size: 68px;
+  color: var(--text-muted);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  line-height: 1.2;
+  text-align: center;
 }
 
 .sideItem.stepDone .sideDot {
@@ -2877,16 +4218,24 @@ html[dir="rtl"] .svcCard:hover .svcGo {
   color: var(--accent);
 }
 
+.sideItem.stepDone .sideLabel {
+  color: var(--text-secondary);
+}
+
 .sideItem.stepSuccess .sideDot {
   background: var(--success);
   border-color: var(--success);
-  color: #fff;
+  color: var(--text-on-accent);
 }
 
 .sideItem.stepNow .sideDot {
-  background: var(--accent-subtle);
+  background: var(--accent);
   border-color: var(--accent);
-  color: var(--accent);
+  color: var(--text-on-accent);
   box-shadow: 0 0 0 4px var(--accent-subtle);
 }
 
+.sideItem.stepNow .sideLabel {
+  color: var(--text-accent);
+  font-weight: 700;
+}

@@ -17,7 +17,7 @@ import { translateError } from "@/utils/error";
 import type { Place } from "./AddressStep";
 import { buildItems, formatMoney, type Draft } from "./draft";
 import MoyasarForm from "./MoyasarForm";
-import OrderSummary, { type Totals } from "./OrderSummary";
+import OrderSummary, { PromoField, type Totals } from "./OrderSummary";
 import { Cta, Ghost, StepHeading } from "./ui";
 import { useQuote } from "./useQuote";
 import styles from "./Wash.module.css";
@@ -55,6 +55,8 @@ export default function CheckoutStep({
   const t = useScopedI18n("wash");
   const locale = useCurrentLocale();
   const { quote } = useQuote(buildItems(draft));
+  // The promo field previews its discount; the receipt shows it in the totals.
+  const [discount, setDiscount] = useState<string | null>(null);
   const [method, setMethod] = useState<Method>("card");
   const [useBalance, setUseBalance] = useState(false);
   const [wallet, setWallet] = useState<number | null>(null);
@@ -231,37 +233,39 @@ export default function CheckoutStep({
             />
           </div>
         )}
-
-        <p className={styles.coNote}>
-          <IconLock size={14} stroke={1.75} aria-hidden /> {t("secureNote")}
-        </p>
       </>
     );
   }
 
   return (
     <div className={styles.stack}>
-      <StepHeading step={4} title={t("reviewTitle")} subtitle={t("paySubtitle")} />
+      <StepHeading step={4} title={t("reviewTitle")} />
+      {/* The order and its totals on one side; the payment, promo and pay button on the other. */}
       <div className={styles.checkout}>
+        <OrderSummary draft={draft} vehicle={vehicle} place={place} totals={totals} discount={discount} locked={bookingPubkey !== null} onEdit={onEdit} />
+
         <section className={styles.coPay} aria-label={t("payTitle")}>
           {payment}
+          {!card && !verifying && (
+            <>
+              {draft.service && bookingPubkey === null && <PromoField draft={draft} setDraft={setDraft} quote={quote} onDiscount={setDiscount} />}
+              <div className={styles.coActions}>
+                <Cta disabled={busy || !totals} onClick={pay}>
+                  {busy ? t("processing") : payLabel}
+                </Cta>
+                {bookingPubkey && <Ghost onClick={onCancel}>{t("cancelBooking")}</Ghost>}
+              </div>
+              <p className={styles.coNote}>
+                <IconLock size={14} stroke={1.75} aria-hidden /> {t("secureNote")}
+              </p>
+            </>
+          )}
           {error && (
             <p className="errorMessage" role="alert">
               {error}
             </p>
           )}
         </section>
-
-        <OrderSummary draft={draft} setDraft={setDraft} vehicle={vehicle} place={place} quote={quote} totals={totals} locked={bookingPubkey !== null} onEdit={onEdit}>
-          {!card && !verifying && (
-            <>
-              <Cta disabled={busy || !totals} onClick={pay}>
-                {busy ? t("processing") : payLabel}
-              </Cta>
-              {bookingPubkey && <Ghost onClick={onCancel}>{t("cancelBooking")}</Ghost>}
-            </>
-          )}
-        </OrderSummary>
       </div>
     </div>
   );

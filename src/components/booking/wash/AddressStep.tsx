@@ -120,10 +120,15 @@ export default function AddressStep({
     onNext();
   };
 
+  // On phones the map fills the step with the search on top and "use my location" in a corner; the
+  // saved address chip and Continue sit under it (the "Location step on phones" CSS block).
   return (
-    <div className={styles.stack}>
-      <StepHeading step={2} title={t("addressStepTitle")} subtitle={t("addressStepSubtitle")} />
+    <div className={`${styles.stack} ${styles.locStep}`}>
+      <div className={styles.locHead}>
+        <StepHeading step={2} title={t("addressStepTitle")} subtitle={t("addressStepSubtitle")} />
+      </div>
 
+      <div className={styles.locStage}>
       <div className={styles.locToolbar}>
         {saved && (
           <div className={styles.savedMenu} ref={menuRef}>
@@ -175,7 +180,9 @@ export default function AddressStep({
       <div className={styles.mapBox}>
         <LocationMap value={point} onPick={(spot) => pick(spot)} label={ta("mapHint")} wheelZoom />
       </div>
+      </div>
 
+      <div className={styles.locSheet}>
       {notice && (
         <p className={styles.noticeLine} role="status">
           {notice}
@@ -185,11 +192,24 @@ export default function AddressStep({
         {error}
       </p>
 
+      {/* Phones only: the saved address as a one-tap chip under the map. */}
+      {saved && (
+        <button
+          type="button"
+          className={`${styles.locSavedChip} ${fromSaved ? styles.locSavedChipOn : ""}`}
+          aria-pressed={fromSaved}
+          onClick={() => chooseSaved(saved.address.pubkey)}
+        >
+          <IconHome size={16} stroke={1.75} aria-hidden />
+          <span dir="auto">{saved.address.address}</span>
+        </button>
+      )}
       <StepFooter label={t("where")} hint={ta("mapHint")} value={point ? address : null}>
         <Cta disabled={!point || busy} onClick={next}>
           {busy ? t("saving") : t("continue")}
         </Cta>
       </StepFooter>
+      </div>
     </div>
   );
 }

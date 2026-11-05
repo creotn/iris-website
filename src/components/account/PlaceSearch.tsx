@@ -42,6 +42,7 @@ export default function PlaceSearch({ onPick }: { onPick: (place: Place) => void
           <IconSearch size={18} stroke={1.75} aria-hidden />
           <input
             type="search"
+            enterKeyHint="search"
             dir="auto"
             value={query}
             placeholder={t("searchPlaceholder")}
@@ -57,8 +58,16 @@ export default function PlaceSearch({ onPick }: { onPick: (place: Place) => void
             }}
           />
         </span>
-        <button type="button" className={`${styles.button} ${styles.primary}`} onClick={search} disabled={!query.trim() || searching}>
-          {searching ? <IconLoader2 className={styles.spin} size={18} stroke={2} aria-hidden /> : t("search")}
+        <button type="button" className={`${styles.button} ${styles.primary}`} onClick={search} disabled={!query.trim() || searching} aria-label={t("search")}>
+          {searching ? (
+            <IconLoader2 className={styles.spin} size={18} stroke={2} aria-hidden />
+          ) : (
+            <>
+              {/* Shown instead of the word where the button is icon-only (the booking flow on phones). */}
+              <IconSearch className={styles.searchBtnIcon} size={20} stroke={2} aria-hidden />
+              <span className={styles.searchBtnLabel}>{t("search")}</span>
+            </>
+          )}
         </button>
       </div>
 

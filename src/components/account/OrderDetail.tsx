@@ -1,10 +1,20 @@
 "use client";
 
-import { useCallback, useEffect, useState, useTransition } from "react";
+import { useCallback, useEffect, useState, useTransition, type ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { IconArrowLeft, IconCheck, IconCreditCard, IconRefresh, IconStarFilled, IconX } from "@tabler/icons-react";
+import {
+  IconArrowLeft,
+  IconCar,
+  IconCheck,
+  IconCreditCard,
+  IconMapPin,
+  IconRefresh,
+  IconSearch,
+  IconStarFilled,
+  IconX,
+} from "@tabler/icons-react";
 import { fetchOrder, fileUrl, rateOrder, type Order } from "@/api/AccountAPI";
 import { cancelBooking } from "@/api/BookingAPI";
 import { formatMoney } from "@/components/booking/wash/draft";
@@ -13,6 +23,7 @@ import { translateError } from "@/utils/error";
 import { OrderDetailSkeleton } from "./AccountSkeletons";
 import Dialog from "./Dialog";
 import ErrorRow from "./ErrorRow";
+import LocationMap from "./LocationMap";
 import {
   STAGES,
   awaitsPayment,
@@ -22,6 +33,7 @@ import {
   isActive,
   isCancellable,
   isDone,
+  isStopped,
   orderNumber,
   orderTitle,
   stageIndex,
@@ -83,10 +95,16 @@ export default function OrderDetail({ pubkey }: { pubkey: string }) {
     </Link>
   );
 
-  if (state.status === "loading") return <OrderDetailSkeleton back={back} />;
+  if (state.status === "loading") {
+    return (
+      <div className={`container ${styles.trackFallback}`}>
+        <OrderDetailSkeleton back={back} />
+      </div>
+    );
+  }
   if (state.status === "failed") {
     return (
-      <div className={styles.page}>
+      <div className={`container ${styles.page} ${styles.trackFallback}`}>
         {back}
         <ErrorRow
           message={state.message}
@@ -101,116 +119,184 @@ export default function OrderDetail({ pubkey }: { pubkey: string }) {
 
   const { order } = state;
   const number = orderNumber(order.pubkey);
+  const refresh = () => {
+    setRefreshing(true);
+    load();
+  };
 
   return (
-    <div className={styles.page}>
-      {back}
+    <div className={styles.trackPage}>
+      {/* The visit on a map, with where things stand floating over it */}
+      <TrackMap order={order} at={state.at} refreshing={refreshing} onRefresh={refresh} back={back} />
 
-      <div className={`${styles.detailHead} ${styles.reveal}`}>
-        <div className={styles.detailTitle}>
-          <h1 className={styles.name}>{orderTitle(order, locale) || t("orderNumber", { number })}</h1>
-          <span className={styles.muted}>
-            <span dir="ltr">#{number}</span> · {t("placedOn", { date: formatDateTime(order.createdAt, locale) })}
-          </span>
-        </div>
-        <StatusBadge status={order.status} />
-      </div>
+      <aside className={styles.trackPanel}>
+        <div className={styles.trackBody}>
+          <div className={`${styles.trackHead} ${styles.reveal}`}>
+            <span className={styles.detailTitle}>
+              <h1>{orderTitle(order, locale) || t("orderNumber", { number })}</h1>
+              <span className={styles.muted}>
+                <span dir="ltr">#{number}</span> · {formatDateTime(order.createdAt, locale)}
+              </span>
+            </span>
+            <StatusBadge status={order.status} />
+          </div>
 
-      {awaitsPayment(order) && (
-        <div className={`${styles.payCard} ${styles.reveal}`}>
-          <span className={styles.payIcon} aria-hidden>
-            <IconCreditCard size={24} stroke={1.75} />
-          </span>
-          <span className={styles.payText}>
-            <span className={styles.eyebrow}>{t("paymentNeeded")}</span>
-            <b className={styles.payTitle}>{t("now_NEW")}</b>
-          </span>
-          <Link href={`/${locale}/book/wash?booking=${order.pubkey}`} className={styles.darkBtn}>
-            {t("payAmount", { amount: formatMoney(order.amountDue, locale) })}
-          </Link>
-        </div>
-      )}
+          {awaitsPayment(order) && (
+            <div className={`${styles.payCard} ${styles.reveal}`}>
+              <span className={styles.payIcon} aria-hidden>
+                <IconCreditCard size={24} stroke={1.75} />
+              </span>
+              <span className={styles.payText}>
+                <span className={styles.eyebrow}>{t("paymentNeeded")}</span>
+                <b className={styles.payTitle}>{t("now_NEW")}</b>
+              </span>
+              <Link href={`/${locale}/book/wash?booking=${order.pubkey}`} className={styles.darkBtn}>
+                {t("payAmount", { amount: formatMoney(order.amountDue, locale) })}
+              </Link>
+            </div>
+          )}
 
-      <div className={styles.detailGrid}>
-        <div className={styles.column}>
-          <Tracker
-            order={order}
-            at={state.at}
-            refreshing={refreshing}
-            onRefresh={() => {
-              setRefreshing(true);
-              load();
-            }}
-          />
+          <Tracker order={order} />
           {order.professional && <Professional order={order} />}
+          <VisitTiles order={order} />
           {order.photos.length > 0 && <Photos order={order} />}
           {isDone(order.status) && order.professional && <Rating order={order} onRated={load} />}
         </div>
-        <div className={styles.column}>
-          <Summary order={order} />
-          <Visit order={order} />
-          {isCancellable(order.status) && <CancelOrder pubkey={order.pubkey} onCancelled={load} />}
+
+        <TrackFooter order={order} onCancelled={load} />
+      </aside>
+    </div>
+  );
+}
+
+function TrackMap({
+  order,
+  at,
+  refreshing,
+  onRefresh,
+  back,
+}: {
+  order: Order;
+  at: number;
+  refreshing: boolean;
+  onRefresh: () => void;
+  back: ReactNode;
+}) {
+  const t = useScopedI18n("account");
+  const locale = useCurrentLocale();
+  const { address } = order;
+  const point =
+    address && address.latitude != null && address.longitude != null
+      ? { latitude: address.latitude, longitude: address.longitude }
+      : null;
+  const active = isActive(order.status);
+  const searching = order.status === "PENDING";
+  const tone = statusTone(order.status);
+  const name = (order.professional && fullName(order.professional.user)) || t("yourProfessional");
+  const icon = searching ? (
+    <IconSearch size={22} stroke={2} />
+  ) : isDone(order.status) ? (
+    <IconCheck size={22} stroke={2.5} />
+  ) : isStopped(order.status) ? (
+    <IconX size={22} stroke={2.5} />
+  ) : order.status === "NEW" ? (
+    <IconCreditCard size={22} stroke={1.75} />
+  ) : (
+    <IconCar size={22} stroke={1.75} />
+  );
+
+  return (
+    <div className={styles.trackMap}>
+      {point ? (
+        <LocationMap value={point} label={t("mapLabel")} />
+      ) : (
+        <div className={styles.trackMapEmpty} aria-hidden>
+          <IconMapPin size={44} stroke={1.5} />
         </div>
+      )}
+      {searching && point && <span className={styles.trackPulse} aria-hidden />}
+
+      <div className={styles.trackBack}>{back}</div>
+
+      <div className={`${styles.trackStatus} ${styles.reveal}`} role="status" aria-live="polite">
+        <span className={`${styles.trackStatusIcon} ${styles[`trackTone_${tone}`]}`} aria-hidden>
+          {icon}
+        </span>
+        <span className={styles.trackStatusText}>
+          <b>{t(`now_${order.status}`, { name })}</b>
+          <span>
+            {[address?.address, active && t("updatedAt", { time: formatTime(at, locale) })].filter(Boolean).join(" · ")}
+          </span>
+        </span>
+        {active && (
+          <button type="button" className={styles.trackRefresh} onClick={onRefresh} disabled={refreshing} aria-label={t("refresh")}>
+            <IconRefresh size={18} stroke={1.9} aria-hidden />
+          </button>
+        )}
       </div>
     </div>
   );
 }
 
-function Tracker({ order, at, refreshing, onRefresh }: { order: Order; at: number; refreshing: boolean; onRefresh: () => void }) {
+function TrackFooter({ order, onCancelled }: { order: Order; onCancelled: () => void }) {
+  const t = useScopedI18n("account");
+  const tw = useScopedI18n("wash");
+  const locale = useCurrentLocale();
+  const [receipt, setReceipt] = useState(false);
+
+  return (
+    <div className={styles.trackFoot}>
+      <div className={styles.trackTotal}>
+        <span>
+          <small>{t("totalWith", { method: tw(`pm_${order.paymentMethod}` as "pm_CARD") })}</small>
+          <b>{formatMoney(order.amountDue, locale)}</b>
+        </span>
+        <button type="button" className={styles.profileAction} onClick={() => setReceipt(true)}>
+          {t("viewReceipt")}
+        </button>
+      </div>
+      {isCancellable(order.status) && <CancelOrder pubkey={order.pubkey} onCancelled={onCancelled} />}
+
+      <Dialog open={receipt} onClose={() => setReceipt(false)} title={t("summary")}>
+        <Summary order={order} />
+        <div className={styles.dialogActions}>
+          <button type="button" className={styles.button} onClick={() => setReceipt(false)}>
+            {t("close")}
+          </button>
+        </div>
+      </Dialog>
+    </div>
+  );
+}
+
+function Tracker({ order }: { order: Order }) {
   const t = useScopedI18n("account");
   const locale = useCurrentLocale();
   const times = stageTimes(order);
   const current = stageIndex(order.status);
   const done = isDone(order.status);
-  const name = (order.professional && fullName(order.professional.user)) || t("yourProfessional");
 
   return (
-    <div id="tracking" className={`${styles.card} ${styles.anchor} ${styles.reveal}`} style={stagger(1)}>
-      <div className={styles.trackHead}>
-        <h2 className={styles.cardTitle}>{t("tracking")}</h2>
-        {isActive(order.status) && (
-          <button type="button" className={styles.button} onClick={onRefresh} disabled={refreshing}>
-            <IconRefresh size={16} stroke={1.75} aria-hidden />
-            {t("refresh")}
-          </button>
-        )}
-      </div>
-
-      <div className={`${styles.statusBox} ${styles[`statusBox_${statusTone(order.status)}`]}`} role="status" aria-live="polite">
-        {isActive(order.status) ? (
-          <span className={styles.statusDot} aria-hidden />
-        ) : done ? (
-          <IconCheck size={18} stroke={2.5} aria-hidden />
-        ) : (
-          <IconX size={18} stroke={2.5} aria-hidden />
-        )}
-        <span>
-          <b>{t(`now_${order.status}`, { name })}</b>
-          {isActive(order.status) && <span className={styles.muted}>{t("updatedAt", { time: formatTime(at, locale) })}</span>}
-        </span>
-      </div>
-
-      <ol className={styles.tracker}>
-        {STAGES.map((stage, index) => {
-          const passed = current === -1 ? Boolean(times[stage]) : index < current || (index === current && done);
-          const isCurrent = index === current && !done;
-          const time = times[stage];
-          return (
-            <li
-              key={stage}
-              className={`${styles.step} ${passed ? styles.stepPassed : ""} ${isCurrent ? styles.stepCurrent : ""}`}
-              aria-current={isCurrent ? "step" : undefined}
-            >
-              <span className={styles.dot} aria-hidden>
-                {passed && <IconCheck size={14} stroke={3} />}
-              </span>
-              <span>{t(`stage_${stage}`)}</span>
-              {time && (passed || isCurrent) && <span className={styles.stepTime}>{formatDateTime(time, locale)}</span>}
-            </li>
-          );
-        })}
-      </ol>
-    </div>
+    <ol id="tracking" className={`${styles.tracker} ${styles.trackSteps} ${styles.anchor} ${styles.reveal}`} style={stagger(1)} aria-label={t("tracking")}>
+      {STAGES.map((stage, index) => {
+        const passed = current === -1 ? Boolean(times[stage]) : index < current || (index === current && done);
+        const isCurrent = index === current && !done;
+        const time = times[stage];
+        return (
+          <li
+            key={stage}
+            className={`${styles.step} ${passed ? styles.stepPassed : ""} ${isCurrent ? styles.stepCurrent : ""}`}
+            aria-current={isCurrent ? "step" : undefined}
+          >
+            <span className={styles.dot} aria-hidden>
+              {passed && <IconCheck size={14} stroke={3} />}
+            </span>
+            <span>{t(`stage_${stage}`)}</span>
+            {time && (passed || isCurrent) && <span className={styles.stepTime}>{formatTime(time, locale)}</span>}
+          </li>
+        );
+      })}
+    </ol>
   );
 }
 
@@ -273,9 +359,7 @@ function Summary({ order }: { order: Order }) {
   const online = Number(order.onlineDiscount);
 
   return (
-    <div className={`${styles.card} ${styles.reveal}`} style={stagger(2)}>
-      <h2 className={styles.cardTitle}>{t("summary")}</h2>
-      <div className={styles.lines}>
+    <div className={styles.lines}>
         {order.items.map((item) => (
           <Line
             key={item.pubkey}
@@ -290,31 +374,33 @@ function Summary({ order }: { order: Order }) {
         <Line total label={t("total")} value={money(order.amountDue)} />
         {order.amountPaid && order.paidAt && <Line label={t("paid")} value={money(order.amountPaid)} />}
         <Line label={t("payment")} value={tw(`pm_${order.paymentMethod}` as "pm_CARD")} />
-      </div>
     </div>
   );
 }
 
-function Visit({ order }: { order: Order }) {
+function VisitTiles({ order }: { order: Order }) {
   const t = useScopedI18n("account");
   const tw = useScopedI18n("wash");
   const locale = useCurrentLocale();
   const { vehicle } = order;
-  const car = vehicle ? [`${vehicle.make} ${vehicle.model}`, vehicle.plateNumber].filter(Boolean).join(" · ") : null;
+  const tiles: { label: string; value: string; wide?: boolean; ltr?: boolean }[] = [];
+  if (vehicle) tiles.push({ label: t("car"), value: `${vehicle.make} ${vehicle.model}`.trim() });
+  if (vehicle?.plateNumber) tiles.push({ label: t("plate"), value: vehicle.plateNumber, ltr: true });
+  tiles.push({ label: t("when"), value: order.scheduledAt ? formatDateTime(order.scheduledAt, locale) : t("asap") });
+  tiles.push({ label: t("access"), value: tw(`access_${order.vehicleAccess}`) });
+  tiles.push({ label: tw("scent"), value: tw(`scent_${order.scent}`) });
+  if (order.doNotDisturb) tiles.push({ label: tw("doNotDisturb"), value: t("yes") });
+  if (order.notes) tiles.push({ label: tw("notes"), value: order.notes, wide: true });
 
   return (
-    <div className={`${styles.card} ${styles.reveal}`} style={stagger(3)}>
-      <h2 className={styles.cardTitle}>{t("visit")}</h2>
-      <div className={styles.lines}>
-        <Line label={t("when")} value={order.scheduledAt ? formatDateTime(order.scheduledAt, locale) : t("asap")} />
-        {car && <Line label={t("car")} value={car} />}
-        {order.address && <Line label={t("address")} value={order.address.address} />}
-        <Line label={tw("scent")} value={tw(`scent_${order.scent}`)} />
-        <Line label={t("access")} value={tw(`access_${order.vehicleAccess}`)} />
-        {order.doNotDisturb && <Line label={tw("doNotDisturb")} value={t("yes")} />}
-        {order.notes && <Line label={tw("notes")} value={order.notes} />}
-      </div>
-    </div>
+    <dl className={`${styles.trackTiles} ${styles.reveal}`} style={stagger(2)}>
+      {tiles.map((tile) => (
+        <div key={tile.label} className={`${styles.trackTile} ${tile.wide ? styles.trackTileWide : ""}`}>
+          <dt>{tile.label}</dt>
+          <dd dir={tile.ltr ? "ltr" : "auto"}>{tile.value}</dd>
+        </div>
+      ))}
+    </dl>
   );
 }
 
@@ -408,7 +494,7 @@ function CancelOrder({ pubkey, onCancelled }: { pubkey: string; onCancelled: () 
 
   return (
     <>
-      <button type="button" className={`${styles.button} ${styles.danger}`} onClick={() => setOpen(true)}>
+      <button type="button" className={`${styles.button} ${styles.danger} ${styles.trackCancel}`} onClick={() => setOpen(true)}>
         {t("cancelOrder")}
       </button>
       <Dialog open={open} onClose={() => setOpen(false)} title={t("cancelTitle")} description={t("cancelConfirm")}>

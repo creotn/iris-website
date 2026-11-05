@@ -5,12 +5,11 @@ import { Skeleton } from "@/components/skeleton/Skeleton";
 import table from "@/components/table/DataTable.module.css";
 import shellStyles from "../StepShell.module.css";
 import { readFlow, urlPhase, type Phase } from "./draft";
-import { STEP_TOTAL } from "./ui";
 import sk from "./StepSkeleton.module.css";
 import styles from "./Wash.module.css";
 
-// Label widths for the five steps: car, location, service, review & pay, confirmation.
-const STEP_LABELS = [36, 64, 52, 92, 96];
+// One placeholder per step: car, location, service, review & pay, confirmation.
+const STEP_LABELS = [1, 2, 3, 4, 5];
 const STEP_INDEX: Record<Phase, number> = { car: 1, address: 2, service: 3, checkout: 4, done: 5 };
 
 const noSubscribe = () => () => {};
@@ -26,29 +25,27 @@ export default function StepSkeleton() {
   const step = phase ? STEP_INDEX[phase] : 1;
 
   return (
-    <div className={styles.flow} aria-busy="true">
+    <div className={`${styles.flow} ${phase === "car" ? styles.flowFit : ""}`} aria-busy="true">
       <aside className={styles.flowSide}>
         <div className={styles.sideRail}>
           {STEP_LABELS.map((_, index) => (
             <span key={index} className={styles.sideItem}>
-              <Skeleton width="38px" height="38px" radius="circle" />
-              {index < STEP_LABELS.length - 1 && <span style={{ blockSize: 30 }} />}
+              <Skeleton width="40px" height="40px" radius="lg" />
+              <Skeleton width="28px" height="10px" />
             </span>
           ))}
         </div>
       </aside>
 
       <div className={`${shellStyles.shell} ${styles.flowMain}`}>
-        <div className={shellStyles.bar}>{step > 1 && step < STEP_TOTAL && <Skeleton width="72px" height="20px" />}</div>
-
-        <ol className={`${styles.stepper6} ${styles.flowMobile}`}>
-          {STEP_LABELS.map((width, index) => (
-            <li key={index} className={`${styles.stepItem} ${index + 1 === step ? sk.now : ""}`}>
-              <Skeleton width="var(--dot)" height="var(--dot)" radius="circle" className={sk.dot} />
-              <Skeleton width={`${width}px`} height="12px" className={sk.label} />
-            </li>
-          ))}
-        </ol>
+        <div className={`${styles.mStep} ${styles.flowMobile}`}>
+          <ol className={styles.mStepBars}>
+            {STEP_LABELS.map((_, index) => (
+              <li key={index} className={index + 1 <= step ? styles.mStepOn : undefined} />
+            ))}
+          </ol>
+          <Skeleton width="56px" height="12px" />
+        </div>
 
         <div className={styles.stack}>
           {phase === "done" ? <DoneHead /> : <Heading />}
@@ -89,10 +86,13 @@ function Footer() {
 function CarBody() {
   return (
     <>
-      <div>
+      <div className={styles.carPanel}>
         <div className={styles.carBar}>
           <Skeleton width="96px" height="16px" />
-          <Skeleton width="118px" height="40px" radius="sm" />
+          <span className={styles.carTools}>
+            <Skeleton width="118px" height="40px" radius="sm" />
+            <Skeleton width="128px" height="40px" radius="sm" />
+          </span>
         </div>
         <table className={`${table.table} ${table.roomy}`}>
           <thead>
@@ -134,7 +134,6 @@ function CarBody() {
           </tbody>
         </table>
       </div>
-      <Footer />
     </>
   );
 }

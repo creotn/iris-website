@@ -16,7 +16,7 @@ export default async function WashPage({ params }: { params: Promise<{ locale: s
   setStaticParamsLocale(resolveLocale((await params).locale));
 
   return (
-    <main className={`container ${styles.main}`}>
+    <main className={`container ${styles.main} ${styles.mainFlow}`}>
       <WashFlow />
     </main>
   );

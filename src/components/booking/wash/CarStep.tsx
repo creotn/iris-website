@@ -1,11 +1,11 @@
 "use client";
 
 import { useId, useState, useTransition, type ComponentProps } from "react";
-import { IconPlus } from "@tabler/icons-react";
+import { IconArrowRight, IconPencil, IconPlus, IconSearch, IconTrash } from "@tabler/icons-react";
 import { addVehicle, deleteVehicle, fetchVehicles, updateVehicle, type Vehicle } from "@/api/BookingAPI";
 import { SubmitButton } from "@/components/buttons/SubmitButton";
 import formStyles from "@/components/forms/SignInForm.module.css";
-import { CarColor, Pager, Plate, RowMenu, SortHeader, VehicleMark } from "@/components/table/TableParts";
+import { CarColor, Pager, Plate, VehicleMark } from "@/components/table/TableParts";
 import table from "@/components/table/DataTable.module.css";
 import { useTableView } from "@/components/table/useTableView";
 import { numberInRange, optional, required, useValidatedForm } from "@/hooks/useValidatedForm";
@@ -13,7 +13,7 @@ import { useCurrentLocale, useScopedI18n } from "@/locales/client";
 import { translateError } from "@/utils/error";
 import Popup from "./Popup";
 import SelectField from "./SelectField";
-import { Cta, Ghost, StepFooter, StepHeading } from "./ui";
+import { Ghost, StepHeading } from "./ui";
 import styles from "./Wash.module.css";
 
 const CAR_TYPES = ["SEDAN", "SUV", "TRUCK", "MOTORCYCLE"] as const;
@@ -180,7 +180,10 @@ export default function CarStep({
   const ta = useScopedI18n("account");
   const [editing, setEditing] = useState<Editing>(vehicles.length === 0 ? "new" : null);
   const [removing, setRemoving] = useState<Vehicle | null>(null);
-  const view = useTableView(vehicles, SORT_VALUE, PAGE_SIZE);
+  const [query, setQuery] = useState("");
+  const needle = query.trim().toLowerCase();
+  const matches = needle ? vehicles.filter((vehicle) => `${carName(vehicle)} ${vehicle.plateNumber ?? ""}`.toLowerCase().includes(needle)) : vehicles;
+  const view = useTableView(matches, SORT_VALUE, PAGE_SIZE);
 
   const typeName = (type: string) => (CAR_TYPES.includes(type as CarType) ? tb(`type${type as CarType}`) : type);
 
@@ -205,7 +208,7 @@ export default function CarStep({
   );
 
   return (
-    <div className={styles.stack}>
+    <div className={`${styles.stack} ${styles.carFit}`}>
       <StepHeading step={1} title={t("carStepTitle")} subtitle={t("carStepSubtitle")} />
 
       {vehicles.length === 0 ? (
@@ -215,91 +218,134 @@ export default function CarStep({
           {addButton}
         </div>
       ) : (
-        <div>
-          <div className={styles.carBar}>
-            <span className={styles.listCount}>{t("savedCars", { count: vehicles.length })}</span>
-            {addButton}
-          </div>
+        <div className={`${styles.stack} ${styles.carListArea}`}>
+          <div className={styles.carPanel}>
+            <div className={styles.carBar}>
+              <span className={styles.carBarTitle}>
+                {t("yourCars")}
+                <span className={styles.countBadge}>{vehicles.length}</span>
+              </span>
+              <span className={styles.carTools}>
+                {/* Searching only helps once the list no longer fits on one page. */}
+                {vehicles.length > PAGE_SIZE && (
+                  <label className={styles.carSearch}>
+                    <IconSearch size={16} stroke={2} aria-hidden />
+                    <input
+                      type="search"
+                      dir="auto"
+                      value={query}
+                      placeholder={t("searchCars")}
+                      aria-label={t("searchCars")}
+                      onChange={(event) => {
+                        setQuery(event.target.value);
+                        view.setPage(1);
+                      }}
+                    />
+                  </label>
+                )}
+                {addButton}
+                <button type="button" className={styles.carContinue} disabled={!selected} onClick={onNext}>
+                  {t("continue")}
+                  <IconArrowRight className={styles.carContinueIcon} size={16} stroke={2} aria-hidden />
+                </button>
+              </span>
+            </div>
 
-          <table className={`${table.table} ${table.clickable} ${table.roomy}`}>
-            <thead>
-              <tr>
-                <SortHeader column="car" label={ta("car")} sort={view.sort} onSort={view.toggleSort} />
-                <SortHeader column="type" label={tb("type")} sort={view.sort} onSort={view.toggleSort} className={table.hideMd} />
-                <SortHeader column="color" label={tb("color")} sort={view.sort} onSort={view.toggleSort} className={table.hideMd} />
-                <SortHeader column="year" label={tb("year")} sort={view.sort} onSort={view.toggleSort} className={table.hideMd} />
-                <SortHeader column="plate" label={tb("plate")} sort={view.sort} onSort={view.toggleSort} className={table.hideSm} />
-                <th className={table.actions}>
-                  <span className={styles.srOnly}>{ta("colActions")}</span>
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {view.shown.map((vehicle) => {
-                const on = selected?.pubkey === vehicle.pubkey;
-                const name = carName(vehicle);
-                return (
-                  <tr key={vehicle.pubkey} className={on ? table.selected : undefined} onClick={() => onSelect(vehicle)}>
-                    <td className={table.grow}>
-                      <span className={table.cell}>
-                        {/* The row highlight shows the choice; this hidden radio keeps it reachable by keyboard and screen readers. */}
-                        <input type="radio" name="car" className={styles.srOnly} checked={on} onChange={() => onSelect(vehicle)} aria-label={name} />
-                        <VehicleMark type={vehicle.type} />
-                        <span className={table.cellText}>
-                          <b dir="auto" className={table.cellName}>
-                            {name}
-                          </b>
-                          <span className={table.cellMeta} dir="auto">
-                            {[typeName(vehicle.type), vehicle.color, vehicle.year, vehicle.plateNumber].filter(Boolean).join(" · ")}
-                          </span>
-                        </span>
-                      </span>
-                    </td>
-                    <td className={table.hideMd}>{typeName(vehicle.type)}</td>
-                    <td className={table.hideMd} dir="auto">
-                      <CarColor color={vehicle.color} />
-                    </td>
-                    <td className={table.hideMd}>{vehicle.year || <span className={table.none}>–</span>}</td>
-                    <td className={table.hideSm}>
-                      <Plate number={vehicle.plateNumber} />
-                    </td>
-                    <td className={table.actions}>
-                      <span>
-                        <RowMenu
-                          label={`${t("moreActions")}: ${name}`}
-                          items={[
-                            { label: ta("edit"), onSelect: () => setEditing(vehicle) },
-                            { label: ta("remove"), onSelect: () => setRemoving(vehicle), danger: true },
-                          ]}
-                        />
-                      </span>
-                    </td>
+            <div className={styles.carScroll}>
+              <table className={`${table.table} ${table.clickable} ${table.roomy} ${styles.carTable}`}>
+                <thead>
+                  <tr>
+                    <th className={styles.pickCell}>
+                      <span className={styles.srOnly}>{t("pickCar")}</span>
+                    </th>
+                    <th scope="col">{ta("car")}</th>
+                    <th scope="col" className={table.hideMd}>
+                      {tb("type")}
+                    </th>
+                    <th scope="col" className={table.hideMd}>
+                      {tb("color")}
+                    </th>
+                    <th scope="col" className={table.hideMd}>
+                      {tb("year")}
+                    </th>
+                    <th scope="col" className={table.hideSm}>
+                      {tb("plate")}
+                    </th>
+                    <th className={table.actions}>
+                      <span className={styles.srOnly}>{ta("colActions")}</span>
+                    </th>
                   </tr>
-                );
-              })}
-            </tbody>
-          </table>
+                </thead>
+                <tbody>
+                  {view.shown.map((vehicle) => {
+                    const on = selected?.pubkey === vehicle.pubkey;
+                    const name = carName(vehicle);
+                    return (
+                      <tr key={vehicle.pubkey} className={on ? table.selected : undefined} onClick={() => onSelect(vehicle)}>
+                        <td className={styles.pickCell}>
+                          <input type="radio" name="car" className={styles.carRadio} checked={on} onChange={() => onSelect(vehicle)} aria-label={name} />
+                        </td>
+                        <td className={table.grow}>
+                          <span className={table.cell}>
+                            <VehicleMark type={vehicle.type} />
+                            <span className={table.cellText}>
+                              <b dir="auto" className={table.cellName}>
+                                {name}
+                              </b>
+                              <span className={table.cellMeta} dir="auto">
+                                {[typeName(vehicle.type), vehicle.color, vehicle.year, vehicle.plateNumber].filter(Boolean).join(" · ")}
+                              </span>
+                            </span>
+                          </span>
+                        </td>
+                        <td className={table.hideMd}>{typeName(vehicle.type)}</td>
+                        <td className={table.hideMd} dir="auto">
+                          {vehicle.color ? (
+                            <span className={styles.colorChip}>
+                              <CarColor color={vehicle.color} />
+                            </span>
+                          ) : (
+                            <CarColor color={vehicle.color} />
+                          )}
+                        </td>
+                        <td className={table.hideMd}>{vehicle.year || <span className={table.none}>–</span>}</td>
+                        <td className={table.hideSm}>
+                          <Plate number={vehicle.plateNumber} />
+                        </td>
+                        <td className={table.actions}>
+                          {/* Edit and remove are always visible; clicking them never selects the row. */}
+                          <span onClick={(event) => event.stopPropagation()}>
+                            <button type="button" className={table.iconBtn} aria-label={`${ta("edit")}: ${name}`} title={ta("edit")} onClick={() => setEditing(vehicle)}>
+                              <IconPencil size={17} stroke={1.75} aria-hidden />
+                            </button>
+                            <button
+                              type="button"
+                              className={`${table.iconBtn} ${table.iconBtnDanger}`}
+                              aria-label={`${ta("remove")}: ${name}`}
+                              title={ta("remove")}
+                              onClick={() => setRemoving(vehicle)}
+                            >
+                              <IconTrash size={17} stroke={1.75} aria-hidden />
+                            </button>
+                          </span>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+
+            {view.shown.length === 0 && (
+              <p className={styles.carNoMatch} role="status">
+                {t("noCarMatch")}
+              </p>
+            )}
+          </div>
 
           <Pager page={view.page} pages={view.pages} onPage={view.setPage} label={t("carStepTitle")} previous={t("back")} next={t("continue")} />
         </div>
       )}
-
-      <StepFooter
-        label={t("washing")}
-        hint={t("pickCar")}
-        value={
-          selected && (
-            <>
-              {carName(selected)}
-              {selected.plateNumber && <bdi dir="ltr"> · {selected.plateNumber}</bdi>}
-            </>
-          )
-        }
-      >
-        <Cta disabled={!selected} onClick={onNext}>
-          {t("continue")}
-        </Cta>
-      </StepFooter>
 
       <Popup
         open={editing !== null}

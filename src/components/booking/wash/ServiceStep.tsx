@@ -6,7 +6,7 @@ import type { CatalogCategory, CatalogService } from "@/api/BookingAPI";
 import { Pager } from "@/components/table/TableParts";
 import { useCurrentLocale, useScopedI18n } from "@/locales/client";
 import { formatMoney, pick, sorted } from "./draft";
-import { Cta, StepFooter, StepHeading } from "./ui";
+import { StepHeading } from "./ui";
 import styles from "./Wash.module.css";
 
 const PAGE_SIZE = 6;
@@ -16,14 +16,11 @@ export default function ServiceStep({
   services,
   selected,
   onPick,
-  onContinue,
 }: {
   categories: CatalogCategory[];
   services: CatalogService[];
   selected: CatalogService | null;
   onPick: (service: CatalogService) => void;
-  /** Reopens the popup for the chosen service. */
-  onContinue: () => void;
 }) {
   const t = useScopedI18n("wash");
   const locale = useCurrentLocale();
@@ -49,6 +46,8 @@ export default function ServiceStep({
       />
 
 
+      {/* Picking a card opens its popup, which moves the booking on, so the step needs no Continue. */}
+      <div className={styles.svcBar}>
       {categories.length > 0 && (
         <div className={styles.catTabs} role="group" aria-label={t("categories")}>
           <button type="button" className={`${styles.catTab} ${category === null ? styles.catTabOn : ""}`} onClick={() => {
@@ -72,6 +71,7 @@ export default function ServiceStep({
           ))}
         </div>
       )}
+      </div>
 
       {visible.length === 0 && <p className={styles.empty}>{t("noServices")}</p>}
 
@@ -121,12 +121,6 @@ export default function ServiceStep({
       </div>
 
       <Pager page={current} pages={pages} onPage={setPage} label={t("serviceTitle")} previous={t("back")} next={t("continue")} />
-
-      <StepFooter label={t("stepService")} hint={t("pickServiceHint")} value={selected && pick(selected.title, locale)}>
-        <Cta disabled={!selected} onClick={onContinue}>
-          {t("continue")}
-        </Cta>
-      </StepFooter>
     </div>
   );
 }

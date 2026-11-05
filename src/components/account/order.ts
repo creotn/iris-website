@@ -2,7 +2,7 @@ import type { CSSProperties } from "react";
 import type { Order, OrderStatus } from "@/api/AccountAPI";
 import { joinNames, pick } from "@/components/booking/wash/draft";
 
-export const VIEWS = ["live", "cars", "address", "history"] as const;
+export const VIEWS = ["live", "cars", "address", "history", "profile"] as const;
 export type View = (typeof VIEWS)[number];
 
 export const stagger = (index: number) => ({ "--i": index }) as CSSProperties;
